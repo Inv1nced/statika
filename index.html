@@ -50,6 +50,9 @@ button{font:inherit}
 .f.block,p.f{display:block;padding:8px 12px;margin:.3rem 0 .9rem;line-height:1.7;overflow-x:auto}
 .key{border-left:3px solid var(--blue);background:var(--blue-soft);padding:10px 14px;border-radius:0 6px 6px 0;font-weight:500}
 .note{color:var(--muted);font-weight:400;font-size:.92em}
+.trapbox{background:var(--red-soft);border-left:3px solid var(--red);border-radius:8px;padding:12px 14px;margin-top:14px}
+.trapbox>b:first-child{display:block;color:var(--red);font-family:var(--display);font-size:1.05rem;margin-bottom:4px}
+.trapbox p{margin:.5em 0}
 .muted{color:var(--muted)}
 
 /* шапка */
@@ -511,6 +514,12 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
       <li><b>Проверка.</b> Сумма моментов для всей конструкции относительно новой точки должна дать ноль. Силы в шарнирах здесь не участвуют — они внутренние.</li>
       <li><b>Ответ.</b> Минус означает, что реакция направлена противоположно нарисованной. Это не ошибка.</li>
     </ol>
+    <div class="trapbox">
+      <b>Ловушка: шарнир посреди балки и q над шарниром</b>
+      <p><b>1. Смотри, какие стержни кончаются в кружке шарнира.</b> Если балка нарисована одной линией <i>сквозь</i> шарнир, а к нему снизу подходит стойка — это два тела: вся балка целиком и стойка. Балку в точке C не режешь, вся q остаётся на ней одной силой Q. Проверка здравым смыслом: если бы правый кусок балки держался только за шарнир, он бы просто провернулся вокруг C и упал.</p>
+      <p><b>2. Если шарнир действительно делит балку на две части</b> (у каждой части свои опоры), то q, которая проходит через C, сначала режешь по шарниру: Q₁ = q·(длина слева) в середине левого куска, Q₂ = q·(длина справа) в середине правого. Заменять всю q одной силой до разреза нельзя: она может оказаться не на том теле.</p>
+      <p>Обе ситуации — задачи «Т-рама: q над шарниром» и «Составная балка: q через шарнир» на вкладке «Задачи».</p>
+    </div>
   </div>
 
   <div class="sec" id="t-ex1">
@@ -1180,7 +1189,7 @@ function renderScheme(m, opt) {
       }
       qs.push(L(tails[0][0], tails[0][1], tails[nA - 1][0], tails[nA - 1][1], cls));
       var mid = [(p1[0] + p2[0]) / 2 - dq[0] * 38, (p1[1] + p2[1]) / 2 - dq[1] * 38];
-      if (!fbd) qs.push(Tx(mid[0], mid[1], kSym(k, Ld.p || 'q'), 'tl'));
+      if (!fbd && !Ld.nolab) qs.push(Tx(mid[0], mid[1], kSym(k, Ld.p || 'q'), 'tl'));
       if (fbd) {
         var comp = m.comps.filter(function (c) { return c.li === li; })[0];
         var mp = [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
@@ -1754,6 +1763,32 @@ var BOOK = [
     supports: [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'roller', body: 0, side: 'down' }],
     loads: [{ t: 'F', body: 0, node: 'K', p: 'F', dir: 'down' }],
     answer: { X_A: 0, Y_A: 3, R_B: 2 }
+  },
+  {
+    id: 'trap-t', title: 'Т-рама: q над шарниром', src: 'Ловушка: балка сплошная через C — не режем', kind: 'h1', shape: 'Т-рама',
+    params: { a: 1, q: 2, F: 2 },
+    nodes: { A: [0, 3], C: [4, 3], B: [6, 3], D: [4, 0] },
+    bodies: [{ members: [['A', 'C'], ['C', 'B']] }, { members: [['C', 'D']] }],
+    joints: [{ node: 'C', b: [0, 1] }],
+    supports: [{ node: 'A', type: 'roller', body: 0, side: 'down' }, { node: 'D', type: 'fixed', body: 1, side: 'down' }],
+    loads: [
+      { t: 'q', body: 0, from: 'A', to: 'B', dir: 'down' },
+      { t: 'F', body: 0, node: 'B', p: 'F', dir: 'left' }
+    ],
+    answer: { R_A: 3, X_C: 2, Y_C: 9, X_D: 2, Y_D: 9, M_D: -6 }
+  },
+  {
+    id: 'trap-split', title: 'Составная балка: q через шарнир', src: 'Ловушка: здесь q делим на две части', kind: 'h1', shape: 'балка с шарниром',
+    params: { a: 1, q: 2 },
+    nodes: { A: [0, 0], K: [2, 0], C: [4, 0], B: [6, 0] },
+    bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }],
+    supports: [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'K', type: 'roller', body: 0, side: 'down' }, { node: 'B', type: 'roller', body: 1, side: 'down' }],
+    loads: [
+      { t: 'q', body: 0, from: 'K', to: 'C', dir: 'down' },
+      { t: 'q', body: 1, from: 'C', to: 'B', dir: 'down', nolab: true }
+    ],
+    answer: { X_A: 0, Y_A: -4, R_K: 10, X_C: 0, Y_C: -2, R_B: 2 }
   }
 ];
 
