@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Приведение системы сил</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f9fc; --grid:#e8eef6; --ink:#17223a; --muted:#5a6680; --card:#ffffff; --line:#cdd7e5; --plate:#eef2f8; --plateline:#b9c6da;
+  --red:#b3322a; --red-soft:#f8e4e1; --blue:#2340a6; --blue-soft:#e4eafb;
+  --green:#1f6e47; --green-soft:#dff1e6; --amber:#b86400; --amber-soft:#fbefd6;
+  --violet:#6a3fa3; --violet-soft:#efe7fa;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752; --plate:#18233a; --plateline:#33456a;
+    --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+    --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+    --violet:#c7a6ff; --violet-soft:#2a1f40; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752; --plate:#18233a; --plateline:#33456a;
+  --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+  --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+  --violet:#c7a6ff; --violet-soft:#2a1f40; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:18px 48px}
+a{color:var(--blue)}
+h1{font-family:var(--display);font-weight:700;font-size:2.1rem;line-height:1.1;margin:.4rem 0 .4rem;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.15;margin:0;text-wrap:balance}
+.lead{max-width:70ch;margin:0 0 10px;color:var(--muted)}
+.big{font-family:var(--display);font-size:1.3rem;font-weight:600;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:10px 14px;margin:12px 0}
+.map{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}
+.map a{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;text-decoration:none;color:var(--ink);font-size:.9rem}
+.map a b{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-right:4px}
+.scene{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:18px;scroll-margin-top:12px}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 10px;margin-bottom:10px}
+.num{font:600 .8rem var(--mono);background:var(--ink);color:var(--paper);border-radius:4px;padding:2px 7px}
+.sgrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:860px){.sgrid{grid-template-columns:1fr}}
+.stage{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stage svg{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+.side{display:grid;gap:10px}
+.cap{background:var(--blue-soft);border-radius:10px;padding:10px 12px;min-height:5.2em}
+.cap b.st{display:block;font:600 .74rem var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:3px}
+.ctrl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 .92rem var(--body);cursor:pointer}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.dots{display:flex;gap:4px;margin-left:auto}
+.dots i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.sl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+.sl label{font-size:.9rem}
+.sl output{font:500 .9rem var(--mono);font-variant-numeric:tabular-nums}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--blue)}
+.ro{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9rem;font-variant-numeric:tabular-nums}
+.ro .row{display:flex;justify-content:space-between;gap:10px}
+.ro .row span:last-child{font-family:var(--mono);white-space:nowrap}
+.ro .row.tot{border-top:1px dashed var(--line);margin-top:4px;padding-top:4px;font-weight:600}
+.ok{color:var(--green);font-weight:600}
+.exam{background:var(--amber-soft);border-radius:10px;padding:9px 12px;font-size:.92rem}
+.exam b{color:var(--amber)}
+.hint{font-size:.84rem;color:var(--muted)}
+.tbl{border-collapse:collapse;width:100%;font-size:.88rem}
+.tbl td,.tbl th{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.tbl th{font-weight:600;background:var(--paper)}
+.tbl td.on{background:var(--green-soft);font-weight:600;outline:2px solid var(--green);outline-offset:-2px}
+.chk{display:flex;flex-wrap:wrap;gap:12px;font-size:.92rem}
+.chk label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.note{columns:2 260px;font-size:.93rem}
+.note li{break-inside:avoid;margin-bottom:.35rem}
+svg text{font-family:var(--body);font-weight:600}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <a href="https://inv1nced.github.io/statika/#theory">← Тренажёр по статике</a>
+  <h1>Приведение системы сил</h1>
+  <p class="lead">Лекция 4 в движении. В каждом блоке жми «Далее ▶» и смотри, что происходит с силами по шагам. Точки с кружком можно таскать пальцем или мышью: числа и картинка пересчитываются сразу.</p>
+  <div class="big">Вся лекция в одной строке: любую кучу сил можно заменить одной силой и одним моментом.</div>
+  <nav class="map" aria-label="Разделы">
+    <a href="#lemma"><b>4.1</b>Перенос силы вбок</a>
+    <a href="#reduce"><b>4.2–4.4</b>Приведение к центру</a>
+    <a href="#cases"><b>4.5</b>Четыре исхода</a>
+    <a href="#super"><b>4.6</b>Независимость сил</a>
+    <a href="#shaft"><b>4.7</b>Вал редуктора</a>
+    <a href="#strength"><b>4.8</b>Теории прочности</a>
+  </nav>
+
+  <!-- 4.1 -->
+  <section class="scene" id="lemma">
+    <div class="shead"><span class="num">4.1</span><h2>Лемма Пуансо: перенос силы вбок</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="s1" aria-label="Перенос силы из точки A в точку B"></svg></div>
+      <div class="side">
+        <div class="cap" id="s1-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <div class="sl"><label for="s1-ang">Направление силы F</label><output id="s1-ango"></output><input type="range" id="s1-ang" min="0" max="359" step="1" value="270"></div>
+        <div class="ctrl"><button class="btn" id="s1-online">Поставить B на линию силы</button></div>
+        <div class="ro" id="s1-ro"></div>
+        <div class="exam"><b>На экзамене:</b> силу можно перенести параллельно самой себе в любую точку тела, если добавить пару с моментом, равным моменту силы относительно новой точки: M = ±F·d. Вдоль линии действия — без всякой пары. Пример: сила на конце гаечного ключа, перенесённая на ось болта, — это сила плюс крутящий момент.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.2–4.4 -->
+  <section class="scene" id="reduce">
+    <div class="shead"><span class="num">4.2–4.4</span><h2>Приведение к центру: теорема Пуансо</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="s2" aria-label="Три силы переносятся в центр O и складываются"></svg></div>
+      <div class="side">
+        <div class="cap" id="s2-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <div class="ro" id="s2-ro"></div>
+        <p class="hint">Потаскай центр O на любом шаге. Главный вектор R остаётся тем же, а главный момент M<sub>O</sub> меняется — это тема 4.4.</p>
+        <div class="exam"><b>На экзамене:</b> любую систему сил можно привести к одной силе R = ΣF<sub>k</sub>, приложенной в центре приведения O, и одной паре с моментом M<sub>O</sub> = ΣM<sub>O</sub>(F<sub>k</sub>). Для этого каждую силу переносят в O по лемме Пуансо, потом складывают силы и отдельно моменты. R от выбора O не зависит, M<sub>O</sub> зависит: M<sub>O₁</sub> = M<sub>O</sub> + M<sub>O₁</sub>(R).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.5 -->
+  <section class="scene" id="cases">
+    <div class="shead"><span class="num">4.5</span><h2>К чему приводится плоская система: четыре исхода</h2></div>
+    <div class="ctrl" style="margin-bottom:10px" role="group" aria-label="Система сил">
+      <button class="btn" data-case="conv" aria-pressed="false">Сходящиеся силы</button>
+      <button class="btn" data-case="pair" aria-pressed="false">Пара сил</button>
+      <button class="btn" data-case="gen" aria-pressed="true">Общий случай</button>
+      <button class="btn" data-case="zero" aria-pressed="false">Уравновешенная</button>
+    </div>
+    <div class="sgrid">
+      <div class="stage"><svg id="s3" aria-label="Приведение системы и итоговый результат"></svg></div>
+      <div class="side">
+        <div class="cap" id="s3-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <table class="tbl" id="s3-tbl" aria-label="Таблица исходов">
+          <tr><th></th><th>M<sub>O</sub> = 0</th><th>M<sub>O</sub> ≠ 0</th></tr>
+          <tr><th>R ≠ 0</th><td data-c="conv">равнодействующая через O</td><td data-c="gen">равнодействующая, сдвинутая на d = M<sub>O</sub>/R</td></tr>
+          <tr><th>R = 0</th><td data-c="zero">равновесие</td><td data-c="pair">пара с моментом M<sub>O</sub></td></tr>
+        </table>
+        <div class="ro" id="s3-ro"></div>
+        <div class="exam"><b>На экзамене:</b> нарисуй эту табличку 2×2. Если R ≠ 0 и M<sub>O</sub> ≠ 0, пару M<sub>O</sub> представляют двумя силами, равными R, одна из них гасит R в точке O, и остаётся одна сила R на расстоянии d = M<sub>O</sub>/R.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.6 -->
+  <section class="scene" id="super">
+    <div class="shead"><span class="num">4.6</span><h2>Принцип независимости действия сил</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="s4" aria-label="Балка с двумя грузами и реакции опор"></svg></div>
+      <div class="side">
+        <div class="cap" id="s4-cap"></div>
+        <div class="chk"><label><input type="checkbox" id="s4-p1" checked> Груз P₁ = 2 кН</label><label><input type="checkbox" id="s4-p2" checked> Груз P₂ = 4 кН</label></div>
+        <div class="ro" id="s4-ro"></div>
+        <p class="hint">Двигай грузы вдоль балки за кружок и включай их по одному. Цветные куски реакций — вклад каждого груза отдельно.</p>
+        <div class="exam"><b>На экзамене:</b> усилия и деформации от нескольких нагрузок равны сумме усилий и деформаций от каждой нагрузки по отдельности. Действие суммы сил равно сумме их действий. Верно, пока деформации малы и материал упругий.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.7 -->
+  <section class="scene" id="shaft">
+    <div class="shead"><span class="num">4.7</span><h2>Где это в жизни: вал редуктора</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="s5" aria-label="Шестерня на валу и перенос окружной силы на ось"></svg></div>
+      <div class="side">
+        <div class="cap" id="s5-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <div class="sl"><label for="s5-f">Окружная сила F<sub>t</sub></label><output id="s5-fo"></output><input type="range" id="s5-f" min="1" max="6" step="0.5" value="4"></div>
+        <div class="sl"><label for="s5-d">Диаметр шестерни d</label><output id="s5-do"></output><input type="range" id="s5-d" min="0.1" max="0.4" step="0.02" value="0.3"></div>
+        <div class="ro" id="s5-ro"></div>
+        <div class="exam"><b>На экзамене:</b> окружную силу F<sub>t</sub> переносят с обода на ось вала по лемме Пуансо: получаются сила F<sub>t</sub> на оси (изгибает вал) и крутящий момент T = 0,5·F<sub>t</sub>·d (закручивает вал). Изгиб считают в двух плоскостях отдельно и складывают: M = √(M<sub>г</sub>² + M<sub>в</sub>²).</div>
+      </div>
+    </div>
+    <div class="sgrid" style="margin-top:14px">
+      <div class="stage"><svg id="s6" aria-label="Сложение изгибающих моментов из двух плоскостей"></svg></div>
+      <div class="side">
+        <div class="cap"><b class="st">Две плоскости → один момент</b>Вал изгибается сразу в двух плоскостях. По принципу независимости считаем каждую отдельно, а потом складываем как катеты: M = √(M<sub>г</sub>² + M<sub>в</sub>²).</div>
+        <div class="sl"><label for="s6-h">M<sub>г</sub> — в горизонтальной плоскости</label><output id="s6-ho"></output><input type="range" id="s6-h" min="0" max="6" step="0.5" value="3"></div>
+        <div class="sl"><label for="s6-v">M<sub>в</sub> — в вертикальной плоскости</label><output id="s6-vo"></output><input type="range" id="s6-v" min="0" max="6" step="0.5" value="4"></div>
+        <div class="ro" id="s6-ro"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.8 -->
+  <section class="scene" id="strength">
+    <div class="shead"><span class="num">4.8</span><h2>Теории прочности: только узнать в лицо</h2></div>
+    <p style="margin-top:0">Это уже сопромат, в статике задач на это не будет. Если спросят, откуда слайд, достаточно назвать пять теорий и сказать, что они сравнивают эквивалентное напряжение с допускаемым [σ].</p>
+    <ol class="note">
+      <li>наибольших нормальных напряжений: σ<sub>экв</sub> = σ<sub>max</sub> ≤ [σ];</li>
+      <li>наибольших относительных удлинений;</li>
+      <li>наибольших касательных напряжений: σ<sub>экв</sub> = √(σ² + 4τ²) ≤ [σ];</li>
+      <li>энергии формоизменения: σ<sub>экв</sub> = √(σ² + 3τ²) ≤ [σ];</li>
+      <li>Мора: σ<sub>экв</sub> = σ₁ − kσ₃ ≤ [σ].</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+(function () {
+'use strict';
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- утилиты ---------- */
+function fmt(x, d) { d = d == null ? 2 : d; if (Math.abs(x) < Math.pow(10, -d) / 2) x = 0; return x.toFixed(d).replace('.', ',').replace('-', '−'); }
+function sgn(x) { return x > 1e-9 ? '+' : x < -1e-9 ? '−' : ''; }
+function cross(a, b) { return a[0] * b[1] - a[1] * b[0]; }
+function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function mul(a, k) { return [a[0] * k, a[1] * k]; }
+function len(a) { return Math.hypot(a[0], a[1]); }
+function lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+function sb(t) { return '<tspan dy="4" font-size="0.72em">' + t + '</tspan><tspan dy="-4"></tspan>'; }
+
+function Mapper(svg, box, W) {
+  W = W || 560;
+  var s = W / (box[1] - box[0]), H = s * (box[3] - box[2]);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H.toFixed(0));
+  this.s = s; this.box = box; this.svg = svg;
+  this.X = function (x) { return (x - box[0]) * s; };
+  this.Y = function (y) { return (box[3] - y) * s; };
+  this.P = function (p) { return [(p[0] - box[0]) * s, (box[3] - p[1]) * s]; };
+  this.toWorld = function (evt) {
+    var pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+    var q = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return [q.x / s + box[0], box[3] - q.y / s];
+  };
+}
+function f1(v) { return v.toFixed(1); }
+function Draw(m) {
+  var o = [];
+  var api = {
+    raw: function (s) { o.push(s); return api; },
+    line: function (a, b, col, w, op, dash) {
+      var p = m.P(a), q = m.P(b);
+      o.push('<line x1="' + f1(p[0]) + '" y1="' + f1(p[1]) + '" x2="' + f1(q[0]) + '" y2="' + f1(q[1]) + '" stroke="var(' + col + ')" stroke-width="' + (w || 1.5) + '"' + (op != null ? ' opacity="' + op + '"' : '') + (dash ? ' stroke-dasharray="' + dash + '"' : '') + ' stroke-linecap="round"/>');
+      return api;
+    },
+    arrow: function (a, b, col, w, op, dash) {
+      if (op != null && op <= 0.01) return api;
+      var p = m.P(a), q = m.P(b), dx = q[0] - p[0], dy = q[1] - p[1], L = Math.hypot(dx, dy);
+      if (L < 2) return api;
+      var ux = dx / L, uy = dy / L, hl = Math.min(15, L * 0.55), hw = hl * 0.42, bx = q[0] - ux * hl, by = q[1] - uy * hl;
+      var g = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '>';
+      g += '<line x1="' + f1(p[0]) + '" y1="' + f1(p[1]) + '" x2="' + f1(bx) + '" y2="' + f1(by) + '" stroke="var(' + col + ')" stroke-width="' + (w || 3) + '" stroke-linecap="round"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
+      g += '<polygon points="' + f1(q[0]) + ',' + f1(q[1]) + ' ' + f1(bx - uy * hw) + ',' + f1(by + ux * hw) + ' ' + f1(bx + uy * hw) + ',' + f1(by - ux * hw) + '" fill="var(' + col + ')"/></g>';
+      o.push(g); return api;
+    },
+    moment: function (c, r, sign, col, t, w, op, a0) {
+      if (t == null) t = 1; if (t <= 0.02 || !sign) return api;
+      a0 = a0 == null ? 200 : a0;
+      var sweep = sign * 270 * t, pts = [], n = 36;
+      for (var i = 0; i <= n; i++) { var a = (a0 + sweep * i / n) * Math.PI / 180; pts.push(m.P([c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)])); }
+      var e = pts[n], pe = pts[n - 2], dx = e[0] - pe[0], dy = e[1] - pe[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      var hl = 12, hw = 5.5, bx = e[0] - ux * hl * 0.5, by = e[1] - uy * hl * 0.5;
+      var g = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '><polyline points="' + pts.slice(0, n - 1).map(function (p) { return f1(p[0]) + ',' + f1(p[1]); }).join(' ') + '" fill="none" stroke="var(' + col + ')" stroke-width="' + (w || 2.6) + '" stroke-linecap="round"/>';
+      g += '<polygon points="' + f1(e[0] + ux * hl * 0.5) + ',' + f1(e[1] + uy * hl * 0.5) + ' ' + f1(bx - uy * hw) + ',' + f1(by + ux * hw) + ' ' + f1(bx + uy * hw) + ',' + f1(by - ux * hw) + '" fill="var(' + col + ')"/></g>';
+      o.push(g); return api;
+    },
+    text: function (p, html, col, dx, dy, anchor, size, op) {
+      var q = m.P(p);
+      o.push('<text x="' + f1(q[0] + (dx || 0)) + '" y="' + f1(q[1] + (dy || 0)) + '" fill="var(' + (col || '--ink') + ')" text-anchor="' + (anchor || 'start') + '" font-size="' + (size || 15) + '"' + (op != null ? ' opacity="' + op + '"' : '') + ' paint-order="stroke" stroke="var(--paper)" stroke-width="4" stroke-linejoin="round">' + html + '</text>');
+      return api;
+    },
+    dot: function (p, col, r) { var q = m.P(p); o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="' + (r || 4) + '" fill="var(' + (col || '--ink') + ')"/>'); return api; },
+    handle: function (p, key, col) {
+      var q = m.P(p);
+      o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="11" fill="var(--card)" stroke="var(' + (col || '--ink') + ')" stroke-width="2.4"/><circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="3.5" fill="var(' + (col || '--ink') + ')"/>');
+      o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="24" fill="transparent" data-drag="' + key + '" style="cursor:grab"/>');
+      return api;
+    },
+    poly: function (pts, fill, stroke, op) {
+      o.push('<polygon points="' + pts.map(function (p) { var q = m.P(p); return f1(q[0]) + ',' + f1(q[1]); }).join(' ') + '" fill="var(' + fill + ')" stroke="var(' + (stroke || fill) + ')" stroke-width="1.5"' + (op != null ? ' opacity="' + op + '"' : '') + '/>');
+      return api;
+    },
+    rightAngle: function (at, u1, u2, sz, col) {
+      var a = add(at, mul(u1, sz)), b = add(add(at, mul(u1, sz)), mul(u2, sz)), c = add(at, mul(u2, sz));
+      o.push('<polyline points="' + [a, b, c].map(function (p) { var q = m.P(p); return f1(q[0]) + ',' + f1(q[1]); }).join(' ') + '" fill="none" stroke="var(' + (col || '--ink') + ')" stroke-width="1.2"/>');
+      return api;
+    },
+    out: function () { return o.join(''); }
+  };
+  return api;
+}
+function nu(v) { var l = len(v) || 1; return [v[0] / l, v[1] / l]; }
+function perp(u) { return [-u[1], u[0]]; }
+
+/* ---------- каркас сцены с шагами ---------- */
+function Scene(opt) {
+  var self = this;
+  this.root = document.getElementById(opt.id);
+  this.svg = document.getElementById(opt.svg);
+  this.m = new Mapper(this.svg, opt.box);
+  this.step = 0; this.t = 1; this.opt = opt; this.anim = null; this.drag = null;
+  this.steps = function () { return typeof opt.steps === 'function' ? opt.steps() : opt.steps; };
+  this.render = function () {
+    var n = self.steps();
+    if (self.step > n - 1) self.step = n - 1;
+    self.svg.innerHTML = opt.draw(self.m, self.step, self.t);
+    var cap = opt.caption(self.step);
+    if (opt.capId) document.getElementById(opt.capId).innerHTML = '<b class="st">Шаг ' + (self.step + 1) + ' из ' + n + '</b>' + cap;
+    if (opt.after) opt.after(self.step);
+    var dots = self.root.querySelector('.dots');
+    if (dots) { var h = ''; for (var i = 0; i < n; i++) h += '<i class="' + (i <= self.step ? 'on' : '') + '"></i>'; dots.innerHTML = h; }
+    var bp = self.root.querySelector('[data-a="prev"]'), bn = self.root.querySelector('[data-a="next"]');
+    if (bp) bp.disabled = self.step === 0;
+    if (bn) bn.disabled = self.step >= n - 1;
+  };
+  this.go = function (k, animate) {
+    var n = self.steps();
+    k = clamp(k, 0, n - 1);
+    if (self.anim) cancelAnimationFrame(self.anim);
+    self.step = k;
+    if (!animate || reduceMotion) { self.t = 1; self.render(); return; }
+    var t0 = performance.now(), dur = opt.dur || 1100;
+    (function fr(now) { self.t = ease(Math.min(1, (now - t0) / dur)); self.render(); if (self.t < 1) self.anim = requestAnimationFrame(fr); })(t0);
+  };
+  this.root.querySelectorAll('[data-a]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var a = b.getAttribute('data-a');
+      if (a === 'next') self.go(self.step + 1, true);
+      if (a === 'prev') self.go(self.step - 1, false);
+      if (a === 'reset') self.go(0, false);
+    });
+  });
+  this.svg.addEventListener('pointerdown', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-drag');
+    if (!k) return;
+    self.drag = k; self.svg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  this.svg.addEventListener('pointermove', function (e) {
+    if (!self.drag || !opt.onDrag) return;
+    opt.onDrag(self.drag, self.m.toWorld(e)); self.render();
+  });
+  function end() { self.drag = null; }
+  this.svg.addEventListener('pointerup', end); this.svg.addEventListener('pointercancel', end);
+}
+
+/* ======================= 4.1 Лемма Пуансо ======================= */
+(function () {
+  var st = { A: [2, 2.3], B: [6.6, 1.2], ang: 270, F: 10, L: 1.7 };
+  function calc() {
+    var u = [Math.cos(st.ang * Math.PI / 180), Math.sin(st.ang * Math.PI / 180)];
+    var Fv = mul(u, st.F), AB = sub(st.B, st.A);
+    var d = Math.abs(cross(AB, u));
+    var M = cross(sub(st.A, st.B), Fv);
+    var foot = add(st.A, mul(u, AB[0] * u[0] + AB[1] * u[1]));
+    return { u: u, d: d, M: M, foot: foot };
+  }
+  var sc = new Scene({
+    id: 'lemma', svg: 's1', capId: 's1-cap', box: [-0.6, 9.4, -0.9, 4.9], steps: 5,
+    draw: function (m, k, t) {
+      var c = calc(), D = Draw(m), u = c.u, A = st.A, B = st.B, L = st.L, sgnM = c.M > 1e-9 ? 1 : c.M < -1e-9 ? -1 : 0;
+      D.poly([[0, 0], [8.8, 0], [8.8, 4], [0, 4]], '--plate', '--plateline');
+      D.text([0.15, 3.65], 'твёрдое тело', '--muted', 0, 0, 'start', 13);
+      if (k >= 2) {
+        D.line(add(A, mul(u, -9)), add(A, mul(u, 9)), '--red', 1, 0.55, '6 5');
+        D.line(add(B, mul(u, -9)), add(B, mul(u, 9)), '--amber', 1, 0.55, '6 5');
+      }
+      // исходная сила в A
+      var opA = k < 3 ? 1 : (k === 3 ? 1 - t : 0);
+      var colA = k === 2 ? '--violet' : '--red';
+      D.arrow(A, add(A, mul(u, L)), colA, k === 2 ? 4.2 : 3.4, opA);
+      if (opA > 0.05) D.text(add(A, mul(u, L)), 'F', colA, 8, -6, 'start', 17, opA);
+      D.dot(A, '--ink'); D.text(A, 'A', '--ink', -18, 16, 'start', 15);
+      // силы в B
+      if (k >= 1) {
+        var g = k === 1 ? t : 1;
+        var col1 = k >= 3 ? '--red' : '--amber';
+        D.arrow(B, add(B, mul(u, L * g)), col1, 3.4, 1);
+        D.text(add(B, mul(u, L * g)), k >= 3 ? 'F' : 'F' + sb('1'), col1, 8, -6, 'start', 16, g);
+        var op2 = k < 3 ? 1 : (k === 3 ? 1 - t : 0);
+        var col2 = k === 2 ? '--violet' : '--amber';
+        D.arrow(B, add(B, mul(u, -L * g)), col2, k === 2 ? 4.2 : 3.4, op2);
+        if (op2 > 0.05) D.text(add(B, mul(u, -L * g)), 'F' + sb('2'), col2, 8, 14, 'start', 16, op2 * g);
+      }
+      // плечо d
+      if (k >= 2 && c.d > 0.05) {
+        var opd = k === 2 ? 1 : 0.55;
+        D.line(B, c.foot, '--green', 2.6, opd);
+        D.rightAngle(c.foot, nu(sub(B, c.foot)), u[1] > 0 ? u : mul(u, -1), 0.18, '--green');
+        D.text(lerp(B, c.foot, 0.5), 'd = ' + fmt(c.d, 1) + ' м', '--green', 6, -6, 'start', 14, opd);
+      }
+      // момент в B
+      if (k >= 3 && sgnM) {
+        var gm = k === 3 ? t : 1;
+        D.moment(B, 0.72, sgnM, '--violet', gm, 3);
+        var rightSide = B[0] < 5.2;
+        D.text(add(B, [rightSide ? 0.85 : -0.85, 0.8]), 'M = ' + fmt(c.M, 1) + ' кН·м', '--violet', 0, 0, rightSide ? 'start' : 'end', 15, gm);
+      }
+      if (k === 0) D.text(B, 'сюда переносим', '--muted', 16, 28, 'start', 13);
+      D.handle(B, 'B', '--ink');
+      D.text(B, 'B', '--ink', -22, -12, 'start', 15);
+      return D.out();
+    },
+    caption: function (k) {
+      var c = calc(), on = c.d < 0.05;
+      var dir = c.M > 0 ? 'против часовой, поэтому «+»' : 'по часовой, поэтому «−»';
+      var cap = [
+        'Сила F = 10 кН приложена в точке A. Хотим перенести её в точку B так, чтобы телу было всё равно. Потаскай точку B и покрути направление силы.',
+        'Прикладываем в B две силы: F₁ = F и F₂ = −F. Они равны и противоположны, то есть уравновешены. По аксиоме 2 их можно добавить, ничего не изменив.',
+        on ? 'B лежит на линии силы: d = 0. F и F₂ лежат на одной прямой и просто гасят друг друга, пары нет.' : 'Теперь посмотри на F в точке A и F₂ в точке B (фиолетовые). Они равны, параллельны и смотрят в разные стороны, то есть это <b>пара сил</b>. Её плечо — расстояние между линиями: d = ' + fmt(c.d, 1) + ' м.',
+        on ? 'Пары нет, поэтому и момента нет. Вдоль своей линии сила переносится бесплатно.' : 'Пару заменяем её моментом: M = ±F·d = ±10·' + fmt(c.d, 1) + ' = <b>' + fmt(c.M, 1) + ' кН·м</b>. Сила F в точке A крутит вокруг B ' + dir + '.',
+        on ? '<b>Итог:</b> сила F в точке B без всякой пары. Сдвинь B с линии — и появится «комиссия».' : '<b>Итог:</b> в точке B та же сила F плюс присоединённая пара M = ' + fmt(c.M, 1) + ' кН·м. Это лемма Пуансо: вбок силу переносят с «комиссией» F·d.'
+      ];
+      return cap[k];
+    },
+    after: function () {
+      var c = calc();
+      document.getElementById('s1-ango').textContent = st.ang + '°';
+      document.getElementById('s1-ro').innerHTML =
+        '<div class="row"><span>Сила F</span><span>10 кН</span></div>' +
+        '<div class="row"><span>Плечо d (от B до линии силы)</span><span>' + fmt(c.d, 2) + ' м</span></div>' +
+        '<div class="row tot"><span>Присоединённая пара M = ±F·d</span><span>' + fmt(c.M, 1) + ' кН·м</span></div>';
+    },
+    onDrag: function (key, p) { if (key === 'B') st.B = [clamp(p[0], 0.2, 8.6), clamp(p[1], 0.2, 3.8)]; }
+  });
+  document.getElementById('s1-ang').addEventListener('input', function (e) { st.ang = +e.target.value; sc.render(); });
+  document.getElementById('s1-online').addEventListener('click', function () {
+    var c = calc(); var p = c.foot;
+    if (p[0] < 0.2 || p[0] > 8.6 || p[1] < 0.2 || p[1] > 3.8) { var uu = c.u; for (var s = -8; s <= 8; s += 0.25) { var q = add(st.A, mul(uu, s)); if (q[0] > 0.3 && q[0] < 8.5 && q[1] > 0.3 && q[1] < 3.7 && len(sub(q, st.A)) > 1.5) { p = q; break; } } }
+    st.B = p; sc.render();
+  });
+  sc.render();
+})();
+
+/* ======================= 4.2–4.4 Приведение к центру ======================= */
+(function () {
+  var forces = [
+    { P: [1.0, 0.9], F: [0, 3], n: '1' },
+    { P: [5.4, 3.3], F: [2, 0], n: '2' },
+    { P: [7.2, 1.1], F: [1, -1], n: '3' }
+  ];
+  var O0 = [3.6, 1.7], st = { O: O0.slice() }, K = 0.55;
+  function Mo(f, O) { return cross(sub(f.P, O), f.F); }
+  function R() { return forces.reduce(function (a, f) { return add(a, f.F); }, [0, 0]); }
+  function MO(O) { return forces.reduce(function (a, f) { return a + Mo(f, O); }, 0); }
+  var sc = new Scene({
+    id: 'reduce', svg: 's2', capId: 's2-cap', box: [-0.8, 9.6, -1.2, 5.2], steps: 7, dur: 1300,
+    draw: function (m, k, t) {
+      var D = Draw(m), O = st.O;
+      D.poly([[0, 0], [8.2, 0], [8.2, 2.4], [6.6, 4.1], [0.2, 4.1]], '--plate', '--plateline');
+      // исходные силы
+      forces.forEach(function (f, i) {
+        var moved = k > i + 1 || (k === i + 1);
+        var ghost = moved ? (k === i + 1 ? 1 - 0.8 * t : 0.2) : (k >= 4 ? 0.2 : 1);
+        D.arrow(f.P, add(f.P, mul(f.F, K)), '--red', 3.2, ghost);
+        D.text(add(f.P, mul(f.F, K)), 'F' + sb(f.n), '--red', 6, -6, 'start', 15, Math.max(ghost, 0.35));
+        D.dot(f.P, '--red', 3);
+      });
+      // перенесённые в O силы (шаги 1–3) и цепочка (шаг 4)
+      var chain = [0, 0];
+      forces.forEach(function (f, i) {
+        if (k < i + 1) return;
+        var start;
+        if (k === i + 1) start = lerp(f.P, O, t);
+        else start = O;
+        var base = start;
+        if (k >= 4) { var tt = k === 4 ? t : 1; base = lerp(O, add(O, mul(chain, K)), tt); }
+        var op = k >= 6 ? 0.25 : 1;
+        D.arrow(base, add(base, mul(f.F, K)), '--red', 3, op);
+        if (k < 4) D.text(add(base, mul(f.F, K)), 'F' + sb(f.n), '--red', 4, 14, 'start', 13, op);
+        chain = add(chain, f.F);
+      });
+      // присоединённые пары
+      forces.forEach(function (f, i) {
+        if (k < i + 1) return;
+        var mv = Mo(f, O), s = mv > 1e-9 ? 1 : mv < -1e-9 ? -1 : 0;
+        var g = k === i + 1 ? t : 1, op = k === 5 ? 1 - t : (k >= 6 ? 0 : 1);
+        var r = 0.55 + 0.3 * i;
+        D.moment(O, r, s, '--violet', g, 2.2, op, 150 + 40 * i);
+        if (op > 0.05) {
+          var ang = (150 + 40 * i) * Math.PI / 180;
+          D.text(add(O, [r * Math.cos(ang), r * Math.sin(ang)]), 'M' + sb(f.n) + ' = ' + fmt(mv, 1), '--violet', -6, 18 + 0, 'end', 13, op * g);
+        }
+      });
+      // R
+      var Rv = R();
+      if (k >= 4) {
+        var gr = k === 4 ? t : 1;
+        D.arrow(O, add(O, mul(Rv, K)), '--blue', 4.6, gr);
+        D.text(add(O, mul(Rv, K)), 'R', '--blue', 8, -4, 'start', 18, gr);
+      }
+      // M_O
+      if (k >= 5) {
+        var mo = MO(O), s2 = mo > 1e-9 ? 1 : mo < -1e-9 ? -1 : 0, gm = k === 5 ? t : 1;
+        D.moment(O, 0.8, s2, '--green', gm, 3.2, 1, 170);
+        D.text(add(O, [-0.9, -0.95]), 'M' + sb('O') + ' = ' + fmt(mo, 1) + ' кН·м', '--green', 0, 0, 'end', 15, gm);
+      }
+      D.handle(O, 'O', '--ink');
+      D.text(O, 'O', '--ink', 12, 20, 'start', 16);
+      return D.out();
+    },
+    caption: function (k) {
+      var O = st.O, Rv = R();
+      var c = [
+        'На тело действуют три силы в разных точках. Выберем любую точку O — <b>центр приведения</b>. Её можно таскать.',
+        'Переносим F₁ в точку O по лемме Пуансо. Сила переехала, а на месте «комиссии» появилась присоединённая пара M₁ = M<sub>O</sub>(F₁) = ' + fmt(Mo(forces[0], O), 1) + ' кН·м.',
+        'Так же переносим F₂: в O появляется ещё одна пара M₂ = ' + fmt(Mo(forces[1], O), 1) + ' кН·м.',
+        'И F₃: пара M₃ = ' + fmt(Mo(forces[2], O), 1) + ' кН·м. Теперь все силы собрались в одной точке O — это пучок сходящихся сил.',
+        'Сходящиеся силы складываем силовым многоугольником: ставим их друг за другом. Замыкающая стрелка — <b>главный вектор R</b> = ΣF<sub>k</sub>.',
+        'Пары складываем простыми числами: <b>главный момент</b> M<sub>O</sub> = M₁ + M₂ + M₃ = ' + fmt(MO(O), 1) + ' кН·м.',
+        '<b>Итог — теорема Пуансо:</b> три силы заменили одной силой R в точке O и одной парой M<sub>O</sub>. Теперь потаскай O: R не меняется, а M<sub>O</sub> меняется.'
+      ];
+      return c[k];
+    },
+    after: function () {
+      var O = st.O, Rv = R(), mo = MO(O), mo0 = MO(O0), moved = len(sub(O, O0)) > 0.05;
+      var h = '';
+      forces.forEach(function (f) { h += '<div class="row"><span>M<sub>O</sub>(F<sub>' + f.n + '</sub>)</span><span>' + fmt(Mo(f, O), 2) + ' кН·м</span></div>'; });
+      h += '<div class="row tot"><span>Главный момент M<sub>O</sub></span><span>' + fmt(mo, 2) + ' кН·м</span></div>';
+      h += '<div class="row tot"><span>Главный вектор R = (' + fmt(Rv[0], 0) + '; ' + fmt(Rv[1], 0) + ')</span><span>' + fmt(len(Rv), 2) + ' кН</span></div>';
+      if (moved) {
+        var dM = cross(sub(O0, O), Rv);
+        h += '<div class="row" style="margin-top:6px"><span>В исходной точке было M = ' + fmt(mo0, 2) + '. Разница ' + fmt(mo - mo0, 2) + ' = момент R, приложенной в старой точке, относительно новой: ' + fmt(dM, 2) + '</span><span class="ok">✓</span></div>';
+      }
+      document.getElementById('s2-ro').innerHTML = h;
+    },
+    onDrag: function (key, p) { if (key === 'O') st.O = [clamp(p[0], -0.4, 9.2), clamp(p[1], -0.8, 4.8)]; }
+  });
+  sc.render();
+})();
+
+/* ======================= 4.5 Четыре исхода ======================= */
+(function () {
+  var CASES = {
+    conv: { O: [2.2, 2.2], F: [{ P: [-1.2, 2.2], F: [3, 0] }, { P: [2.2, 4.1], F: [0, -2] }, { P: [4.4, 4.4], F: [-1.2, -1.2] }] },
+    pair: { O: [2, 3.2], F: [{ P: [0.5, 1.2], F: [0, 3] }, { P: [3.5, 1.2], F: [0, -3] }] },
+    gen: { O: [2.5, 1.2], F: [{ P: [1, 1.2], F: [0, 4] }, { P: [4, 1.2], F: [0, -2] }] },
+    zero: { O: [2.5, 3.2], F: [{ P: [0.5, 1.2], F: [0, 2] }, { P: [4.5, 1.2], F: [0, 2] }, { P: [2.5, 3.2], F: [0, -4] }] }
+  };
+  var cur = 'gen', st = { O: CASES.gen.O.slice() }, K = 0.5;
+  function sys() { return CASES[cur].F; }
+  function R() { return sys().reduce(function (a, f) { return add(a, f.F); }, [0, 0]); }
+  function MO() { return sys().reduce(function (a, f) { return a + cross(sub(f.P, st.O), f.F); }, 0); }
+  function kind() { var r = len(R()) > 1e-6, mm = Math.abs(MO()) > 1e-6; return r && mm ? 'gen' : r ? 'conv' : mm ? 'pair' : 'zero'; }
+  var sc = new Scene({
+    id: 'cases', svg: 's3', capId: 's3-cap', box: [-3.4, 6.8, -0.9, 5.2], dur: 1100,
+    steps: function () { return kind() === 'gen' ? 5 : 3; },
+    draw: function (m, k, t) {
+      var D = Draw(m), O = st.O, Rv = R(), mo = MO(), kd = kind();
+      D.line([-3.3, 0], [6.7, 0], '--line', 1);
+      // исходные силы
+      var gh = k === 0 ? 1 : (k === 1 ? 1 - 0.8 * t : 0.2);
+      sys().forEach(function (f) {
+        D.line(add(f.P, mul(nu(f.F), -12)), add(f.P, mul(nu(f.F), 12)), '--red', 0.8, 0.25 * gh, '4 5');
+        D.arrow(f.P, add(f.P, mul(f.F, K)), '--red', 3.2, gh);
+        D.dot(f.P, '--red', 3);
+      });
+      if (k >= 1) {
+        var g = k === 1 ? t : 1;
+        var rop = kd === 'gen' ? (k === 3 ? 1 - t : k >= 4 ? 0 : 1) : 1;
+        if (len(Rv) > 1e-6) { D.arrow(O, add(O, mul(Rv, K * g)), '--blue', 4.6, rop); if (rop > 0.05) D.text(add(O, mul(Rv, K * g)), 'R', '--blue', 8, 0, 'start', 17, rop); }
+        var mop = kd === 'gen' ? (k === 2 ? 1 - t : k >= 3 ? 0 : 1) : 1;
+        if (Math.abs(mo) > 1e-6) {
+          D.moment(O, 0.7, mo > 0 ? 1 : -1, '--green', g, 3.2, mop, 170);
+          if (mop > 0.05) D.text(add(O, [0.8, 0.75]), 'M' + sb('O') + ' = ' + fmt(mo, 1), '--green', 0, 0, 'start', 14, mop * g);
+        }
+        if (kd === 'zero' && k >= 1) D.text(O, 'R = 0, M' + sb('O') + ' = 0', '--green', 16, -18, 'start', 15, g);
+      }
+      if (kd === 'gen' && k >= 2) {
+        var Rl = len(Rv), P = add(O, mul([Rv[1], -Rv[0]], mo / (Rl * Rl))), d = Math.abs(mo) / Rl;
+        var g2 = k === 2 ? t : 1, opn = k === 3 ? 1 - t : (k >= 4 ? 0 : 1);
+        D.arrow(O, add(O, mul(Rv, -K * g2)), '--amber', 3.6, opn);
+        if (opn > 0.05) D.text(add(O, mul(Rv, -K * g2)), 'R″', '--amber', 8, 10, 'start', 16, opn);
+        D.arrow(P, add(P, mul(Rv, K * g2)), k >= 4 ? '--blue' : '--amber', k >= 4 ? 4.8 : 3.6, 1);
+        D.text(add(P, mul(Rv, K * g2)), k >= 4 ? 'R' : 'R′', k >= 4 ? '--blue' : '--amber', 8, 0, 'start', 17, g2);
+        D.line(O, P, '--violet', 2, 0.9, '6 4');
+        D.text(lerp(O, P, 0.5), 'd = M' + sb('O') + '/R = ' + fmt(d, 1) + ' м', '--violet', 0, -10, 'middle', 13);
+        D.dot(P, '--amber', 3.5);
+      }
+      D.handle(O, 'O', '--ink');
+      D.text(O, 'O', '--ink', 12, 20, 'start', 15);
+      return D.out();
+    },
+    caption: function (k) {
+      var kd = kind(), Rv = R(), mo = MO(), Rl = len(Rv);
+      var base = {
+        conv: 'Три силы, линии которых пересекаются в одной точке. Центр O поставлен в точку пересечения.',
+        pair: 'Две равные силы в разные стороны на разных линиях — пара.',
+        gen: 'Сила 4 кН вверх и сила 2 кН вниз на разных линиях.',
+        zero: 'Две силы по 2 кН вверх и одна 4 кН вниз посередине.'
+      }[cur];
+      if (k === 0) return base + ' Жми «Далее», чтобы привести систему к центру O.';
+      if (k === 1) return 'Приводим к O, как в прошлом блоке: R = ' + fmt(Rl, 2) + ' кН, M<sub>O</sub> = ' + fmt(mo, 1) + ' кН·м.';
+      if (kd === 'gen') {
+        var d = Math.abs(mo) / Rl;
+        if (k === 2) return 'R ≠ 0 и M<sub>O</sub> ≠ 0. Трюк: пару M<sub>O</sub> представим двумя силами R′ и R″, равными R, с плечом d = M<sub>O</sub>/R = ' + fmt(Math.abs(mo), 1) + '/' + fmt(Rl, 1) + ' = ' + fmt(d, 1) + ' м. R″ ставим в O навстречу R.';
+        if (k === 3) return 'R и R″ в точке O равны и противоположны — они гасят друг друга и исчезают.';
+        return '<b>Итог:</b> осталась одна сила R′, то есть <b>равнодействующая</b>, сдвинутая от O на d = ' + fmt(d, 1) + ' м. Потаскай O: d меняется, а сама равнодействующая стоит на месте.';
+      }
+      if (kd === 'conv') return '<b>Итог:</b> M<sub>O</sub> = 0, значит система — одна равнодействующая R, проходящая прямо через O. Сдвинь O с точки пересечения — появится M<sub>O</sub>, и это будет уже «общий случай».';
+      if (kd === 'pair') return '<b>Итог:</b> R = 0, сил не осталось, есть только пара M<sub>O</sub>. Потаскай O: момент не меняется, потому что момент пары от точки не зависит.';
+      return '<b>Итог:</b> R = 0 и M<sub>O</sub> = 0 — система уравновешена. Потаскай O: ноль остаётся нулём.';
+    },
+    after: function (k) {
+      var kd = kind(), Rv = R(), mo = MO();
+      document.querySelectorAll('#s3-tbl td').forEach(function (td) { td.classList.toggle('on', k >= 1 && td.getAttribute('data-c') === kd); });
+      document.getElementById('s3-ro').innerHTML = '<div class="row"><span>R</span><span>' + fmt(len(Rv), 2) + ' кН</span></div><div class="row"><span>M<sub>O</sub> относительно текущей O</span><span>' + fmt(mo, 2) + ' кН·м</span></div>';
+    },
+    onDrag: function (key, p) { if (key === 'O') st.O = [clamp(p[0], -3, 6.4), clamp(p[1], -0.5, 4.9)]; }
+  });
+  document.querySelectorAll('[data-case]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      cur = b.getAttribute('data-case'); st.O = CASES[cur].O.slice();
+      document.querySelectorAll('[data-case]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      sc.go(0, false);
+    });
+  });
+  sc.render();
+})();
+
+/* ======================= 4.6 Независимость действия сил ======================= */
+(function () {
+  var svg = document.getElementById('s4'), m = new Mapper(svg, [-0.9, 4.9, -2.4, 2.1]);
+  var st = { x1: 2, x2: 3, on1: true, on2: true }, P1 = 2, P2 = 4, Lb = 4, K = 0.32;
+  var shown = { a1: 1, a2: 1, b1: 1, b2: 3 }, anim = null, drag = null;
+  function target() {
+    return { a1: st.on1 ? P1 * (Lb - st.x1) / Lb : 0, b1: st.on1 ? P1 * st.x1 / Lb : 0, a2: st.on2 ? P2 * (Lb - st.x2) / Lb : 0, b2: st.on2 ? P2 * st.x2 / Lb : 0 };
+  }
+  function draw() {
+    var D = Draw(m);
+    D.line([0, 0], [Lb, 0], '--ink', 6);
+    // опоры
+    D.poly([[0, 0], [-0.25, -0.42], [0.25, -0.42]], '--card', '--ink');
+    D.line([-0.4, -0.42], [0.4, -0.42], '--ink', 2);
+    D.poly([[Lb, 0], [Lb - 0.25, -0.34], [Lb + 0.25, -0.34]], '--card', '--ink');
+    D.raw('<circle cx="' + f1(m.X(Lb - 0.12)) + '" cy="' + f1(m.Y(-0.42)) + '" r="4" fill="var(--card)" stroke="var(--ink)" stroke-width="1.6"/><circle cx="' + f1(m.X(Lb + 0.12)) + '" cy="' + f1(m.Y(-0.42)) + '" r="4" fill="var(--card)" stroke="var(--ink)" stroke-width="1.6"/>');
+    D.line([Lb - 0.4, -0.52], [Lb + 0.4, -0.52], '--ink', 2);
+    D.text([0, 0], 'A', '--ink', -22, 4, 'start', 15); D.text([Lb, 0], 'B', '--ink', 12, 4, 'start', 15);
+    // грузы
+    [[st.x1, P1, st.on1, '--red', 'P' + sb('1'), 'x1'], [st.x2, P2, st.on2, '--amber', 'P' + sb('2'), 'x2']].forEach(function (g) {
+      var op = g[2] ? 1 : 0.18, top = [g[0], g[1] * K + 0.08];
+      D.arrow(top, [g[0], 0.08], g[3], 3.4, op);
+      D.text(top, g[4] + ' = ' + g[1] + ' кН', g[3], 0, -20, 'middle', 14, op);
+      D.handle(top, g[5], g[3]);
+    });
+    // реакции: стопки вкладов
+    function stack(x, v1, v2, name) {
+      var KR = 0.25, tipY = -0.72, l1 = v1 * KR, l2 = v2 * KR, base = tipY - l1 - l2;
+      if (l1 > 0.01) D.line([x, base], [x, base + l1], '--red', 8, 0.95);
+      if (l2 > 0.01) D.line([x, base + l1], [x, tipY - 0.02], '--amber', 8, 0.95);
+      if (l1 + l2 > 0.05) D.arrow([x, tipY - 0.05], [x, tipY + 0.16], '--blue', 3, 1);
+      D.text([x, -1.05], name + ' = ' + fmt(v1, 1) + ' + ' + fmt(v2, 1) + ' = ' + fmt(v1 + v2, 1), '--blue', x < 2 ? 16 : -16, 0, x < 2 ? 'start' : 'end', 13);
+    }
+    stack(0, shown.a1, shown.a2, 'R' + sb('A'));
+    stack(Lb, shown.b1, shown.b2, 'R' + sb('B'));
+    svg.innerHTML = D.out();
+    var tg = target();
+    document.getElementById('s4-ro').innerHTML =
+      '<div class="row"><span>R<sub>A</sub>: от P₁ ' + fmt(tg.a1, 2) + ' + от P₂ ' + fmt(tg.a2, 2) + '</span><span>' + fmt(tg.a1 + tg.a2, 2) + ' кН</span></div>' +
+      '<div class="row"><span>R<sub>B</sub>: от P₁ ' + fmt(tg.b1, 2) + ' + от P₂ ' + fmt(tg.b2, 2) + '</span><span>' + fmt(tg.b1 + tg.b2, 2) + ' кН</span></div>' +
+      '<div class="row tot"><span>Проверка: R<sub>A</sub> + R<sub>B</sub> = включённые грузы</span><span class="ok">' + fmt(tg.a1 + tg.a2 + tg.b1 + tg.b2, 2) + ' ✓</span></div>';
+    var on = (st.on1 ? 1 : 0) + (st.on2 ? 1 : 0);
+    document.getElementById('s4-cap').innerHTML = on === 2
+      ? '<b class="st">Обе нагрузки</b>Реакция каждой опоры — это стопка из двух кусков: красный от P₁ и оранжевый от P₂. Выключи один груз — его кусок исчезнет, а второй не изменится. Это и есть принцип независимости: нагрузки не мешают друг другу.'
+      : on === 1 ? '<b class="st">Одна нагрузка</b>Сейчас работает только ' + (st.on1 ? 'P₁' : 'P₂') + '. Запомни её вклад в реакции, потом включи второй груз: новый кусок просто добавится сверху.'
+      : '<b class="st">Нагрузок нет</b>Нет нагрузок — нет и реакций. Включи грузы по одному.';
+  }
+  function animateTo() {
+    var from = Object.assign({}, shown), to = target(), t0 = performance.now();
+    if (anim) cancelAnimationFrame(anim);
+    if (reduceMotion) { shown = to; draw(); return; }
+    (function fr(now) {
+      var t = ease(Math.min(1, (now - t0) / 500));
+      Object.keys(to).forEach(function (k) { shown[k] = from[k] + (to[k] - from[k]) * t; });
+      draw(); if (t < 1) anim = requestAnimationFrame(fr);
+    })(t0);
+  }
+  document.getElementById('s4-p1').addEventListener('change', function (e) { st.on1 = e.target.checked; animateTo(); });
+  document.getElementById('s4-p2').addEventListener('change', function (e) { st.on2 = e.target.checked; animateTo(); });
+  svg.addEventListener('pointerdown', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-drag'); if (!k) return; drag = k; svg.setPointerCapture(e.pointerId); e.preventDefault(); });
+  svg.addEventListener('pointermove', function (e) {
+    if (!drag) return; var p = m.toWorld(e); var x = Math.round(clamp(p[0], 0, Lb) * 10) / 10;
+    st[drag] = x; shown = target(); draw();
+  });
+  svg.addEventListener('pointerup', function () { drag = null; }); svg.addEventListener('pointercancel', function () { drag = null; });
+  shown = target(); draw();
+})();
+
+/* ======================= 4.7 Вал редуктора ======================= */
+(function () {
+  var st = { F: 4, d: 0.3, rot: 0 }, spin = null, last = 0;
+  var sc = new Scene({
+    id: 'shaft', svg: 's5', capId: 's5-cap', box: [-4.4, 5.6, -3.9, 3.9], steps: 5, dur: 1100,
+    draw: function (m, k, t) {
+      var D = Draw(m), r = st.d * 8, L = 0.45 * st.F, O = [0, 0], top = [0, r];
+      // шестерня с зубьями
+      var teeth = 22, pts = [];
+      for (var i = 0; i < teeth * 2; i++) {
+        var a = st.rot + i * Math.PI / teeth, rr = i % 2 ? r - 0.12 : r + 0.12;
+        pts.push([rr * Math.cos(a), rr * Math.sin(a)]); pts.push([rr * Math.cos(a + Math.PI / teeth * 0.9), rr * Math.sin(a + Math.PI / teeth * 0.9)]);
+      }
+      D.poly(pts, '--plate', '--plateline');
+      D.raw('<circle cx="' + f1(m.X(0)) + '" cy="' + f1(m.Y(0)) + '" r="' + f1(0.42 * m.s) + '" fill="var(--card)" stroke="var(--ink)" stroke-width="2.4"/>');
+      var kx = [0.42 * Math.cos(st.rot + 1), 0.42 * Math.sin(st.rot + 1)];
+      D.line(O, kx, '--ink', 2, 0.6);
+      D.text([0, -r - 0.35], 'кружок в центре — ось вала', '--muted', 0, 14, 'middle', 12);
+      // окружная сила на ободе
+      var opT = k < 3 ? 1 : (k === 3 ? 1 - t : 0), colT = k === 2 ? '--violet' : '--red';
+      D.arrow(top, add(top, [L, 0]), colT, k === 2 ? 4.2 : 3.4, opT);
+      if (opT > 0.05) D.text(add(top, [L, 0]), 'F' + sb('t'), colT, 8, 4, 'start', 16, opT);
+      D.dot(top, '--ink', 3.5);
+      // радиус
+      D.line(O, top, '--green', 2, k === 2 ? 1 : 0.5, '5 4');
+      D.text(lerp(O, top, 0.55), 'd/2', '--green', -8, 0, 'end', 14, k === 2 ? 1 : 0.6);
+      if (k >= 1) {
+        var g = k === 1 ? t : 1, c1 = k >= 3 ? '--red' : '--amber';
+        D.arrow(O, add(O, [L * g, 0]), c1, 3.4);
+        D.text(add(O, [L * g, 0]), k >= 3 ? 'F' + sb('t') : '+F' + sb('t'), c1, 6, 18, 'start', 14, g);
+        var op2 = k < 3 ? 1 : (k === 3 ? 1 - t : 0), c2 = k === 2 ? '--violet' : '--amber';
+        D.arrow(O, add(O, [-L * g, 0]), c2, k === 2 ? 4.2 : 3.4, op2);
+        if (op2 > 0.05) D.text(add(O, [-L * g, 0]), '−F' + sb('t'), c2, -6, 18, 'end', 14, op2 * g);
+      }
+      if (k >= 3) {
+        var gm = k === 3 ? t : 1, T = 0.5 * st.F * st.d;
+        D.moment(O, 0.95, -1, '--violet', gm, 3.4, 1, 60);
+        D.text([1.05, -1.1], 'T = ' + fmt(T, 2) + ' кН·м', '--violet', 0, 0, 'start', 15, gm);
+      }
+      return D.out();
+    },
+    caption: function (k) {
+      var T = 0.5 * st.F * st.d;
+      return [
+        'Шестерня сидит на валу. Зуб соседней шестерни давит на неё <b>окружной силой F<sub>t</sub></b>. Сила приложена на ободе, на расстоянии d/2 от оси вала.',
+        'Хотим перенести силу на ось вала — это лемма Пуансо. Добавляем на оси две уравновешенные силы +F<sub>t</sub> и −F<sub>t</sub>.',
+        'F<sub>t</sub> на ободе и −F<sub>t</sub> на оси (фиолетовые) образуют пару с плечом d/2.',
+        'Пара — это <b>крутящий момент</b> T = F<sub>t</sub>·d/2 = ' + fmt(st.F, 1) + '·' + fmt(st.d / 2, 2) + ' = ' + fmt(T, 2) + ' кН·м. Он закручивает вал.',
+        '<b>Итог:</b> на оси вала сила F<sub>t</sub>, которая <b>изгибает</b> вал, и момент T, который его <b>закручивает</b>. Это и есть расчётная схема вала. Двигай ползунки: чем больше шестерня, тем больше T при той же силе.'
+      ][k];
+    },
+    after: function (k) {
+      document.getElementById('s5-fo').textContent = fmt(st.F, 1) + ' кН';
+      document.getElementById('s5-do').textContent = fmt(st.d, 2) + ' м';
+      document.getElementById('s5-ro').innerHTML = '<div class="row tot"><span>T = 0,5·F<sub>t</sub>·d</span><span>' + fmt(0.5 * st.F * st.d, 3) + ' кН·м</span></div>';
+      if (k >= 3 && !spin && !reduceMotion) { last = performance.now(); spin = requestAnimationFrame(tick); }
+      if (k < 3 && spin) { cancelAnimationFrame(spin); spin = null; }
+    }
+  });
+  function tick(now) {
+    st.rot -= (now - last) / 1000 * 0.35 * (st.F / 4); last = now;
+    if (!sc.anim || sc.t >= 1) sc.svg.innerHTML = sc.opt.draw(sc.m, sc.step, sc.t);
+    spin = sc.step >= 3 ? requestAnimationFrame(tick) : null;
+  }
+  document.getElementById('s5-f').addEventListener('input', function (e) { st.F = +e.target.value; sc.render(); });
+  document.getElementById('s5-d').addEventListener('input', function (e) { st.d = +e.target.value; sc.render(); });
+  sc.render();
+
+  // две плоскости
+  var svg6 = document.getElementById('s6'), m6 = new Mapper(svg6, [-1.2, 8.8, -1.0, 6.8]);
+  function draw6() {
+    var h = +document.getElementById('s6-h').value, v = +document.getElementById('s6-v').value, D = Draw(m6), M = Math.hypot(h, v);
+    document.getElementById('s6-ho').textContent = fmt(h, 1) + ' кН·м';
+    document.getElementById('s6-vo').textContent = fmt(v, 1) + ' кН·м';
+    if (h > 0.01) { D.arrow([0, 0], [h, 0], '--blue', 5); D.text([h / 2, 0], 'M' + sb('г') + ' = ' + fmt(h, 1), '--blue', 0, 22, 'middle', 14); }
+    if (v > 0.01) { D.arrow([h, 0], [h, v], '--red', 5); D.text([h, v / 2], 'M' + sb('в') + ' = ' + fmt(v, 1), '--red', 10, 0, 'start', 14); }
+    if (h > 0.01 && v > 0.01) D.rightAngle([h, 0], [-1, 0], [0, 1], 0.3, '--muted');
+    if (M > 0.01) { D.arrow([0, 0], [h, v], '--green', 5); D.text([h / 2, v / 2], 'M = ' + fmt(M, 2), '--green', -12, -8, 'end', 15); }
+    document.getElementById('s6-ro').innerHTML = '<div class="row tot"><span>M = √(' + fmt(h, 1) + '² + ' + fmt(v, 1) + '²)</span><span>' + fmt(M, 2) + ' кН·м</span></div>';
+    D.dot([0, 0], '--ink', 4);
+    svg6.innerHTML = D.out();
+  }
+  document.getElementById('s6-h').addEventListener('input', draw6);
+  document.getElementById('s6-v').addEventListener('input', draw6);
+  draw6();
+})();
+})();
+</script>
+
+</body>
+</html>

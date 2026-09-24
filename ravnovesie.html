@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Равновесие плоской системы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f9fc; --grid:#e8eef6; --ink:#17223a; --muted:#5a6680; --card:#ffffff; --line:#cdd7e5; --plate:#eef2f8; --plateline:#b9c6da;
+  --red:#b3322a; --red-soft:#f8e4e1; --blue:#2340a6; --blue-soft:#e4eafb;
+  --green:#1f6e47; --green-soft:#dff1e6; --amber:#b86400; --amber-soft:#fbefd6;
+  --violet:#6a3fa3; --violet-soft:#efe7fa;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752; --plate:#18233a; --plateline:#33456a;
+    --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+    --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+    --violet:#c7a6ff; --violet-soft:#2a1f40; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752; --plate:#18233a; --plateline:#33456a;
+  --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+  --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+  --violet:#c7a6ff; --violet-soft:#2a1f40; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:18px 48px}
+a{color:var(--blue)}
+h1{font-family:var(--display);font-weight:700;font-size:2.1rem;line-height:1.1;margin:.4rem 0 .4rem;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:1.45rem;line-height:1.15;margin:0;text-wrap:balance}
+.lead{max-width:70ch;margin:0 0 10px;color:var(--muted)}
+.big{font-family:var(--display);font-size:1.3rem;font-weight:600;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:10px 14px;margin:12px 0}
+.map{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}
+.map a{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;text-decoration:none;color:var(--ink);font-size:.9rem}
+.map a b{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-right:4px}
+.scene{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:18px;scroll-margin-top:12px}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 10px;margin-bottom:10px}
+.num{font:600 .8rem var(--mono);background:var(--ink);color:var(--paper);border-radius:4px;padding:2px 7px}
+.sgrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:860px){.sgrid{grid-template-columns:1fr}}
+.stage{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stage svg{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+.side{display:grid;gap:10px}
+.cap{background:var(--blue-soft);border-radius:10px;padding:10px 12px;min-height:5.2em}
+.cap b.st{display:block;font:600 .74rem var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--blue);margin-bottom:3px}
+.ctrl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 14px;font:500 .92rem var(--body);cursor:pointer}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.dots{display:flex;gap:4px;margin-left:auto}
+.dots i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.dots i.on{background:var(--ink)}
+.sl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+.sl label{font-size:.9rem}
+.sl output{font:500 .9rem var(--mono);font-variant-numeric:tabular-nums}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--blue)}
+.ro{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.9rem;font-variant-numeric:tabular-nums}
+.ro .row{display:flex;justify-content:space-between;gap:10px}
+.ro .row span:last-child{font-family:var(--mono);white-space:nowrap}
+.ro .row.tot{border-top:1px dashed var(--line);margin-top:4px;padding-top:4px;font-weight:600}
+.ok{color:var(--green);font-weight:600}
+.exam{background:var(--amber-soft);border-radius:10px;padding:9px 12px;font-size:.92rem}
+.exam b{color:var(--amber)}
+.hint{font-size:.84rem;color:var(--muted)}
+.tbl{border-collapse:collapse;width:100%;font-size:.88rem}
+.tbl td,.tbl th{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.tbl th{font-weight:600;background:var(--paper)}
+.tbl td.on{background:var(--green-soft);font-weight:600;outline:2px solid var(--green);outline-offset:-2px}
+.chk{display:flex;flex-wrap:wrap;gap:12px;font-size:.92rem}
+.chk label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.note{columns:2 260px;font-size:.93rem}
+.note li{break-inside:avoid;margin-bottom:.35rem}
+svg text{font-family:var(--body);font-weight:600}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <a href="https://inv1nced.github.io/statika/#theory">← Тренажёр по статике</a>
+  <h1>Равновесие плоской системы</h1>
+  <p class="lead">Лекция 5 в движении. Жми «Далее ▶», таскай точки с кружком и двигай ползунки: картинка и числа меняются сразу.</p>
+  <div class="big">Вся лекция в одной строке: тело стоит, если силы не сдвигают его и не крутят. На плоскости это ровно три уравнения, и точку для моментов выбирают там, где сходятся неизвестные.</div>
+  <nav class="map" aria-label="Разделы">
+    <a href="#par"><b>5.1–5.3</b>Параллельные силы</a>
+    <a href="#proof"><b>5.2</b>Почему именно там</a>
+    <a href="#eq"><b>5.4–5.7</b>Три уравнения и выбор точки</a>
+    <a href="#bodies"><b>5.8</b>Система тел</a>
+    <a href="#det"><b>5.9</b>Определимость</a>
+    <a href="#space"><b>5.10</b>Пространство</a>
+    <a href="#fixed"><b>5.12</b>Балка с заделкой</a>
+  </nav>
+
+  <!-- 5.1–5.3 -->
+  <section class="scene" id="par">
+    <div class="shead"><span class="num">5.1–5.3</span><h2>Параллельные силы: найди точку равнодействующей</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="p-svg" aria-label="Доска с двумя силами на опоре"></svg></div>
+      <div class="side">
+        <div class="cap" id="p-cap" aria-live="polite"></div>
+        <div class="sl"><label for="p-f1">F₁ в точке A (вниз)</label><output id="p-f1o"></output><input type="range" id="p-f1" min="1" max="6" step="0.5" value="3"></div>
+        <div class="sl"><label for="p-f2">F₂ в точке B</label><output id="p-f2o"></output><input type="range" id="p-f2" min="1" max="6" step="0.5" value="2"></div>
+        <div class="ctrl" role="group" aria-label="Направление F₂">
+          <button class="btn" id="p-same" aria-pressed="true">F₂ вниз (в одну сторону)</button>
+          <button class="btn" id="p-opp" aria-pressed="false">F₂ вверх (в разные)</button>
+        </div>
+        <div class="ctrl"><button class="btn primary" id="p-show">Показать точку C</button></div>
+        <div class="ro" id="p-ro"></div>
+        <div class="exam"><b>На экзамене:</b> равнодействующая двух параллельных сил равна их сумме (в одну сторону) или разности (в разные стороны). Она делит отрезок AB на части, обратно пропорциональные силам, и всегда ближе к большей силе: AC/F₂ = BC/F₁ = AB/R. Если силы направлены в разные стороны, точка C лежит снаружи отрезка, со стороны большей силы. Две равные силы в разные стороны — это пара, у неё равнодействующей нет.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.2 доказательство -->
+  <section class="scene" id="proof">
+    <div class="shead"><span class="num">5.2</span><h2>Почему точка C именно там: доказательство из лекции</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="pr-svg" aria-label="Построение равнодействующей двух параллельных сил"></svg></div>
+      <div class="side">
+        <div class="cap" id="pr-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <div class="exam"><b>На экзамене:</b> вдоль AB добавляем уравновешенные силы T₁ и T₂, складываем их с F₁ и F₂ по параллелограмму, получаем пересекающиеся силы Q₁ и Q₂. Переносим их в точку пересечения K и снова раскладываем: T-шки гасят друг друга, остаётся R = F₁ + F₂, вертикально через K.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.4–5.7 -->
+  <section class="scene" id="eq">
+    <div class="shead"><span class="num">5.4–5.7</span><h2>Три уравнения и где взять точку моментов</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="e-svg" aria-label="Балка на шарнире и катке, точка моментов O"></svg></div>
+      <div class="side">
+        <div class="cap" id="e-cap" aria-live="polite"></div>
+        <div class="ctrl" role="group" aria-label="Быстро поставить точку">
+          <button class="btn" data-o="A">O в точку A</button>
+          <button class="btn" data-o="B">O в точку B</button>
+          <button class="btn" data-o="free">O где-то сбоку</button>
+        </div>
+        <div class="ro" id="e-ro"></div>
+        <div class="ctrl" role="group" aria-label="Форма условий равновесия">
+          <button class="btn" data-f="1" aria-pressed="false">Основная форма</button>
+          <button class="btn" data-f="2" aria-pressed="true">Вторая форма</button>
+          <button class="btn" data-f="3" aria-pressed="false">Третья форма</button>
+        </div>
+        <div class="ro" id="e-forms"></div>
+        <div class="exam"><b>На экзамене:</b> для равновесия произвольной плоской системы необходимо и достаточно, чтобы главный вектор и главный момент были равны нулю. Три формы: ΣF<sub>x</sub>, ΣF<sub>y</sub>, ΣM<sub>O</sub>; ΣM<sub>A</sub>, ΣM<sub>B</sub>, ΣF<sub>x</sub> (ось x не ⊥ AB); ΣM<sub>A</sub>, ΣM<sub>B</sub>, ΣM<sub>C</sub> (A, B, C не на одной прямой). Точку моментов берут там, где пересекаются линии неизвестных сил.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.8 -->
+  <section class="scene" id="bodies">
+    <div class="shead"><span class="num">5.8</span><h2>Система тел: разрезаем по шарниру</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="b-svg" aria-label="Составная балка, разрез по шарниру C"></svg></div>
+      <div class="side">
+        <div class="cap" id="b-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <div class="exam"><b>На экзамене:</b> систему тел расчленяют и рассматривают равновесие каждого тела отдельно. В месте соединения силы X<sub>C</sub>, Y<sub>C</sub> на двух телах равны и противоположны (действие и противодействие). Для n тел пишут 3n уравнений. Уравнение моментов для всей конструкции — удобная проверка.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.9 -->
+  <section class="scene" id="det">
+    <div class="shead"><span class="num">5.9</span><h2>Статически определимые и неопределимые: собери опоры сам</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="d-svg" aria-label="Балка с выбранными опорами"></svg></div>
+      <div class="side">
+        <div class="cap" id="d-cap" aria-live="polite"></div>
+        <div id="d-pick"></div>
+        <div class="ctrl" role="group" aria-label="Готовые варианты">
+          <button class="btn" data-dp="pr">Шарнир + каток</button>
+          <button class="btn" data-dp="pp">Два шарнира</button>
+          <button class="btn" data-dp="rrr">Три катка</button>
+          <button class="btn" data-dp="f">Заделка</button>
+          <button class="btn" data-dp="fr">Заделка + каток</button>
+          <button class="btn" data-dp="p">Один шарнир</button>
+        </div>
+        <div class="exam"><b>На экзамене:</b> если число неизвестных реакций не больше числа независимых уравнений равновесия, задача статически определимая, иначе — неопределимая, и одной статики мало (нужен сопромат). Но совпадения чисел мало: связи должны не давать телу двигаться. Балка на трёх параллельных катках — механизм.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.10 -->
+  <section class="scene" id="space">
+    <div class="shead"><span class="num">5.10</span><h2>Сколько уравнений: плоскость и пространство</h2></div>
+    <table class="tbl" aria-label="Число уравнений равновесия">
+      <tr><th>Система сил</th><th>На плоскости</th><th>В пространстве</th><th>Пример</th></tr>
+      <tr><td>Сходящиеся</td><td><b>2</b>: ΣF<sub>x</sub>, ΣF<sub>y</sub></td><td><b>3</b>: ΣF<sub>x</sub>, ΣF<sub>y</sub>, ΣF<sub>z</sub></td><td>люстра на тросах</td></tr>
+      <tr><td>Параллельные</td><td><b>2</b>: ΣF<sub>y</sub>, ΣM</td><td><b>3</b>: ΣF<sub>z</sub>, ΣM<sub>x</sub>, ΣM<sub>y</sub></td><td>стол на трёх ножках</td></tr>
+      <tr><td>Произвольные</td><td><b>3</b>: ΣF<sub>x</sub>, ΣF<sub>y</sub>, ΣM</td><td><b>6</b>: три суммы сил и три суммы моментов</td><td>вал редуктора</td></tr>
+    </table>
+    <p class="hint" style="margin-top:8px">Логика одна: сколько способов у тела сдвинуться и повернуться, столько и уравнений. На плоскости тело может сдвинуться по x, по y и повернуться — три. В пространстве три сдвига и три поворота — шесть.</p>
+  </section>
+
+  <!-- 5.12 -->
+  <section class="scene" id="fixed">
+    <div class="shead"><span class="num">5.11–5.12</span><h2>Разбор со слайда: балка с заделкой</h2></div>
+    <div class="sgrid">
+      <div class="stage"><svg id="f-svg" aria-label="Балка с заделкой: решение по шагам"></svg></div>
+      <div class="side">
+        <div class="cap" id="f-cap" aria-live="polite"></div>
+        <div class="ctrl"><button class="btn" data-a="prev">◀ Назад</button><button class="btn primary" data-a="next">Далее ▶</button><button class="btn" data-a="reset">Сначала</button><span class="dots"></span></div>
+        <p class="hint">Балку на двух опорах со слайда (5.11) смотри в блоке «Три уравнения» выше: там она и есть, с F = 5 кН в 2 м от A.</p>
+        <div class="exam"><b>На экзамене:</b> правило знаков для моментов можно выбрать любое, лишь бы одно во всём уравнении. На слайде плюс по часовой, поэтому M<sub>A</sub> там входит с минусом, но ответ тот же.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+'use strict';
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ---------- утилиты ---------- */
+function fmt(x, d) { d = d == null ? 2 : d; if (Math.abs(x) < Math.pow(10, -d) / 2) x = 0; return x.toFixed(d).replace('.', ',').replace('-', '−'); }
+function sgn(x) { return x > 1e-9 ? '+' : x < -1e-9 ? '−' : ''; }
+function cross(a, b) { return a[0] * b[1] - a[1] * b[0]; }
+function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+function mul(a, k) { return [a[0] * k, a[1] * k]; }
+function len(a) { return Math.hypot(a[0], a[1]); }
+function lerp(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+function sb(t) { return '<tspan dy="4" font-size="0.72em">' + t + '</tspan><tspan dy="-4"></tspan>'; }
+
+function Mapper(svg, box, W) {
+  W = W || 560;
+  var s = W / (box[1] - box[0]), H = s * (box[3] - box[2]);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H.toFixed(0));
+  this.s = s; this.box = box; this.svg = svg;
+  this.X = function (x) { return (x - box[0]) * s; };
+  this.Y = function (y) { return (box[3] - y) * s; };
+  this.P = function (p) { return [(p[0] - box[0]) * s, (box[3] - p[1]) * s]; };
+  this.toWorld = function (evt) {
+    var pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+    var q = pt.matrixTransform(svg.getScreenCTM().inverse());
+    return [q.x / s + box[0], box[3] - q.y / s];
+  };
+}
+function f1(v) { return v.toFixed(1); }
+function Draw(m) {
+  var o = [];
+  var api = {
+    raw: function (s) { o.push(s); return api; },
+    line: function (a, b, col, w, op, dash) {
+      var p = m.P(a), q = m.P(b);
+      o.push('<line x1="' + f1(p[0]) + '" y1="' + f1(p[1]) + '" x2="' + f1(q[0]) + '" y2="' + f1(q[1]) + '" stroke="var(' + col + ')" stroke-width="' + (w || 1.5) + '"' + (op != null ? ' opacity="' + op + '"' : '') + (dash ? ' stroke-dasharray="' + dash + '"' : '') + ' stroke-linecap="round"/>');
+      return api;
+    },
+    arrow: function (a, b, col, w, op, dash) {
+      if (op != null && op <= 0.01) return api;
+      var p = m.P(a), q = m.P(b), dx = q[0] - p[0], dy = q[1] - p[1], L = Math.hypot(dx, dy);
+      if (L < 2) return api;
+      var ux = dx / L, uy = dy / L, hl = Math.min(15, L * 0.55), hw = hl * 0.42, bx = q[0] - ux * hl, by = q[1] - uy * hl;
+      var g = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '>';
+      g += '<line x1="' + f1(p[0]) + '" y1="' + f1(p[1]) + '" x2="' + f1(bx) + '" y2="' + f1(by) + '" stroke="var(' + col + ')" stroke-width="' + (w || 3) + '" stroke-linecap="round"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
+      g += '<polygon points="' + f1(q[0]) + ',' + f1(q[1]) + ' ' + f1(bx - uy * hw) + ',' + f1(by + ux * hw) + ' ' + f1(bx + uy * hw) + ',' + f1(by - ux * hw) + '" fill="var(' + col + ')"/></g>';
+      o.push(g); return api;
+    },
+    moment: function (c, r, sign, col, t, w, op, a0) {
+      if (t == null) t = 1; if (t <= 0.02 || !sign) return api;
+      a0 = a0 == null ? 200 : a0;
+      var sweep = sign * 270 * t, pts = [], n = 36;
+      for (var i = 0; i <= n; i++) { var a = (a0 + sweep * i / n) * Math.PI / 180; pts.push(m.P([c[0] + r * Math.cos(a), c[1] + r * Math.sin(a)])); }
+      var e = pts[n], pe = pts[n - 2], dx = e[0] - pe[0], dy = e[1] - pe[1], L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      var hl = 12, hw = 5.5, bx = e[0] - ux * hl * 0.5, by = e[1] - uy * hl * 0.5;
+      var g = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '><polyline points="' + pts.slice(0, n - 1).map(function (p) { return f1(p[0]) + ',' + f1(p[1]); }).join(' ') + '" fill="none" stroke="var(' + col + ')" stroke-width="' + (w || 2.6) + '" stroke-linecap="round"/>';
+      g += '<polygon points="' + f1(e[0] + ux * hl * 0.5) + ',' + f1(e[1] + uy * hl * 0.5) + ' ' + f1(bx - uy * hw) + ',' + f1(by + ux * hw) + ' ' + f1(bx + uy * hw) + ',' + f1(by - ux * hw) + '" fill="var(' + col + ')"/></g>';
+      o.push(g); return api;
+    },
+    text: function (p, html, col, dx, dy, anchor, size, op) {
+      var q = m.P(p);
+      o.push('<text x="' + f1(q[0] + (dx || 0)) + '" y="' + f1(q[1] + (dy || 0)) + '" fill="var(' + (col || '--ink') + ')" text-anchor="' + (anchor || 'start') + '" font-size="' + (size || 15) + '"' + (op != null ? ' opacity="' + op + '"' : '') + ' paint-order="stroke" stroke="var(--paper)" stroke-width="4" stroke-linejoin="round">' + html + '</text>');
+      return api;
+    },
+    dot: function (p, col, r) { var q = m.P(p); o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="' + (r || 4) + '" fill="var(' + (col || '--ink') + ')"/>'); return api; },
+    handle: function (p, key, col) {
+      var q = m.P(p);
+      o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="11" fill="var(--card)" stroke="var(' + (col || '--ink') + ')" stroke-width="2.4"/><circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="3.5" fill="var(' + (col || '--ink') + ')"/>');
+      o.push('<circle cx="' + f1(q[0]) + '" cy="' + f1(q[1]) + '" r="24" fill="transparent" data-drag="' + key + '" style="cursor:grab"/>');
+      return api;
+    },
+    poly: function (pts, fill, stroke, op) {
+      o.push('<polygon points="' + pts.map(function (p) { var q = m.P(p); return f1(q[0]) + ',' + f1(q[1]); }).join(' ') + '" fill="var(' + fill + ')" stroke="var(' + (stroke || fill) + ')" stroke-width="1.5"' + (op != null ? ' opacity="' + op + '"' : '') + '/>');
+      return api;
+    },
+    rightAngle: function (at, u1, u2, sz, col) {
+      var a = add(at, mul(u1, sz)), b = add(add(at, mul(u1, sz)), mul(u2, sz)), c = add(at, mul(u2, sz));
+      o.push('<polyline points="' + [a, b, c].map(function (p) { var q = m.P(p); return f1(q[0]) + ',' + f1(q[1]); }).join(' ') + '" fill="none" stroke="var(' + (col || '--ink') + ')" stroke-width="1.2"/>');
+      return api;
+    },
+    out: function () { return o.join(''); }
+  };
+  return api;
+}
+function nu(v) { var l = len(v) || 1; return [v[0] / l, v[1] / l]; }
+function perp(u) { return [-u[1], u[0]]; }
+
+/* ---------- каркас сцены с шагами ---------- */
+function Scene(opt) {
+  var self = this;
+  this.root = document.getElementById(opt.id);
+  this.svg = document.getElementById(opt.svg);
+  this.m = new Mapper(this.svg, opt.box);
+  this.step = 0; this.t = 1; this.opt = opt; this.anim = null; this.drag = null;
+  this.steps = function () { return typeof opt.steps === 'function' ? opt.steps() : opt.steps; };
+  this.render = function () {
+    var n = self.steps();
+    if (self.step > n - 1) self.step = n - 1;
+    self.svg.innerHTML = opt.draw(self.m, self.step, self.t);
+    var cap = opt.caption(self.step);
+    if (opt.capId) document.getElementById(opt.capId).innerHTML = '<b class="st">Шаг ' + (self.step + 1) + ' из ' + n + '</b>' + cap;
+    if (opt.after) opt.after(self.step);
+    var dots = self.root.querySelector('.dots');
+    if (dots) { var h = ''; for (var i = 0; i < n; i++) h += '<i class="' + (i <= self.step ? 'on' : '') + '"></i>'; dots.innerHTML = h; }
+    var bp = self.root.querySelector('[data-a="prev"]'), bn = self.root.querySelector('[data-a="next"]');
+    if (bp) bp.disabled = self.step === 0;
+    if (bn) bn.disabled = self.step >= n - 1;
+  };
+  this.go = function (k, animate) {
+    var n = self.steps();
+    k = clamp(k, 0, n - 1);
+    if (self.anim) cancelAnimationFrame(self.anim);
+    self.step = k;
+    if (!animate || reduceMotion) { self.t = 1; self.render(); return; }
+    var t0 = performance.now(), dur = opt.dur || 1100;
+    (function fr(now) { self.t = ease(Math.min(1, (now - t0) / dur)); self.render(); if (self.t < 1) self.anim = requestAnimationFrame(fr); })(t0);
+  };
+  this.root.querySelectorAll('[data-a]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var a = b.getAttribute('data-a');
+      if (a === 'next') self.go(self.step + 1, true);
+      if (a === 'prev') self.go(self.step - 1, false);
+      if (a === 'reset') self.go(0, false);
+    });
+  });
+  this.svg.addEventListener('pointerdown', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-drag');
+    if (!k) return;
+    self.drag = k; self.svg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  this.svg.addEventListener('pointermove', function (e) {
+    if (!self.drag || !opt.onDrag) return;
+    opt.onDrag(self.drag, self.m.toWorld(e)); self.render();
+  });
+  function end() { self.drag = null; }
+  this.svg.addEventListener('pointerup', end); this.svg.addEventListener('pointercancel', end);
+}
+
+
+/* ---------- опоры ---------- */
+function ground(D, x1, x2, y, sz) {
+  sz = sz || 0.18; D.line([x1, y], [x2, y], '--ink', 1.8);
+  for (var x = x1 + sz * 0.6; x < x2; x += sz) D.line([x, y], [x - sz * 0.7, y - sz * 0.8], '--ink', 1, 0.6);
+}
+function wallL(D, x, y1, y2, sz) {
+  sz = sz || 0.2; D.line([x, y1], [x, y2], '--ink', 2.4);
+  for (var y = y1 + sz * 0.5; y < y2; y += sz) D.line([x, y], [x - sz * 0.8, y - sz * 0.7], '--ink', 1, 0.6);
+}
+function pinSup(D, p, s) {
+  s = s || 0.3;
+  D.poly([p, [p[0] - s * 0.8, p[1] - s * 1.35], [p[0] + s * 0.8, p[1] - s * 1.35]], '--card', '--ink');
+  ground(D, p[0] - s * 1.3, p[0] + s * 1.3, p[1] - s * 1.35, s * 0.55);
+  D.dot(p, '--ink', 3.5);
+}
+function rollerSup(D, p, s, m) {
+  s = s || 0.3;
+  D.poly([p, [p[0] - s * 0.8, p[1] - s * 1.1], [p[0] + s * 0.8, p[1] - s * 1.1]], '--card', '--ink');
+  var r = s * 0.22;
+  [-0.4, 0.4].forEach(function (k) { var c = m.P([p[0] + k * s, p[1] - s * 1.1 - r]); D.raw('<circle cx="' + f1(c[0]) + '" cy="' + f1(c[1]) + '" r="' + f1(r * m.s) + '" fill="var(--card)" stroke="var(--ink)" stroke-width="1.5"/>'); });
+  ground(D, p[0] - s * 1.3, p[0] + s * 1.3, p[1] - s * 1.1 - 2 * r, s * 0.55);
+  D.dot(p, '--ink', 3.5);
+}
+function dim(D, a, b, y, label, col) {
+  col = col || '--muted';
+  D.line([a, y], [b, y], col, 1.2);
+  D.line([a, y - 0.1], [a, y + 0.1], col, 1.2); D.line([b, y - 0.1], [b, y + 0.1], col, 1.2);
+  D.text([(a + b) / 2, y], label, col, 0, -5, 'middle', 13);
+}
+
+/* ======================= 5.1–5.3 Рычаг ======================= */
+(function () {
+  var svg = document.getElementById('p-svg'), m = new Mapper(svg, [-4.9, 8.9, -3.3, 3.5]);
+  var AB = 4, K = 0.42, st = { f1: 3, f2: 2, same: true, p: 0.8, th: 0 }, raf = null, pivAnim = null, drag = false;
+  function fy2() { return st.same ? -st.f2 : st.f2; }
+  function R() { return -st.f1 + fy2(); }
+  function xC() { var r = R(); return Math.abs(r) < 1e-9 ? null : (AB * fy2()) / r; }
+  function Mp(p) { return (0 - p) * (-st.f1) + (AB - p) * fy2(); }
+  function rot(q) { var c = Math.cos(st.th), s = Math.sin(st.th), dx = q[0] - st.p, dy = q[1]; return [st.p + dx * c - dy * s, dx * s + dy * c]; }
+  function draw() {
+    var D = Draw(m), x0 = Math.min(0, st.p) - 0.3, x1 = Math.max(AB, st.p) + 0.3;
+    ground(D, -4.7, 8.7, -0.62, 0.22);
+    // опора
+    var P = [st.p, 0];
+    D.poly([P, [st.p - 0.36, -0.62], [st.p + 0.36, -0.62]], '--card', '--ink');
+    // доска и продолжение
+    D.line(rot([-4.6, 0]), rot([8.6, 0]), '--muted', 1, 0.5, '5 5');
+    D.line(rot([x0, 0]), rot([x1, 0]), '--ink', 3, 0.55);
+    D.line(rot([0, 0]), rot([AB, 0]), '--ink', 7);
+    var A = rot([0, 0]), B = rot([AB, 0]);
+    D.arrow(A, add(A, [0, -st.f1 * K]), '--red', 3.4);
+    D.text(add(A, [0, -st.f1 * K]), 'F₁ = ' + fmt(st.f1, 1), '--red', 0, 18, 'middle', 14);
+    var b2 = fy2() * K;
+    D.arrow(B, add(B, [0, b2]), '--red', 3.4);
+    D.text(add(B, [0, b2]), 'F₂ = ' + fmt(st.f2, 1), '--red', 0, b2 < 0 ? 18 : -8, 'middle', 14);
+    D.text(A, 'A', '--ink', -16, -10, 'start', 15); D.text(B, 'B', '--ink', 8, -10, 'start', 15);
+    var mp = Mp(st.p), bal = Math.abs(mp) < 0.06, xc = xC();
+    if (bal && xc != null) {
+      var C = rot([xc, 0]), r = R();
+      D.arrow(add(C, [0, 0]), add(C, [0, r * K]), '--blue', 4.4, 0.9);
+      D.text(add(C, [0, r * K]), 'R = ' + fmt(Math.abs(r), 1), '--blue', 10, r < 0 ? 16 : -6, 'start', 14);
+      D.text(C, 'C', '--blue', -18, r < 0 ? -10 : 18, 'start', 16);
+    }
+    D.handle(P, 'p', bal ? '--green' : '--ink');
+    svg.innerHTML = D.out();
+    // подписи
+    document.getElementById('p-f1o').textContent = fmt(st.f1, 1) + ' кН';
+    document.getElementById('p-f2o').textContent = fmt(st.f2, 1) + ' кН ' + (st.same ? 'вниз' : 'вверх');
+    var cap, r2 = R();
+    if (xc == null) cap = '<b class="st">Это пара</b>F₁ = F₂ и силы смотрят в разные стороны. Доска крутится при любом положении опоры: у пары нет равнодействующей.';
+    else if (bal) cap = '<b class="st">Равновесие!</b>Опора стоит ровно в точке C, куда приложена равнодействующая R = ' + fmt(Math.abs(r2), 1) + ' кН. Заметь: C ' + (st.same ? 'между A и B и ближе' : 'снаружи отрезка, со стороны') + ' к большей силе.';
+    else cap = '<b class="st">Найди точку опоры</b>Таскай треугольник вдоль доски, пока доска не выровняется. Сейчас момент относительно опоры ' + fmt(mp, 1) + ' кН·м, доска крутится ' + (mp > 0 ? 'против часовой' : 'по часовой') + '.';
+    document.getElementById('p-cap').innerHTML = cap;
+    var ro;
+    if (xc == null) ro = '<div class="row"><span>R = F₁ − F₂</span><span>0</span></div>';
+    else {
+      var AC = Math.abs(xc), BC = Math.abs(xc - AB);
+      ro = '<div class="row"><span>R = ' + (st.same ? 'F₁ + F₂' : '|F₁ − F₂|') + '</span><span>' + fmt(Math.abs(r2), 1) + ' кН</span></div>' +
+        '<div class="row"><span>AC = AB·F₂/R</span><span>' + fmt(AC, 2) + ' м</span></div>' +
+        '<div class="row"><span>BC</span><span>' + fmt(BC, 2) + ' м</span></div>' +
+        '<div class="row tot"><span>Проверка F₁·AC = F₂·BC</span><span>' + fmt(st.f1 * AC, 2) + ' = ' + fmt(st.f2 * BC, 2) + ' <span class="ok">✓</span></span></div>';
+    }
+    document.getElementById('p-ro').innerHTML = ro;
+  }
+  function loop() {
+    var target = clamp(Mp(st.p) * 0.03, -0.3, 0.3);
+    if (reduceMotion) st.th = target; else st.th += (target - st.th) * 0.14;
+    draw();
+    raf = Math.abs(target - st.th) > 0.0008 || pivAnim ? requestAnimationFrame(loop) : null;
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+  function setp(x) { var xc = xC(); if (xc != null && Math.abs(x - xc) < 0.15) x = xc; st.p = clamp(x, -4.5, 8.5); kick(); }
+  svg.addEventListener('pointerdown', function (e) { if (e.target.getAttribute('data-drag') === 'p') { drag = true; svg.setPointerCapture(e.pointerId); e.preventDefault(); } });
+  svg.addEventListener('pointermove', function (e) { if (drag) setp(m.toWorld(e)[0]); });
+  svg.addEventListener('pointerup', function () { drag = false; }); svg.addEventListener('pointercancel', function () { drag = false; });
+  document.getElementById('p-f1').addEventListener('input', function (e) { st.f1 = +e.target.value; kick(); });
+  document.getElementById('p-f2').addEventListener('input', function (e) { st.f2 = +e.target.value; kick(); });
+  function dir(same) {
+    st.same = same;
+    document.getElementById('p-same').setAttribute('aria-pressed', same ? 'true' : 'false');
+    document.getElementById('p-opp').setAttribute('aria-pressed', same ? 'false' : 'true');
+    if (!same && Math.abs(st.f1 - st.f2) < 0.01) { st.f1 = 5; document.getElementById('p-f1').value = 5; }
+    if (!same && st.f1 === 3 && st.f2 === 2) { st.f1 = 5; document.getElementById('p-f1').value = 5; }
+    kick();
+  }
+  document.getElementById('p-same').addEventListener('click', function () { dir(true); });
+  document.getElementById('p-opp').addEventListener('click', function () { dir(false); });
+  document.getElementById('p-show').addEventListener('click', function () {
+    var xc = xC(); if (xc == null) { draw(); return; }
+    if (xc < -4.5 || xc > 8.5) { document.getElementById('p-cap').innerHTML = '<b class="st">Точка далеко</b>C = ' + fmt(xc, 1) + ' м от A — за краем картинки. Сделай силы сильнее отличающимися.'; return; }
+    var from = st.p, t0 = performance.now();
+    pivAnim = true; kick();
+    (function fr(now) { var t = ease(Math.min(1, (now - t0) / 900)); st.p = from + (xc - from) * t; if (t < 1) requestAnimationFrame(fr); else pivAnim = null; })(t0);
+  });
+  kick();
+})();
+
+/* ======================= 5.2 Доказательство ======================= */
+(function () {
+  var A = [0, 0], B = [4, 0], K = 0.5, F1 = [0, -3], F2 = [0, -2], T1 = [-1.5, 0], T2 = [1.5, 0];
+  var Q1 = add(F1, T1), Q2 = add(F2, T2), KP = [1.6, 3.2], C = [1.6, 0];
+  new Scene({
+    id: 'proof', svg: 'pr-svg', capId: 'pr-cap', box: [-2.4, 6.4, -2.3, 4.4], steps: 7, dur: 1200,
+    draw: function (m, k, t) {
+      var D = Draw(m);
+      D.line(A, B, '--ink', 7);
+      D.text(A, 'A', '--ink', -18, -8, 'start', 15); D.text(B, 'B', '--ink', 8, -8, 'start', 15);
+      var fop = k >= 4 ? (k === 4 ? 1 - 0.85 * t : 0.15) : (k >= 2 ? 0.55 : 1);
+      D.arrow(A, add(A, mul(F1, K)), '--red', 3.2, fop); D.text(add(A, mul(F1, K)), 'F₁ = 3', '--red', -8, 16, 'end', 14, fop);
+      D.arrow(B, add(B, mul(F2, K)), '--red', 3.2, fop); D.text(add(B, mul(F2, K)), 'F₂ = 2', '--red', 8, 16, 'start', 14, fop);
+      if (k >= 1) {
+        var g = k === 1 ? t : 1;
+        D.arrow(A, add(A, mul(T1, K * g)), '--amber', 3, fop); D.text(add(A, mul(T1, K * g)), 'T₁', '--amber', -6, -8, 'end', 14, fop);
+        D.arrow(B, add(B, mul(T2, K * g)), '--amber', 3, fop); D.text(add(B, mul(T2, K * g)), 'T₂', '--amber', 6, -8, 'start', 14, fop);
+      }
+      if (k >= 2) {
+        var g2 = k === 2 ? t : 1, qop = k === 4 ? 1 : (k >= 5 ? (k === 5 ? 1 - 0.7 * t : 0.15) : 1);
+        [[A, F1, T1, Q1, 'Q₁'], [B, F2, T2, Q2, 'Q₂']].forEach(function (z) {
+          var P = z[0], f = mul(z[1], K), tt = mul(z[2], K), q = mul(z[3], K);
+          if (k <= 3) { D.line(add(P, f), add(P, q), '--muted', 1, 0.8 * g2, '4 4'); D.line(add(P, tt), add(P, q), '--muted', 1, 0.8 * g2, '4 4'); }
+          var base = P;
+          if (k === 4) base = lerp(P, KP, t); else if (k >= 5) base = KP;
+          D.arrow(base, add(base, mul(q, k === 2 ? g2 : 1)), '--violet', 3.6, qop);
+          if (qop > 0.3) D.text(add(base, q), z[4], '--violet', z[4] === 'Q₁' ? -8 : 8, 14, z[4] === 'Q₁' ? 'end' : 'start', 15, qop);
+        });
+      }
+      if (k >= 3) {
+        var g3 = k === 3 ? t : 1;
+        D.line(add(A, mul(nu(Q1), 0.9)), lerp(add(A, mul(nu(Q1), 0.9)), add(KP, mul(nu(Q1), -0.8)), g3), '--violet', 1.2, 0.7, '6 5');
+        D.line(add(B, mul(nu(Q2), 0.9)), lerp(add(B, mul(nu(Q2), 0.9)), add(KP, mul(nu(Q2), -0.8)), g3), '--violet', 1.2, 0.7, '6 5');
+        if (g3 > 0.95) { D.dot(KP, '--violet', 4.5); D.text(KP, 'K', '--violet', 10, -8, 'start', 16); }
+      }
+      if (k >= 5) {
+        var g5 = k === 5 ? t : 1, top = k === 6 ? 1 - t : 1;
+        D.arrow(KP, add(KP, mul(T1, K * g5)), '--amber', 3, top); D.arrow(KP, add(KP, mul(T2, K * g5)), '--amber', 3, top);
+        if (top > 0.3) { D.text(add(KP, mul(T1, K)), 'T₁′', '--amber', -6, -8, 'end', 14, top * g5); D.text(add(KP, mul(T2, K)), 'T₂′', '--amber', 6, -8, 'start', 14, top * g5); }
+        if (k === 5) {
+          D.arrow(add(KP, [-0.06, 0]), add(KP, add([-0.06, 0], mul(F1, K * g5))), '--red', 3);
+          D.arrow(add(KP, [0.06, 0]), add(KP, add([0.06, 0], mul(F2, K * g5))), '--red', 3);
+          D.text(add(KP, mul(F1, K)), 'F₁′', '--red', -10, 4, 'end', 14, g5);
+          D.text(add(KP, mul(F2, K)), 'F₂′', '--red', 10, 4, 'start', 14, g5);
+        }
+      }
+      if (k >= 6) {
+        var R = add(F1, F2);
+        D.arrow(KP, add(KP, mul(R, K * t)), '--blue', 5);
+        D.text(add(KP, mul(R, K * 0.5)), 'R = 5', '--blue', 10, 0, 'start', 16, t);
+        D.line(add(KP, mul(R, K)), C, '--blue', 1.4, t, '5 4');
+        D.dot(C, '--blue', 5); D.text(C, 'C', '--blue', 6, 18, 'start', 16, t);
+        dim(D, 0, 1.6, -1.95, 'AC = 1,6', '--green'); dim(D, 1.6, 4, -1.95, 'BC = 2,4', '--green');
+      }
+      return D.out();
+    },
+    caption: function (k) {
+      return [
+        'Две параллельные силы в одну сторону: F₁ = 3 кН в A и F₂ = 2 кН в B, AB = 4 м. Где приложена их равнодействующая? Параллельные силы нельзя сложить в точке пересечения, потому что они не пересекаются. Лекция обходит это хитростью.',
+        'Добавим вдоль AB две равные и противоположные силы T₁ и T₂. Они уравновешены, поэтому по аксиоме 2 ничего не изменилось.',
+        'Сложим по параллелограмму: F₁ + T₁ = Q₁ и F₂ + T₂ = Q₂. Новые силы уже не параллельны!',
+        'Продлим линии Q₁ и Q₂: они пересекаются в точке K.',
+        'Сила — скользящий вектор, поэтому переносим Q₁ и Q₂ вдоль их линий в точку K.',
+        'В точке K снова раскладываем: Q₁ = T₁′ + F₁′ и Q₂ = T₂′ + F₂′. Горизонтальные T₁′ и T₂′ равны и противоположны, они гасят друг друга.',
+        '<b>Остаётся R = F₁ + F₂ = 5 кН</b> вертикально через K. Линия R пересекает AB в точке C: AC = 1,6 м, BC = 2,4 м. Проверка: AC/BC = 1,6/2,4 = 2/3 = F₂/F₁. C ближе к большей силе.'
+      ][k];
+    }
+  }).render();
+})();
+
+/* ======================= 5.4–5.7 Уравнения и точка моментов ======================= */
+(function () {
+  var svg = document.getElementById('e-svg'), m = new Mapper(svg, [-1.5, 6.7, -1.7, 3.2]);
+  var st = { O: [3.6, 1.9], xF: 2, form: 2, drag: null }, F = 5, L = 5, K = 0.22;
+  var UNK = [
+    { n: 'X<sub>A</sub>', t: 'X_A', P: [0, 0], d: [1, 0] },
+    { n: 'Y<sub>A</sub>', t: 'Y_A', P: [0, 0], d: [0, 1] },
+    { n: 'R<sub>B</sub>', t: 'R_B', P: [L, 0], d: [0, 1] }
+  ];
+  var TNAME = { X_A: 'X' + sb('A'), Y_A: 'Y' + sb('A'), R_B: 'R' + sb('B') };
+  function coef(u, O) { return cross(sub(u.P, O), u.d); }
+  function constM(O) { return cross(sub([st.xF, 0], O), [0, -F]); }
+  function draw() {
+    var D = Draw(m), O = st.O;
+    D.line([0, 0], [L, 0], '--ink', 7);
+    pinSup(D, [0, 0], 0.32); rollerSup(D, [L, 0], 0.32, m);
+    D.text([0, 0], 'A', '--ink', -20, -8, 'start', 15); D.text([L, 0], 'B', '--ink', 10, -8, 'start', 15);
+    if (st.form === 3) { D.dot([2.5, 2], '--muted', 4); D.text([2.5, 2], 'C (для 3-й формы)', '--muted', 8, -8, 'start', 12); }
+    // линии и плечи
+    var items = UNK.map(function (u) { return { u: u, c: coef(u, O) }; });
+    items.forEach(function (it, i) {
+      var u = it.u, col = '--blue';
+      var foot = u.d[0] ? [O[0], u.P[1]] : [u.P[0], O[1]];
+      if (Math.abs(it.c) > 0.03) { D.line(O, foot, col, 1.4, 0.8, '4 4'); }
+      var tip = add(u.P, mul(u.d, 1.0));
+      var off = u.d[0] ? [0.12, 0] : [0, 0];
+      D.arrow(add(u.P, off), add(tip, off), col, 3.4, Math.abs(it.c) < 0.03 ? 0.35 : 1);
+      D.text(add(tip, off), TNAME[u.t], col, u.d[0] ? 4 : 8, u.d[0] ? 16 : 0, 'start', 14);
+    });
+    var cF = constM(O);
+    var top = [st.xF, F * K + 0.05];
+    D.line(O, [st.xF, O[1]], '--red', 1.4, Math.abs(st.xF - O[0]) > 0.03 ? 0.7 : 0, '4 4');
+    D.arrow(top, [st.xF, 0.05], '--red', 3.4);
+    D.text(top, 'F = 5 кН', '--red', 12, 0, 'start', 14);
+    D.handle(top, 'F', '--red');
+    D.handle(O, 'O', '--green');
+    D.text(O, 'O', '--green', 14, -10, 'start', 16);
+    svg.innerHTML = D.out();
+    // уравнение
+    var n = 0, parts = [];
+    items.forEach(function (it) {
+      if (Math.abs(it.c) < 0.03) parts.push('<span style="opacity:.45"><s>' + it.u.n + '</s> (плечо 0)</span>');
+      else { n++; parts.push('<b style="color:var(--blue)">' + (it.c > 0 ? '+ ' : '− ') + fmt(Math.abs(it.c), 1) + '·' + it.u.n + '</b>'); }
+    });
+    parts.push((cF >= 0 ? '+ ' : '− ') + fmt(Math.abs(cF), 1));
+    var solved = '';
+    if (n === 1) {
+      var it1 = items.filter(function (i) { return Math.abs(i.c) >= 0.03; })[0];
+      solved = '<div class="row tot"><span>Одна неизвестная — решается сразу</span><span class="ok">' + it1.u.n + ' = ' + fmt(-cF / it1.c, 2) + ' кН</span></div>';
+    }
+    document.getElementById('e-ro').innerHTML = '<div style="margin-bottom:4px"><b>ΣM<sub>O</sub> = 0:</b> ' + parts.join(' ') + ' = 0</div>' +
+      '<div class="row"><span>Неизвестных в уравнении</span><span style="color:var(' + (n === 1 ? '--green' : '--amber') + ');font-weight:600">' + n + '</span></div>' + solved;
+    var cap;
+    if (n === 1) cap = '<b class="st">Отличная точка</b>В точке O сходятся линии двух неизвестных, поэтому их плечи нулевые и они выпадают из уравнения. Осталась одна неизвестная — считается сразу.';
+    else if (n === 2) cap = '<b class="st">Уже лучше</b>Одна неизвестная выпала, потому что её линия проходит через O. Попробуй найти точку, где пересекаются линии <i>двух</i> неизвестных.';
+    else cap = '<b class="st">Таскай точку O</b>Пунктир — плечи от O до линий сил. Сейчас в уравнение моментов попали все три неизвестные: так решать неудобно. Найди точку, где плечи неизвестных обнуляются.';
+    document.getElementById('e-cap').innerHTML = cap;
+    // формы
+    var x = st.xF, YA = F * (L - x) / L, RB = F * x / L, h = '';
+    if (st.form === 1) h = row('ΣF<sub>x</sub> = 0: X<sub>A</sub> = 0', 1, 'X<sub>A</sub> = 0') + row('ΣF<sub>y</sub> = 0: Y<sub>A</sub> + R<sub>B</sub> − 5 = 0', 2, 'после R<sub>B</sub>: Y<sub>A</sub> = ' + fmt(YA, 2)) + row('ΣM<sub>A</sub> = 0: R<sub>B</sub>·5 − 5·' + fmt(x, 1) + ' = 0', 1, 'R<sub>B</sub> = ' + fmt(RB, 2)) + '<div class="hint">Работает, но уравнение по y содержит две неизвестные: решай его последним.</div>';
+    if (st.form === 2) h = row('ΣM<sub>A</sub> = 0: R<sub>B</sub>·5 − 5·' + fmt(x, 1) + ' = 0', 1, 'R<sub>B</sub> = ' + fmt(RB, 2)) + row('ΣM<sub>B</sub> = 0: −Y<sub>A</sub>·5 + 5·' + fmt(L - x, 1) + ' = 0', 1, 'Y<sub>A</sub> = ' + fmt(YA, 2)) + row('ΣF<sub>x</sub> = 0: X<sub>A</sub> = 0', 1, 'X<sub>A</sub> = 0') + '<div class="hint">Каждое уравнение — с одной неизвестной. Для балки на двух опорах это самая удобная форма. Проверка: ΣF<sub>y</sub> = ' + fmt(YA, 2) + ' + ' + fmt(RB, 2) + ' − 5 = 0 ✓</div>';
+    if (st.form === 3) { var cc = cross(sub([x, 0], [2.5, 2]), [0, -F]); h = row('ΣM<sub>A</sub> = 0', 1, 'R<sub>B</sub> = ' + fmt(RB, 2)) + row('ΣM<sub>B</sub> = 0', 1, 'Y<sub>A</sub> = ' + fmt(YA, 2)) + row('ΣM<sub>C</sub> = 0: 2·X<sub>A</sub> − 2,5·Y<sub>A</sub> + 2,5·R<sub>B</sub> ' + (cc >= 0 ? '+ ' : '− ') + fmt(Math.abs(cc), 1) + ' = 0', 3, 'X<sub>A</sub> = 0') + '<div class="hint">Точка C не на прямой AB, иначе третье уравнение ничего нового не даёт. Решается, но третье уравнение громоздкое.</div>'; }
+    document.getElementById('e-forms').innerHTML = h;
+  }
+  function row(eq, n, res) { return '<div class="row"><span>' + eq + ' <span style="color:var(' + (n === 1 ? '--green' : '--amber') + ')">[' + n + ' неизв.]</span></span><span>' + res + '</span></div>'; }
+  svg.addEventListener('pointerdown', function (e) { var k = e.target.getAttribute('data-drag'); if (k) { st.drag = k; svg.setPointerCapture(e.pointerId); e.preventDefault(); } });
+  svg.addEventListener('pointermove', function (e) {
+    if (!st.drag) return; var p = m.toWorld(e);
+    if (st.drag === 'O') { var q = [clamp(p[0], -1.3, 6.5), clamp(p[1], -1.5, 3)]; [[0, 0], [L, 0]].forEach(function (s) { if (len(sub(q, s)) < 0.28) q = s.slice(); }); st.O = q; }
+    if (st.drag === 'F') st.xF = Math.round(clamp(p[0], 0.2, L - 0.2) * 10) / 10;
+    draw();
+  });
+  svg.addEventListener('pointerup', function () { st.drag = null; }); svg.addEventListener('pointercancel', function () { st.drag = null; });
+  document.querySelectorAll('[data-o]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-o'); st.O = k === 'A' ? [0, 0] : k === 'B' ? [L, 0] : [3.6, 1.9]; draw(); }); });
+  document.querySelectorAll('[data-f]').forEach(function (b) { b.addEventListener('click', function () { st.form = +b.getAttribute('data-f'); document.querySelectorAll('[data-f]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); draw(); }); });
+  draw();
+})();
+
+/* ======================= 5.8 Система тел ======================= */
+(function () {
+  var K = 0.26, P = 4, F = 6;
+  new Scene({
+    id: 'bodies', svg: 'b-svg', capId: 'b-cap', box: [-1.3, 8.7, -2.5, 3.0], steps: 7, dur: 1100,
+    draw: function (m, k, t) {
+      var D = Draw(m);
+      var gap = k === 0 ? 0 : k === 1 ? 1.3 * t : k === 6 ? 1.3 * (1 - t) : 1.3;
+      var opL = (k === 3 || k === 4) ? 0.3 : 1, opR = k === 5 ? 0.3 : 1;
+      function R(x) { return [x + gap, 0]; }
+      // левая часть
+      wallL(D, -0.15, -1, 1, 0.22);
+      D.raw('<g opacity="' + opL + '">');
+      D.line([-0.15, 0], [3, 0], '--ink', 7);
+      D.arrow([1.5, P * K + 0.05], [1.5, 0.05], '--red', 3.2); D.text([1.5, P * K + 0.05], 'P = 4 кН', '--red', 0, -8, 'middle', 13);
+      D.raw('</g>');
+      // правая часть
+      D.raw('<g opacity="' + opR + '">');
+      D.line(R(3), R(6), '--ink', 7);
+      rollerSup(D, R(6), 0.3, m);
+      D.arrow(add(R(4.5), [0, F * K + 0.05]), add(R(4.5), [0, 0.05]), '--red', 3.2); D.text(add(R(4.5), [0, F * K + 0.05]), 'F = 6 кН', '--red', 0, -8, 'middle', 13);
+      D.raw('</g>');
+      D.text([0, 0], 'A', '--ink', 6, 22, 'start', 15); D.text(R(6), 'B', '--ink', 12, -8, 'start', 15);
+      // шарнир
+      if (gap < 0.02) { D.raw('<circle cx="' + f1(m.X(3)) + '" cy="' + f1(m.Y(0)) + '" r="7" fill="var(--card)" stroke="var(--ink)" stroke-width="2.4"/>'); D.text([3, 0], 'C', '--ink', -4, -14, 'middle', 15); }
+      else {
+        [[3, 0], R(3)].forEach(function (p) { D.raw('<circle cx="' + f1(m.X(p[0])) + '" cy="' + f1(m.Y(p[1])) + '" r="6" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/>'); });
+        D.text([3, 0], 'C', '--ink', -12, -14, 'middle', 14); D.text(R(3), 'C', '--ink', 12, -14, 'middle', 14);
+      }
+      // силы в шарнире
+      if (k >= 1 && k <= 5) {
+        var g = k === 1 ? t : 1;
+        if (k < 4) {
+          D.arrow([3, 0], [3 + 0.7 * g, 0], '--blue', 2.6, opL); D.arrow([3, 0], [3, 0.7 * g], '--blue', 2.6, opL);
+          D.text([3, 0.7], 'Y' + sb('C'), '--blue', -6, 0, 'end', 13, opL * g); D.text([3.7, 0], 'X' + sb('C'), '--blue', 0, 18, 'start', 13, opL * g);
+          D.arrow(R(3), add(R(3), [-0.7 * g, 0]), '--blue', 2.6, opR); D.arrow(R(3), add(R(3), [0, -0.7 * g]), '--blue', 2.6, opR);
+          D.text(add(R(3), [0, -0.7]), 'Y' + sb('C'), '--blue', 8, 12, 'start', 13, opR * g); D.text(add(R(3), [-0.7, 0]), 'X' + sb('C'), '--blue', 0, -8, 'end', 13, opR * g);
+        } else {
+          var ga = k === 4 ? t : 1;
+          D.arrow(R(3), add(R(3), [0, 3 * K * ga]), '--green', 3.4, opR); D.text(add(R(3), [0, 3 * K]), '3 кН', '--green', 8, 0, 'start', 13, opR * ga);
+          D.arrow([3, 0], [3, -3 * K * ga], '--green', 3.4, opL); D.text([3, -3 * K], '3 кН', '--green', -8, 10, 'end', 13, opL * ga);
+        }
+      }
+      // реакции
+      if (k >= 1) {
+        var gr = k === 1 ? t : 1;
+        var ya = k >= 5 ? 7 : 2.2, rb = k >= 3 ? 3 : 2.2;
+        D.arrow([0.25, -1.9 * 0 - ya * K * gr], [0.25, 0], '--blue', 3, opL);
+        D.text([0.25, -ya * K], k >= 5 ? 'Y' + sb('A') + ' = 7' : 'Y' + sb('A'), '--blue', 8, 12, 'start', 13, opL * gr);
+        D.moment([0, 0], 0.62, 1, '--blue', gr, 2.4, opL, 200);
+        D.text([-0.6, 0.72], k >= 5 ? 'M' + sb('A') + ' = 15' : 'M' + sb('A'), '--blue', 0, 0, 'end', 13, opL * gr);
+        var rbP = R(6);
+        D.arrow(add(rbP, [0.35, -rb * K * gr - 0.05]), add(rbP, [0.35, -0.05]), '--blue', 3, opR);
+        D.text(add(rbP, [0.35, -rb * K]), k >= 3 ? 'R' + sb('B') + ' = 3' : 'R' + sb('B'), '--blue', 8, 12, 'start', 13, opR * gr);
+      }
+      if (k === 3) { dim(D, 3 + gap, 4.5 + gap, -1.9, '1,5', '--violet'); dim(D, 3 + gap, 6 + gap, -2.3, '3', '--violet'); }
+      if (k === 5) { dim(D, 0, 1.5, -1.9, '1,5', '--violet'); dim(D, 0, 3, -2.3, '3', '--violet'); }
+      return D.out();
+    },
+    caption: function (k) {
+      return [
+        'Составная балка: левая часть закреплена в стене (заделка A), правая лежит на катке B, между ними шарнир C. Неизвестных: заделка 3 + каток 1 + шарнир 2 = <b>6</b>.',
+        'Разрезаем по шарниру C, части разъезжаются. На месте шарнира появляются силы X<sub>C</sub>, Y<sub>C</sub>: на левой части вправо-вверх, на правой такие же, но влево-вниз. Это действие и противодействие.',
+        'Уравнений по 3 на каждую часть: 3 + 3 = <b>6</b>. Неизвестных тоже 6, задача определима. Горизонтальных нагрузок нет, поэтому X<sub>A</sub> = X<sub>C</sub> = 0.',
+        'Начинаем с правой части, моменты относительно C: X<sub>C</sub> и Y<sub>C</sub> проходят через C и выпадают. R<sub>B</sub>·3 − 6·1,5 = 0 → <b>R<sub>B</sub> = 3 кН</b>.',
+        'Правая часть, ΣF<sub>y</sub>: груз 6 вниз, каток держит 3 вверх, значит шарнир держит правую часть ещё 3 кН вверх. А правая часть давит на левую <b>3 кН вниз</b> — те же силы в обратную сторону.',
+        'Левая часть: на неё давят P = 4 и шарнир 3 вниз. ΣF<sub>y</sub>: Y<sub>A</sub> = 4 + 3 = <b>7 кН</b>. ΣM<sub>A</sub>: M<sub>A</sub> − 4·1,5 − 3·3 = 0 → <b>M<sub>A</sub> = 15 кН·м</b>.',
+        'Собираем обратно и проверяем всю конструкцию, ΣM<sub>A</sub>: 15 − 4·1,5 − 6·4,5 + 3·6 = 15 − 6 − 27 + 18 = 0 ✓. Силы в шарнире внутренние, в проверке их нет.'
+      ][k];
+    }
+  }).render();
+})();
+
+/* ======================= 5.9 Определимость ======================= */
+(function () {
+  var svg = document.getElementById('d-svg'), m = new Mapper(svg, [-1.3, 7.3, -1.7, 1.9]);
+  var SL = [{ x: 0, n: 'Слева', opts: ['none', 'roller', 'pin', 'fixed'] }, { x: 3, n: 'В середине', opts: ['none', 'roller', 'pin'] }, { x: 6, n: 'Справа', opts: ['none', 'roller', 'pin', 'fixed'] }];
+  var NM = { none: 'нет', roller: 'каток', pin: 'шарнир', fixed: 'заделка' };
+  var st = { s: ['pin', 'none', 'roller'] }, raf = null, t0 = 0;
+  var PRE = { pr: ['pin', 'none', 'roller'], pp: ['pin', 'none', 'pin'], rrr: ['roller', 'roller', 'roller'], f: ['fixed', 'none', 'none'], fr: ['fixed', 'none', 'roller'], p: ['pin', 'none', 'none'] };
+  function rows() {
+    var r = [];
+    st.s.forEach(function (tp, i) {
+      var x = SL[i].x;
+      if (tp === 'roller') r.push([0, 1, x]);
+      if (tp === 'pin' || tp === 'fixed') { r.push([1, 0, 0]); r.push([0, 1, x]); }
+      if (tp === 'fixed') r.push([0, 0, 1]);
+    });
+    return r;
+  }
+  function rref(M) {
+    var A = M.map(function (r) { return r.slice(); }), piv = [], row = 0;
+    for (var c = 0; c < 3 && row < A.length; c++) {
+      var best = row; for (var i = row; i < A.length; i++) if (Math.abs(A[i][c]) > Math.abs(A[best][c])) best = i;
+      if (Math.abs(A[best][c]) < 1e-9) continue;
+      var tmp = A[row]; A[row] = A[best]; A[best] = tmp;
+      var pv = A[row][c]; for (var j = 0; j < 3; j++) A[row][j] /= pv;
+      for (i = 0; i < A.length; i++) if (i !== row) { var f = A[i][c]; for (j = 0; j < 3; j++) A[i][j] -= f * A[row][j]; }
+      piv.push(c); row++;
+    }
+    return { A: A, piv: piv };
+  }
+  function nullVec() {
+    var R = rref(rows()), free = [0, 1, 2].filter(function (c) { return R.piv.indexOf(c) < 0; });
+    if (!free.length) return null;
+    var fc = free.indexOf(2) >= 0 && free.length === 1 ? 2 : free[0];
+    var v = [0, 0, 0]; v[fc] = 1;
+    R.piv.forEach(function (c, i) { v[c] = -R.A[i][fc]; });
+    var mx = 0; [0, 6].forEach(function (x) { mx = Math.max(mx, Math.hypot(v[0], v[1] + v[2] * x)); });
+    return mul3(v, 0.42 / (mx || 1));
+  }
+  function mul3(v, k) { return [v[0] * k, v[1] * k, v[2] * k]; }
+  function draw(tau) {
+    var D = Draw(m), r = rows(), n = r.length, rank = rref(r).piv.length, nv = rank < 3 ? nullVec() : null;
+    var s = nv && !reduceMotion ? Math.sin(tau * 2.4) : (nv ? 0.6 : 0);
+    function mv(x) { if (!nv) return [x, 0]; return [x + s * nv[0], s * (nv[1] + nv[2] * x)]; }
+    // опоры (неподвижные)
+    st.s.forEach(function (tp, i) {
+      var x = SL[i].x;
+      if (tp === 'roller') rollerSup(D, [x, 0], 0.3, m);
+      if (tp === 'pin') pinSup(D, [x, 0], 0.3);
+      if (tp === 'fixed') { if (x === 0) wallL(D, -0.05, -0.9, 0.9, 0.2); else { D.line([6.05, -0.9], [6.05, 0.9], '--ink', 2.4); for (var yy = -0.8; yy < 0.9; yy += 0.2) D.line([6.05, yy], [6.21, yy + 0.14], '--ink', 1, 0.6); } }
+    });
+    // балка
+    D.line(mv(0), mv(6), '--ink', 8);
+    // реакции
+    st.s.forEach(function (tp, i) {
+      var x = SL[i].x, p = [x, 0];
+      if (tp === 'none') return;
+      D.arrow([x, -1.3], [x, -0.55], '--blue', 2.6);
+      if (tp !== 'roller') D.arrow([x + (x === 6 ? 0.9 : -0.9), 0.28], [x + (x === 6 ? 0.15 : -0.15), 0.28], '--blue', 2.6);
+      if (tp === 'fixed') D.moment(p, 0.55, 1, '--blue', 1, 2.2, 1, x === 0 ? 20 : 200);
+    });
+    svg.innerHTML = D.out();
+    var cap, cls;
+    if (rank < 3) { cap = '<b class="st">Механизм</b>Опоры не держат балку: она может ' + (nv && Math.abs(nv[2]) > 1e-6 ? (Math.abs(nv[0]) + Math.abs(nv[1]) > 1e-6 ? 'сдвигаться и поворачиваться' : 'поворачиваться') : 'сдвигаться') + ' — смотри, как она ходит. Неизвестных ' + n + ', но уравнения всё равно не выполнятся при любой нагрузке. ' + (n >= 3 ? 'Совпадения чисел мало: связи стоят «неудачно».' : ''); cls = '--red'; }
+    else if (n === 3) { cap = '<b class="st">Статически определима</b>Неизвестных 3, уравнений 3, балка не может двигаться. Все реакции находятся одной статикой.'; cls = '--green'; }
+    else { cap = '<b class="st">Статически неопределима</b>Неизвестных ' + n + ', а уравнений только 3: лишних связей ' + (n - 3) + '. Балка стоит, но статикой реакции не найти — нужна деформация, то есть сопромат.'; cls = '--amber'; }
+    document.getElementById('d-cap').innerHTML = cap + '<div class="row" style="margin-top:6px;display:flex;justify-content:space-between"><span>Неизвестных реакций</span><span style="font-family:var(--mono);color:var(' + cls + ');font-weight:600">' + n + ' / 3 уравнения</span></div>';
+    return nv;
+  }
+  function loop(now) { var nv = draw((now - t0) / 1000); raf = nv && !reduceMotion ? requestAnimationFrame(loop) : null; }
+  function refresh() { if (raf) cancelAnimationFrame(raf); raf = null; t0 = performance.now(); loop(t0); pick(); }
+  function pick() {
+    document.getElementById('d-pick').innerHTML = SL.map(function (sl, i) {
+      return '<div class="ctrl" style="margin-bottom:4px"><span style="min-width:6.5em;font-size:.9rem">' + sl.n + ':</span>' + sl.opts.map(function (o) { return '<button class="btn" data-ds="' + i + ':' + o + '" aria-pressed="' + (st.s[i] === o) + '">' + NM[o] + '</button>'; }).join('') + '</div>';
+    }).join('');
+    document.querySelectorAll('[data-ds]').forEach(function (b) { b.addEventListener('click', function () { var p = b.getAttribute('data-ds').split(':'); st.s[+p[0]] = p[1]; refresh(); }); });
+  }
+  document.querySelectorAll('[data-dp]').forEach(function (b) { b.addEventListener('click', function () { st.s = PRE[b.getAttribute('data-dp')].slice(); refresh(); }); });
+  refresh();
+})();
+
+/* ======================= 5.12 Балка с заделкой ======================= */
+(function () {
+  var K = 0.045, c60 = 0.5, s60 = Math.sqrt(3) / 2;
+  new Scene({
+    id: 'fixed', svg: 'f-svg', capId: 'f-cap', box: [-2.7, 11.9, -3.7, 3.1], steps: 7, dur: 1000,
+    draw: function (m, k, t) {
+      var D = Draw(m);
+      wallL(D, -0.1, -1.1, 1.1, 0.25);
+      D.line([-0.1, 0], [10, 0], '--ink', 7);
+      var Kp = [3, 0], dir = [c60, -s60];
+      var hx = k === 3, hy = k === 4, hm = k === 5;
+      function op(kind) { if (k < 3 || k > 5) return 1; return (kind === 'x' && hx) || (kind === 'y' && hy) || (kind === 'm' && hm) ? 1 : 0.2; }
+      // нагрузки
+      var incOp = k >= 2 ? 0.3 : 1;
+      D.arrow(Kp, add(Kp, mul(dir, 30 * K)), '--red', 3.2, k >= 3 ? 0.2 : incOp);
+      D.text(add(Kp, mul(dir, 30 * K)), '30 кН, 60°', '--red', 8, 10, 'start', 13, k >= 3 ? 0.25 : 1);
+      if (k >= 2) {
+        var g = k === 2 ? t : 1;
+        D.arrow(Kp, add(Kp, [15 * K * g, 0]), '--red', 3, op('x'));
+        D.text(add(Kp, [15 * K, 0]), '15', '--red', 6, -6, 'start', 13, op('x') * g);
+        D.arrow(Kp, add(Kp, [0, -25.98 * K * g]), '--red', 3, Math.max(op('y'), op('m')));
+        D.text(add(Kp, [0, -25.98 * K]), '25,98', '--red', -6, 12, 'end', 13, Math.max(op('y'), op('m')) * g);
+      }
+      D.moment([8, 0], 0.6, -1, '--red', 1, 2.6, op('m'), 150);
+      D.text([8, 0.7], 'm = 100 кН·м', '--red', 0, -4, 'middle', 13, op('m'));
+      D.arrow([10, 0], [10, -20 * K], '--red', 3.2, Math.max(op('y'), op('m')));
+      D.text([10, -20 * K], '20 кН', '--red', 0, 16, 'middle', 13, Math.max(op('y'), op('m')));
+      D.text([10, 0], 'B', '--ink', 8, -8, 'start', 15); D.text([0, 0], 'A', '--ink', 8, 20, 'start', 15);
+      // реакции
+      if (k >= 1) {
+        var gr = k === 1 ? t : 1, xa = k >= 3 ? -15 : 12, ya = k >= 4 ? 45.98 : 30;
+        D.arrow([0, 0.18], [xa * K * gr, 0.18], '--blue', 3, op('x'));
+        D.text([xa * K, 0.18], k >= 3 ? 'X' + sb('A') + ' = −15' : 'X' + sb('A'), '--blue', xa < 0 ? -6 : 6, -8, xa < 0 ? 'end' : 'start', 13, op('x') * gr);
+        D.arrow([0.3, -ya * K * gr], [0.3, 0], '--blue', 3, op('y'));
+        D.text([0.3, -ya * K], k >= 4 ? 'Y' + sb('A') + ' = 45,98' : 'Y' + sb('A'), '--blue', 8, 12, 'start', 13, op('y') * gr);
+        D.moment([0, 0], 0.75, 1, '--blue', gr, 2.6, op('m'), 20);
+        D.text([0.2, 0.95], k >= 5 ? 'M' + sb('A') + ' = 377,94' : 'M' + sb('A'), '--blue', 0, 0, 'start', 13, op('m') * gr);
+      }
+      if (k === 5) { dim(D, 0, 3, -3.05, 'плечо 3', '--violet'); dim(D, 0, 10, -3.5, 'плечо 10', '--violet'); D.text([4.2, 1.7], '15 кН идёт по оси балки через A: плечо 0', '--violet', 0, 0, 'middle', 12); }
+      if (k === 0) { dim(D, 0, 3, -2.9, '3 м', '--muted'); dim(D, 3, 8, -2.9, '5 м', '--muted'); dim(D, 8, 10, -2.9, '2 м', '--muted'); }
+      if (k === 6) { dim(D, 0, 10, -3.5, '10', '--violet'); dim(D, 3, 10, -3.05, '7', '--violet'); }
+      return D.out();
+    },
+    caption: function (k) {
+      return [
+        'Слайд 29: заделка A, в 3 м наклонная сила 30 кН под 60° вниз-вправо, в 8 м момент m = 100 кН·м по часовой, на конце B сила 20 кН вниз.',
+        'Заделку отбрасываем и заменяем реакциями: X<sub>A</sub>, Y<sub>A</sub> и реактивным моментом M<sub>A</sub>. Направления рисуем наугад: минус в ответе просто развернёт стрелку.',
+        'Наклонную силу раскладываем: вправо 30·cos 60° = 15 кН, вниз 30·sin 60° = 25,98 кН.',
+        'ΣF<sub>x</sub> = 0 (светятся только горизонтальные): X<sub>A</sub> + 15 = 0 → <b>X<sub>A</sub> = −15 кН</b>, то есть на самом деле влево.',
+        'ΣF<sub>y</sub> = 0 (только вертикальные): Y<sub>A</sub> − 25,98 − 20 = 0 → <b>Y<sub>A</sub> = 45,98 кН</b>.',
+        'ΣM<sub>A</sub> = 0: M<sub>A</sub> − 25,98·3 − 100 − 20·10 = 0 → <b>M<sub>A</sub> = 377,94 кН·м</b>. Обе вертикальные силы вниз правее A — по часовой, минус. m по часовой — минус, без плеча.',
+        'Проверка относительно B: −45,98·10 + 377,94 + 25,98·7 − 100 = −459,8 + 377,94 + 181,86 − 100 ≈ 0 ✓'
+      ][k];
+    }
+  }).render();
+})();
+
+})();
+</script>
+
+</body>
+</html>
