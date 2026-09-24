@@ -476,7 +476,7 @@ function dim(D, a, b, y, label, col) {
     pivAnim = true; kick();
     (function fr(now) { var t = ease(Math.min(1, (now - t0) / 900)); st.p = from + (xc - from) * t; if (t < 1) requestAnimationFrame(fr); else pivAnim = null; })(t0);
   });
-  kick();
+  draw(); kick();
 })();
 
 /* ======================= 5.2 Доказательство ======================= */
