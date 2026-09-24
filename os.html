@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Момент относительно оси</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f9fc; --grid:#e8eef6; --ink:#17223a; --muted:#5a6680; --card:#ffffff; --line:#cdd7e5;
+  --red:#b3322a; --red-soft:#f8e4e1; --blue:#2340a6; --blue-soft:#e4eafb;
+  --green:#1f6e47; --green-soft:#dff1e6; --amber:#a86a00; --amber-soft:#fbefd6;
+  --violet:#6a3fa3; --violet-soft:#efe7fa; --plane:rgba(35,64,166,.06); --planeline:rgba(35,64,166,.18);
+  --triA:rgba(179,50,42,.13); --triB:rgba(35,64,166,.16);
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752;
+    --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+    --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+    --violet:#c7a6ff; --violet-soft:#2a1f40; --plane:rgba(147,168,255,.07); --planeline:rgba(147,168,255,.2);
+    --triA:rgba(255,141,126,.16); --triB:rgba(147,168,255,.18); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1522; --grid:#152033; --ink:#dde5f1; --muted:#9aa7bf; --card:#131c2d; --line:#2a3752;
+  --red:#ff8d7e; --red-soft:#3a1e1c; --blue:#93a8ff; --blue-soft:#1a2547;
+  --green:#7fd6a4; --green-soft:#15301f; --amber:#f0b64a; --amber-soft:#35290f;
+  --violet:#c7a6ff; --violet-soft:#2a1f40; --plane:rgba(147,168,255,.07); --planeline:rgba(147,168,255,.2);
+  --triA:rgba(255,141,126,.16); --triB:rgba(147,168,255,.18); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:16px;padding-block:18px 40px}
+a{color:var(--blue)}
+.back{font-size:.92rem}
+h1{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1.1;margin:.4rem 0 .3rem;text-wrap:balance}
+.lead{color:var(--muted);max-width:68ch;margin:0 0 14px}
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:1fr}}
+.stagebox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;position:relative}
+#stage{width:100%;height:auto;display:block;touch-action:none;cursor:grab;user-select:none}
+#stage:active{cursor:grabbing}
+.views{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 12px;font:500 .9rem var(--body);cursor:pointer}
+.btn:hover{border-color:var(--blue)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.hintdrag{font-size:.82rem;color:var(--muted);margin:4px 2px 0}
+.panel{display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.card h2{font-family:var(--display);font-size:1.15rem;margin:0 0 8px;font-weight:600}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.sl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;margin-bottom:8px}
+.sl label{font-size:.9rem}
+.sl output{font:500 .9rem var(--mono);font-variant-numeric:tabular-nums}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:480px){.two{grid-template-columns:1fr}}
+.way{border-radius:10px;padding:10px 12px;font-size:.9rem}
+.way b.t{display:block;font:600 .74rem var(--mono);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.w1{background:var(--blue-soft)} .w1 b.t{color:var(--blue)}
+.w2{background:var(--violet-soft)} .w2 b.t{color:var(--violet)}
+.row{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.row span:last-child{font-family:var(--mono);white-space:nowrap}
+.row.res{border-top:1px dashed var(--line);margin-top:4px;padding-top:4px;font-weight:600}
+.match{margin-top:10px;background:var(--green-soft);color:var(--ink);border-radius:10px;padding:8px 12px;font-weight:600;font-variant-numeric:tabular-nums}
+.match b{color:var(--green)}
+.hint{background:var(--amber-soft);border-radius:10px;padding:10px 12px;font-size:.93rem}
+.hint b{color:var(--amber)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:2px}
+.explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:16px}
+.explain .card p{margin:.4rem 0;max-width:65ch}
+.explain ol{margin:.3rem 0 .4rem;padding-left:1.2rem}
+.explain li{margin-bottom:.3rem}
+.f{font-family:var(--mono);font-size:.9em;background:var(--blue-soft);padding:1px 5px;border-radius:4px;white-space:nowrap}
+svg text{font-family:var(--body);font-size:15px;font-weight:600}
+svg .sub{font-size:11px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="https://inv1nced.github.io/statika/#theory">← Тренажёр по статике</a>
+  <h1>Момент относительно оси</h1>
+  <p class="lead">Ось z — как петли двери. Сила F приложена в точке A. Крути модель пальцем или мышью, двигай ползунки: момент относительно оси считается сразу двумя способами из лекций, и ответы всегда совпадают.</p>
+
+  <div class="main">
+    <div class="stagebox">
+      <div class="views" role="group" aria-label="Вид">
+        <button class="btn" type="button" id="v3d" aria-pressed="true">3D</button>
+        <button class="btn" type="button" id="vtop" aria-pressed="false">Сверху, вдоль оси</button>
+        <button class="btn" type="button" id="vside" aria-pressed="false">Сбоку</button>
+      </div>
+      <svg id="stage" viewBox="0 0 600 470" role="img" aria-label="Трёхмерная модель: ось z, сила F, её тень на плоскость и векторы моментов"></svg>
+      <p class="hintdrag">Потяни картинку, чтобы повернуть. Кнопка «Сверху, вдоль оси» показывает то, что «видит» ось: там всё превращается в обычную плоскую задачу.</p>
+      <div class="legend">
+        <span><i style="background:var(--red)"></i>F — сила</span>
+        <span><i style="background:var(--blue)"></i>F<sub>xy</sub> — тень силы на плоскость ⊥ оси</span>
+        <span><i style="background:var(--amber)"></i>h — плечо тени</span>
+        <span><i style="background:var(--violet)"></i>M<sub>O</sub> — момент относительно точки O</span>
+        <span><i style="background:var(--green)"></i>M<sub>z</sub> — момент относительно оси</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="card">
+        <h2>Готовые ситуации</h2>
+        <div class="presets" role="group" aria-label="Готовые ситуации">
+          <button class="btn" type="button" data-p="gen">Общий случай</button>
+          <button class="btn" type="button" data-p="flat">Плоская задача</button>
+          <button class="btn" type="button" data-p="par">Сила ∥ оси</button>
+          <button class="btn" type="button" data-p="hit">Сила бьёт в ось</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Сила и точка A</h2>
+        <div class="sl"><label for="rho">Расстояние от оси до точки A</label><output id="o-rho"></output><input type="range" id="rho" min="0.5" max="3" step="0.1"></div>
+        <div class="sl"><label for="zA">Высота точки A над плоскостью</label><output id="o-zA"></output><input type="range" id="zA" min="-1.5" max="2.5" step="0.1"></div>
+        <div class="sl"><label for="eps">Наклон силы к плоскости (0° — лежит в ней, 90° — вдоль оси)</label><output id="o-eps"></output><input type="range" id="eps" min="-90" max="90" step="1"></div>
+        <div class="sl"><label for="phi">Поворот силы вокруг оси</label><output id="o-phi"></output><input type="range" id="phi" min="0" max="360" step="1"></div>
+        <p class="hintdrag" style="margin:0">Сила F = 10 Н, расстояния в метрах.</p>
+      </div>
+      <div class="card">
+        <h2>Считаем M<sub>z</sub> двумя способами</h2>
+        <div class="two">
+          <div class="way w1"><b class="t">Способ 1 · тень силы (2.14)</b>
+            <div class="row"><span>F<sub>xy</sub> = F·cos(наклона)</span><span id="r-fxy"></span></div>
+            <div class="row"><span>плечо тени h</span><span id="r-h"></span></div>
+            <div class="row"><span>знак (сверху)</span><span id="r-sg"></span></div>
+            <div class="row res"><span>M<sub>z</sub> = ±F<sub>xy</sub>·h</span><span id="r-m1"></span></div>
+          </div>
+          <div class="way w2"><b class="t">Способ 2 · вектор M<sub>O</sub> (3.1)</b>
+            <div class="row"><span>|M<sub>O</sub>| = F·d</span><span id="r-mo"></span></div>
+            <div class="row"><span>угол θ между M<sub>O</sub> и осью</span><span id="r-th"></span></div>
+            <div class="row"><span>cos θ</span><span id="r-cos"></span></div>
+            <div class="row res"><span>M<sub>z</sub> = |M<sub>O</sub>|·cos θ</span><span id="r-m2"></span></div>
+          </div>
+        </div>
+        <div class="match" id="match"></div>
+      </div>
+      <div class="hint" id="hint" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <div class="card">
+      <h2>Способ 1: тень силы</h2>
+      <ol>
+        <li>Кладём под силу плоскость, перпендикулярную оси, и светим сверху вдоль оси. На плоскости остаётся тень силы F<sub>xy</sub> (синяя).</li>
+        <li>Часть силы вдоль оси тени не даёт и вокруг оси не крутит. Поэтому она просто пропадает.</li>
+        <li>Ось протыкает плоскость в точке O. Дальше обычная плоская задача: <span class="f">M<sub>z</sub> = ±F<sub>xy</sub>·h</span>, где h — перпендикуляр от O до линии тени.</li>
+      </ol>
+      <p>Нажми «Сверху, вдоль оси»: ось станет точкой, и ты увидишь ровно ту картинку, которую рисуешь в задачах.</p>
+    </div>
+    <div class="card">
+      <h2>Способ 2: вектор момента (тема 3.1)</h2>
+      <p>Момент относительно точки O — это стрелка M<sub>O</sub> (фиолетовая). Она торчит перпендикулярно треугольнику OAB, который образуют точка O и сила. Длина стрелки — это сила вращения, направление — вокруг чего крутит.</p>
+      <p>Ось «видит» только ту часть вращения, которая идёт вокруг неё. Это проекция стрелки M<sub>O</sub> на ось: <span class="f">M<sub>z</sub> = |M<sub>O</sub>|·cos θ</span>. Если M<sub>O</sub> смотрит вдоль оси, θ = 0 и ось получает всё. Если поперёк, θ = 90° и ось не получает ничего.</p>
+    </div>
+    <div class="card">
+      <h2>При чём тут твои задачи</h2>
+      <p>В плоской задаче все силы лежат в листе, а ось моментов протыкает лист в точке O. Нажми «Плоская задача»: тень совпадает с самой силой, M<sub>O</sub> смотрит строго вдоль оси, θ = 0, и оба способа дают обычное <span class="f">M = F·h</span>.</p>
+      <p>Именно поэтому в задачах ты берёшь всю силу и не думаешь ни о каких проекциях: трёхмерность там просто не появляется.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var svg = document.getElementById('stage');
+  var CX = 300, CY = 270, SC = 68, Fmag = 10, kF = 0.17, kM = 0.07;
+  var st = { rho: 2, zA: 1.2, eps: 30, phi: 110 };
+  var cam = { yaw: -0.72, pitch: 0.38 };
+  var VIEWS = { v3d: { yaw: -0.72, pitch: 0.38 }, vtop: { yaw: 0, pitch: Math.PI / 2 }, vside: { yaw: 0, pitch: 0.001 } };
+  var PRE = {
+    gen: { rho: 2, zA: 1.2, eps: 30, phi: 110 },
+    flat: { rho: 2, zA: 0, eps: 0, phi: 90 },
+    par: { rho: 2, zA: 0.6, eps: 90, phi: 90 },
+    hit: { rho: 2, zA: 1, eps: 0, phi: 180 }
+  };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function add(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+  function mul(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+  function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function len(a) { return Math.sqrt(dot(a, a)); }
+  function nz(a) { var l = len(a); return l < 1e-12 ? [0, 0, 0] : mul(a, 1 / l); }
+  function fmt(x, d) { d = d == null ? 2 : d; if (Math.abs(x) < 0.005) x = 0; return x.toFixed(d).replace('.', ',').replace('-', '−'); }
+
+  function P(p) {
+    var cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+    var x1 = p[0] * cy - p[1] * sy, y1 = p[0] * sy + p[1] * cy;
+    var cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+    return { x: CX + SC * x1, y: CY - SC * (y1 * sp + p[2] * cp), d: -y1 * cp + p[2] * sp };
+  }
+  function pts(arr) { return arr.map(function (p) { var q = P(p); return q.x.toFixed(1) + ',' + q.y.toFixed(1); }).join(' '); }
+  function line(a, b, col, w, dash, op) {
+    var p = P(a), q = P(b);
+    return '<line x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" x2="' + q.x.toFixed(1) + '" y2="' + q.y.toFixed(1) + '" stroke="var(' + col + ')" stroke-width="' + w + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + (op ? ' opacity="' + op + '"' : '') + ' stroke-linecap="round"/>';
+  }
+  function arrow(a, b, col, w) {
+    var p = P(a), q = P(b), dx = q.x - p.x, dy = q.y - p.y, L = Math.hypot(dx, dy);
+    if (L < 7) {
+      var toward = q.d > p.d;
+      return '<circle cx="' + q.x.toFixed(1) + '" cy="' + q.y.toFixed(1) + '" r="8" fill="var(--card)" stroke="var(' + col + ')" stroke-width="2.4"/>' +
+        (toward ? '<circle cx="' + q.x.toFixed(1) + '" cy="' + q.y.toFixed(1) + '" r="2.6" fill="var(' + col + ')"/>'
+                : '<path d="M' + (q.x - 5) + ',' + (q.y - 5) + 'L' + (q.x + 5) + ',' + (q.y + 5) + 'M' + (q.x - 5) + ',' + (q.y + 5) + 'L' + (q.x + 5) + ',' + (q.y - 5) + '" stroke="var(' + col + ')" stroke-width="2"/>');
+    }
+    var ux = dx / L, uy = dy / L, hl = Math.min(15, L * 0.45), hw = hl * 0.42;
+    var bx = q.x - ux * hl, by = q.y - uy * hl;
+    return '<line x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" x2="' + bx.toFixed(1) + '" y2="' + by.toFixed(1) + '" stroke="var(' + col + ')" stroke-width="' + w + '" stroke-linecap="round"/>' +
+      '<polygon points="' + q.x.toFixed(1) + ',' + q.y.toFixed(1) + ' ' + (bx - uy * hw).toFixed(1) + ',' + (by + ux * hw).toFixed(1) + ' ' + (bx + uy * hw).toFixed(1) + ',' + (by - ux * hw).toFixed(1) + '" fill="var(' + col + ')"/>';
+  }
+  function label(p3, html, col, ox, oy) {
+    var p = P(p3);
+    return '<text x="' + (p.x + (ox || 8)).toFixed(1) + '" y="' + (p.y + (oy || -8)).toFixed(1) + '" fill="var(' + col + ')" paint-order="stroke" stroke="var(--card)" stroke-width="4" stroke-linejoin="round">' + html + '</text>';
+  }
+  function tipLabel(a, b, html, col, dist) {
+    var p = P(a), q = P(b), dx = q.x - p.x, dy = q.y - p.y, L = Math.hypot(dx, dy) || 1;
+    var ux = L < 7 ? 0.7 : dx / L, uy = L < 7 ? -0.7 : dy / L, d = dist || 16;
+    return '<text x="' + (q.x + ux * d).toFixed(1) + '" y="' + (q.y + uy * d + 5).toFixed(1) + '" text-anchor="middle" fill="var(' + col + ')" paint-order="stroke" stroke="var(--card)" stroke-width="4" stroke-linejoin="round">' + html + '</text>';
+  }
+  function sb(t) { return '<tspan class="sub" dy="4">' + t + '</tspan>'; }
+
+  function compute() {
+    var e = st.eps * Math.PI / 180, f = st.phi * Math.PI / 180;
+    var dir = [Math.cos(e) * Math.cos(f), Math.cos(e) * Math.sin(f), Math.sin(e)];
+    var A = [st.rho, 0, st.zA], Fv = mul(dir, Fmag);
+    var MO = cross(A, Fv), MOl = len(MO), Mz = MO[2];
+    var th = MOl > 1e-9 ? Math.acos(Math.max(-1, Math.min(1, Mz / MOl))) : NaN;
+    var Fxy = Fmag * Math.cos(e);
+    var h = Math.abs(st.rho * Math.sin(f));
+    var sg = Math.abs(Mz) < 1e-6 ? 0 : (Mz > 0 ? 1 : -1);
+    return { e: e, f: f, dir: dir, A: A, Fv: Fv, MO: MO, MOl: MOl, Mz: Mz, th: th, Fxy: Fxy, h: h, sg: sg, d: MOl / Fmag };
+  }
+
+  function draw() {
+    var c = compute(), s = '';
+    var O = [0, 0, 0], A = c.A, B = add(A, mul(c.dir, Fmag * kF));
+    var A1 = [A[0], A[1], 0], B1 = [B[0], B[1], 0];
+    // плоскость ⊥ оси
+    var R = 2.8;
+    s += '<polygon points="' + pts([[-R, -R, 0], [R, -R, 0], [R, R, 0], [-R, R, 0]]) + '" fill="var(--plane)" stroke="var(--planeline)" stroke-width="1.2"/>';
+    for (var g = -2; g <= 2; g++) { s += line([g, -R, 0], [g, R, 0], '--planeline', 0.8); s += line([-R, g, 0], [R, g, 0], '--planeline', 0.8); }
+    s += label([R, -R, 0], 'плоскость ⊥ оси', '--muted', -120, 18);
+    // ось z (нижняя часть под плоскостью)
+    s += line([0, 0, -1.8], [0, 0, 0], '--ink', 1.6, '5 5', 0.6);
+    // тень треугольника и тень силы
+    var hasXY = c.Fxy > 1e-3;
+    s += '<polygon points="' + pts([O, A1, B1]) + '" fill="var(--triB)" stroke="none"/>';
+    // проектирующие пунктиры
+    s += line(A, A1, '--muted', 1.2, '3 4');
+    s += line(B, B1, '--muted', 1.2, '3 4');
+    if (hasXY) {
+      var dxy = [Math.cos(c.f), Math.sin(c.f), 0];
+      s += line(sub(A1, mul(dxy, 6)), add(A1, mul(dxy, 6)), '--blue', 1, '6 5', 0.7);
+      var foot = sub(A1, mul(dxy, dot(A1, dxy)));
+      if (c.h > 0.02) {
+        s += line(O, foot, '--amber', 3);
+        var toO = nz(sub(O, foot)), q = 0.16;
+        s += '<polyline points="' + pts([add(foot, mul(toO, q)), add(add(foot, mul(toO, q)), mul(dxy, q)), add(foot, mul(dxy, q))]) + '" fill="none" stroke="var(--ink)" stroke-width="1"/>';
+        s += label(mul(foot, 0.5), 'h', '--amber', 6, 16);
+      }
+      s += arrow(A1, B1, '--blue', 3);
+      s += tipLabel(A1, B1, 'F' + sb('xy'), '--blue', 18);
+    } else {
+      s += '<circle cx="' + P(A1).x.toFixed(1) + '" cy="' + P(A1).y.toFixed(1) + '" r="4" fill="var(--blue)"/>';
+      s += label(A1, 'тень — точка', '--blue', 8, 18);
+    }
+    // треугольник OAB
+    s += '<polygon points="' + pts([O, A, B]) + '" fill="var(--triA)" stroke="var(--red)" stroke-width="0.8" stroke-opacity=".5"/>';
+    s += line(O, A, '--ink', 1.4, '2 4');
+    // ось z (верх)
+    s += arrow([0, 0, 0], [0, 0, 3.4], '--ink', 1.8);
+    s += label([0, 0, 3.4], 'ось z', '--ink', 10, 6);
+    // момент M_O и его проекция M_z
+    var MOd = mul(c.MO, kM), Mzd = [0, 0, c.Mz * kM];
+    if (c.MOl > 1e-6) {
+      if (Math.abs(c.Mz) > 1e-6 && Math.abs(c.th) > 0.02) s += line(MOd, Mzd, '--violet', 1.3, '4 4');
+      // дуга θ
+      var ez = [0, 0, 1], u = nz(c.MO), th = c.th;
+      if (th > 0.05 && th < Math.PI - 0.05) {
+        var arc = [];
+        for (var i = 0; i <= 24; i++) { var t = i / 24; arc.push(mul(add(mul(ez, Math.sin((1 - t) * th)), mul(u, Math.sin(t * th))), 0.75 / Math.sin(th))); }
+        s += '<polyline points="' + pts(arc) + '" fill="none" stroke="var(--violet)" stroke-width="1.5"/>';
+        s += label(arc[12], 'θ', '--violet', 6, -4);
+      }
+      s += arrow(O, MOd, '--violet', 3.2);
+      s += tipLabel(O, MOd, 'M' + sb('O'), '--violet', 18);
+    }
+    if (Math.abs(c.Mz) > 1e-6) {
+      s += arrow(O, Mzd, '--green', 5);
+      var mzp = P(Mzd);
+      s += '<text x="' + (mzp.x + 12).toFixed(1) + '" y="' + (mzp.y + 14).toFixed(1) + '" fill="var(--green)" paint-order="stroke" stroke="var(--card)" stroke-width="4" stroke-linejoin="round">M' + sb('z') + '</text>';
+    }
+    // сила F
+    s += arrow(A, B, '--red', 3.4);
+    s += tipLabel(A, B, 'F', '--red', 16);
+    // точки
+    [[O, 'O', -22, 18], [A, 'A', 8, -10]].forEach(function (k) {
+      var p = P(k[0]);
+      s += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="4" fill="var(--ink)"/>';
+      s += label(k[0], k[1], '--ink', k[2], k[3]);
+    });
+    svg.innerHTML = s;
+    readout(c);
+  }
+
+  function readout(c) {
+    var $ = function (id) { return document.getElementById(id); };
+    $('o-rho').textContent = fmt(st.rho, 1) + ' м';
+    $('o-zA').textContent = fmt(st.zA, 1) + ' м';
+    $('o-eps').textContent = st.eps + '°';
+    $('o-phi').textContent = st.phi + '°';
+    var m1 = c.sg * c.Fxy * c.h;
+    $('r-fxy').textContent = fmt(c.Fxy) + ' Н';
+    $('r-h').textContent = fmt(c.h) + ' м';
+    $('r-sg').textContent = c.sg > 0 ? '+ против часовой' : c.sg < 0 ? '− по часовой' : '0';
+    $('r-m1').textContent = fmt(m1) + ' Н·м';
+    $('r-mo').textContent = fmt(c.MOl) + ' Н·м';
+    $('r-th').textContent = isNaN(c.th) ? '—' : fmt(c.th * 180 / Math.PI, 1) + '°';
+    $('r-cos').textContent = isNaN(c.th) ? '—' : fmt(Math.cos(c.th), 3);
+    $('r-m2').textContent = fmt(c.Mz) + ' Н·м';
+    $('match').innerHTML = 'Оба способа: <b>M<sub>z</sub> = ' + fmt(c.Mz) + ' Н·м</b> ✓';
+    var tip, eps0 = Math.abs(st.eps) < 0.5, flatA = Math.abs(st.zA) < 0.05;
+    if (Math.abs(Math.cos(c.e)) < 0.01) tip = '<b>Сила параллельна оси.</b> Её тень — точка, F<sub>xy</sub> = 0, поэтому M<sub>z</sub> = 0. Дверь не откроется, если тянуть ручку вверх вдоль петель. При этом M<sub>O</sub> не ноль, но лежит поперёк оси: θ = 90°.';
+    else if (Math.abs(c.Mz) < 0.005) tip = '<b>Линия силы проходит через ось</b> (сила и ось в одной плоскости). Плечо тени h = 0, поэтому M<sub>z</sub> = 0. Как если давить на дверь прямо в сторону петель. Вектор M<sub>O</sub> здесь перпендикулярен оси: θ = 90°.';
+    else if (eps0 && flatA) tip = '<b>Плоская задача.</b> Сила лежит в плоскости ⊥ оси, тень совпадает с силой, M<sub>O</sub> смотрит строго вдоль оси: θ = 0°, cos θ = 1. Оба способа превращаются в твоё обычное M = F·h.';
+    else if (eps0) tip = '<b>Сила перпендикулярна оси, но точка A поднята.</b> Тень равна всей силе, так что M<sub>z</sub> = F·h. А вот M<sub>O</sub> наклонён, потому что O ниже линии силы: |M<sub>O</sub>| больше, чем M<sub>z</sub>. Ось берёт только свою часть, cos θ.';
+    else tip = '<b>Общий случай:</b> сила наклонена к оси. Часть силы вдоль оси пропадает (способ 1), а вектор M<sub>O</sub> отклонён от оси на угол θ (способ 2). Поэтому M<sub>z</sub> меньше |M<sub>O</sub>|. Нажми «Сверху, вдоль оси», чтобы увидеть тень и плечо h как в плоской задаче.';
+    $('hint').innerHTML = tip;
+  }
+
+  // ползунки
+  ['rho', 'zA', 'eps', 'phi'].forEach(function (k) {
+    var el = document.getElementById(k);
+    el.value = st[k];
+    el.addEventListener('input', function () { st[k] = parseFloat(el.value); draw(); });
+  });
+  function setState(p) {
+    Object.keys(p).forEach(function (k) { st[k] = p[k]; document.getElementById(k).value = p[k]; });
+    draw();
+  }
+  document.querySelectorAll('[data-p]').forEach(function (b) {
+    b.addEventListener('click', function () { setState(PRE[b.getAttribute('data-p')]); });
+  });
+
+  // виды
+  var anim = null;
+  function goView(id) {
+    ['v3d', 'vtop', 'vside'].forEach(function (v) { document.getElementById(v).setAttribute('aria-pressed', v === id ? 'true' : 'false'); });
+    var to = VIEWS[id];
+    if (reduce) { cam.yaw = to.yaw; cam.pitch = to.pitch; draw(); return; }
+    var from = { yaw: cam.yaw, pitch: cam.pitch }, t0 = performance.now();
+    var dy = to.yaw - from.yaw; while (dy > Math.PI) dy -= 2 * Math.PI; while (dy < -Math.PI) dy += 2 * Math.PI;
+    if (anim) cancelAnimationFrame(anim);
+    (function step(now) {
+      var t = Math.min(1, (now - t0) / 450), k = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      cam.yaw = from.yaw + dy * k; cam.pitch = from.pitch + (to.pitch - from.pitch) * k; draw();
+      if (t < 1) anim = requestAnimationFrame(step);
+    })(t0);
+  }
+  ['v3d', 'vtop', 'vside'].forEach(function (v) { document.getElementById(v).addEventListener('click', function () { goView(v); }); });
+
+  // вращение перетаскиванием
+  var drag = null;
+  svg.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY }; svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var r = svg.getBoundingClientRect(), k = 600 / r.width;
+    cam.yaw += (e.clientX - drag.x) * 0.009 * k;
+    cam.pitch = Math.max(-0.15, Math.min(Math.PI / 2, cam.pitch + (e.clientY - drag.y) * 0.009 * k));
+    drag = { x: e.clientX, y: e.clientY };
+    ['v3d', 'vtop', 'vside'].forEach(function (v) { document.getElementById(v).setAttribute('aria-pressed', 'false'); });
+    draw();
+  });
+  function end() { drag = null; }
+  svg.addEventListener('pointerup', end); svg.addEventListener('pointercancel', end);
+
+  draw();
+})();
+</script>
+
+</body>
+</html>
