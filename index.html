@@ -398,6 +398,7 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
       <a href="#moments" data-tab="moments">Моменты</a>
       <a href="#tutorial" data-tab="tutorial">Как решать</a>
       <a href="#problems" data-tab="problems">Задачи</a>
+      <a href="#hard" data-tab="hard">Сложные</a>
       <a href="#theory" data-tab="theory">Теория</a>
       <a href="#exam" data-tab="exam">Пробник</a>
     </nav>
@@ -576,6 +577,29 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
       <li>Неизвестных столько же, сколько уравнений? Проверка сошлась?</li>
     </ol>
   </div>
+</section>
+
+<!-- ================= СЛОЖНЫЕ ================= -->
+<section class="tabpanel" id="tab-hard" hidden>
+  <h2>Сложные задачи</h2>
+  <p>Всё с двумя шарнирами, три тела и девять неизвестных. Длины дробные (1,3a, 2,6a), a бывает 1,2 или 1,5 м, углы 20–70°, опоры на разной высоте, нагрузка поперёк шарнира, Т-узлы и наклонные стержни. Если решаешь такие, задача на пересдаче покажется спокойной.</p>
+  <div class="key">
+    <b>Ловушки, которые здесь встречаются</b>
+    <ul style="margin:.4rem 0 0">
+      <li><b>q через шарнир.</b> Если шарнир делит балку, q режешь на две части: Q₁ и Q₂ — каждая в середине своего куска. Если балка сплошная и к ней снизу подходит стойка (Т-узел) — не режешь, вся q на балке.</li>
+      <li><b>Наклонный стержень.</b> Узлы на нём сдвинуты и по x, и по y: у вертикальной силы плечо — разность x, у горизонтальной — разность y.</li>
+      <li><b>Опоры на разной высоте.</b> Плечо горизонтальной реакции — разность высот точки опоры и точки моментов.</li>
+      <li><b>a ≠ 1.</b> Размеры на схеме в долях a: 2,3a при a = 1,5 м — это 3,45 м. Q = q·(длина в метрах).</li>
+      <li><b>Неудобный угол.</b> sin и cos бери калькулятором с 4 знаками, округляй только ответ.</li>
+    </ul>
+  </div>
+  <div class="gen" style="margin-top:14px">
+    <button class="btn red" type="button" data-hard="new">Новая сложная задача</button>
+  </div>
+  <h3>Набор из 12 задач</h3>
+  <p class="muted" style="margin-top:-4px">По 2–3 задачи каждого вида. Решённые отмечаются зелёным.</p>
+  <div class="plist" id="hard-list"></div>
+  <div id="hard-problem" class="problem"></div>
 </section>
 
 <!-- ================= ЗАДАЧИ ================= -->
@@ -1916,7 +1940,79 @@ var TPL = {
       loads: [pick(R, [{ t: 'q', body: 1, from: 'C', to: 'B', dir: 'down' }, { t: 'q', body: 2, from: 'D', to: 'E', dir: 'down' }]), incF(R, 1, 'K'), { t: 'M', body: 0, at: [l1 / 2, 0], s: pick(R, [1, -1]) }, { t: 'F', body: 2, node: 'N', p: 'F', dir: 'down' }] };
   } }
 };
-var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc'], h2: ['sh', 'sh', 'p2', 'gb2'] };
+
+/* ----- сложные: два шарнира, дробные длины, неудобные углы ----- */
+function supPick(R, arr) { return JSON.parse(JSON.stringify(pick(R, arr))); }
+TPL.hsh = { name: 'Ш с разными пролётами', kind: 'h2', hard: true, make: function (R) {
+  var h = pick(R, [2.3, 2.6, 2.8]), xC = pick(R, [1.2, 1.3, 1.7]), xL = xC + pick(R, [1.3, 1.6, 2.4]), xD = xL + pick(R, [1.2, 1.7, 2.3]), W = xD + pick(R, [1.3, 1.6, 2.6]);
+  var yE = pick(R, [0, 0.6, 0.8]), yB = pick(R, [0, 0.7, 1.1]);
+  var n = { A: [0, 0], K: [0, h], C: [xC, h], L: [xL, h], E: [xL, yE], D: [xD, h], N: [W, h], B: [W, yB] };
+  var sup = supPick(R, [
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'E', type: 'roller', body: 1, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
+    [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'E', type: 'roller', body: 1, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }],
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'E', type: 'pin', body: 1, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }]
+  ]);
+  var sideP = pick(R, [0, 2]);
+  var loads = [incF(R, sideP, sideP === 0 ? 'K' : 'N'),
+    sideP === 0 ? { t: 'q', body: 2, from: 'N', to: 'B', dir: hq(R) } : { t: 'q', body: 0, from: 'A', to: 'K', dir: hq(R) },
+    { t: 'M', body: 1, at: mid(n.L, n.E, 0.55), s: pick(R, [1, -1]) },
+    { t: 'F', body: 1, node: 'L', p: 'F', dir: pick(R, ['down', 'left', 'right']) }];
+  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'L'], ['L', 'D'], ['L', 'E']] }, { members: [['D', 'N'], ['N', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
+} };
+TPL.hp2 = { name: 'П: q через шарнир', kind: 'h2', hard: true, make: function (R) {
+  var h = pick(R, [2.3, 2.6, 3.2]), c1 = pick(R, [1.2, 1.3, 1.7]), c2 = c1 + pick(R, [1.6, 2.3, 2.6]), W = c2 + pick(R, [1.2, 1.3, 1.6]), yB = pick(R, [0.7, 1.1, 1.3]);
+  var n = { A: [0, 0], K: [0, h], C: [c1, h], D: [c2, h], L: [W, h], G: [W, (h + yB) / 2], B: [W, yB] };
+  var sup = supPick(R, [
+    [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }]
+  ]);
+  var loads = [{ t: 'q', body: 0, from: 'K', to: 'C', dir: 'down' }, { t: 'q', body: 1, from: 'C', to: 'D', dir: 'down', nolab: true },
+    incF(R, 2, 'L'), { t: 'M', body: 0, at: mid(n.A, n.K, 0.5), s: pick(R, [1, -1]) }, { t: 'F', body: 2, node: 'G', p: 'F', dir: pick(R, ['left', 'right']) }];
+  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'D']] }, { members: [['D', 'L'], ['L', 'G'], ['G', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
+} };
+TPL.hgb = { name: 'Балка: q через шарнир', kind: 'h2', hard: true, make: function (R) {
+  var xC = pick(R, [2.3, 2.6, 3.2]), xS = xC - pick(R, [1.2, 1.3, 1.6]), xT = xC + pick(R, [1.2, 1.3, 1.7]), xK = xT + pick(R, [0.8, 1.2]), xD = xK + pick(R, [0.8, 1.3]);
+  var xN = xD + pick(R, [0.7, 1.1]), xE = xN + pick(R, [1.2, 1.6]);
+  var n = { A: [0, 0], S: [xS, 0], C: [xC, 0], T: [xT, 0], K: [xK, 0], D: [xD, 0], N: [xN, 0], E: [xE, 0] };
+  var loads = [{ t: 'q', body: 0, from: 'S', to: 'C', dir: 'down' }, { t: 'q', body: 1, from: 'C', to: 'T', dir: 'down', nolab: true },
+    { t: 'M', body: 0, at: [xS / 2, 0], s: pick(R, [1, -1]) }, incF(R, 2, 'N')];
+  if (chance(R, 0.5)) loads.push({ t: 'F', body: 1, node: 'D', p: 'F', dir: 'down' });
+  return { nodes: n, bodies: [{ members: [['A', 'S'], ['S', 'C']] }, { members: [['C', 'T'], ['T', 'K'], ['K', 'D']] }, { members: [['D', 'N'], ['N', 'E']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }],
+    supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, { node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'E', type: 'roller', body: 2, side: 'down' }], loads: loads };
+} };
+TPL.hinc = { name: 'Наклонный стержень + два шарнира', kind: 'h2', hard: true, make: function (R) {
+  var c = pick(R, [1.2, 1.6, 2.3]), h = pick(R, [2.3, 2.6, 3.2]), d = c + pick(R, [2.3, 2.6, 3.2]), W = d + pick(R, [1.2, 1.7]), yB = pick(R, [0, 0.8]);
+  var n = { A: [0, 0], G: [c / 2, h / 2], C: [c, h], K: [(c + d) / 2, h], D: [d, h], N: [W, h], B: [W, yB] };
+  var sup = supPick(R, [
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }],
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }]
+  ]);
+  var loads = [{ t: 'F', body: 0, node: 'G', p: 'P', inc: { ref: 'h', sx: pick(R, [1, -1]), sy: -1 } }, { t: 'q', body: 1, from: 'C', to: 'D', dir: 'down' },
+    { t: 'M', body: 2, at: mid(n.N, n.B, 0.5), s: pick(R, [1, -1]) }];
+  if (chance(R, 0.5)) loads.push({ t: 'F', body: 2, node: 'N', p: 'F', dir: pick(R, ['left', 'right']) });
+  return { nodes: n, bodies: [{ members: [['A', 'G'], ['G', 'C']] }, { members: [['C', 'K'], ['K', 'D']] }, { members: [['D', 'N'], ['N', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
+} };
+TPL.hT = { name: 'Т-узел + второй шарнир', kind: 'h2', hard: true, make: function (R) {
+  var xA = pick(R, [1.2, 1.6, 1.7]), h = pick(R, [2.3, 2.6]), d = xA + pick(R, [1.3, 1.6, 2.4]), W = d + pick(R, [1.2, 1.6]), yB = pick(R, [0, 0.8]);
+  var n = { K: [0, h], C: [xA, h], A: [xA, 0], D: [d, h], N: [W, h], B: [W, yB] };
+  var sup = supPick(R, [
+    [{ node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }],
+    [{ node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }]
+  ]);
+  var loads = [{ t: 'q', body: 1, from: 'K', to: 'D', dir: 'down' }, { t: 'M', body: 0, at: mid(n.A, n.C, 0.5), s: pick(R, [1, -1]) }, incF(R, 2, 'N')];
+  if (chance(R, 0.5)) loads.push({ t: 'F', body: 2, node: 'B', p: 'F', dir: pick(R, ['left', 'right']) });
+  if (loads.length === 4 && sup[2].type === 'pin') loads.pop();
+  return { nodes: n, bodies: [{ members: [['A', 'C']] }, { members: [['K', 'C'], ['C', 'D']] }, { members: [['D', 'N'], ['N', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
+} };
+function randParamsHard(R) {
+  return { a: pick(R, [1, 1, 1.2, 1.5, 0.8]), P: pick(R, [3.5, 4.2, 5.6, 6.3, 7.5, 9.4, 12.5]), M: pick(R, [2.7, 3.6, 4.8, 6.4, 7.5]), q: pick(R, [1.2, 1.6, 2.4, 3.5]), alpha: pick(R, [20, 25, 35, 40, 50, 55, 65, 70]), F: pick(R, [1.8, 2.6, 3.4, 4.5, 5.2]) };
+}
+var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc'], h2: ['sh', 'sh', 'p2', 'gb2'], hard: ['hsh', 'hp2', 'hgb', 'hinc', 'hT'] };
 
 function randParams(R, spec) {
   var p = { a: pick(R, [1, 1, 1, 2]), P: pick(R, [4, 5, 6, 8, 10, 12, 15, 20]), M: pick(R, [2, 3, 4, 5, 6, 8, 10]), q: pick(R, [1, 1.5, 2, 3, 4]), alpha: pick(R, [30, 45, 60]), F: pick(R, [2, 3, 4, 5, 6, 8]) };
@@ -1932,12 +2028,12 @@ function generate(group, seed) {
     var key = pick(R, keys);
     var tpl = TPL[key];
     var spec = tpl.make(R);
-    spec.params = randParams(R, spec);
+    spec.params = group === 'hard' ? randParamsHard(R) : randParams(R, spec);
     var used = {}; ['P', 'M', 'q', 'alpha', 'F'].forEach(function (p) { if (usesParam(spec, p)) used[p] = spec.params[p]; });
     used.a = spec.params.a; spec.params = used;
     spec.id = 'gen-' + group + '-' + seed;
     spec.seed = seed; spec.group = group;
-    spec.title = tpl.name; spec.shape = tpl.name; spec.kind = tpl.kind; spec.src = 'Задача №' + seed;
+    spec.title = tpl.name; spec.shape = tpl.name; spec.kind = tpl.kind; spec.src = (group === 'hard' ? 'Сложная №' : 'Задача №') + seed; spec.tpl = key;
     var loaded = spec.bodies.map(function () { return false; });
     spec.loads.forEach(function (l) { loaded[l.body] = true; });
     if (loaded.some(function (x) { return !x; })) continue;
@@ -1945,7 +2041,8 @@ function generate(group, seed) {
     var sol = S.solve(m);
     if (sol.error) continue;
     var maxV = Math.max.apply(null, sol.vals.map(Math.abs));
-    if (!(maxV < 400) || sol.vals.some(function (v) { return !isFinite(v); })) continue;
+    if (!(maxV < (group === 'hard' ? 250 : 400)) || sol.vals.some(function (v) { return !isFinite(v); })) continue;
+    if (group === 'hard' && sol.steps.some(function (x) { return x.type === 'sys' && x.us.length > 2; })) continue;
     if (Math.abs(sol.resid) > 1e-6) continue;
     return { spec: spec, model: m, sol: sol };
   }
@@ -2941,7 +3038,7 @@ try { var raw = localStorage.getItem(KEY); if (raw) { var got = JSON.parse(raw);
 function save() { try { localStorage.setItem(KEY, JSON.stringify(ST)); } catch (e) {} }
 
 /* ---------- вкладки ---------- */
-var TABS = ['start', 'moments', 'tutorial', 'problems', 'theory', 'exam'];
+var TABS = ['start', 'moments', 'tutorial', 'problems', 'hard', 'theory', 'exam'];
 var inited = {};
 function showTab(t, noScroll) {
   if (TABS.indexOf(t) < 0) t = 'start';
@@ -3333,7 +3430,8 @@ function mountProblem(root, P, opts) {
   root.onclick = function (e) {
     var b = e.target.closest('[data-act]'); if (!b) return;
     if (b.getAttribute('data-act') === 'check') checkAnswers(root, P);
-    if (b.getAttribute('data-act') === 'same') { var g = P.spec.group || P.spec.kind; openGen(g === 'beam' || g === 'h1' || g === 'h2' ? g : 'h1'); }
+    if (b.getAttribute('data-act') === 'same') { var g = P.spec.group || P.spec.kind; if (g === 'hard') { openHard(); return; } openGen(g === 'beam' || g === 'h1' || g === 'h2' ? g : 'h1'); }
+    if (b.getAttribute('data-act') === 'check' && P.spec.group === 'hard') setTimeout(renderHardList, 0);
   };
   root.onkeydown = function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT') checkAnswers(root, P); };
 }
@@ -3361,6 +3459,44 @@ function initProblems() {
   $('#tab-problems').addEventListener('click', function (e) {
     var g = e.target.closest('[data-gen]'); if (g) { openGen(g.getAttribute('data-gen')); return; }
     var bk = e.target.closest('[data-book]'); if (bk) showProblem(S.fromBook(bk.getAttribute('data-book')));
+  });
+}
+
+/* ---------- вкладка «Сложные» ---------- */
+var HARD = null;
+function hardSet() {
+  if (HARD) return HARD;
+  HARD = []; var cnt = {};
+  for (var sd = 1; sd < 600 && HARD.length < 12; sd++) {
+    var r = S.generate('hard', sd); if (!r) continue;
+    var k = r.spec.tpl; if ((cnt[k] || 0) >= 3) continue;
+    if (HARD.some(function (h) { return h.spec.seed === r.spec.seed; })) continue;
+    cnt[k] = (cnt[k] || 0) + 1; HARD.push(r);
+  }
+  HARD.forEach(function (r, i) { r.spec.src = 'Сложная №' + (i + 1); });
+  return HARD;
+}
+function renderHardList() {
+  var el = $('#hard-list'); if (!el) return;
+  el.innerHTML = hardSet().map(function (r, i) {
+    return '<button type="button" class="pcard' + (ST.solved[r.spec.id] ? ' done' : '') + '" data-hi="' + i + '"><b>№' + (i + 1) + ' · ' + r.spec.shape + '</b><span>' + S.conditionText(r.spec, r.model).data + '</span></button>';
+  }).join('');
+}
+function showHard(P) {
+  var root = $('#hard-problem');
+  mountProblem(root, P, { interactive: true });
+  root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function openHard() {
+  var P = null, tries = 0;
+  while (!P && tries++ < 20) P = S.generate('hard', rseed());
+  showHard(P);
+}
+function initHard() {
+  renderHardList();
+  $('#tab-hard').addEventListener('click', function (e) {
+    var n = e.target.closest('[data-hard]'); if (n) { openHard(); return; }
+    var c = e.target.closest('[data-hi]'); if (c) showHard(hardSet()[+c.getAttribute('data-hi')]);
   });
 }
 
@@ -3640,7 +3776,7 @@ function initExam() {
   };
 }
 
-var INIT = { start: initStart, moments: initMoments, tutorial: initTutorial, problems: initProblems, theory: initTheory, exam: initExam };
+var INIT = { start: initStart, moments: initMoments, tutorial: initTutorial, problems: initProblems, hard: initHard, theory: initTheory, exam: initExam };
 var start = (location.hash || '').replace('#', '');
 showTab(TABS.indexOf(start) >= 0 ? start : 'start', true);
 })();
