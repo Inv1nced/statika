@@ -613,6 +613,7 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
     <button class="btn ghost" type="button" data-gen="beam">Балка — разминка</button>
     <button class="btn ghost" type="button" data-gen="any">Любая</button>
   </div>
+  <p class="hint">«Два шарнира» — 10 видов конструкций: перевёрнутая Ш (и с опорами на разной высоте), П-рама, балки, Т-узел, ступенчатая рама, наклонная стойка, консоль с наклонной балкой, q через шарнир. Числа удобные; с неудобными — вкладка «Сложные».</p>
   <h3>Из методички и со слайдов</h3>
   <div class="plist" id="book-list"></div>
   <p class="muted" id="solved-note"></p>
@@ -1941,28 +1942,36 @@ var TPL = {
   } }
 };
 
+function pl(R, nice, arr) { var v = pick(R, arr); return nice && v !== 0 ? Math.max(0.5, Math.round(v * 2) / 2) : v; }
 /* ----- сложные: два шарнира, дробные длины, неудобные углы ----- */
 function supPick(R, arr) { return JSON.parse(JSON.stringify(pick(R, arr))); }
-TPL.hsh = { name: 'Ш с разными пролётами', kind: 'h2', hard: true, make: function (R) {
-  var h = pick(R, [2.3, 2.6, 2.8]), xC = pick(R, [1.2, 1.3, 1.7]), xL = xC + pick(R, [1.3, 1.6, 2.4]), xD = xL + pick(R, [1.2, 1.7, 2.3]), W = xD + pick(R, [1.3, 1.6, 2.6]);
-  var yE = pick(R, [0, 0.6, 0.8]), yB = pick(R, [0, 0.7, 1.1]);
+TPL.hsh = { name: 'Ш с разными пролётами', kind: 'h2', hard: true, make: function (R, nice) {
+  var h = pl(R, nice, [2.3, 2.6, 2.8]), xC = pl(R, nice, [1.2, 1.3, 1.7]), xL = xC + pl(R, nice, [1.3, 1.6, 2.4]), xD = xL + pl(R, nice, [1.2, 1.7, 2.3]), W = xD + pl(R, nice, [1.3, 1.6, 2.6]);
+  var yE = pl(R, nice, [0, 0.6, 0.8]), yB = pl(R, nice, [0, 0.7, 1.1]);
   var n = { A: [0, 0], K: [0, h], C: [xC, h], L: [xL, h], E: [xL, yE], D: [xD, h], N: [W, h], B: [W, yB] };
   var sup = supPick(R, [
     [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'E', type: 'roller', body: 1, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
     [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'E', type: 'roller', body: 1, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }],
     [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'E', type: 'pin', body: 1, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }]
   ]);
-  var sideP = pick(R, [0, 2]);
+  var sideP = pl(R, nice, [0, 2]);
   var loads = [incF(R, sideP, sideP === 0 ? 'K' : 'N'),
     sideP === 0 ? { t: 'q', body: 2, from: 'N', to: 'B', dir: hq(R) } : { t: 'q', body: 0, from: 'A', to: 'K', dir: hq(R) },
     { t: 'M', body: 1, at: mid(n.L, n.E, 0.55), s: pick(R, [1, -1]) },
     { t: 'F', body: 1, node: 'L', p: 'F', dir: pick(R, ['down', 'left', 'right']) }];
-  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'L'], ['L', 'D'], ['L', 'E']] }, { members: [['D', 'N'], ['N', 'B']] }],
+  var mid1 = [['C', 'L'], ['L', 'D'], ['L', 'E']];
+  if (nice && loads[3].dir !== 'down' && h - yE < 2.5) loads[3].dir = 'down';
+  if (nice && loads[3].dir !== 'down') {
+    // горизонтальная F в узле L легла бы вдоль ригеля — переносим её на среднюю стойку
+    n.H = [xL, yE + 1]; loads[3].node = 'H'; loads[2].at = mid(n.L, n.H, 0.5);
+    mid1 = [['C', 'L'], ['L', 'D'], ['L', 'H'], ['H', 'E']];
+  }
+  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: mid1 }, { members: [['D', 'N'], ['N', 'B']] }],
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
 } };
-TPL.hp2 = { name: 'П: q через шарнир', kind: 'h2', hard: true, make: function (R) {
-  var h = pick(R, [2.3, 2.6, 3.2]), c1 = pick(R, [1.2, 1.3, 1.7]), c2 = c1 + pick(R, [1.6, 2.3, 2.6]), W = c2 + pick(R, [1.2, 1.3, 1.6]), yB = pick(R, [0.7, 1.1, 1.3]);
-  var n = { A: [0, 0], K: [0, h], C: [c1, h], D: [c2, h], L: [W, h], G: [W, (h + yB) / 2], B: [W, yB] };
+TPL.hp2 = { name: 'П: q через шарнир', kind: 'h2', hard: true, make: function (R, nice) {
+  var h = pl(R, nice, [2.3, 2.6, 3.2]), c1 = pl(R, nice, [1.2, 1.3, 1.7]), c2 = c1 + pl(R, nice, [1.6, 2.3, 2.6]), W = c2 + pl(R, nice, [1.2, 1.3, 1.6]), yB = pl(R, nice, [0.7, 1.1, 1.3]);
+  var n = { A: [0, 0], K: [0, h], C: [c1, h], D: [c2, h], L: [W, h], G: [W, nice ? yB + Math.max(0.5, Math.round(h - yB) / 2) : (h + yB) / 2], B: [W, yB] };
   var sup = supPick(R, [
     [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
     [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }]
@@ -1972,9 +1981,9 @@ TPL.hp2 = { name: 'П: q через шарнир', kind: 'h2', hard: true, make:
   return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'D']] }, { members: [['D', 'L'], ['L', 'G'], ['G', 'B']] }],
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
 } };
-TPL.hgb = { name: 'Балка: q через шарнир', kind: 'h2', hard: true, make: function (R) {
-  var xC = pick(R, [2.3, 2.6, 3.2]), xS = xC - pick(R, [1.2, 1.3, 1.6]), xT = xC + pick(R, [1.2, 1.3, 1.7]), xK = xT + pick(R, [0.8, 1.2]), xD = xK + pick(R, [0.8, 1.3]);
-  var xN = xD + pick(R, [0.7, 1.1]), xE = xN + pick(R, [1.2, 1.6]);
+TPL.hgb = { name: 'Балка: q через шарнир', kind: 'h2', hard: true, make: function (R, nice) {
+  var xC = pl(R, nice, [2.3, 2.6, 3.2]), xS = xC - pl(R, nice, [1.2, 1.3, 1.6]), xT = xC + pl(R, nice, [1.2, 1.3, 1.7]), xK = xT + pl(R, nice, [0.8, 1.2]), xD = xK + pl(R, nice, [0.8, 1.3]);
+  var xN = xD + pl(R, nice, nice ? [1.5, 2] : [0.7, 1.1]), xE = xN + pl(R, nice, [1.2, 1.6]);
   var n = { A: [0, 0], S: [xS, 0], C: [xC, 0], T: [xT, 0], K: [xK, 0], D: [xD, 0], N: [xN, 0], E: [xE, 0] };
   var loads = [{ t: 'q', body: 0, from: 'S', to: 'C', dir: 'down' }, { t: 'q', body: 1, from: 'C', to: 'T', dir: 'down', nolab: true },
     { t: 'M', body: 0, at: [xS / 2, 0], s: pick(R, [1, -1]) }, incF(R, 2, 'N')];
@@ -1983,8 +1992,8 @@ TPL.hgb = { name: 'Балка: q через шарнир', kind: 'h2', hard: tru
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }],
     supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, { node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'E', type: 'roller', body: 2, side: 'down' }], loads: loads };
 } };
-TPL.hinc = { name: 'Наклонный стержень + два шарнира', kind: 'h2', hard: true, make: function (R) {
-  var c = pick(R, [1.2, 1.6, 2.3]), h = pick(R, [2.3, 2.6, 3.2]), d = c + pick(R, [2.3, 2.6, 3.2]), W = d + pick(R, [1.2, 1.7]), yB = pick(R, [0, 0.8]);
+TPL.hinc = { name: 'Наклонный стержень + два шарнира', kind: 'h2', hard: true, make: function (R, nice) {
+  var c = pl(R, nice, [1.2, 1.6, 2.3]), h = pl(R, nice, [2.3, 2.6, 3.2]), d = c + pl(R, nice, [2.3, 2.6, 3.2]), W = d + pl(R, nice, [1.2, 1.7]), yB = pl(R, nice, [0, 0.8]);
   var n = { A: [0, 0], G: [c / 2, h / 2], C: [c, h], K: [(c + d) / 2, h], D: [d, h], N: [W, h], B: [W, yB] };
   var sup = supPick(R, [
     [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }],
@@ -1996,8 +2005,8 @@ TPL.hinc = { name: 'Наклонный стержень + два шарнира'
   return { nodes: n, bodies: [{ members: [['A', 'G'], ['G', 'C']] }, { members: [['C', 'K'], ['K', 'D']] }, { members: [['D', 'N'], ['N', 'B']] }],
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
 } };
-TPL.hT = { name: 'Т-узел + второй шарнир', kind: 'h2', hard: true, make: function (R) {
-  var xA = pick(R, [1.2, 1.6, 1.7]), h = pick(R, [2.3, 2.6]), d = xA + pick(R, [1.3, 1.6, 2.4]), W = d + pick(R, [1.2, 1.6]), yB = pick(R, [0, 0.8]);
+TPL.hT = { name: 'Т-узел + второй шарнир', kind: 'h2', hard: true, make: function (R, nice) {
+  var xA = pl(R, nice, [1.2, 1.6, 1.7]), h = pl(R, nice, [2.3, 2.6]), d = xA + pl(R, nice, [1.3, 1.6, 2.4]), W = d + pl(R, nice, [1.2, 1.6]), yB = pl(R, nice, [0, 0.8]);
   var n = { K: [0, h], C: [xA, h], A: [xA, 0], D: [d, h], N: [W, h], B: [W, yB] };
   var sup = supPick(R, [
     [{ node: 'K', type: 'roller', body: 1, side: 'down' }, { node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'roller', body: 2, side: 'down' }],
@@ -2009,10 +2018,41 @@ TPL.hT = { name: 'Т-узел + второй шарнир', kind: 'h2', hard: tr
   return { nodes: n, bodies: [{ members: [['A', 'C']] }, { members: [['K', 'C'], ['C', 'D']] }, { members: [['D', 'N'], ['N', 'B']] }],
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
 } };
+TPL.hstep = { name: 'Ступенчатая рама', kind: 'h2', make: function (R, nice) {
+  var h1 = pl(R, nice, [2.3, 2.8]), dh = pl(R, nice, [1.2, 1.3, 0.8]) * pick(R, [1, -1]), h2 = h1 + dh;
+  var c = pl(R, nice, [1.2, 1.3, 1.7]), l = c + pl(R, nice, [1.2, 1.6, 2.3]), d = l + pl(R, nice, [1.2, 1.3]), W = d + pl(R, nice, [1.2, 1.7]);
+  var n = { A: [0, 0], K: [0, h1], C: [c, h1], L: [l, h1], M: [l, h2], D: [d, h2], N: [W, h2], B: [W, 0] };
+  var sup = supPick(R, [
+    [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
+    [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }]
+  ]);
+  var loads = [{ t: 'q', body: 1, from: 'C', to: 'L', dir: 'down' }, incF(R, 2, 'N'), { t: 'M', body: 0, at: mid(n.A, n.K, 0.5), s: pick(R, [1, -1]) },
+    { t: 'F', body: 1, node: 'M', p: 'F', dir: pick(R, ['left', 'right']) }];
+  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'L'], ['L', 'M'], ['M', 'D']] }, { members: [['D', 'N'], ['N', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
+} };
+TPL.hcant = { name: 'Консоль + наклонная балка + стойка', kind: 'h2', make: function (R, nice) {
+  var h1 = pl(R, nice, [2.3, 2.8, 3.2]), dh = pl(R, nice, [0.8, 1.2]) * pick(R, [1, -1]), h2 = h1 + dh;
+  var c = pl(R, nice, [1.3, 1.7, 2.3]), d = c + pl(R, nice, [2.3, 2.6, 3.2]);
+  var n = { A: [0, h1], C: [c, h1], K: [(c + d) / 2, (h1 + h2) / 2], D: [d, h2], G: [d, h2 / 2], B: [d, 0] };
+  var loads = [{ t: 'q', body: 0, from: 'A', to: 'C', dir: 'down' }, incF(R, 1, 'K'), { t: 'M', body: 2, at: mid(n.D, n.G, 0.5), s: pick(R, [1, -1]) }];
+  if (chance(R, 0.6)) loads.push({ t: 'F', body: 2, node: 'G', p: 'F', dir: pick(R, ['left', 'right']) });
+  return { nodes: n, bodies: [{ members: [['A', 'C']] }, { members: [['C', 'K'], ['K', 'D']] }, { members: [['D', 'G'], ['G', 'B']] }],
+    joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }],
+    supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, { node: 'B', type: 'pin', body: 2, side: 'down' }], loads: loads };
+} };
+function niceOf(key, name) { return { name: name, kind: 'h2', nice: true, make: TPL[key].make }; }
+TPL.nsh = niceOf('hsh', 'Ш с опорами на разной высоте');
+TPL.np2 = niceOf('hp2', 'П: q через шарнир');
+TPL.ngb = niceOf('hgb', 'Балка: q через шарнир');
+TPL.ninc = niceOf('hinc', 'Наклонная стойка');
+TPL.nT = niceOf('hT', 'Т-узел + шарнир');
+TPL.nstep = niceOf('hstep', 'Ступенчатая рама');
+TPL.ncant = niceOf('hcant', 'Консоль + наклонная балка');
 function randParamsHard(R) {
   return { a: pick(R, [1, 1, 1.2, 1.5, 0.8]), P: pick(R, [3.5, 4.2, 5.6, 6.3, 7.5, 9.4, 12.5]), M: pick(R, [2.7, 3.6, 4.8, 6.4, 7.5]), q: pick(R, [1.2, 1.6, 2.4, 3.5]), alpha: pick(R, [20, 25, 35, 40, 50, 55, 65, 70]), F: pick(R, [1.8, 2.6, 3.4, 4.5, 5.2]) };
 }
-var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc'], h2: ['sh', 'sh', 'p2', 'gb2'], hard: ['hsh', 'hp2', 'hgb', 'hinc', 'hT'] };
+var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc'], h2: ['sh', 'p2', 'gb2', 'nsh', 'np2', 'ngb', 'ninc', 'ninc', 'nT', 'nstep', 'ncant'], hard: ['hsh', 'hp2', 'hgb', 'hinc', 'hT'] };
 
 function randParams(R, spec) {
   var p = { a: pick(R, [1, 1, 1, 2]), P: pick(R, [4, 5, 6, 8, 10, 12, 15, 20]), M: pick(R, [2, 3, 4, 5, 6, 8, 10]), q: pick(R, [1, 1.5, 2, 3, 4]), alpha: pick(R, [30, 45, 60]), F: pick(R, [2, 3, 4, 5, 6, 8]) };
@@ -2021,13 +2061,34 @@ function randParams(R, spec) {
 function usesParam(spec, p) {
   return spec.loads.some(function (l) { return (l.p || (l.t === 'q' ? 'q' : l.t === 'M' ? 'M' : null)) === p || (p === 'alpha' && l.inc); });
 }
+// сила в середине прямого стержня вдоль него: стрелку не нарисовать, не спрятав её в стержне
+function hiddenForce(spec) {
+  var al = (spec.params && spec.params.alpha || 45) * Math.PI / 180;
+  return spec.loads.some(function (l) {
+    if (l.t !== 'F' || !l.node) return false;
+    var d;
+    if (l.dir) d = { up: [0, 1], down: [0, -1], left: [-1, 0], right: [1, 0] }[l.dir];
+    else { var h = l.inc.ref === 'h'; d = [l.inc.sx * (h ? Math.cos(al) : Math.sin(al)), l.inc.sy * (h ? Math.sin(al) : Math.cos(al))]; }
+    var p = spec.nodes[l.node], plus = false, minus = false;
+    spec.bodies.forEach(function (b) {
+      b.members.forEach(function (mb) {
+        var o = mb[0] === l.node ? mb[1] : mb[1] === l.node ? mb[0] : null;
+        if (!o) return;
+        var q = spec.nodes[o], v = [q[0] - p[0], q[1] - p[1]], len = Math.hypot(v[0], v[1]) || 1;
+        var c = (v[0] * d[0] + v[1] * d[1]) / len;
+        if (c > 0.93) plus = true; if (c < -0.93) minus = true;
+      });
+    });
+    return plus && minus;
+  });
+}
 function generate(group, seed) {
   var keys = group === 'any' ? GROUPS.beam.concat(GROUPS.h1, GROUPS.h2) : GROUPS[group] || GROUPS.h1;
   for (var tries = 0; tries < 80; tries++) {
     var R = rng(seed * 7919 + tries * 104729 + 17);
     var key = pick(R, keys);
     var tpl = TPL[key];
-    var spec = tpl.make(R);
+    var spec = tpl.make(R, !!tpl.nice);
     spec.params = group === 'hard' ? randParamsHard(R) : randParams(R, spec);
     var used = {}; ['P', 'M', 'q', 'alpha', 'F'].forEach(function (p) { if (usesParam(spec, p)) used[p] = spec.params[p]; });
     used.a = spec.params.a; spec.params = used;
@@ -2037,12 +2098,13 @@ function generate(group, seed) {
     var loaded = spec.bodies.map(function () { return false; });
     spec.loads.forEach(function (l) { loaded[l.body] = true; });
     if (loaded.some(function (x) { return !x; })) continue;
+    if (group !== 'hard' && hiddenForce(spec)) continue;
     var m = S.build(spec);
     var sol = S.solve(m);
     if (sol.error) continue;
     var maxV = Math.max.apply(null, sol.vals.map(Math.abs));
     if (!(maxV < (group === 'hard' ? 250 : 400)) || sol.vals.some(function (v) { return !isFinite(v); })) continue;
-    if (group === 'hard' && sol.steps.some(function (x) { return x.type === 'sys' && x.us.length > 2; })) continue;
+    if ((group === 'hard' || tpl.kind === 'h2') && sol.steps.some(function (x) { return x.type === 'sys' && x.us.length > 2; })) continue;
     if (Math.abs(sol.resid) > 1e-6) continue;
     return { spec: spec, model: m, sol: sol };
   }
