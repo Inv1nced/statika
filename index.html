@@ -637,6 +637,7 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
     <ol class="road" id="road"></ol>
     <h3>Инструменты</h3>
     <div class="tools">
+      <button type="button" class="tool" data-tool="tix"><b>Билеты письменно</b><span>как на пробнике: пары вопросов из блоков 1–5, пиши ответ, потом сверяйся</span></button>
       <button type="button" class="tool" data-tool="cheat"><b>Шпаргалка</b><span>суть и формулы всех тем на одном экране</span></button>
       <button type="button" class="tool" data-tool="tickets"><b>Билеты за минуту</b><span>28 вопросов с готовой схемой ответа и рисунками</span></button>
       <button type="button" class="tool" data-tool="final"><b>Итоговый тест</b><span>20 случайных вопросов из всех блоков</span></button>
@@ -3094,7 +3095,7 @@ function pickR(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 /* ---------- состояние ---------- */
 var KEY = 'statika-trainer-v1';
-function defState() { return { drill: { n: 0, ok: 0, streak: 0, best: 0 }, eqd: { n: 0, ok: 0 }, solved: {}, cards: {}, tests: {}, read: {}, plan: {}, topics: {}, leit: {} }; }
+function defState() { return { drill: { n: 0, ok: 0, streak: 0, best: 0 }, eqd: { n: 0, ok: 0 }, solved: {}, cards: {}, tests: {}, read: {}, plan: {}, topics: {}, leit: {}, tix: null }; }
 var ST = defState();
 try { var raw = localStorage.getItem(KEY); if (raw) { var got = JSON.parse(raw); Object.keys(ST).forEach(function (k) { if (got[k] != null) ST[k] = got[k]; }); } } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(ST)); } catch (e) {} }
@@ -3781,6 +3782,55 @@ function openTickets() {
     return '<details class="step ticket" style="--acc:var(--' + b.id + ')"><summary><span><span class="c-num">' + (n + 1) + '</span> ' + q[0] + '</span></summary><div class="stepbody">' + q[2].map(function (si) { return conceptHtml(b, b.topics[si]); }).join('') + '</div></details>';
   }).join('');
 }
+/* ---------- билеты письменно: все темы кроме блока 6, парами как на экзамене ---------- */
+function tixPool() { return S.EXAMQ.map(function (q, i) { return { q: q, i: i }; }).filter(function (x) { return x.q[1] !== 'b6'; }); }
+function tixPairs() {
+  var pool = tixPool();
+  if (!ST.tix || !ST.tix.order || ST.tix.order.length !== pool.length) { ST.tix = { order: shuffle(pool.map(function (_, i) { return i; })), pos: 0 }; save(); }
+  var pairs = [];
+  for (var i = 0; i < ST.tix.order.length; i += 2) pairs.push([pool[ST.tix.order[i]], ST.tix.order[i + 1] != null ? pool[ST.tix.order[i + 1]] : null]);
+  return pairs;
+}
+function openTix() {
+  var pairs = tixPairs();
+  var root = showSub('<h2>Билеты письменно</h2><p class="hint">Как на настоящей: два вопроса из блоков 1–5 (блока 6 — трение — здесь нет, лекции ещё не было). Сначала пиши полный ответ на бумаге, потом жми «Показать эталон» и сверяйся — только после этого «Следующий билет».</p><div id="tix-prog" class="muted" style="margin-bottom:10px"></div><div id="tix-card"></div>');
+  var card = $('#tix-card', root), prog = $('#tix-prog', root);
+  function draw() {
+    var pos = ST.tix.pos;
+    if (pos >= pairs.length) {
+      prog.textContent = 'Готово: ' + pairs.length + ' из ' + pairs.length;
+      card.innerHTML = '<div class="card key"><p style="margin-top:0"><b>Прошёл все билеты по блокам 1–5.</b></p><p class="hint" style="margin:0 0 10px">Появится блок 6 — добавлю его сюда же.</p><button class="btn red" type="button" data-a="shuffle">Начать заново (перемешать)</button></div>';
+      return;
+    }
+    prog.textContent = 'Билет ' + (pos + 1) + ' из ' + pairs.length;
+    var pair = pairs[pos];
+    var body = pair.filter(Boolean).map(function (x, i) {
+      return '<div class="card" style="margin-bottom:10px"><h4 style="margin-top:0">Вопрос ' + (i + 1) + '</h4><p style="margin:0">' + x.q[0] + '</p><div class="model" hidden data-mi="' + i + '"></div></div>';
+    }).join('');
+    card.innerHTML = '<div class="sheet">' + body +
+      '<div class="row" style="gap:8px;flex-wrap:wrap">' +
+      '<button class="btn ghost" type="button" data-a="prev"' + (pos === 0 ? ' disabled' : '') + '>← Предыдущий</button>' +
+      '<button class="btn primary" type="button" data-a="show">Показать эталон</button>' +
+      '<button class="btn red" type="button" data-a="next">Следующий билет →</button>' +
+      '</div></div>';
+  }
+  card.onclick = function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var a = b.getAttribute('data-a'), pos = ST.tix.pos;
+    if (a === 'show') {
+      pairs[pos].forEach(function (x, i) {
+        if (!x) return;
+        var bl = blockOf(x.q[1]), box = $('[data-mi="' + i + '"]', card);
+        box.hidden = false;
+        box.innerHTML = '<p><b>Эталон — блок ' + bl.n + '</b></p>' + x.q[2].map(function (si) { return conceptHtml(bl, bl.topics[si], { open: true }); }).join('');
+      });
+    }
+    if (a === 'next') { ST.tix.pos = pos + 1; save(); draw(); window.scrollTo(0, 0); }
+    if (a === 'prev') { ST.tix.pos = Math.max(pos - 1, 0); save(); draw(); window.scrollTo(0, 0); }
+    if (a === 'shuffle') { ST.tix = null; save(); pairs = tixPairs(); draw(); window.scrollTo(0, 0); }
+  };
+  draw();
+}
 function initTheory() {
   renderTheoryHome();
   var home = $('#theory-home');
@@ -3789,6 +3839,7 @@ function initTheory() {
     var c = e.target.closest('[data-block]'); if (c) { openBlock(c.getAttribute('data-block')); return; }
     var tool = e.target.closest('[data-tool]'); if (!tool) return;
     var t = tool.getAttribute('data-tool');
+    if (t === 'tix') openTix();
     if (t === 'cheat') openCheat();
     if (t === 'tickets') openTickets();
     if (t === 'final') {
