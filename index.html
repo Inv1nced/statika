@@ -373,6 +373,34 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
 .ticket summary span{display:flex;gap:8px;align-items:baseline}
 .ticket .concept{margin-top:12px}
 
+/* прогон теории */
+.run-sum{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 8px}
+.run-bar{display:flex;height:10px;border-radius:5px;background:var(--grid);overflow:hidden;margin-bottom:12px}
+.run-bar i{display:block;height:100%}
+.run-bar .m-ok{background:var(--green)} .run-bar .m-mid{background:var(--amber)} .run-bar .m-no{background:var(--red)}
+.run-map{margin-bottom:14px}
+.run-map summary{cursor:pointer;font-weight:600;padding:6px 0}
+.run-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.run-row .rn{flex:none}
+.run-chips{display:flex;flex-wrap:wrap;gap:6px}
+.rchip{font:inherit;font-size:.8rem;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;text-align:left}
+.rchip:hover{border-color:var(--acc)}
+.rchip.m-ok{background:var(--green-soft);border-color:var(--green)} .rchip.m-mid{background:var(--amber-soft);border-color:var(--amber)} .rchip.m-no{background:var(--red-soft);border-color:var(--red)}
+.rchip.dim{opacity:.55}
+.run-filt{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.run-filt .tchip{opacity:.5} .run-filt .tchip.on{opacity:1;border-color:var(--acc);font-weight:600}
+.run-skip{display:flex;gap:8px;align-items:center;font-size:.92rem}
+.run-top{display:flex;justify-content:space-between;align-items:center}
+.run-q{background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:8px 12px;margin-bottom:10px}
+.run-q ul{margin:.3rem 0 0}
+.run-a{margin:.6rem 0} .run-a li{margin-bottom:.45rem}
+.run-act{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.btn.amber{background:var(--amber)}
+#run-grade{position:sticky;bottom:0;background:var(--card);padding:10px 0 12px;margin-bottom:-12px;z-index:3;border-top:1px solid var(--line)}
+.run-def{font-size:1.08rem;line-height:1.55;background:var(--paper);border-left:4px solid var(--acc,var(--blue));border-radius:6px;padding:12px 14px}
+.run-li{padding:10px 12px;margin-bottom:8px;border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:8px;background:var(--card)}
+.run-mode{margin-bottom:8px}
+
 </style>
 </head>
 <body>
@@ -400,6 +428,7 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
       <a href="#problems" data-tab="problems">Задачи</a>
       <a href="#hard" data-tab="hard">Сложные</a>
       <a href="#theory" data-tab="theory">Теория</a>
+      <a href="#run" data-tab="run">Прогон</a>
       <a href="#exam" data-tab="exam">Пробник</a>
     </nav>
   </div>
@@ -445,10 +474,12 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
   <div class="sub-nav" role="group" aria-label="Режим тренажёра">
     <button type="button" data-mode="one" aria-pressed="true">Одна сила</button>
     <button type="button" data-mode="eq" aria-pressed="false">Уравнение целиком</button>
+    <button type="button" data-mode="ang" aria-pressed="false">Углы: sin или cos</button>
     <button type="button" data-mode="rule" aria-pressed="false">Шпаргалка</button>
   </div>
   <div id="drill-one"></div>
   <div id="drill-eq" hidden></div>
+  <div id="drill-ang" hidden></div>
   <div id="drill-rule" hidden>
     <div class="signs4" id="rule-fig"></div>
     <p class="key" style="margin-top:14px">Вертикальная сила — спрашиваешь «справа или слева от точки?». Горизонтальная — «выше или ниже точки?». Вниз-справа и вправо-выше — по часовой, минус. Поменял направление стрелки или сторону — знак меняется.</p>
@@ -500,21 +531,79 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
     <ul><li>α отсчитан <b>от вертикали</b> (как в Примерах 2.2 и 2.4): вертикальная = P·cos α, горизонтальная = P·sin α.</li>
     <li>α отсчитан <b>от горизонтали</b> (Примеры 2.1 и 2.3): горизонтальная = P·cos α, вертикальная = P·sin α.</li></ul>
     <p>Направление каждой составляющей — по стрелке: если P смотрит вправо-вниз, горизонтальная составляющая вправо, вертикальная вниз. Дальше каждая идёт в таблицу знаков отдельно.</p>
+    <h4>Наклонный каток</h4>
+    <p>Реакция катка всегда ⊥ опорной плоскости. Если плоскость наклонена к <b>горизонтали</b> на β, то реакция отклонена от <b>вертикали</b> на тот же β (повернули обе линии на 90° — угол между ними не изменился). Дальше то же правило: прилежащая к β составляющая — через cos.</p>
+<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:780px;display:block;margin:10px 0" role="img" aria-label="Наклонный каток: угол β и составляющие реакции" viewBox="0 0 780 380" font-family="DejaVu Sans, sans-serif">
+<rect width="780" height="380" fill="#fff"/>
+<defs><marker id="tk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#1d4ed8"/></marker>
+<marker id="tk-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#60a5fa"/></marker></defs>
+<line x1="77.3" y1="290.0" x2="68.3" y2="302.0" stroke="#1f2937" stroke-width="1.2"/><line x1="92.9" y1="281.0" x2="83.9" y2="293.0" stroke="#1f2937" stroke-width="1.2"/><line x1="108.5" y1="272.0" x2="99.5" y2="284.0" stroke="#1f2937" stroke-width="1.2"/><line x1="124.1" y1="263.0" x2="115.1" y2="275.0" stroke="#1f2937" stroke-width="1.2"/><line x1="139.7" y1="254.0" x2="130.7" y2="266.0" stroke="#1f2937" stroke-width="1.2"/><line x1="155.3" y1="245.0" x2="146.3" y2="257.0" stroke="#1f2937" stroke-width="1.2"/><line x1="170.9" y1="236.0" x2="161.9" y2="248.0" stroke="#1f2937" stroke-width="1.2"/><line x1="186.4" y1="227.0" x2="177.4" y2="239.0" stroke="#1f2937" stroke-width="1.2"/><line x1="202.0" y1="218.0" x2="193.0" y2="230.0" stroke="#1f2937" stroke-width="1.2"/><line x1="217.6" y1="209.0" x2="208.6" y2="221.0" stroke="#1f2937" stroke-width="1.2"/><line x1="233.2" y1="200.0" x2="224.2" y2="212.0" stroke="#1f2937" stroke-width="1.2"/><line x1="248.8" y1="191.0" x2="239.8" y2="203.0" stroke="#1f2937" stroke-width="1.2"/><line x1="264.4" y1="182.0" x2="255.4" y2="194.0" stroke="#1f2937" stroke-width="1.2"/><line x1="280.0" y1="173.0" x2="271.0" y2="185.0" stroke="#1f2937" stroke-width="1.2"/><line x1="295.6" y1="164.0" x2="286.6" y2="176.0" stroke="#1f2937" stroke-width="1.2"/><line x1="311.1" y1="155.0" x2="302.1" y2="167.0" stroke="#1f2937" stroke-width="1.2"/><line x1="326.7" y1="146.0" x2="317.7" y2="158.0" stroke="#1f2937" stroke-width="1.2"/><line x1="342.3" y1="137.0" x2="333.3" y2="149.0" stroke="#1f2937" stroke-width="1.2"/>
+<line x1="60" y1="300" x2="345.8" y2="135.0" stroke="#111827" stroke-width="3"/>
+<line x1="60" y1="300" x2="250" y2="300" stroke="#6b7280" stroke-width="1.6" stroke-dasharray="6 5"/>
+<path d="M122.0,300.0 A62,62 0 0 0 113.7,269.0" fill="none" stroke="#6b7280" stroke-width="1.6"/>
+<text x="134" y="288" font-size="20" fill="#374151">β</text>
+<text x="60" y="330" font-size="14" fill="#374151">опорная плоскость катка, наклон β к горизонтали</text>
+<line x1="241.9" y1="195.0" x2="241.9" y2="20.0" stroke="#6b7280" stroke-width="1.6" stroke-dasharray="6 5"/>
+<path d="M241.9,143.0 A52,52 0 0 0 215.9,150.0" fill="none" stroke="#6b7280" stroke-width="1.6"/>
+<text x="222" y="129" font-size="20" fill="#374151" text-anchor="middle">β</text>
+<line x1="166.9" y1="65.1" x2="241.9" y2="65.1" stroke="#93c5fd" stroke-width="1.3" stroke-dasharray="4 4"/>
+<line x1="166.9" y1="65.1" x2="166.9" y2="195.0" stroke="#93c5fd" stroke-width="1.3" stroke-dasharray="4 4"/>
+<line x1="241.9" y1="195.0" x2="241.9" y2="68.1" stroke="#60a5fa" stroke-width="3" marker-end="url(#tk-b)"/>
+<line x1="241.9" y1="195.0" x2="169.9" y2="195.0" stroke="#60a5fa" stroke-width="3" marker-end="url(#tk-b)"/>
+<line x1="241.9" y1="195.0" x2="166.9" y2="65.1" stroke="#1d4ed8" stroke-width="3.5" marker-end="url(#tk-a)"/>
+<circle cx="241.9" cy="195.0" r="5" fill="#fff" stroke="#111827" stroke-width="2"/>
+<text x="252" y="217" font-size="18" font-weight="bold" fill="#111827">B</text>
+<text x="137" y="55" font-size="19" font-weight="bold" fill="#1d4ed8">R</text>
+<text x="254" y="99" font-size="17" fill="#1d4ed8">R·cos β</text>
+<text x="254" y="119" font-size="13" fill="#6b7280">(прилежит к β)</text>
+<text x="157" y="201" font-size="17" fill="#1d4ed8" text-anchor="end">R·sin β</text>
+<text x="157" y="221" font-size="13" fill="#6b7280" text-anchor="end">(напротив β)</text>
+<text x="450" y="60" font-size="16" fill="#111827" font-weight="bold">1. R ⊥ плоскости</text>
+<text x="450" y="84" font-size="14" fill="#374151">от опоры к телу</text>
+<text x="450" y="124" font-size="16" fill="#111827" font-weight="bold">2. Плоскость к горизонтали β</text>
+<text x="450" y="148" font-size="14" fill="#374151">⇒ R к вертикали тоже β</text>
+<text x="450" y="188" font-size="16" fill="#111827" font-weight="bold">3. Прилежащая к β — cos</text>
+<text x="450" y="212" font-size="14" fill="#374151">вертикальная = R·cos β</text>
+<text x="450" y="234" font-size="14" fill="#374151">горизонтальная = R·sin β</text>
+<text x="450" y="274" font-size="16" fill="#111827" font-weight="bold">4. Проверка: β = 0</text>
+<text x="450" y="298" font-size="14" fill="#374151">плоскость горизонтальна,</text>
+<text x="450" y="318" font-size="14" fill="#374151">R смотрит вертикально вверх:</text>
+<text x="450" y="340" font-size="14" fill="#374151">R·cos 0 = R ✓   R·sin 0 = 0 ✓</text>
+</svg>
+    <p class="hint">Потренироваться: вкладка «Моменты» → «Углы: sin или cos» — наклонные силы и наклонные катки, углы от горизонтали и от вертикали.</p>
+    <p class="key">Проверка в уме: подставь β = 0. Должно получиться то, что очевидно (плоская опора — реакция вертикальна). Если под cos оказалась не та составляющая, проверка сразу это покажет. Неизвестная при этом одна — R.</p>
   </div>
 
   <div class="sec" id="t-alg">
     <h3>5. Алгоритм для составной конструкции</h3>
+    <p class="key">Главная мысль: <b>решаешь</b> — бери точку, где неизвестные <b>выпадают</b>; <b>проверяешь</b> — бери точку, где <b>ничего не выпадает</b>.</p>
+    <h4>А. Схема (до всяких уравнений)</h4>
     <ol>
-      <li><b>Разрез.</b> Разрезаешь конструкцию по всем промежуточным шарнирам. Один шарнир — два тела, два шарнира — три тела.</li>
-      <li><b>Силы на каждом теле.</b> Опоры отбрасываешь и заменяешь реакциями: неподвижный шарнир — X и Y, каток — одна реакция ⊥ опоре, заделка — X, Y и момент.</li>
-      <li><b>Шарнир C.</b> На одном теле рисуешь X<sub>C</sub> вправо и Y<sub>C</sub> вверх, на другом — те же силы влево и вниз.</li>
-      <li><b>Нагрузки.</b> q → Q = q·l в середине участка. Наклонную силу раскладываешь.</li>
-      <li><b>Уравнения.</b> На каждое тело три: ΣF<sub>x</sub> = 0, ΣF<sub>y</sub> = 0, ΣM = 0. Итого 3 × (число тел).</li>
-      <li><b>Точка моментов.</b> Бери ту, где сходятся неизвестные: опору или шарнир. Момент относительно шарнира C сразу убирает две неизвестные — X<sub>C</sub> и Y<sub>C</sub>.</li>
-      <li><b>Порядок.</b> Начинаешь с уравнения, где осталась одна неизвестная, подставляешь найденное дальше. Если в двух уравнениях остались две неизвестные — решаешь их вместе подстановкой.</li>
-      <li><b>Проверка.</b> Сумма моментов для всей конструкции относительно новой точки должна дать ноль. Силы в шарнирах здесь не участвуют — они внутренние.</li>
-      <li><b>Ответ.</b> Минус означает, что реакция направлена противоположно нарисованной. Это не ошибка.</li>
+      <li><b>Выписать «Дано».</b> Сразу посчитать Q = q·l и составляющие наклонной силы (cos — у прилежащей к α).</li>
+      <li><b>Найти шарниры</b> (кружки) и разрезать по ним. Смотри, какие стержни кончаются в кружке: балка сквозь шарнир со стойкой снизу — это балка целиком + стойка (ловушка ниже). Тел = шарниров + 1.</li>
+      <li><b>Нарисовать каждое тело отдельно</b> и перенести на него его нагрузки: q (как Q в середине своего участка), P, F, M. Если q проходит через шарнир, который делит балку, — сначала резать q по шарниру.</li>
+      <li><b>Опоры → реакции.</b> Неподвижный шарнир — X и Y, каток — одна ⊥ опоре, заделка — X, Y и M.</li>
+      <li><b>Шарнир → пара сил.</b> На одном теле X<sub>C</sub> вправо, Y<sub>C</sub> вверх; на соседнем — те же, но влево и вниз.</li>
+      <li><b>Посчитать:</b> неизвестных = 3 × (число тел)? Если нет — ошибка в схеме, дальше не иди.</li>
+      <li><b>10 секунд глазами по каждому телу:</b> все нагрузки на месте? шарнирные силы развёрнуты? число реакций у опор верное?</li>
     </ol>
+    <h4>Б. Решение — тело за телом</h4>
+    <ol start="8" style="padding-left:2.2em">
+      <li><b>Начинать с тела, где меньше всего неизвестных</b> (обычно крайнее, где кроме опоры только один шарнир).</li>
+      <li><b>Момент — относительно шарнира или опоры</b>, где сходятся неизвестные: момент относительно C сразу убирает X<sub>C</sub> и Y<sub>C</sub>. Знак — по правилу из п. 1, плечо — одна координата (п. 3).</li>
+      <li><b>Дальше ΣF<sub>x</sub> = 0 и ΣF<sub>y</sub> = 0</b> для того же тела. Найденное — сразу на соседнее тело (с обратным знаком для шарнирной силы!).</li>
+      <li><b>Если в двух уравнениях остались две неизвестные</b> — решить их вместе подстановкой.</li>
+    </ol>
+    <h4>В. Проверки</h4>
+    <ol start="12" style="padding-left:2.2em">
+      <li><b>Черновик: после каждого тела.</b> Как только на теле найдено всё — сумма моментов этого тела относительно точки, где <b>ни одна</b> найденная сила не выпадает. Надёжнее всего точка «в воздухе» — не на конструкции, например на 1 м левее и на 1 м ниже какого-нибудь узла: тогда у каждой силы оба плеча ненулевые. Сошлось — к следующему телу. Не сошлось — ошибка в этом теле, ищи тут, а не в конце.</li>
+      <li><b>Чистовик: одна общая проверка моментом</b> — для всей конструкции (только внешние силы и реакции опор, шарнирные — внутренние, их нет). Точку брать так, чтобы ни одна реакция не выпала: <b>не</b> в опоре, <b>не</b> на одной высоте с горизонтальной реакцией и <b>не</b> на одной вертикали с вертикальной. Подходит точка приложения нагрузки или точка «в воздухе».</li>
+    </ol>
+    <h4>Г. Ответ</h4>
+    <ol start="14" style="padding-left:2.2em">
+      <li><b>Все реакции списком с единицами</b> (кН, кН·м). Минус — реакция направлена противоположно нарисованной, это не ошибка: так и пиши в ответе.</li>
+    </ol>
+    <p class="hint">Проверка ловит ошибки в <b>счёте</b>, но не в <b>схеме</b>: если сила забыта на рисунке, проверка с тем же рисунком всё равно сойдётся. Поэтому шаг 7 не пропускать.</p>
     <div class="trapbox">
       <b>Ловушка: шарнир посреди балки и q над шарниром</b>
       <p><b>1. Смотри, какие стержни кончаются в кружке шарнира.</b> Если балка нарисована одной линией <i>сквозь</i> шарнир, а к нему снизу подходит стойка — это два тела: вся балка целиком и стойка. Балку в точке C не режешь, вся q остаётся на ней одной силой Q. Проверка здравым смыслом: если бы правый кусок балки держался только за шарнир, он бы просто провернулся вокруг C и упал.</p>
@@ -574,7 +663,9 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
       <li>Наклонную силу разложил, и cos стоит у прилежащей к углу составляющей?</li>
       <li>У каждой силы в уравнении моментов плечо — правильная координата: x для вертикальной, y для горизонтальной?</li>
       <li>Сосредоточенный момент M не умножил на плечо?</li>
-      <li>Неизвестных столько же, сколько уравнений? Проверка сошлась?</li>
+      <li>Неизвестных столько же, сколько уравнений?</li>
+      <li>Каждое тело проверено на черновике точкой, где ничего не выпадает?</li>
+      <li>Итоговая проверка для всей конструкции — точка не в опоре и не на одной линии с реакцией? Сошлась?</li>
     </ol>
   </div>
 </section>
@@ -610,14 +701,23 @@ details.more>summary::before{content:"+ "} details.more[open]>summary::before{co
   <div class="gen">
     <button class="btn" type="button" data-gen="h1">Один шарнир</button>
     <button class="btn red" type="button" data-gen="h2">Два шарнира</button>
+    <button class="btn" type="button" data-gen="tilt">Наклонный каток</button>
     <button class="btn ghost" type="button" data-gen="beam">Балка — разминка</button>
     <button class="btn ghost" type="button" data-gen="any">Любая</button>
   </div>
   <p class="hint">«Два шарнира» — 10 видов конструкций: перевёрнутая Ш (и с опорами на разной высоте), П-рама, балки, Т-узел, ступенчатая рама, наклонная стойка, консоль с наклонной балкой, q через шарнир. Числа удобные; с неудобными — вкладка «Сложные».</p>
+  <p class="hint">«Наклонный каток» — опора стоит на плоскости, наклонённой на угол β. Реакция R перпендикулярна этой плоскости, то есть отклонена от вертикали на тот же β. Неизвестная всё равно <b>одна</b> — R; в уравнения идут её составляющие R·sin β (горизонтальная) и R·cos β (вертикальная). Три вида: простая балка, составная балка, рама.</p>
   <h3>Из методички и со слайдов</h3>
   <div class="plist" id="book-list"></div>
   <p class="muted" id="solved-note"></p>
   <div id="problem" class="problem"></div>
+</section>
+
+<!-- ================= ПРОГОН ТЕОРИИ ================= -->
+<section class="tabpanel" id="tab-run" hidden>
+  <h2>Прогон всей теории</h2>
+  <p class="lead">Все определения и все темы лекций по очереди. По каждому вопросу — вспоминаешь, смотришь ответ и честно отмечаешь: знаю, не уверен, не знаю. В конце — список того, что повторить. Отметки сохраняются, а карта тем показывает, где пробелы.</p>
+  <div id="run-box"></div>
 </section>
 
 <!-- ================= ТЕОРИЯ ================= -->
@@ -729,6 +829,10 @@ function build(spec) {
       add({ id: 'X_' + s.node, kind: 'X', axis: 'x', node: s.node, pt: pt, on: on, sup: s });
       add({ id: 'Y_' + s.node, kind: 'Y', axis: 'y', node: s.node, pt: pt, on: on, sup: s });
       if (s.type === 'fixed') add({ id: 'M_' + s.node, kind: 'M', axis: null, node: s.node, pt: pt, on: on, sup: s });
+    } else if (s.type === 'roller' && s.tilt) {
+      // наклонный каток: реакция ⊥ опорной поверхности, отклонена от вертикали на β
+      var be = prm[s.bp || 'beta'] * Math.PI / 180;
+      add({ id: 'R_' + s.node, kind: 'R', axis: 'inc', dir: [s.tilt * Math.sin(be), Math.cos(be)], bs: s.bs || 'β', node: s.node, pt: pt, on: on, sup: s });
     } else if (s.type === 'roller') {
       var ax = (s.side === 'down' || s.side === 'up') ? 'y' : 'x';
       add({ id: 'R_' + s.node, kind: 'R', axis: ax, node: s.node, pt: pt, on: on, sup: s });
@@ -810,6 +914,13 @@ function eqForce(m, bset, axis) {
       var v = c.sg * c.mag; cst += v;
       terms.push({ sg: c.sg, sym: c.sym, unk: null, num: v });
       if (c.inc) notes.push(c.name + ': ' + (axis === 'x' ? 'горизонтальная' : 'вертикальная') + ' составляющая ' + c.sym + ' смотрит ' + dirWord(axis, c.sg) + ' → ' + (c.sg > 0 ? '+' : '−'));
+    } else if (it.u.axis === 'inc') {
+      var ui = it.u, cf = it.s * ui.dir[axis === 'x' ? 0 : 1];
+      if (Math.abs(cf) < 1e-12) return;
+      coef[ui.idx] += cf;
+      var tsym = ui.disp + '·' + (axis === 'x' ? 'sin ' : 'cos ') + ui.bs;
+      terms.push({ sg: cf > 0 ? 1 : -1, sym: tsym, unk: ui, num: cf });
+      notes.push(ui.disp + ' наклонная (⊥ опоре): ' + (axis === 'x' ? 'горизонтальная' : 'вертикальная') + ' составляющая ' + tsym + ' нарисована ' + dirWord(axis, cf > 0 ? 1 : -1) + ' → ' + (cf > 0 ? '+' : '−'));
     } else {
       var u = it.u;
       if (u.axis !== axis) return;
@@ -827,6 +938,27 @@ function eqMoment(m, bset, Oname, Opt, Olabel) {
   var a = m.a, nU = m.unknowns.length;
   var coef = new Array(nU).fill(0), cst = 0, terms = [], expl = [];
   function res(sg) { return sg > 0 ? 'против часовой → +' : 'по часовой → −'; }
+  // одна составляющая силы вдоль оси: known — известная нагрузка (mag — её модуль),
+  // иначе неизвестная u, mag — множитель при ней (1, или cos β / sin β у наклонного катка)
+  function one(axis, sg, pt, symBase, mag, who, u) {
+    var d, msg, val, why;
+    if (axis === 'y') {
+      d = pt[0] - O[0];
+      if (Math.abs(d) < 1e-9) { expl.push({ sg: 0, who: who, why: 'вертикальная, её линия проходит через ' + OL, res: 'плечо 0 → 0' }); return; }
+      msg = sg * Math.sign(d); val = sg * d * a;
+      why = 'вертикальная, ' + (u ? 'нарисована ' : '') + dirWord('y', sg) + ', ' + (d > 0 ? 'справа' : 'слева') + ' от ' + OL + ' на ' + fmtA(d);
+    } else {
+      d = pt[1] - O[1];
+      if (Math.abs(d) < 1e-9) { expl.push({ sg: 0, who: who, why: 'горизонтальная, её линия проходит через ' + OL, res: 'плечо 0 → 0' }); return; }
+      msg = -sg * Math.sign(d); val = -sg * d * a;
+      why = 'горизонтальная, ' + (u ? 'нарисована ' : '') + dirWord('x', sg) + ', ' + (d > 0 ? 'выше' : 'ниже') + ' ' + OL + ' на ' + fmtA(d);
+    }
+    var sym = symBase + '·' + fmtA(d);
+    var v = val * mag;
+    if (!u) { cst += v; terms.push({ sg: msg, sym: sym, unk: null, num: v }); }
+    else { coef[u.idx] += v; terms.push({ sg: msg, sym: sym, unk: u, num: v }); }
+    expl.push({ sg: msg, who: who, why: why, res: res(msg) });
+  }
   itemsFor(m, bset).forEach(function (it) {
     var who = whoOf(it);
     if (it.known && it.c.kind === 'C') {
@@ -842,25 +974,16 @@ function eqMoment(m, bset, Oname, Opt, Olabel) {
       expl.push({ sg: it.s, who: who, why: 'реактивный момент заделки, рисуем против часовой', res: res(it.s) });
       return;
     }
-    var axis, sg, pt, symBase, mag = 1;
-    if (it.known) { axis = it.c.axis; sg = it.c.sg; pt = it.c.pt; symBase = it.c.sym; mag = it.c.mag; }
-    else { axis = it.u.axis; sg = it.s; pt = it.u.pt; symBase = it.u.disp; }
-    var d, msg, val, why;
-    if (axis === 'y') {
-      d = pt[0] - O[0];
-      if (Math.abs(d) < 1e-9) { expl.push({ sg: 0, who: who, why: 'вертикальная, её линия проходит через ' + OL, res: 'плечо 0 → 0' }); return; }
-      msg = sg * Math.sign(d); val = sg * d * a;
-      why = 'вертикальная, ' + (it.known ? '' : 'нарисована ') + dirWord('y', sg) + ', ' + (d > 0 ? 'справа' : 'слева') + ' от ' + OL + ' на ' + fmtA(d);
-    } else {
-      d = pt[1] - O[1];
-      if (Math.abs(d) < 1e-9) { expl.push({ sg: 0, who: who, why: 'горизонтальная, её линия проходит через ' + OL, res: 'плечо 0 → 0' }); return; }
-      msg = -sg * Math.sign(d); val = -sg * d * a;
-      why = 'горизонтальная, ' + (it.known ? '' : 'нарисована ') + dirWord('x', sg) + ', ' + (d > 0 ? 'выше' : 'ниже') + ' ' + OL + ' на ' + fmtA(d);
+    if (it.known) { one(it.c.axis, it.c.sg, it.c.pt, it.c.sym, it.c.mag, who, null); return; }
+    var u = it.u;
+    if (u.axis === 'inc') {
+      // наклонная реакция катка — одна неизвестная, две составляющие
+      var dx = u.dir[0], dy = u.dir[1];
+      if (Math.abs(dy) > 1e-12) one('y', it.s * (dy > 0 ? 1 : -1), u.pt, u.disp + '·cos ' + u.bs, Math.abs(dy), u.disp + ' <span class="note">(верт. составляющая ' + u.disp + '·cos ' + u.bs + ')</span>', u);
+      if (Math.abs(dx) > 1e-12) one('x', it.s * (dx > 0 ? 1 : -1), u.pt, u.disp + '·sin ' + u.bs, Math.abs(dx), u.disp + ' <span class="note">(гориз. составляющая ' + u.disp + '·sin ' + u.bs + ')</span>', u);
+      return;
     }
-    var sym = symBase + '·' + fmtA(d);
-    if (it.known) { var v = val * mag; cst += v; terms.push({ sg: msg, sym: sym, unk: null, num: v }); }
-    else { coef[it.u.idx] += val; terms.push({ sg: msg, sym: sym, unk: it.u, num: val }); }
-    expl.push({ sg: msg, who: who, why: why, res: res(msg) });
+    one(u.axis, it.s, u.pt, u.disp, 1, who, u);
   });
   return { type: 'M', O: OL, Oname: Oname, coef: coef, cst: cst, terms: terms, expl: expl, bset: bset };
 }
@@ -1022,6 +1145,7 @@ function numLine(e, vals, targets) {
 function answerDir(u, v) {
   if (Math.abs(v) < 0.005) return 'реакции нет';
   if (u.kind === 'M') return v > 0 ? 'против часовой, как нарисовано' : 'на самом деле по часовой';
+  if (u.axis === 'inc') return v > 0 ? '⊥ опоре, от опоры к телу, как нарисовано' : 'на самом деле по той же линии, но к опоре';
   var w = dirWord(u.axis, v > 0 ? 1 : -1);
   return v > 0 ? w + ', как нарисовано' : 'на самом деле ' + w;
 }
@@ -1070,8 +1194,8 @@ function hatch(base, g, p, n) {
   return s;
 }
 var GV = { down: [0, 1], up: [0, -1], left: [-1, 0], right: [1, 0] };
-function supportSvg(P, type, side) {
-  var g = GV[side], p = [-g[1], g[0]], s = '';
+function supportSvg(P, type, side, gv) {
+  var g = gv || GV[side], p = [-g[1], g[0]], s = '';
   if (type === 'fixed') {
     s += L(P[0] + p[0] * 17, P[1] + p[1] * 17, P[0] - p[0] * 17, P[1] - p[1] * 17, 'wall');
     s += hatch([P[0] + g[0] * 1.5, P[1] + g[1] * 1.5], g, p, 2);
@@ -1119,7 +1243,12 @@ function renderScheme(m, opt) {
       occ[mm[0]].push(d); occ[mm[1]].push([-d[0], -d[1]]);
     });
   });
-  (m.spec.supports || []).forEach(function (sp) { if (bset.has(sp.body)) { supAt[sp.node] = sp; if (!fbd) occ[sp.node].push(GV[sp.side]); } });
+  function supG(sp) {
+    if (!sp.tilt) return GV[sp.side];
+    var be = m.prm[sp.bp || 'beta'] * Math.PI / 180;
+    return [-sp.tilt * Math.sin(be), Math.cos(be)];
+  }
+  (m.spec.supports || []).forEach(function (sp) { if (bset.has(sp.body)) { supAt[sp.node] = sp; if (!fbd) occ[sp.node].push(supG(sp)); } });
   var dims = [], mem = [], sup = [], qs = [], jts = [], frc = [], rcs = [], lbl = [];
   // размеры
   (function () {
@@ -1155,7 +1284,28 @@ function renderScheme(m, opt) {
     b.members.forEach(function (mm) { var p1 = P(mm[0]), p2 = P(mm[1]); mem.push(L(p1[0], p1[1], p2[0], p2[1], 'mbr')); });
   });
   // опоры
-  if (!fbd) (m.spec.supports || []).forEach(function (sp) { if (bset.has(sp.body)) sup.push(supportSvg(P(sp.node), sp.type, sp.side)); });
+  if (!fbd) (m.spec.supports || []).forEach(function (sp) {
+    if (!bset.has(sp.body)) return;
+    var g = supG(sp), pn = P(sp.node);
+    sup.push(supportSvg(pn, sp.type, sp.side, g));
+    if (sp.tilt) {
+      // угол β между опорной плоскостью и горизонталью — у нижнего конца линии опоры
+      var pp = [-g[1], g[0]], gl = [pn[0] + g[0] * 23, pn[1] + g[1] * 23];
+      var e1 = [gl[0] + pp[0] * 18, gl[1] + pp[1] * 18], e2 = [gl[0] - pp[0] * 18, gl[1] - pp[1] * 18];
+      var lo = e1[1] > e2[1] ? e1 : e2, hi = lo === e1 ? e2 : e1;
+      var ud = unit([hi[0] - lo[0], hi[1] - lo[1]]);
+      // продлеваем опорную плоскость вниз, чтобы угол не лез в штриховку
+      var vx = [lo[0] - ud[0] * 34, lo[1] - ud[1] * 34], hd = [ud[0] >= 0 ? 1 : -1, 0];
+      sup.push(L(vx[0], vx[1], lo[0], lo[1], 'refl'));
+      sup.push(L(vx[0], vx[1], vx[0] + hd[0] * 44, vx[1], 'refl'));
+      lo = vx;
+      var th0 = Math.atan2(0, hd[0]), th1 = Math.atan2(-ud[1], ud[0]);
+      var dth = th1 - th0; while (dth > Math.PI) dth -= 2 * Math.PI; while (dth < -Math.PI) dth += 2 * Math.PI;
+      sup.push('<path d="' + arcPath(lo, 26, th0, th0 + dth, dth < 0) + '" class="refl" fill="none"/>');
+      var bis = unit([hd[0] + ud[0], ud[1]]);
+      sup.push(Tx(lo[0] + bis[0] * 38, lo[1] + bis[1] * 38, sp.bs || 'β', 'ta'));
+    }
+  });
   // шарниры
   (m.spec.joints || []).forEach(function (j) { if (names.indexOf(j.node) >= 0) { var p = P(j.node); jts.push('<circle cx="' + r1(p[0]) + '" cy="' + r1(p[1]) + '" r="5.5" class="jt"/>'); } });
   function placeArrow(n, pt, d, Lg, cls, mk, preferTail) {
@@ -1235,7 +1385,7 @@ function renderScheme(m, opt) {
       if (!o) return;
       var pt = P(u.node);
       if (u.kind === 'M') { rcs.push(coupleSvg(pt, 1, 'rc', 'mk-rc', u.disp, 'tr')); return; }
-      var d = u.axis === 'x' ? [o.s, 0] : [0, -o.s];
+      var d = u.axis === 'inc' ? [o.s * u.dir[0], -o.s * u.dir[1]] : u.axis === 'x' ? [o.s, 0] : [0, -o.s];
       var ar = placeArrow(u.node, pt, d, 44, 'rc', 'mk-rc', true);
       rcs.push(ar.svg); rcs.push(labelAt(ar, u.disp, 'tr'));
     });
@@ -1887,6 +2037,23 @@ var TPL = {
       supports: [{ node: 'B', type: 'pin', body: 0, side: 'down' }, { node: 'A', type: 'pin', body: 1, side: 'down' }],
       loads: [{ t: 'q', body: 0, from: 'B', to: 'C', dir: hq(R) }, incF(R, 1, 'D'), { t: 'M', body: 1, at: mid(n.C, n.D, 0.5), s: pick(R, [1, -1]) }] };
   } },
+  gable: { name: 'Двускатная рама', kind: 'h1', make: function (R) {
+    var h1 = pick(R, [1.5, 2, 2.5]), halfW = pick(R, [1.5, 2, 2.5]), rise = pick(R, [1, 1.5, 2]);
+    var n = { A: [0, 0], K: [0, h1], C: [halfW, h1 + rise], D: [2 * halfW, h1], B: [2 * halfW, 0] };
+    var sup = pick(R, [
+      [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 1, side: 'down' }],
+      [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'roller', body: 1, side: 'down' }],
+      [{ node: 'A', type: 'roller', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 1, side: 'down' }]
+    ]);
+    var qOpt = pick(R, [
+      { t: 'q', body: 0, from: 'A', to: 'K', dir: hq(R) }, { t: 'q', body: 0, from: 'K', to: 'C', dir: 'down' },
+      { t: 'q', body: 1, from: 'C', to: 'D', dir: 'down' }, { t: 'q', body: 1, from: 'D', to: 'B', dir: hq(R) }
+    ]);
+    var pb = pick(R, [0, 1]);
+    var loads = [qOpt, incF(R, pb, pb ? 'D' : 'K'), { t: 'M', body: 1 - pb, at: pb ? mid(n.A, n.K, 0.55) : mid(n.D, n.B, 0.5), s: pick(R, [1, -1]) }];
+    if (chance(R, 0.35)) loads.push({ t: 'F', body: 1 - pb, node: pb ? 'K' : 'D', p: 'F', dir: pick(R, ['down', 'right', 'left']) });
+    return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'D'], ['D', 'B']] }], joints: [{ node: 'C', b: [0, 1] }], supports: sup, loads: loads };
+  } },
   gb1: { name: 'Составная балка', kind: 'beam', make: function (R) {
     var l1 = pick(R, [2, 3]), l2 = pick(R, [2, 3]), l3 = pick(R, [1, 1.5, 2]);
     if (chance(R, 0.5)) {
@@ -1940,6 +2107,20 @@ var TPL = {
       joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }],
       supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, { node: 'B', type: 'roller', body: 1, side: 'down' }, { node: 'E', type: 'roller', body: 2, side: 'down' }],
       loads: [pick(R, [{ t: 'q', body: 1, from: 'C', to: 'B', dir: 'down' }, { t: 'q', body: 2, from: 'D', to: 'E', dir: 'down' }]), incF(R, 1, 'K'), { t: 'M', body: 0, at: [l1 / 2, 0], s: pick(R, [1, -1]) }, { t: 'F', body: 2, node: 'N', p: 'F', dir: 'down' }] };
+  } },
+  splay: { name: 'Трапециевидные ворота', kind: 'h2', make: function (R) {
+    var h = pick(R, [2, 2.5]), W = pick(R, [3, 4, 5]), out = pick(R, [1, 1.5, 2]);
+    var n = { A: [-out, 0], G: [-out / 2, h / 2], C: [0, h], D: [W, h], H: [W + out / 2, h / 2], B: [W + out, 0] };
+    var sup = pick(R, [
+      [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, { node: 'B', type: 'pin', body: 2, side: 'down' }],
+      [{ node: 'A', type: 'pin', body: 0, side: 'down' }, { node: 'B', type: 'fixed', body: 2, side: 'down' }]
+    ]);
+    var pb = pick(R, [0, 2]);
+    var loads = [{ t: 'q', body: 1, from: 'C', to: 'D', dir: 'down' }, incF(R, pb, pb === 0 ? 'G' : 'H'), { t: 'M', body: 2 - pb, at: pb === 0 ? mid(n.H, n.B, 0.5) : mid(n.A, n.G, 0.5), s: pick(R, [1, -1]) }];
+    if (chance(R, 0.4)) loads.push({ t: 'F', body: pb, node: pb === 0 ? 'A' : 'B', p: 'F', dir: 'right' });
+    if (loads.length === 4 && loads[3].node && sup.some(function (s) { return s.node === loads[3].node; })) loads.pop();
+    return { nodes: n, bodies: [{ members: [['A', 'G'], ['G', 'C']] }, { members: [['C', 'D']] }, { members: [['D', 'H'], ['H', 'B']] }],
+      joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }], supports: sup, loads: loads };
   } }
 };
 
@@ -2042,6 +2223,35 @@ TPL.hcant = { name: 'Консоль + наклонная балка + стойк
     joints: [{ node: 'C', b: [0, 1] }, { node: 'D', b: [1, 2] }],
     supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, { node: 'B', type: 'pin', body: 2, side: 'down' }], loads: loads };
 } };
+/* ----- наклонный каток: реакция ⊥ опоре под углом β к вертикали, одна неизвестная ----- */
+function tiltSup(R, node, body) { return { node: node, type: 'roller', body: body, side: 'down', tilt: pick(R, [1, -1]) }; }
+TPL.tb0 = { name: 'Балка на наклонном катке', kind: 'beam', make: function (R) {
+  var l1 = pick(R, [2, 3]), l2 = pick(R, [1, 1.5, 2]), l3 = pick(R, [0, 1]);
+  var n = { A: [0, 0], K: [l1, 0], B: [l1 + l2, 0] };
+  var mem = [['A', 'K'], ['K', 'B']];
+  if (l3) { n.E = [l1 + l2 + l3, 0]; mem.push(['B', 'E']); }
+  var loads = [{ t: 'q', body: 0, from: 'A', to: 'K', dir: 'down' }, { t: 'M', body: 0, at: [l1 + l2 / 2, 0], s: pick(R, [1, -1]) }];
+  if (l3) loads.push(incF(R, 0, 'E')); else loads.push({ t: 'F', body: 0, node: 'K', p: 'F', dir: 'down' });
+  return { nodes: n, bodies: [{ members: mem }], joints: [],
+    supports: [{ node: 'A', type: 'pin', body: 0, side: 'down' }, tiltSup(R, 'B', 0)], loads: loads, tiltBeta: pick(R, [30, 45, 60]) };
+} };
+TPL.tb1 = { name: 'Составная балка + наклонный каток', kind: 'h1', make: function (R) {
+  var l1 = pick(R, [2, 3]), l2 = pick(R, [2, 3]), l3 = pick(R, [1, 1.5]);
+  var n = { A: [0, 0], K: [l1 / 2, 0], C: [l1, 0], D: [l1 + l2 / 2, 0], B: [l1 + l2, 0], E: [l1 + l2 + l3, 0] };
+  var loads = [pick(R, [{ t: 'q', body: 0, from: 'A', to: 'C', dir: 'down' }, { t: 'q', body: 1, from: 'C', to: 'B', dir: 'down' }]),
+    { t: 'M', body: 0, at: [l1 * 0.3, 0], s: pick(R, [1, -1]) }, incF(R, 1, 'E')];
+  if (chance(R, 0.5)) loads.push({ t: 'F', body: 1, node: 'D', p: 'F', dir: 'down' });
+  return { nodes: n, bodies: [{ members: [['A', 'K'], ['K', 'C']] }, { members: [['C', 'D'], ['D', 'B'], ['B', 'E']] }], joints: [{ node: 'C', b: [0, 1] }],
+    supports: [{ node: 'A', type: 'fixed', body: 0, side: 'left' }, tiltSup(R, 'B', 1)], loads: loads, tiltBeta: pick(R, [30, 45, 60]) };
+} };
+TPL.tb2 = { name: 'Рама на наклонном катке', kind: 'h1', make: function (R) {
+  var h = pick(R, [2, 3]), wL = pick(R, [1.5, 2]), wR = pick(R, [1.5, 2]), W = wL + wR;
+  var n = { A: [0, 0], D: [0, h], C: [wL, h], E: [W, h], G: [W, h / 2], B: [W, 0] };
+  var loads = [{ t: 'q', body: 0, from: 'D', to: 'C', dir: 'down' }, incF(R, 1, 'E'), { t: 'M', body: 0, at: mid(n.A, n.D, 0.5), s: pick(R, [1, -1]) }];
+  if (chance(R, 0.5)) loads.push({ t: 'F', body: 1, node: 'G', p: 'F', dir: pick(R, ['left', 'right']) });
+  return { nodes: n, bodies: [{ members: [['A', 'D'], ['D', 'C']] }, { members: [['C', 'E'], ['E', 'G'], ['G', 'B']] }], joints: [{ node: 'C', b: [0, 1] }],
+    supports: [{ node: 'A', type: 'fixed', body: 0, side: 'down' }, tiltSup(R, 'B', 1)], loads: loads, tiltBeta: pick(R, [30, 45, 60]) };
+} };
 function niceOf(key, name) { return { name: name, kind: 'h2', nice: true, make: TPL[key].make }; }
 TPL.nsh = niceOf('hsh', 'Ш с опорами на разной высоте');
 TPL.np2 = niceOf('hp2', 'П: q через шарнир');
@@ -2053,13 +2263,14 @@ TPL.ncant = niceOf('hcant', 'Консоль + наклонная балка');
 function randParamsHard(R) {
   return { a: pick(R, [1, 1, 1.2, 1.5, 0.8]), P: pick(R, [3.5, 4.2, 5.6, 6.3, 7.5, 9.4, 12.5]), M: pick(R, [2.7, 3.6, 4.8, 6.4, 7.5]), q: pick(R, [1.2, 1.6, 2.4, 3.5]), alpha: pick(R, [20, 25, 35, 40, 50, 55, 65, 70]), F: pick(R, [1.8, 2.6, 3.4, 4.5, 5.2]) };
 }
-var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc'], h2: ['sh', 'p2', 'gb2', 'nsh', 'np2', 'ngb', 'ninc', 'ninc', 'nT', 'nstep', 'ncant'], hard: ['hsh', 'hp2', 'hgb', 'hinc', 'hT'] };
+var GROUPS = { beam: ['gb1'], h1: ['p3', 'st', 'fr', 'rf', 'inc', 'gable'], h2: ['sh', 'p2', 'gb2', 'nsh', 'np2', 'ngb', 'ninc', 'ninc', 'nT', 'nstep', 'ncant', 'splay'], hard: ['hsh', 'hp2', 'hgb', 'hinc', 'hT'], tilt: ['tb0', 'tb1', 'tb1', 'tb2', 'tb2'] };
 
 function randParams(R, spec) {
   var p = { a: pick(R, [1, 1, 1, 2]), P: pick(R, [4, 5, 6, 8, 10, 12, 15, 20]), M: pick(R, [2, 3, 4, 5, 6, 8, 10]), q: pick(R, [1, 1.5, 2, 3, 4]), alpha: pick(R, [30, 45, 60]), F: pick(R, [2, 3, 4, 5, 6, 8]) };
   return p;
 }
 function usesParam(spec, p) {
+  if (p === 'beta') return (spec.supports || []).some(function (s) { return s.tilt; });
   return spec.loads.some(function (l) { return (l.p || (l.t === 'q' ? 'q' : l.t === 'M' ? 'M' : null)) === p || (p === 'alpha' && l.inc); });
 }
 // сила в середине прямого стержня вдоль него: стрелку не нарисовать, не спрятав её в стержне
@@ -2091,7 +2302,8 @@ function generate(group, seed) {
     var tpl = TPL[key];
     var spec = tpl.make(R, !!tpl.nice);
     spec.params = group === 'hard' ? randParamsHard(R) : randParams(R, spec);
-    var used = {}; ['P', 'M', 'q', 'alpha', 'F'].forEach(function (p) { if (usesParam(spec, p)) used[p] = spec.params[p]; });
+    if (spec.tiltBeta) spec.params.beta = spec.tiltBeta;
+    var used = {}; ['P', 'M', 'q', 'alpha', 'F', 'beta'].forEach(function (p) { if (usesParam(spec, p)) used[p] = spec.params[p]; });
     used.a = spec.params.a; spec.params = used;
     spec.id = 'gen-' + group + '-' + seed;
     spec.seed = seed; spec.group = group;
@@ -2105,7 +2317,7 @@ function generate(group, seed) {
     if (sol.error) continue;
     var maxV = Math.max.apply(null, sol.vals.map(Math.abs));
     if (!(maxV < (group === 'hard' ? 250 : 400)) || sol.vals.some(function (v) { return !isFinite(v); })) continue;
-    if ((group === 'hard' || tpl.kind === 'h2') && sol.steps.some(function (x) { return x.type === 'sys' && x.us.length > 2; })) continue;
+    if ((group === 'hard' || group === 'tilt' || tpl.kind === 'h2') && sol.steps.some(function (x) { return x.type === 'sys' && x.us.length > 2; })) continue;
     if (Math.abs(sol.resid) > 1e-6) continue;
     return { spec: spec, model: m, sol: sol };
   }
@@ -2130,6 +2342,7 @@ function conditionText(spec, m) {
   if (p.q != null) parts.push('q = ' + S.fmt(p.q) + ' кН/м');
   parts.push('a = ' + S.fmt(p.a) + ' м');
   if (p.alpha != null) parts.push('α = ' + p.alpha + '°');
+  if (p.beta != null) parts.push('β = ' + p.beta + '° (наклон опорной плоскости катка)');
   return { what: what + ' ' + sys + ', показанной на рисунке. Вес конструкции не учитывать.', data: parts.join(', ') };
 }
 
@@ -2736,6 +2949,105 @@ S.EXAMQ = [
 ];
 })(typeof window !== 'undefined' ? window : globalThis);
 
+/* defs.js — определения и формулировки по лекциям ТМ_1–ТМ_6 (формулировки — как на слайдах) */
+(function (G) {
+'use strict';
+var S = G.Statika || (G.Statika = {});
+// [блок, 'd' — определение | 'f' — формулировка, термин, ответ]
+S.DEFS = [
+  ['b1', 'd', 'Механика', 'Наука о механическом движении и взаимодействии материальных тел.'],
+  ['b1', 'd', 'Теоретическая механика', 'Наука, рассматривающая понятия, законы и методы, общие для всех областей механики, — общие законы механического движения и взаимодействия материальных тел.'],
+  ['b1', 'd', 'Механическое движение', 'Происходящее с течением времени изменение взаимного положения материальных тел в пространстве.'],
+  ['b1', 'd', 'Механическое взаимодействие', 'Действия материальных тел друг на друга, в результате которых возникают изменения движения этих тел или их деформация. Основная мера этих действий — сила.'],
+  ['b1', 'd', 'Статика', 'Раздел механики, в котором излагается общее учение о силах и изучаются условия равновесия материальных тел, находящихся под действием сил.'],
+  ['b1', 'd', 'Кинематика и динамика', 'Кинематика изучает движение тел с геометрической стороны, без учёта его причин (сил). Динамика изучает движение тел под действием сил.'],
+  ['b1', 'd', 'Материальная точка', 'Тело, размерами которого в данной задаче можно пренебречь.'],
+  ['b1', 'd', 'Абсолютно твёрдое тело (АТТ)', 'Тело, расстояние между любыми двумя точками которого всегда остаётся постоянным (тело не деформируется).'],
+  ['b1', 'd', 'Равновесие', 'Состояние покоя тела относительно других тел (инерциальной системы отсчёта).'],
+  ['b1', 'd', 'Сила', 'Векторная величина, являющаяся основной мерой механического взаимодействия материальных тел. Характеристики: модуль (числовое значение), направление и точка приложения.'],
+  ['b1', 'd', 'Линия действия силы', 'Прямая, вдоль которой направлен вектор силы.'],
+  ['b1', 'd', 'Сосредоточенная сила', 'Сила, приложенная к телу в какой-нибудь одной его точке.'],
+  ['b1', 'd', 'Распределённые силы', 'Силы, действующие на все точки данного объёма, данной части поверхности или линии тела. Задаются интенсивностью q — силой на единицу длины (кН/м).'],
+  ['b1', 'f', 'Равнодействующая распределённой нагрузки', 'Равномерная: Q = q·l, приложена в середине участка. Треугольная: Q = ½·q<sub>max</sub>·l, на расстоянии l/3 от большего края. Q равна площади эпюры и проходит через её центр тяжести.'],
+  ['b1', 'd', 'Сила тяжести твёрдого тела', 'Равнодействующая сил тяжести, действующих на его частицы. Её линия действия проходит через центр тяжести тела.'],
+  ['b1', 'd', 'Система сил', 'Совокупность нескольких сил, действующих на данное тело.'],
+  ['b1', 'd', 'Плоская и пространственная система сил', 'Плоская — все силы расположены в одной плоскости. Пространственная — силы в разных плоскостях. Обе делятся на системы сходящихся и произвольно расположенных сил.'],
+  ['b1', 'd', 'Внешние и внутренние силы', 'Внешние — действуют на тела данной системы со стороны тел, не принадлежащих этой системе. Внутренние — силы, с которыми тела одной системы действуют друг на друга.'],
+  ['b1', 'd', 'Эквивалентные системы сил', 'Системы сил, которые действуют на тело одинаково: одну можно заменить другой, не изменяя механического состояния тела.'],
+  ['b1', 'd', 'Уравновешенная система сил', 'Система сил (эквивалентная нулю), которая, будучи приложенной к телу, не изменяет его состояния.'],
+  ['b1', 'd', 'Равнодействующая', 'Сила, которая одна по механическому действию на твёрдое тело полностью эквивалентна данной системе сил. Существует не всегда — например, у пары сил её нет.'],
+  ['b1', 'd', 'Уравновешивающая сила', 'Сила, равная равнодействующей по модулю и направленная по той же прямой в противоположную сторону.'],
+  ['b1', 'd', 'Свободное и несвободное тело', 'Свободное — не скреплено с другими телами, ему можно сообщить любое перемещение. Несвободное (связанное) — перемещения ограничены другими телами.'],
+  ['b1', 'd', 'Связь', 'Всё то, что ограничивает перемещения данного тела в пространстве.'],
+  ['b1', 'd', 'Реакция связи', 'Сила, с которой данная связь действует на тело, препятствуя тем или иным его перемещениям. Направлена противоположно тому направлению, куда связь не даёт телу двигаться.'],
+  ['b1', 'd', 'Активная (заданная) сила', 'Сила, которая не является реакцией связи: нагрузка, заданная в условии.'],
+  ['b1', 'f', 'Реакции основных связей', 'Гладкая поверхность — по нормали (1). Нить — вдоль нити к точке подвеса (1). Невесомый стержень — вдоль стержня (1). Каток — ⊥ опорной поверхности (1). Неподвижный шарнир — X и Y (2). Жёсткая заделка — X, Y и момент M (3).'],
+  ['b1', 'f', 'Аксиома о равновесии двух сил', 'АТТ под действием двух сил находится в равновесии тогда и только тогда, когда силы равны по модулю, направлены противоположно и лежат на одной прямой.'],
+  ['b1', 'f', 'Аксиома о присоединении уравновешенной системы', 'Действие системы сил на АТТ не изменится, если добавить к ней или отнять от неё уравновешенную систему. Следствие: силу можно переносить вдоль линии действия — это скользящий вектор.'],
+  ['b1', 'f', 'Аксиома параллелограмма', 'Две силы, приложенные в одной точке, имеют равнодействующую в той же точке, равную диагонали параллелограмма, построенного на этих силах: R = F₁ + F₂.'],
+  ['b1', 'f', 'Аксиома действия и противодействия', 'Два тела действуют друг на друга с силами, равными по модулю и направленными по одной прямой в противоположные стороны. Эти силы приложены к разным телам и уравновешенной системы не образуют.'],
+  ['b1', 'f', 'Аксиома отвердевания', 'Равновесие деформируемого тела не нарушится, если считать его абсолютно твёрдым.'],
+  ['b1', 'f', 'Аксиома освобождаемости от связей', 'Несвободное тело можно рассматривать как свободное, если отбросить связи и заменить их действие реакциями.'],
+  ['b1', 'd', 'Главный вектор', 'Вектор, равный геометрической сумме всех сил системы: R = ΣF<sub>k</sub>. Это не сила, а свободный вектор; находится силовым многоугольником.'],
+  ['b2', 'd', 'Система сходящихся сил (ССС)', 'Система сил, линии действия которых пересекаются в одной точке. Она эквивалентна системе сил, приложенных в этой точке.'],
+  ['b2', 'f', 'Равнодействующая ССС', 'Равна геометрической сумме сил и приложена в точке пересечения их линий действия.'],
+  ['b2', 'd', 'Силовой многоугольник', 'Силы откладывают одну за другой (начало следующей — в конце предыдущей); равнодействующая — замыкающая сторона от начала первой к концу последней.'],
+  ['b2', 'd', 'Проекция силы на ось', 'Алгебраическая величина, равная произведению модуля силы на косинус угла между силой и положительным направлением оси: F<sub>x</sub> = F·cos α.'],
+  ['b2', 'd', 'Проекция силы на плоскость', 'Вектор между проекциями начала и конца силы на эту плоскость; модуль F<sub>xy</sub> = F·cos θ, θ — угол силы с плоскостью.'],
+  ['b2', 'f', 'Теорема о проекции суммы', 'Проекция векторной суммы на ось равна алгебраической сумме проекций слагаемых на ту же ось: R<sub>x</sub> = ΣF<sub>kx</sub>.'],
+  ['b2', 'f', 'Условия равновесия ССС', 'Необходимо и достаточно, чтобы равнодействующая была равна нулю. Геометрически — силовой многоугольник замкнут. Аналитически — ΣF<sub>kx</sub> = 0, ΣF<sub>ky</sub> = 0 (в пространстве ещё ΣF<sub>kz</sub> = 0).'],
+  ['b2', 'f', 'Теорема о трёх силах', 'Если свободное АТТ находится в равновесии под действием трёх непараллельных сил, лежащих в одной плоскости, то линии действия этих сил пересекаются в одной точке.'],
+  ['b2', 'd', 'Разложить силу на составляющие', 'Найти такую систему нескольких сил, для которой данная сила является равнодействующей. Разложение по двум заданным направлениям — по правилу параллелограмма.'],
+  ['b2', 'd', 'Момент силы относительно точки', 'На плоскости — алгебраическая величина M<sub>O</sub>(F) = ±F·h: плюс, если сила стремится повернуть тело против часовой. В векторном виде — векторное произведение радиус-вектора точки приложения на силу: M<sub>O</sub> = r × F.'],
+  ['b2', 'd', 'Плечо силы', 'Кратчайшее расстояние (перпендикуляр) от центра момента до линии действия силы.'],
+  ['b2', 'd', 'Центр момента', 'Точка, относительно которой берётся момент.'],
+  ['b2', 'f', 'Свойства момента силы относительно точки', 'Не меняется при переносе силы вдоль линии действия. Равен нулю, если сила равна нулю или линия действия проходит через центр.'],
+  ['b2', 'd', 'Момент силы относительно оси', 'Скалярная величина, равная взятому со знаком моменту проекции силы на плоскость, перпендикулярную оси, относительно точки пересечения оси с этой плоскостью. Равен нулю, если сила параллельна оси или пересекает её.'],
+  ['b2', 'd', 'Правая система координат', 'Система, в которой кратчайшее совмещение оси Ox с Oy видно с положительного конца Oz против хода часовой стрелки.'],
+  ['b3', 'd', 'Пара сил', 'Система двух равных по модулю, параллельных и противоположно направленных сил, действующих на АТТ и не лежащих на одной прямой. Равнодействующей не имеет.'],
+  ['b3', 'd', 'Плоскость действия пары', 'Плоскость, проходящая через линии действия сил пары.'],
+  ['b3', 'd', 'Плечо пары', 'Расстояние d между линиями действия сил пары.'],
+  ['b3', 'd', 'Момент пары', 'Вектор, перпендикулярный плоскости действия пары, модуль F·d, направлен так, чтобы с его конца поворот был виден против часовой. На плоскости — алгебраическая величина m = ±F·d.'],
+  ['b3', 'd', 'Эквивалентные пары', 'Пары, замена одной из которых другой не изменяет механического состояния тела.'],
+  ['b3', 'f', 'Теорема об эквивалентности пар', 'Пару, не изменяя её действия на АТТ, можно заменить другой парой, расположенной как угодно в той же плоскости, с тем же направлением вращения и равным по модулю моментом.'],
+  ['b3', 'f', 'Свойства пары', 'Пару можно переносить куда угодно в плоскости её действия; можно менять модули сил и плечо, сохраняя момент; можно переносить в параллельную плоскость. Действие пары определяется только её моментом.'],
+  ['b3', 'f', 'Сложение пар', 'Система пар, действующая на тело, эквивалентна одной паре, момент которой равен сумме моментов слагаемых пар: M = ΣM<sub>k</sub> (на плоскости — алгебраической).'],
+  ['b3', 'f', 'Условие равновесия системы пар', 'Сумма моментов всех пар равна нулю: ΣM<sub>k</sub> = 0. Условий на силы нет — главный вектор пар всегда ноль.'],
+  ['b3', 'd', 'Главный момент относительно центра', 'Векторная (на плоскости — алгебраическая) сумма моментов всех сил системы относительно этого центра: M<sub>O</sub> = ΣM<sub>O</sub>(F<sub>k</sub>).'],
+  ['b3', 'f', 'Теорема Вариньона', 'Если система сил имеет равнодействующую, то момент равнодействующей относительно любого центра равен сумме моментов сил системы относительно того же центра: M<sub>O</sub>(R) = ΣM<sub>O</sub>(F<sub>k</sub>).'],
+  ['b3', 'f', 'Равновесие ССС через моменты', 'Для равновесия ССС необходимо и достаточно, чтобы суммы моментов относительно двух центров A и B были равны нулю: ΣM<sub>A</sub> = 0, ΣM<sub>B</sub> = 0, если прямая AB не проходит через точку схода сил.'],
+  ['b4', 'f', 'Лемма Пуансо (о параллельном переносе силы)', 'Силу, приложенную к АТТ, можно перенести параллельно самой себе в любую точку тела, добавив пару, момент которой равен моменту силы относительно новой точки.'],
+  ['b4', 'd', 'Присоединённая пара', 'Пара, которая появляется при параллельном переносе силы; её момент равен моменту силы относительно новой точки.'],
+  ['b4', 'f', 'Теорема Пуансо (основная теорема статики)', 'Любую систему сил, действующих на АТТ, можно привести к произвольному центру O — заменить одной силой, равной главному вектору R и приложенной в O, и одной парой с моментом, равным главному моменту M<sub>O</sub>.'],
+  ['b4', 'd', 'Центр приведения', 'Произвольно выбранная точка, в которую параллельно переносят все силы системы.'],
+  ['b4', 'f', 'Что зависит от центра приведения', 'Главный вектор от центра приведения не зависит, главный момент — зависит.'],
+  ['b4', 'f', 'К чему приводится плоская система', 'R = 0, M<sub>O</sub> = 0 — равновесие; R = 0, M<sub>O</sub> ≠ 0 — к паре; R ≠ 0 — к равнодействующей.'],
+  ['b4', 'f', 'Принцип независимости действия сил', 'Результат действия системы сил равен сумме результатов действия каждой силы в отдельности (усилия и деформации от нескольких нагрузок складываются).'],
+  ['b4', 'd', 'Расчётная схема вала редуктора', 'Схема для расчёта вала на прочность: силы с зубчатых колёс, приложенные на расстоянии d/2 от оси, переносят на ось вала и добавляют моменты; окружная сила F<sub>t</sub> даёт крутящий момент F<sub>t</sub>·d/2.'],
+  ['b5', 'd', 'Плоская система параллельных сил', 'Система сил, линии действия которых параллельны и лежат в одной плоскости.'],
+  ['b5', 'f', 'Две параллельные силы в одну сторону', 'R = F₁ + F₂, параллельна им и направлена в ту же сторону; точка приложения делит расстояние между силами внутренним образом обратно пропорционально силам: F₁·AC = F₂·BC.'],
+  ['b5', 'f', 'Две параллельные силы в разные стороны', 'R = F₁ − F₂, параллельна им и направлена в сторону большей; приложена на продолжении AB за большей силой: F₁·AC = F₂·BC.'],
+  ['b5', 'd', 'Центр параллельных сил', 'Точка, через которую проходит линия действия равнодействующей системы параллельных сил.'],
+  ['b5', 'f', 'Равновесие плоской системы параллельных сил', 'ΣF<sub>ky</sub> = 0 (ось y параллельна силам) и ΣM<sub>O</sub> = 0; или ΣM<sub>A</sub> = 0, ΣM<sub>B</sub> = 0, если AB не параллельна силам.'],
+  ['b5', 'd', 'Произвольная плоская система сил', 'Силы лежат в одной плоскости, их линии действия не пересекаются в одной точке и не все параллельны.'],
+  ['b5', 'f', 'Условие равновесия произвольной плоской системы', 'Необходимо и достаточно, чтобы главный вектор и главный момент относительно любого центра были равны нулю: R = 0, M<sub>O</sub> = 0.'],
+  ['b5', 'f', 'Три формы условий равновесия', '1) ΣF<sub>x</sub> = 0, ΣF<sub>y</sub> = 0, ΣM<sub>O</sub> = 0. 2) ΣM<sub>A</sub> = 0, ΣM<sub>B</sub> = 0, ΣF<sub>x</sub> = 0 (ось x не ⊥ AB). 3) ΣM<sub>A</sub> = 0, ΣM<sub>B</sub> = 0, ΣM<sub>C</sub> = 0 (A, B, C не на одной прямой).'],
+  ['b5', 'd', 'Статически определимая система', 'Число неизвестных реакций равно числу независимых уравнений равновесия — все реакции находятся из статики. Если неизвестных больше — система статически неопределимая.'],
+  ['b5', 'f', 'Равновесие пространственной системы сил', 'Шесть уравнений: ΣF<sub>x</sub> = ΣF<sub>y</sub> = ΣF<sub>z</sub> = 0 и ΣM<sub>x</sub> = ΣM<sub>y</sub> = ΣM<sub>z</sub> = 0. Для пространственной ССС — только три уравнения на проекции.'],
+  ['b6', 'd', 'Трение скольжения', 'Сопротивление, возникающее при скольжении одного тела по поверхности другого.'],
+  ['b6', 'd', 'Сила трения покоя', 'Сила между соприкасающимися телами, препятствующая возникновению их относительного движения; может меняться от 0 до F<sub>пр</sub>.'],
+  ['b6', 'f', 'Закон Амонтона — Кулона', 'Сила трения скольжения пропорциональна силе нормальной реакции: F = f·N. Эмпирический (опытный) закон.'],
+  ['b6', 'd', 'Коэффициент трения f', 'Безразмерная величина, определяется опытным путём; зависит от материала соприкасающихся тел и состояния поверхностей.'],
+  ['b6', 'd', 'Предельное равновесие', 'Состояние, когда сила трения достигла максимума F<sub>пр</sub> = f·N: при малейшем увеличении сдвигающей силы начнётся скольжение.'],
+  ['b6', 'd', 'Угол трения', 'Наибольший угол, на который вследствие трения реакция шероховатой поверхности отклоняется от нормали: tg φ = f.'],
+  ['b6', 'd', 'Конус трения', 'Поверхность, которую образуют все возможные положения предельной реакции; если равнодействующая активных сил проходит внутри конуса, тело не сдвинется.'],
+  ['b6', 'f', 'Тело на наклонной плоскости', 'Тело покоится, пока угол наклона не больше угла трения: α ≤ φ (tg α ≤ f).'],
+  ['b6', 'd', 'Трение качения', 'Сопротивление при качении одного тела по другому; момент сопротивления M = k·N, k — коэффициент трения качения (имеет размерность длины).'],
+  ['b6', 'd', 'Подшипники', 'Устройства, предназначенные для поддерживания вращающихся валов и осей и восприятия действующей на них нагрузки.'],
+  ['b6', 'd', 'Подшипник скольжения и подшипник качения', 'Скольжения — опора, работающая на трении скольжения: вал вращается во вкладыше. Качения — два кольца, тела качения (шарики, ролики) и сепаратор.']
+];
+})(typeof window !== 'undefined' ? window : globalThis);
+
 /* examples.js — «Пример для ответа» и «Что нарисовать» к каждой теме (порядок = sections) */
 (function (G) {
 'use strict';
@@ -3095,13 +3407,13 @@ function pickR(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 /* ---------- состояние ---------- */
 var KEY = 'statika-trainer-v1';
-function defState() { return { drill: { n: 0, ok: 0, streak: 0, best: 0 }, eqd: { n: 0, ok: 0 }, solved: {}, cards: {}, tests: {}, read: {}, plan: {}, topics: {}, leit: {}, tix: null }; }
+function defState() { return { drill: { n: 0, ok: 0, streak: 0, best: 0 }, eqd: { n: 0, ok: 0 }, solved: {}, cards: {}, tests: {}, read: {}, plan: {}, topics: {}, leit: {}, tix: null, ang: { n: 0, ok: 0, streak: 0, best: 0 } }; }
 var ST = defState();
 try { var raw = localStorage.getItem(KEY); if (raw) { var got = JSON.parse(raw); Object.keys(ST).forEach(function (k) { if (got[k] != null) ST[k] = got[k]; }); } } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(ST)); } catch (e) {} }
 
 /* ---------- вкладки ---------- */
-var TABS = ['start', 'moments', 'tutorial', 'problems', 'hard', 'theory', 'exam'];
+var TABS = ['start', 'moments', 'tutorial', 'problems', 'hard', 'theory', 'run', 'exam'];
 var inited = {};
 function showTab(t, noScroll) {
   if (TABS.indexOf(t) < 0) t = 'start';
@@ -3311,6 +3623,141 @@ function initDrillOne() {
   next();
 }
 
+
+/* ---------- тренажёр: углы — где sin, где cos ---------- */
+function angGen() {
+  var r = Math.random(), q;
+  if (r < 0.5) {
+    var ref = pickR(['h', 'v']), al = pickR([20, 30, 35, 40, 50, 55, 60, 70]);
+    var sx = pickR([1, -1]), sy = pickR([1, -1]), th = (ref === 'h' ? al : 90 - al) * Math.PI / 180;
+    q = { kind: 'F', F: 'P', A: 'α', ang: al, ref: ref, d: [sx * Math.cos(th), sy * Math.sin(th)], into: Math.random() < 0.5 };
+  } else if (r < 0.8) {
+    // каток, плоскость к горизонтали на β → R к вертикали на β
+    var be = pickR([20, 25, 30, 35, 40, 50, 55, 60]), rise = pickR([1, -1]), b = be * Math.PI / 180;
+    q = { kind: 'R', F: 'R', A: 'β', ang: be, ref: 'v', planeRef: 'h', rise: rise, u: [Math.cos(b), rise * Math.sin(b)], d: [-rise * Math.sin(b), Math.cos(b)] };
+  } else {
+    // каток на крутой плоскости: плоскость к вертикали на γ → R к горизонтали на γ
+    var ga = pickR([15, 20, 25, 30, 35]), lean = pickR([1, -1]), g = ga * Math.PI / 180;
+    var up = pickR([1, -1]);
+    q = { kind: 'R', F: 'R', A: 'γ', ang: ga, ref: 'h', planeRef: 'v', rise: lean, u: [lean * Math.sin(g), Math.cos(g)], d: [up * Math.cos(g), -up * lean * Math.sin(g)] };
+  }
+  // верный ответ: для каждой оси — cos или sin и направление
+  q.hx = { f: q.ref === 'h' ? 'cos' : 'sin', s: q.d[0] > 0 ? 1 : -1 };
+  q.vy = { f: q.ref === 'v' ? 'cos' : 'sin', s: q.d[1] > 0 ? 1 : -1 };
+  return q;
+}
+function angSvg(q, reveal) {
+  var W = 380, H = 290, C = [190, q.kind === 'F' ? 145 : 140], out = [];
+  function scr(v) { return [v[0], -v[1]]; }
+  function arcMark(vtx, refDir, lineDir, label) {
+    var th0 = Math.atan2(-refDir[1], refDir[0]), th1 = Math.atan2(-lineDir[1], lineDir[0]);
+    var dth = th1 - th0; while (dth > Math.PI) dth -= 2 * Math.PI; while (dth < -Math.PI) dth += 2 * Math.PI;
+    out.push('<path d="' + S.arcPath(vtx, 32, th0, th0 + dth, dth < 0) + '" class="refl" fill="none"/>');
+    var bis = S.unit([refDir[0] + lineDir[0], refDir[1] + lineDir[1]]);
+    out.push(S.Tx(vtx[0] + bis[0] * 46, vtx[1] + bis[1] * 46, label, 'ta'));
+  }
+  var ds = scr(q.d), Lf = 100, lblCls = q.kind === 'F' ? 'tl' : 'tr', cls = q.kind === 'F' ? 'ld' : 'rc', mk = q.kind === 'F' ? 'mk-ld' : 'mk-rc';
+  if (q.kind === 'F') {
+    var side = q.into ? [-ds[0], -ds[1]] : ds;
+    var bm = [-(side[0] >= 0 ? 1 : -1), 0];
+    out.push(S.L(C[0], C[1], C[0] + bm[0] * 130, C[1], 'mbr'));
+    var a0 = q.into ? [C[0] - ds[0] * Lf, C[1] - ds[1] * Lf] : [C[0] + ds[0] * 4, C[1] + ds[1] * 4];
+    var a1 = q.into ? [C[0] - ds[0] * 5, C[1] - ds[1] * 5] : [C[0] + ds[0] * Lf, C[1] + ds[1] * Lf];
+    var refDir = q.ref === 'h' ? [side[0] >= 0 ? 1 : -1, 0] : [0, side[1] >= 0 ? 1 : -1];
+    out.push(S.L(C[0], C[1], C[0] + refDir[0] * 80, C[1] + refDir[1] * 80, 'refl'));
+    arcMark(C, refDir, side, q.A);
+    out.push(S.L(a0[0], a0[1], a1[0], a1[1], cls, ' marker-end="url(#' + mk + ')"'));
+    var far = q.into ? a0 : a1;
+    out.push(S.Tx(far[0] + side[0] * 14, far[1] + side[1] * 14, q.F, lblCls));
+    out.push('<circle cx="' + C[0] + '" cy="' + C[1] + '" r="4.5" class="jt"/>');
+  } else {
+    var gv = [-ds[0], -ds[1]];
+    out.push(S.supportSvg(C, 'roller', 'down', gv));
+    var gl = [C[0] + gv[0] * 23, C[1] + gv[1] * 23], us = S.unit(scr(q.u));
+    var e1 = [gl[0] + us[0] * 95, gl[1] + us[1] * 95], e2 = [gl[0] - us[0] * 95, gl[1] - us[1] * 95];
+    out.push(S.L(e1[0], e1[1], e2[0], e2[1], 'refl'));
+    var lo = e1[1] > e2[1] ? e1 : e2, hi = lo === e1 ? e2 : e1, ud = S.unit([hi[0] - lo[0], hi[1] - lo[1]]);
+    var rd = q.planeRef === 'h' ? [ud[0] >= 0 ? 1 : -1, 0] : [0, -1];
+    out.push(S.L(lo[0], lo[1], lo[0] + rd[0] * 70, lo[1] + rd[1] * 70, 'refl'));
+    arcMark(lo, rd, ud, q.A);
+    out.push(S.L(C[0] + ds[0] * 4, C[1] + ds[1] * 4, C[0] + ds[0] * Lf, C[1] + ds[1] * Lf, cls, ' marker-end="url(#' + mk + ')"'));
+    out.push(S.Tx(C[0] + ds[0] * (Lf + 14), C[1] + ds[1] * (Lf + 14), q.F, lblCls));
+    var pn = ds[0] > 0 ? [-ds[1], ds[0]] : [ds[1], -ds[0]];  // перпендикуляр к R, в сторону «вверх»
+    if (pn[1] > 0) pn = [-pn[0], -pn[1]];
+    out.push(S.Tx(C[0] + pn[0] * 16 - ds[0] * 6, C[1] + pn[1] * 16 - ds[1] * 6, 'B', 'tn'));
+  }
+  out.push(S.Tx(14, 18, q.A + ' = ' + q.ang + '°', 'ta', 'start'));
+  if (reveal) {
+    // составляющие — пунктиром там же, где сила
+    var base = q.kind === 'F' && q.into ? -1 : 1, st = q.kind === 'F' && q.into;
+    var comps = [[q.d[0], 0, q.F + '·' + q.hx.f + ' ' + q.A], [0, q.d[1], q.F + '·' + q.vy.f + ' ' + q.A]];
+    comps.forEach(function (c) {
+      var v = scr([c[0], c[1]]), L2 = Lf * Math.hypot(c[0], c[1]);
+      if (L2 < 8) return;
+      var p0 = st ? [C[0] - v[0] * Lf, C[1] - v[1] * Lf] : [C[0] + v[0] * 4, C[1] + v[1] * 4];
+      var p1 = st ? [C[0] - v[0] * 5, C[1] - v[1] * 5] : [C[0] + v[0] * Lf, C[1] + v[1] * Lf];
+      out.push(S.L(p0[0], p0[1], p1[0], p1[1], cls, ' marker-end="url(#' + mk + ')" stroke-dasharray="5 4" opacity=".75"'));
+      // подпись — за дальним концом составляющей
+      var fp = st ? p0 : p1, uo = S.unit(st ? [-v[0], -v[1]] : v);
+      if (Math.abs(v[0]) > Math.abs(v[1])) out.push(S.Tx(fp[0] + uo[0] * 8, fp[1], c[2], lblCls, uo[0] > 0 ? 'start' : 'end'));
+      else out.push(S.Tx(fp[0], fp[1] + uo[1] * 13, c[2], lblCls, 'middle'));
+    });
+  }
+  return '<svg class="scheme" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" role="img" aria-label="Сила под углом">' + out.join('') + '</svg>';
+}
+function angExplain(q) {
+  var F = q.F, A = q.A, adj = q.ref === 'h' ? 'горизонтальная' : 'вертикальная', opp = q.ref === 'h' ? 'вертикальная' : 'горизонтальная';
+  var s = '';
+  if (q.kind === 'R' && q.planeRef === 'h') s += 'Плоскость катка наклонена к <b>горизонтали</b> на β, а R ⊥ плоскости — значит R отклонена от <b>вертикали</b> на тот же β. ';
+  else if (q.kind === 'R') s += 'Плоскость катка отклонена от <b>вертикали</b> на γ, а R ⊥ плоскости — значит R отклонена от <b>горизонтали</b> на тот же γ. ';
+  else s += 'Угол ' + A + ' отложен от <b>' + (q.ref === 'h' ? 'горизонтали' : 'вертикали') + '</b>. ';
+  s += 'Прилежащая к углу — <b>' + adj + '</b>: ' + F + '·cos ' + A + '. Вторая, ' + opp + ': ' + F + '·sin ' + A + '. ';
+  s += 'Направления — по стрелке ' + F + ': ' + S.dirWord('x', q.hx.s) + ' и ' + S.dirWord('y', q.vy.s) + '.';
+  var zero = q.kind === 'R' ? (q.planeRef === 'h' ? 'плоскость горизонтальна, R смотрит вертикально' : 'плоскость вертикальна (стена), R горизонтальна') : 'сила ложится на ' + (q.ref === 'h' ? 'горизонталь' : 'вертикаль');
+  s += '<br><span class="muted">Проверка: ' + A + ' = 0 → ' + zero + ', ' + F + '·cos 0 = ' + F + ' — вся сила в ' + (q.ref === 'h' ? 'горизонтальной' : 'вертикальной') + ' ✓</span>';
+  return s;
+}
+function initDrillAng() {
+  var box = $('#drill-ang'), q, got;
+  function score() { var d = ST.ang; return '<span class="score">Верно ' + d.ok + ' из ' + d.n + ' · серия ' + d.streak + ' · лучшая ' + d.best + '</span>'; }
+  function opts(id, axis) {
+    var arr = axis === 'x' ? [['cos', 1], ['cos', -1], ['sin', 1], ['sin', -1]] : [['cos', 1], ['cos', -1], ['sin', 1], ['sin', -1]];
+    var ar = axis === 'x' ? { 1: '→', '-1': '←' } : { 1: '↑', '-1': '↓' };
+    return '<div class="opts" id="' + id + '">' + arr.map(function (o) { return '<button class="opt" data-f="' + o[0] + '" data-s="' + o[1] + '">' + q.F + '·' + o[0] + ' ' + q.A + ' ' + ar[o[1]] + '</button>'; }).join('') + '</div>';
+  }
+  function next() {
+    q = angGen(); got = { x: null, y: null };
+    var chip = q.kind === 'F' ? 'Наклонная сила' : 'Наклонный каток';
+    box.innerHTML = '<div class="drill"><div class="row" style="justify-content:space-between"><span class="chip">' + chip + '</span>' + score() + '</div>' +
+      '<div class="fig" id="ag-fig">' + angSvg(q, false) + '</div>' +
+      (q.kind === 'R' ? '<p class="hint" style="margin:0">R — реакция катка, ⊥ опорной плоскости (пунктир), от опоры к телу.</p>' : '') +
+      '<div class="q">Горизонтальная составляющая ' + q.F + ':</div>' + opts('ag-x', 'x') +
+      '<div class="q">Вертикальная составляющая ' + q.F + ':</div>' + opts('ag-y', 'y') +
+      '<div id="ag-fb"></div></div>';
+  }
+  function mark(id, ans, b) {
+    var ok = b.getAttribute('data-f') === ans.f && +b.getAttribute('data-s') === ans.s;
+    $$('#' + id + ' .opt').forEach(function (x) { x.disabled = true; if (x.getAttribute('data-f') === ans.f && +x.getAttribute('data-s') === ans.s) x.classList.add('right'); });
+    if (!ok) b.classList.add('wrong');
+    return ok;
+  }
+  box.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'ag-next') { next(); return; }
+    var par = b.parentNode.id;
+    if (par === 'ag-x' && got.x === null) got.x = mark('ag-x', q.hx, b);
+    else if (par === 'ag-y' && got.y === null) got.y = mark('ag-y', q.vy, b);
+    else return;
+    if (got.x === null || got.y === null) return;
+    var ok = got.x && got.y, d = ST.ang;
+    d.n++; if (ok) { d.ok++; d.streak++; d.best = Math.max(d.best, d.streak); } else d.streak = 0; save();
+    $('#ag-fig').innerHTML = angSvg(q, true);
+    $('#ag-fb').innerHTML = '<div class="fb ' + (ok ? 'good' : 'badf') + '"><h4>' + (ok ? 'Верно' : 'Разберём') + '</h4><p>' + angExplain(q) + '</p><button class="btn" type="button" id="ag-next">Следующая</button> ' + score() + '</div>';
+    $('#ag-next').focus({ preventScroll: true });
+  });
+  next();
+}
+
 /* ---------- тренажёр: уравнение целиком ---------- */
 function initDrillEq() {
   var box = $('#drill-eq');
@@ -3374,13 +3821,14 @@ function initRule() {
 }
 function initMoments() {
   initDrillOne();
-  var eqInit = false;
+  var eqInit = false, angInit = false;
   $$('#tab-moments .sub-nav button').forEach(function (b) {
     b.addEventListener('click', function () {
       var mode = b.getAttribute('data-mode');
       $$('#tab-moments .sub-nav button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      $('#drill-one').hidden = mode !== 'one'; $('#drill-eq').hidden = mode !== 'eq'; $('#drill-rule').hidden = mode !== 'rule';
+      $('#drill-one').hidden = mode !== 'one'; $('#drill-eq').hidden = mode !== 'eq'; $('#drill-rule').hidden = mode !== 'rule'; $('#drill-ang').hidden = mode !== 'ang';
       if (mode === 'eq' && !eqInit) { eqInit = true; initDrillEq(); }
+      if (mode === 'ang' && !angInit) { angInit = true; initDrillAng(); }
     });
   });
   initRule();
@@ -3412,6 +3860,7 @@ function loadsList(m, b) {
     if (g.joint) what = 'шарнир ' + n + (g.s > 0 ? ': рисуем вправо и вверх' : ': на этом теле развёрнуты — влево и вниз');
     else if (g.sup.type === 'fixed') what = 'жёсткая заделка ' + n + ': две силы по осям и момент против часовой';
     else if (g.sup.type === 'pin') what = 'неподвижный шарнир ' + n + ': по осям вправо и вверх';
+    else if (g.sup.tilt) what = 'наклонный каток ' + n + ': одна неизвестная, ⊥ наклонной опоре, под углом β к вертикали → составляющие ' + g.u[0].disp + '·sin β (гориз.) и ' + g.u[0].disp + '·cos β (верт.)';
     else what = 'каток ' + n + ': перпендикулярно опоре';
     out.push('<li class="rc-li"><b>' + names + '</b> — ' + what + '</li>');
   });
@@ -3460,7 +3909,7 @@ function problemHtml(P, opts) {
     '<div class="legend"><span><i style="background:var(--load)"></i>нагрузки</span><span><i style="background:var(--ink)"></i>конструкция</span><span>размеры в долях a</span></div>';
   var parts = solutionHtml(P);
   if (opts.interactive) {
-    h += '<h4>Твой ответ</h4><p class="hint">Знаки: X — вправо «+», Y и R — вверх «+» (у катка на стене — вправо), момент заделки — против часовой «+». Силу в шарнире вводи ту, что действует на тело с меньшим номером. Тела: ' +
+    h += '<h4>Твой ответ</h4><p class="hint">Знаки: X — вправо «+», Y и R — вверх «+» (у катка на стене — вправо, у наклонного катка — от опоры по перпендикуляру к ней), момент заделки — против часовой «+». Силу в шарнире вводи ту, что действует на тело с меньшим номером. Тела: ' +
       m.bodies.map(function (b) { return (b.i + 1) + ' — ' + bodyName(m, b.i); }).join(', ') + '.</p>' +
       '<div class="answers">' + m.unknowns.map(function (u) {
         return '<label class="ans" data-u="' + u.idx + '"><span class="ans-l">' + u.disp + (u.joint ? '<small>на тело ' + (u.on[0].b + 1) + '</small>' : '') + '</span><input inputmode="decimal" autocomplete="off" id="ans-' + spec.id + '-' + u.id + '" aria-label="' + u.id + '"><span class="ans-u">' + S.unitsOf(u) + '</span><span class="ans-st"></span></label>';
@@ -3493,7 +3942,7 @@ function mountProblem(root, P, opts) {
   root.onclick = function (e) {
     var b = e.target.closest('[data-act]'); if (!b) return;
     if (b.getAttribute('data-act') === 'check') checkAnswers(root, P);
-    if (b.getAttribute('data-act') === 'same') { var g = P.spec.group || P.spec.kind; if (g === 'hard') { openHard(); return; } openGen(g === 'beam' || g === 'h1' || g === 'h2' ? g : 'h1'); }
+    if (b.getAttribute('data-act') === 'same') { var g = P.spec.group || P.spec.kind; if (g === 'hard') { openHard(); return; } openGen(g === 'beam' || g === 'h1' || g === 'h2' || g === 'tilt' ? g : 'h1'); }
     if (b.getAttribute('data-act') === 'check' && P.spec.group === 'hard') setTimeout(renderHardList, 0);
   };
   root.onkeydown = function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT') checkAnswers(root, P); };
@@ -3889,9 +4338,176 @@ function initExam() {
   };
 }
 
-var INIT = { start: initStart, moments: initMoments, tutorial: initTutorial, problems: initProblems, hard: initHard, theory: initTheory, exam: initExam };
+
+/* ---------- прогон всей теории: знаю / не уверен / не знаю ---------- */
+var RUN_SKIP = { 'b1:9': 1, 'b1:10': 1, 'b3:10': 1, 'b4:7': 1, 'b5:10': 1, 'b5:11': 1 }; // разборы и «для общего развития»
+var RUN_LBL = { ok: 'знаю', mid: 'не уверен', no: 'не знаю' };
+var RUN_CHIP = { ok: 'green', mid: 'amber', no: 'red' };
+function runSt() {
+  if (!ST.run || !ST.run.marks) ST.run = { marks: {}, queue: null, pos: 0, blocks: ['b1', 'b2', 'b3', 'b4', 'b5', 'b6'], skip: true };
+  if (!ST.run.mode) ST.run.mode = 'defs';
+  return ST.run;
+}
+function runItem(key) {
+  if (key.charAt(0) === 'd') {
+    var d = S.DEFS[+key.slice(2)], b = blockOf(d[0]);
+    return { def: true, b: b, kind: d[1], term: d[2], ans: d[3], label: d[2] };
+  }
+  var p = key.split(':'), bb = blockOf(p[0]), t = bb.topics[+p[1]];
+  return { def: false, b: bb, t: t, label: bb.n + '.' + (t.i + 1) + ' ' + t.h };
+}
+function runTickets(key) {
+  var p = key.split(':');
+  return S.EXAMQ.filter(function (q) { return q[1] === p[0] && q[2].indexOf(+p[1]) >= 0; }).map(function (q) { return q[0]; });
+}
+function runKeys(mode) {
+  var R = runSt(), out = [];
+  if (mode === 'defs') S.DEFS.forEach(function (d, i) { if (R.blocks.indexOf(d[0]) >= 0) out.push('d:' + i); });
+  else S.THEORY.forEach(function (b) {
+    if (R.blocks.indexOf(b.id) < 0) return;
+    b.topics.forEach(function (t) { var k = b.id + ':' + t.i; if (!(R.skip && RUN_SKIP[k])) out.push(k); });
+  });
+  return out;
+}
+function runPool() { return runKeys(runSt().mode); }
+function initRun() {
+  var root = $('#run-box'), revealed = false;
+  function counts(keys) { var R = runSt(), c = { ok: 0, mid: 0, no: 0 }; keys.forEach(function (k) { if (R.marks[k]) c[R.marks[k]]++; }); return c; }
+  function sumHtml(keys) {
+    var c = counts(keys), all = keys.length || 1, done = c.ok + c.mid + c.no;
+    return '<div class="run-sum"><span class="chip green">знаю ' + c.ok + '</span><span class="chip amber">не уверен ' + c.mid + '</span><span class="chip red">не знаю ' + c.no + '</span><span class="muted">отмечено ' + done + ' из ' + keys.length + '</span></div>' +
+      '<div class="run-bar"><i class="m-ok" style="width:' + (c.ok / all * 100) + '%"></i><i class="m-mid" style="width:' + (c.mid / all * 100) + '%"></i><i class="m-no" style="width:' + (c.no / all * 100) + '%"></i></div>';
+  }
+  function mapHtml() {
+    var R = runSt(), defs = R.mode === 'defs', keys = runKeys(R.mode), done = keys.filter(function (k) { return R.marks[k]; }).length;
+    var rows = S.THEORY.map(function (b) {
+      var ks = defs ? S.DEFS.map(function (d, i) { return d[0] === b.id ? 'd:' + i : null; }).filter(Boolean) : b.topics.map(function (t) { return b.id + ':' + t.i; });
+      return '<div class="run-row" style="--acc:var(--' + b.id + ')"><span class="rn">' + b.n + '</span><div class="run-chips">' + ks.map(function (k) {
+        var m = R.marks[k], it = runItem(k), dim = !defs && RUN_SKIP[k];
+        return '<button type="button" class="rchip' + (m ? ' m-' + m : '') + (dim ? ' dim' : '') + '" data-one="' + k + '" title="' + (m ? RUN_LBL[m] : 'не отмечено') + '">' + it.label + '</button>';
+      }).join('') + '</div></div>';
+    }).join('');
+    return '<details class="run-map"' + (done ? ' open' : '') + '><summary>Карта: все ' + (defs ? 'определения' : 'темы') + ' — нажми, чтобы посмотреть ответ и отметить</summary>' + rows + '</details>';
+  }
+  function home() {
+    var R = runSt(), defs = R.mode === 'defs', pool = runPool(), weak = pool.filter(function (k) { return R.marks[k] === 'no' || R.marks[k] === 'mid'; }), fresh = pool.filter(function (k) { return !R.marks[k]; });
+    var cont = R.queue && R.pos < R.queue.length;
+    var nd = runKeys('defs').length, nt = runKeys('topics').length;
+    root.innerHTML = '<div class="sub-nav run-mode" role="group" aria-label="Что гоняем">' +
+      '<button type="button" data-mode="defs" aria-pressed="' + defs + '">Определения и формулировки (' + nd + ')</button>' +
+      '<button type="button" data-mode="topics" aria-pressed="' + !defs + '">Темы целиком (' + nt + ')</button></div>' +
+      '<p class="hint" style="margin-top:0">' + (defs ? 'Короткие вопросы «дай определение» и «сформулируй» — точные формулировки со слайдов лекций. Как раз то, чего не было в карточках.' : 'Каждая тема целиком: вспоминаешь всё, что можешь рассказать, потом сверяешься с сутью, формулой и ловушкой.') + '</p>' +
+      sumHtml(pool) +
+      '<div class="card run-setup">' +
+      '<div class="run-filt">' + S.THEORY.map(function (b) { return '<button type="button" class="tchip' + (R.blocks.indexOf(b.id) >= 0 ? ' on' : '') + '" data-blk="' + b.id + '" style="--acc:var(--' + b.id + ')">Блок ' + b.n + (b.id === 'b6' ? ' · трение' : '') + '</button>'; }).join('') + '</div>' +
+      (defs ? '' : '<label class="run-skip"><input type="checkbox" id="run-skip"' + (R.skip ? ' checked' : '') + '> без разборов задач и «для общего развития» (их не спрашивают как билет)</label>') +
+      '<div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">' +
+      (cont ? '<button class="btn red" type="button" data-run="cont">Продолжить: ' + (R.pos + 1) + ' из ' + R.queue.length + '</button>' : '') +
+      '<button class="btn' + (cont ? ' ghost' : ' red') + '" type="button" data-run="all">Все подряд (' + pool.length + ')</button>' +
+      (fresh.length && fresh.length < pool.length ? '<button class="btn ghost" type="button" data-run="fresh">Только неотмеченные (' + fresh.length + ')</button>' : '') +
+      (weak.length ? '<button class="btn ghost" type="button" data-run="weak">Только «не знаю» и «не уверен» (' + weak.length + ')</button>' : '') +
+      '</div><p class="hint" style="margin-bottom:0">Вопрос → ответь про себя или вслух → «Показать ответ» (пробел) → честно оцени: <b>1</b> знаю, <b>2</b> не уверен, <b>3</b> не знаю.' + (defs ? ' «Знаю» — только если сказал близко к формулировке, а не «примерно понимаю».' : ' Одна тема ≈ 20–30 секунд.') + '</p></div>' +
+      mapHtml() + '<div id="run-one"></div>';
+  }
+  function start(list) { var R = runSt(); R.queue = list; R.pos = 0; save(); card(); }
+  function markChip(m) { return m ? '<span class="chip ' + RUN_CHIP[m] + '">в прошлый раз: ' + RUN_LBL[m] + '</span>' : ''; }
+  function card() {
+    var R = runSt();
+    if (!R.queue || R.pos >= R.queue.length) { finish(); return; }
+    revealed = false;
+    var k = R.queue[R.pos], it = runItem(k), b = it.b, m = R.marks[k], body;
+    if (it.def) {
+      body = '<article class="concept run-card" style="--acc:var(--' + b.id + ')">' +
+        '<div class="c-top"><span class="c-num">' + b.n + '</span><h3><span class="muted" style="font-weight:500">' + (it.kind === 'f' ? 'Сформулируй:' : 'Дай определение:') + '</span> ' + it.term + '</h3>' + markChip(m) + '</div>' +
+        '<p class="muted" style="margin:.2rem 0 .6rem">Блок ' + b.n + ' · ' + b.title + '</p>' +
+        '<div id="run-ans" hidden><div class="run-def">' + it.ans + '</div></div>';
+    } else {
+      var t = it.t, cards = t.cardIdx.map(function (i) { return b.cards[i]; }).filter(function (c) { return !c.fig; }).slice(0, 3), tix = runTickets(k);
+      body = '<article class="concept run-card" style="--acc:var(--' + b.id + ')">' +
+        '<div class="c-top"><span class="c-num">' + b.n + '.' + (t.i + 1) + '</span><h3>' + t.h + '</h3>' + markChip(m) + '</div>' +
+        '<p class="muted" style="margin:.2rem 0 .6rem">Блок ' + b.n + ' · ' + b.title + (tix.length ? '<br>В билете: «' + tix.join('», «') + '»' : '') + '</p>' +
+        '<div class="run-q"><b>Расскажи про себя:</b><ul>' + (cards.length ? cards.map(function (c) { return '<li>' + c.q + '</li>'; }).join('') : '<li>Что это, формула/условие, пример.</li>') + '</ul></div>' +
+        '<div id="run-ans" hidden>' +
+        '<p class="gist">' + t.gist + '</p>' +
+        (t.formula ? '<div class="formula">' + t.formula.split(' · ').map(function (f) { return '<span>' + f + '</span>'; }).join('') + '</div>' : '') +
+        (cards.length ? '<ul class="run-a">' + cards.map(function (c) { return '<li><span class="muted">' + c.q + '</span><br>' + c.a + '</li>'; }).join('') + '</ul>' : '') +
+        (t.trap ? '<div class="trap"><b>Ловушка</b>' + t.trap + '</div>' : '') +
+        (t.fig ? '<div class="c-fig" style="max-width:360px">' + S.fig(t.fig) + '</div>' : '') +
+        '<details class="more"><summary>Подробно — как в лекции</summary><div class="more-body">' + t.html + '</div></details>' +
+        '</div>';
+    }
+    root.innerHTML = '<div class="run-top"><button class="btn ghost" type="button" data-run="home">← Карта</button><span class="score">' + (R.pos + 1) + ' из ' + R.queue.length + '</span></div>' +
+      '<div class="bar" style="margin:6px 0 12px"><i style="width:' + (R.pos / R.queue.length * 100) + '%"></i></div>' + body +
+      '<div class="run-act" id="run-show"><button class="btn primary" type="button" data-run="show">Показать ответ <small>(пробел)</small></button></div>' +
+      '<div class="run-act" id="run-grade" hidden><button class="btn green" type="button" data-mark="ok">1 · Знаю</button><button class="btn amber" type="button" data-mark="mid">2 · Не уверен</button><button class="btn red" type="button" data-mark="no">3 · Не знаю</button></div>' +
+      '</article>' +
+      '<div class="row" style="justify-content:space-between;margin-top:8px"><button class="btn ghost" type="button" data-run="prev"' + (R.pos === 0 ? ' disabled' : '') + '>← Предыдущий</button><button class="btn ghost" type="button" data-run="skipone">Пропустить →</button></div>';
+  }
+  function show() { if (revealed) return; revealed = true; $('#run-ans').hidden = false; $('#run-show').hidden = true; $('#run-grade').hidden = false; }
+  function grade(v) { var R = runSt(); R.marks[R.queue[R.pos]] = v; R.pos++; save(); card(); window.scrollTo(0, $('#tab-run').offsetTop - 60); }
+  function itemBlock(k) {
+    var it = runItem(k);
+    if (it.def) return '<div class="step run-li" style="--acc:var(--' + it.b.id + ')"><b>' + it.term + '</b> — ' + it.ans + '</div>';
+    return '<details class="step" style="--acc:var(--' + it.b.id + ')"><summary><span><span class="c-num">' + it.b.n + '.' + (it.t.i + 1) + '</span> ' + it.t.h + '</span></summary><div class="stepbody">' + conceptHtml(it.b, it.t, { open: false }) + '</div></details>';
+  }
+  function finish() {
+    var R = runSt(), q = R.queue || [], cnt = counts(q);
+    function list(m) {
+      var ks = q.filter(function (k) { return R.marks[k] === m; });
+      if (!ks.length) return '';
+      return '<h4>' + (m === 'no' ? 'Не знаю — выучить в первую очередь' : 'Не уверен — перечитать') + ' (' + ks.length + ')</h4>' + ks.map(itemBlock).join('');
+    }
+    R.queue = null; R.pos = 0; save();
+    var weak = q.filter(function (k) { return R.marks[k] === 'no' || R.marks[k] === 'mid'; });
+    root.innerHTML = '<div class="card key"><h3 style="margin-top:0">Прогон закончен</h3><div class="run-sum"><span class="chip green">знаю ' + cnt.ok + '</span><span class="chip amber">не уверен ' + cnt.mid + '</span><span class="chip red">не знаю ' + cnt.no + '</span></div>' +
+      '<div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">' + (weak.length ? '<button class="btn red" type="button" data-run="weakq">Прогнать ещё раз слабые (' + weak.length + ')</button>' : '<b>Всё отмечено как «знаю» — отлично.</b>') + '<button class="btn ghost" type="button" data-run="home">К карте</button></div></div>' +
+      list('no') + list('mid');
+    root._weak = weak;
+  }
+  function one(k) {
+    var it = runItem(k), box = $('#run-one');
+    var inner = it.def ? '<h3 style="margin-top:0">' + it.term + '</h3><div class="run-def">' + it.ans + '</div>' : conceptHtml(it.b, it.t, { open: false });
+    box.innerHTML = '<div class="card" style="margin-top:12px;border-left:4px solid var(--' + it.b.id + ')">' + inner +
+      '<div class="run-act"><span class="muted">Отметить:</span><button class="btn green" type="button" data-set="ok" data-k="' + k + '">Знаю</button><button class="btn amber" type="button" data-set="mid" data-k="' + k + '">Не уверен</button><button class="btn red" type="button" data-set="no" data-k="' + k + '">Не знаю</button></div></div>';
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  root.addEventListener('click', function (e) {
+    var R = runSt(), b;
+    if ((b = e.target.closest('.run-mode [data-mode]'))) {
+      var nm = b.getAttribute('data-mode');
+      if (nm !== R.mode) { R.saved = R.saved || {}; R.saved[R.mode] = { queue: R.queue, pos: R.pos }; var sv = R.saved[nm] || {}; R.queue = sv.queue || null; R.pos = sv.pos || 0; R.mode = nm; save(); }
+      home(); return;
+    }
+    if ((b = e.target.closest('[data-one]'))) { if (!$('#run-one')) home(); one(b.getAttribute('data-one')); return; }
+    if ((b = e.target.closest('[data-set]'))) { R.marks[b.getAttribute('data-k')] = b.getAttribute('data-set'); save(); home(); return; }
+    if ((b = e.target.closest('[data-blk]'))) { var id = b.getAttribute('data-blk'), i = R.blocks.indexOf(id); if (i >= 0) R.blocks.splice(i, 1); else R.blocks.push(id); R.queue = null; save(); home(); return; }
+    if ((b = e.target.closest('[data-mark]'))) { grade(b.getAttribute('data-mark')); return; }
+    if (!(b = e.target.closest('[data-run]'))) return;
+    var a = b.getAttribute('data-run'), pool = runPool();
+    if (a === 'home') home();
+    else if (a === 'cont') card();
+    else if (a === 'all') start(pool);
+    else if (a === 'fresh') start(pool.filter(function (k) { return !R.marks[k]; }));
+    else if (a === 'weak') start(pool.filter(function (k) { return R.marks[k] === 'no' || R.marks[k] === 'mid'; }));
+    else if (a === 'weakq') start((root._weak || []).slice());
+    else if (a === 'show') show();
+    else if (a === 'prev') { R.pos = Math.max(0, R.pos - 1); save(); card(); }
+    else if (a === 'skipone') { R.pos++; save(); card(); }
+  });
+  root.addEventListener('change', function (e) { if (e.target.id === 'run-skip') { runSt().skip = e.target.checked; runSt().queue = null; save(); home(); } });
+  document.addEventListener('keydown', function (e) {
+    if ($('#tab-run').hidden || !$('#run-grade') || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    if ((e.key === ' ' || e.key === 'Enter') && !revealed) { e.preventDefault(); show(); }
+    else if (revealed && { '1': 'ok', '2': 'mid', '3': 'no' }[e.key]) { e.preventDefault(); grade({ '1': 'ok', '2': 'mid', '3': 'no' }[e.key]); }
+  });
+  home();
+}
+
+var INIT = { start: initStart, moments: initMoments, tutorial: initTutorial, problems: initProblems, hard: initHard, theory: initTheory, run: initRun, exam: initExam };
 var start = (location.hash || '').replace('#', '');
-showTab(TABS.indexOf(start) >= 0 ? start : 'start', true);
+if (start === 'tilt') { showTab('problems', true); openGen('tilt'); }
+else if (start === 'angles') { showTab('moments', true); $('#tab-moments [data-mode="ang"]').click(); }
+else showTab(TABS.indexOf(start) >= 0 ? start : 'start', true);
 })();
 
 </script>
