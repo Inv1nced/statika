@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаба 2-02 — Мост сопротивлений</title>
+<meta name="description" content="Лабораторная работа 2-02 «Мост сопротивлений», индивидуальное задание 4: таблицы с вычислениями, вывод, ответы на контрольные вопросы.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e1a;--panel:#11172a;--panel2:#161d33;--line:#232c47;--text:#e8ecf6;--soft:#cdd3e5;--muted:#8d97b3;--accent:#2ee6c5;--warn:#ff9f43;--bad:#ff5d8f;--radius:14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Manrope,system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:28px 16px 64px}
+h1{font:700 clamp(22px,5vw,32px)/1.2 Unbounded,sans-serif;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+h2{font:500 clamp(17px,3.6vw,21px)/1.3 Unbounded,sans-serif;margin:36px 0 10px}
+.note{color:var(--soft);font-size:14px;margin:0 0 12px}
+.note a{color:var(--accent)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--soft);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.calc{font-variant-numeric:tabular-nums;min-width:170px}
+td b{color:var(--text)}
+.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ok{color:var(--accent)}
+.warn{color:var(--warn)}
+.bad{color:var(--bad)}
+ol{padding-left:22px;margin:0}
+ol li{margin:0 0 10px;color:var(--soft)}
+ol li b{color:var(--text)}
+footer{margin-top:40px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+<h1>Лаба 2-02 «Мост сопротивлений»</h1>
+<p class="sub">Индивидуальное задание 4 · Денисов Олег, БТМО-25-1</p>
+
+<h2>Таблица 1. Резисторы 1–6</h2>
+<p class="note">R = 2 Ом, Δl = 0,5 мм, l = 1 м; ρ константана 0,50·10⁻⁶ Ом·м, латуни 0,07·10⁻⁶ Ом·м (<a href="https://portal.tpu.ru/SHARED/g/GORMAKOV/stady/Tab2/PROVODNIKI.pdf">источник</a>).</p>
+<div class="wrap"><table>
+<thead><tr><th>№</th><th>Материал, d, мм</th><th>R<sub>x</sub> = R·l₁/l₂, Ом</th><th>ΔR<sub>x</sub> = (Δl/l₁ + Δl/l₂)·R<sub>x</sub>, Ом</th><th>R<sub>теор</sub> = 4ρl/(πd²), Ом</th><th>ε = (R<sub>x</sub> − R<sub>теор</sub>)/R<sub>теор</sub>, %</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>конст., 1,0</td><td class="calc">2·255/745 = <b>0,685</b></td><td class="calc">(0,5/255 + 0,5/745)·0,685 = <b>0,002</b></td><td class="calc">4·0,5·10⁻⁶/(π·(1,0·10⁻³)²) = <b>0,637</b></td><td class="num warn">+7,5</td></tr>
+<tr><td>2</td><td>конст., 0,5</td><td class="calc">2·432/568 = <b>1,521</b></td><td class="calc">(0,5/432 + 0,5/568)·1,521 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,5·10⁻³)²) = <b>2,546</b></td><td class="num bad">−40,3</td></tr>
+<tr><td>3</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
+<tr><td>4</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
+<tr><td>5</td><td>конст., 0,35</td><td class="calc">2·718/282 = <b>5,092</b></td><td class="calc">(0,5/718 + 0,5/282)·5,092 = <b>0,013</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,35·10⁻³)²) = <b>5,197</b></td><td class="num ok">−2,0</td></tr>
+<tr><td>6</td><td>латунь, 0,5</td><td class="calc">2·200/800 = <b>0,500</b></td><td class="calc">(0,5/200 + 0,5/800)·0,500 = <b>0,002</b></td><td class="calc">4·0,07·10⁻⁶/(π·(0,5·10⁻³)²) = <b>0,356</b></td><td class="num bad">+40,2</td></tr>
+</tbody></table></div>
+
+<h2>Таблица 2. Соединение резисторов 2 и 5</h2>
+<div class="wrap"><table>
+<thead><tr><th>Величина</th><th>Последовательное, R = 10 Ом</th><th>Параллельное, R = 2 Ом</th></tr></thead>
+<tbody>
+<tr><td>R<sub>x</sub> = R·l₁/l₂, Ом</td><td class="calc">10·437/563 = <b>7,762</b></td><td class="calc">2·467/533 = <b>1,752</b></td></tr>
+<tr><td>ΔR<sub>x</sub> = (Δl/l₁ + Δl/l₂)·R<sub>x</sub>, Ом</td><td class="calc">(0,5/437 + 0,5/563)·7,762 = <b>0,016</b></td><td class="calc">(0,5/467 + 0,5/533)·1,752 = <b>0,004</b></td></tr>
+<tr><td>По (7), (8) из измеренных R<sub>x2</sub>, R<sub>x5</sub>, Ом</td><td class="calc">1,521 + 5,092 = <b>6,613</b></td><td class="calc">1,521·5,092/(1,521 + 5,092) = <b>1,171</b></td></tr>
+<tr><td>ε, %</td><td class="num bad">+17,4</td><td class="num bad">+49,6</td></tr>
+<tr><td>По (7), (8) из теоретических R<sub>теор2</sub>, R<sub>теор5</sub>, Ом</td><td class="calc">2,546 + 5,197 = <b>7,743</b></td><td class="calc">2,546·5,197/(2,546 + 5,197) = <b>1,709</b></td></tr>
+<tr><td>ε, %</td><td class="num ok">+0,2</td><td class="num ok">+2,5</td></tr>
+</tbody></table></div>
+
+<h2>Таблица 3. Влияние эталонного R на погрешность</h2>
+<div class="wrap"><table>
+<thead><tr><th>Измерение</th><th>R, Ом</th><th>l₁ / l₂, мм</th><th>δ = Δl/l₁ + Δl/l₂, %</th></tr></thead>
+<tbody>
+<tr><td>Бегунок в середине (R = R<sub>x</sub>) — минимум</td><td>—</td><td class="num">500 / 500</td><td class="calc">0,5/500 + 0,5/500 = <b>0,20</b></td></tr>
+<tr><td>Последовательное</td><td>10</td><td class="num">437 / 563</td><td class="calc">0,5/437 + 0,5/563 = <b>0,20</b></td></tr>
+<tr><td>Резистор 5</td><td>2</td><td class="num">718 / 282</td><td class="calc">0,5/718 + 0,5/282 = <b>0,25</b></td></tr>
+<tr><td>Резистор 6</td><td>2</td><td class="num">200 / 800</td><td class="calc">0,5/200 + 0,5/800 = <b>0,31</b></td></tr>
+<tr><td>Последовательное, если бы R = 2 Ом</td><td>2</td><td class="num">795 / 205</td><td class="calc">0,5/795 + 0,5/205 = <b>0,31</b></td></tr>
+</tbody></table></div>
+
+<h2>Вывод</h2>
+<ol>
+<li>Сопротивления резисторов 1, 3, 4, 5 совпадают с расчётом в пределах 2–7,5 %; соединения подтверждают формулы (7) и (8) с точностью 0,2 % и 2,5 %. Метод моста применим.</li>
+<li>Резистор 2 отличается на 40 % — ошибка отсчёта: при перестановке l₁ и l₂ получается 2·568/432 = 2,630 Ом (+3,3 %). Из-за него же расхождение 17 % и 50 % в строках «из измеренных» таблицы 2.</li>
+<li>Латунь +40 %: марка латуни неизвестна, табличное ρ для разных марок сильно различается.</li>
+<li>Погрешность минимальна, когда R ≈ R<sub>x</sub> и баланс в середине струны (таблица 3).</li>
+</ol>
+
+<h2>Контрольные вопросы</h2>
+<ol>
+<li>Ток — упорядоченное движение зарядов. Условия: свободные носители заряда и электрическое поле; для постоянного тока — замкнутая цепь с источником.</li>
+<li>Сторонние силы — неэлектростатические (химические, электромагнитные), разделяют заряды в источнике. ЭДС — их работа по переносу единичного положительного заряда: ε = A<sub>стор</sub>/q. ЭДС и напряжение — работа на единицу заряда, Дж/Кл = В.</li>
+<li>Однородный участок: I = U/R. Неоднородный: IR = φ₁ − φ₂ + ε₁₂. Напряжение — работа кулоновских и сторонних сил по переносу единичного положительного заряда: U₁₂ = φ₁ − φ₂ + ε₁₂.</li>
+<li>Закон сохранения заряда: заряд в узле не накапливается, поэтому ΣI<sub>k</sub> = 0.</li>
+<li>IR берут с «+», если ток совпадает с направлением обхода; ЭДС с «+», если обход внутри источника идёт от «−» к «+». В основе — закон сохранения энергии.</li>
+<li>При балансе ток через амперметр равен 0, φ<sub>C</sub> = φ<sub>D</sub>, отсюда R<sub>x</sub> = R·l₁/l₂; ЭДС и амперметр на результат не влияют. Погрешность δ = (Δl/L)·(2 + R<sub>x</sub>/R + R/R<sub>x</sub>) минимальна при R ≈ R<sub>x</sub>, когда бегунок в середине (δ<sub>min</sub> = 0,2 %). Погрешность самого R входит в R<sub>x</sub> целиком.</li>
+</ol>
+
+<footer>Методичка: Бондарева С.А., Уварова И.Ф. Лабораторная работа № 2-02 «Мост сопротивлений». НИТУ МИСиС.</footer>
+</main>
+</body>
+</html>
