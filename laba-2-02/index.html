@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true}]})"></script>
 <style>
 :root{--bg:#0a0e1a;--panel:#11172a;--panel2:#161d33;--line:#232c47;--text:#e8ecf6;--soft:#cdd3e5;--muted:#8d97b3;--accent:#2ee6c5;--warn:#ff9f43;--bad:#ff5d8f;--radius:14px}
 *{box-sizing:border-box}
@@ -32,6 +35,8 @@ td b{color:var(--text)}
 ol{padding-left:22px;margin:0}
 ol li{margin:0 0 10px;color:var(--soft)}
 ol li b{color:var(--text)}
+.f{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:4px 14px;margin:0 0 10px;overflow-x:auto}
+.f .katex-display{margin:10px 0}
 footer{margin-top:40px;color:var(--muted);font-size:13px}
 </style>
 </head>
@@ -40,32 +45,51 @@ footer{margin-top:40px;color:var(--muted);font-size:13px}
 <h1>Лаба 2-02 «Мост сопротивлений»</h1>
 <p class="sub">Индивидуальное задание 4 · Денисов Олег, БТМО-25-1</p>
 
-<h2>Таблица 1. Резисторы 1–6</h2>
-<p class="note">R = 2 Ом, Δl = 0,5 мм, l = 1 м; ρ константана 0,50·10⁻⁶ Ом·м, латуни 0,07·10⁻⁶ Ом·м (<a href="https://portal.tpu.ru/SHARED/g/GORMAKOV/stady/Tab2/PROVODNIKI.pdf">источник</a>).</p>
+<h2>Расчётные формулы</h2>
+<div class="f">$$R_x = R\,\frac{l_1}{l_2} \tag{18}$$</div>
+<div class="f">$$\Delta R_x = \left(\frac{\Delta l}{l_1} + \frac{\Delta l}{l_2}\right) R_x, \qquad \delta = \frac{\Delta R_x}{R_x}\cdot 100\% \tag{19}$$</div>
+<div class="f">$$R_{\text{теор}} = \rho\,\frac{l}{S} = \frac{4\rho l}{\pi d^{2}}, \qquad S = \frac{\pi d^{2}}{4} \tag{6}$$</div>
+<div class="f">$$R_{\text{посл}} = R_2 + R_5 \tag{7}$$</div>
+<div class="f">$$\frac{1}{R_{\text{пар}}} = \frac{1}{R_2} + \frac{1}{R_5} \;\Rightarrow\; R_{\text{пар}} = \frac{R_2 R_5}{R_2 + R_5} \tag{8}$$</div>
+<div class="f">$$\varepsilon = \frac{R_x - R_{\text{теор}}}{R_{\text{теор}}}\cdot 100\%$$</div>
+<p class="note">Влияние эталонного R (задание, п. 3), L = 1000 мм:</p>
+<div class="f">$$\delta = \frac{\Delta l}{L}\left(2 + \frac{R_x}{R} + \frac{R}{R_x}\right), \qquad \delta_{\min} = \frac{4\Delta l}{L} = 0{,}2\% \ \text{при}\ R = R_x$$</div>
+
+<h2>Таблица 1. Технические данные приборов</h2>
 <div class="wrap"><table>
-<thead><tr><th>№</th><th>Материал, d, мм</th><th>R<sub>x</sub> = R·l₁/l₂, Ом</th><th>ΔR<sub>x</sub> = (Δl/l₁ + Δl/l₂)·R<sub>x</sub>, Ом</th><th>R<sub>теор</sub> = 4ρl/(πd²), Ом</th><th>ε = (R<sub>x</sub> − R<sub>теор</sub>)/R<sub>теор</sub>, %</th></tr></thead>
+<thead><tr><th>Прибор</th><th>Предел измерений</th><th>Число делений</th><th>Цена деления</th><th>Приборная погрешность</th></tr></thead>
 <tbody>
-<tr><td>1</td><td>конст., 1,0</td><td class="calc">2·255/745 = <b>0,685</b></td><td class="calc">(0,5/255 + 0,5/745)·0,685 = <b>0,002</b></td><td class="calc">4·0,5·10⁻⁶/(π·(1,0·10⁻³)²) = <b>0,637</b></td><td class="num warn">+7,5</td></tr>
-<tr><td>2</td><td>конст., 0,5</td><td class="calc">2·432/568 = <b>1,521</b></td><td class="calc">(0,5/432 + 0,5/568)·1,521 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,5·10⁻³)²) = <b>2,546</b></td><td class="num bad">−40,3</td></tr>
-<tr><td>3</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
-<tr><td>4</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
-<tr><td>5</td><td>конст., 0,35</td><td class="calc">2·718/282 = <b>5,092</b></td><td class="calc">(0,5/718 + 0,5/282)·5,092 = <b>0,013</b></td><td class="calc">4·0,5·10⁻⁶/(π·(0,35·10⁻³)²) = <b>5,197</b></td><td class="num ok">−2,0</td></tr>
-<tr><td>6</td><td>латунь, 0,5</td><td class="calc">2·200/800 = <b>0,500</b></td><td class="calc">(0,5/200 + 0,5/800)·0,500 = <b>0,002</b></td><td class="calc">4·0,07·10⁻⁶/(π·(0,5·10⁻³)²) = <b>0,356</b></td><td class="num bad">+40,2</td></tr>
+<tr><td>Амперметр (цифровой)</td><td class="num">20 мА</td><td class="num">20/0,01 = 2000</td><td class="num">0,01 мА</td><td class="num">0,01 мА</td></tr>
+<tr><td>Измерительная линейка</td><td class="num">1000 мм</td><td class="num">1000</td><td class="num">1 мм</td><td class="num">0,5 мм</td></tr>
 </tbody></table></div>
 
-<h2>Таблица 2. Соединение резисторов 2 и 5</h2>
+<h2>Таблица 2. Резисторы 1–6</h2>
+<p class="note">R = 2 Ом, Δl = 0,5 мм, l = 1 м; ρ константана 0,50·10⁻⁶ Ом·м, латуни 0,07·10⁻⁶ Ом·м (<a href="https://portal.tpu.ru/SHARED/g/GORMAKOV/stady/Tab2/PROVODNIKI.pdf">источник</a>).</p>
+<div class="wrap"><table>
+<thead><tr><th>№</th><th>Материал, d, мм</th><th>R<sub>x</sub> = R·l₁/l₂, Ом</th><th>ΔR<sub>x</sub> = (Δl/l₁ + Δl/l₂)·R<sub>x</sub>, Ом</th><th>δ = ΔR<sub>x</sub>/R<sub>x</sub>, %</th><th>R<sub>теор</sub> = 4ρl/(πd²), Ом</th><th>ε = (R<sub>x</sub> − R<sub>теор</sub>)/R<sub>теор</sub>, %</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>конст., 1,0</td><td class="calc">2·255/745 = <b>0,685</b></td><td class="calc">(0,5/255 + 0,5/745)·0,685 = <b>0,002</b></td><td class="num">0,26</td><td class="calc">4·0,5·10⁻⁶/(π·(1,0·10⁻³)²) = <b>0,637</b></td><td class="num warn">+7,5</td></tr>
+<tr><td>2</td><td>конст., 0,5</td><td class="calc">2·432/568 = <b>1,521</b></td><td class="calc">(0,5/432 + 0,5/568)·1,521 = <b>0,003</b></td><td class="num">0,20</td><td class="calc">4·0,5·10⁻⁶/(π·(0,5·10⁻³)²) = <b>2,546</b></td><td class="num bad">−40,3</td></tr>
+<tr><td>3</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="num">0,21</td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
+<tr><td>4</td><td>конст., 0,7</td><td class="calc">2·405/595 = <b>1,361</b></td><td class="calc">(0,5/405 + 0,5/595)·1,361 = <b>0,003</b></td><td class="num">0,21</td><td class="calc">4·0,5·10⁻⁶/(π·(0,7·10⁻³)²) = <b>1,299</b></td><td class="num ok">+4,8</td></tr>
+<tr><td>5</td><td>конст., 0,35</td><td class="calc">2·718/282 = <b>5,092</b></td><td class="calc">(0,5/718 + 0,5/282)·5,092 = <b>0,013</b></td><td class="num">0,25</td><td class="calc">4·0,5·10⁻⁶/(π·(0,35·10⁻³)²) = <b>5,197</b></td><td class="num ok">−2,0</td></tr>
+<tr><td>6</td><td>латунь, 0,5</td><td class="calc">2·200/800 = <b>0,500</b></td><td class="calc">(0,5/200 + 0,5/800)·0,500 = <b>0,002</b></td><td class="num">0,31</td><td class="calc">4·0,07·10⁻⁶/(π·(0,5·10⁻³)²) = <b>0,356</b></td><td class="num bad">+40,2</td></tr>
+</tbody></table></div>
+
+<h2>Таблица 3. Соединение резисторов 2 и 5</h2>
 <div class="wrap"><table>
 <thead><tr><th>Величина</th><th>Последовательное, R = 10 Ом</th><th>Параллельное, R = 2 Ом</th></tr></thead>
 <tbody>
 <tr><td>R<sub>x</sub> = R·l₁/l₂, Ом</td><td class="calc">10·437/563 = <b>7,762</b></td><td class="calc">2·467/533 = <b>1,752</b></td></tr>
 <tr><td>ΔR<sub>x</sub> = (Δl/l₁ + Δl/l₂)·R<sub>x</sub>, Ом</td><td class="calc">(0,5/437 + 0,5/563)·7,762 = <b>0,016</b></td><td class="calc">(0,5/467 + 0,5/533)·1,752 = <b>0,004</b></td></tr>
+<tr><td>δ = ΔR<sub>x</sub>/R<sub>x</sub>, %</td><td class="num">0,20</td><td class="num">0,20</td></tr>
 <tr><td>По (7), (8) из измеренных R<sub>x2</sub>, R<sub>x5</sub>, Ом</td><td class="calc">1,521 + 5,092 = <b>6,613</b></td><td class="calc">1,521·5,092/(1,521 + 5,092) = <b>1,171</b></td></tr>
 <tr><td>ε, %</td><td class="num bad">+17,4</td><td class="num bad">+49,6</td></tr>
 <tr><td>По (7), (8) из теоретических R<sub>теор2</sub>, R<sub>теор5</sub>, Ом</td><td class="calc">2,546 + 5,197 = <b>7,743</b></td><td class="calc">2,546·5,197/(2,546 + 5,197) = <b>1,709</b></td></tr>
 <tr><td>ε, %</td><td class="num ok">+0,2</td><td class="num ok">+2,5</td></tr>
 </tbody></table></div>
 
-<h2>Таблица 3. Влияние эталонного R на погрешность</h2>
+<h2>Таблица 4. Влияние эталонного R на погрешность</h2>
 <div class="wrap"><table>
 <thead><tr><th>Измерение</th><th>R, Ом</th><th>l₁ / l₂, мм</th><th>δ = Δl/l₁ + Δl/l₂, %</th></tr></thead>
 <tbody>
@@ -79,9 +103,9 @@ footer{margin-top:40px;color:var(--muted);font-size:13px}
 <h2>Вывод</h2>
 <ol>
 <li>Сопротивления резисторов 1, 3, 4, 5 совпадают с расчётом в пределах 2–7,5 %; соединения подтверждают формулы (7) и (8) с точностью 0,2 % и 2,5 %. Метод моста применим.</li>
-<li>Резистор 2 отличается на 40 % — ошибка отсчёта: при перестановке l₁ и l₂ получается 2·568/432 = 2,630 Ом (+3,3 %). Из-за него же расхождение 17 % и 50 % в строках «из измеренных» таблицы 2.</li>
+<li>Резистор 2 отличается на 40 % — ошибка отсчёта: при перестановке l₁ и l₂ получается 2·568/432 = 2,630 Ом (+3,3 %). Из-за него же расхождение 17 % и 50 % в строках «из измеренных» таблицы 3.</li>
 <li>Латунь +40 %: марка латуни неизвестна, табличное ρ для разных марок сильно различается.</li>
-<li>Погрешность минимальна, когда R ≈ R<sub>x</sub> и баланс в середине струны (таблица 3).</li>
+<li>Погрешность минимальна, когда R ≈ R<sub>x</sub> и баланс в середине струны (таблица 4).</li>
 </ol>
 
 <h2>Контрольные вопросы</h2>
