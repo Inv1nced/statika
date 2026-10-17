@@ -635,6 +635,11 @@
   <aside class="note">Первый вопрос в любой задаче на конденсатор: он подключён к источнику или отключён?</aside>
   <p>Когда соединяют заряженные конденсаторы, тоже работает сохранение заряда, а разница энергий «до» и «после» уходит в тепло.</p>
 
+  <h4>Диэлектрик заполняет только часть зазора</h4>
+  <p>На обкладке лежит пластина диэлектрика толщиной \(d_1\), остальной зазор \(d_2 = d - d_1\) — воздух. Заряды на обкладках одни и те же, свободных зарядов на границе слоёв нет, поэтому величина \(D = \varepsilon\varepsilon_0E\) (электрическое смещение) одинакова в обоих слоях. Отсюда:</p>
+  <div class="f key">$$\varepsilon_1E_1 = \varepsilon_2E_2,\qquad U = E_1d_1 + E_2d_2$$<p class="cap">Для воздуха \(\varepsilon_2 = 1\), значит \(E_\text{возд} = \varepsilon_1E_1\): в диэлектрике поле в \(\varepsilon_1\) раз слабее, чем в воздушном слое рядом. Ёмкость — как у двух конденсаторов, соединённых последовательно: \(\dfrac1C = \dfrac{d_1}{\varepsilon_0\varepsilon_1S} + \dfrac{d_2}{\varepsilon_0S}\).</p></div>
+  <div class="trap">Нельзя считать \(E = U/d\) для всего зазора: поле в слоях разное. Напряжение делится между слоями, и большая часть падает на воздух.</div>
+
   <h3 class="probs-title">Задачи</h3>
 
   <article class="prob" id="idz-319">
@@ -758,6 +763,18 @@
       $$C = \frac{C_1C_2}{C_1+C_2} = \frac{2\cdot3}{5} = 1{,}2\ \text{мкФ},\qquad q = CU = 120\ \text{мкКл}.$$
       <p>При последовательном соединении заряд у всех одинаковый. Напряжения: \(U_1 = q/C_1 = 60\) В, \(U_2 = 40\) В.</p>
       <p class="answer">Ответ: \(q = 120\) мкКл на каждом.</p>
+    </div></details>
+  </article>
+  <article class="prob train" id="t3-4">
+    <span class="pnum">3.6</span>
+    <span class="tag train">Тренировка</span>
+    <p class="cond">Расстояние между обкладками плоского конденсатора \(d = 6\) мм, напряжение \(U = 1\) кВ. На нижней обкладке лежит пластина диэлектрика с \(\varepsilon = 5\) толщиной \(d_1 = 4\) мм. Найти напряжённость поля в воздушном слое.</p>
+    <div class="check" data-ans="3.57" data-tol="0.02"><label>\(E_2\) = <input inputmode="decimal" autocomplete="off"> кВ/см</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">\(E_2 = \varepsilon E_1\) и \(U = E_1d_1 + E_2(d - d_1)\). Выражай всё через \(E_1\).</div></details>
+    <details class="sol"><summary>Решение</summary><div class="inner">
+      $$U = E_1d_1 + \varepsilon E_1(d - d_1)\ \Rightarrow\ E_1 = \frac{U}{d_1 + \varepsilon(d - d_1)} = \frac{1\ \text{кВ}}{0{,}4 + 5\cdot0{,}2\ \text{см}} = 0{,}714\ \text{кВ/см},$$
+      $$E_2 = \varepsilon E_1 = 3{,}57\ \text{кВ/см}.$$
+      <p class="answer">Ответ: \(E_2 \approx 3{,}57\) кВ/см (в диэлектрике всего 0,71 кВ/см).</p>
     </div></details>
   </article>
   <label class="donebox"><input type="checkbox" data-done="b3"> Блок 3 разобран</label>
@@ -969,6 +986,11 @@
   <h3>Закон Джоуля — Ленца</h3>
   <div class="f key">$$Q = I^2Rt\ \ (I = \text{const}),\qquad Q = \int_0^t I^2(t)\,R\,dt\ \ (\text{ток меняется}),\qquad P = I^2R = UI = \frac{U^2}{R}$$</div>
 
+  <h3>Мощность источника</h3>
+  <p>Источник с ЭДС \(\mathcal E\) при токе \(I\) развивает полную мощность \(\mathcal EI\). Часть её теряется внутри (\(I^2r\)), остальное получает внешняя цепь:</p>
+  <div class="f key">$$P_\text{внеш} = UI = \mathcal EI - I^2r,\qquad P_\text{max} = \frac{\mathcal E^2}{4r}\ \text{при } R = r,\qquad \eta = \frac{U}{\mathcal E} = \frac{R}{R + r}$$<p class="cap">Мощность во внешней цепи как функция тока — парабола: ноль при \(I = 0\) и при коротком замыкании \(I = \mathcal E/r\), максимум посередине.</p></div>
+  <div class="idea">Если даны ток и мощность во внешней цепи, сразу находи напряжение на клеммах: \(U = P/I\). Две такие пары — две точки на прямой \(U = \mathcal E - Ir\): по ним находятся и \(\mathcal E\), и \(r\).</div>
+
   <h3>Ток меняется равномерно</h3>
   <p>«Равномерно растёт» или «равномерно убывает» значит, что \(I(t)\) — прямая: \(I = I_0 + kt\), где \(k = \dfrac{I_1 - I_0}{t}\) (А/с). Тогда:</p>
   $$q = \int_0^t (I_0 + kt)\,dt = I_0t + \frac{kt^2}{2} = \frac{I_0 + I_1}{2}\,t\quad\text{(площадь трапеции)},$$
@@ -1131,6 +1153,17 @@
       <p class="answer">Ответ: \(U = 11\) В.</p>
     </div></details>
   </article>
+  <article class="prob train" id="t5-4">
+    <span class="pnum">5.7</span>
+    <span class="tag train">Тренировка</span>
+    <p class="cond">Батарея с ЭДС \(\mathcal E = 12\) В и внутренним сопротивлением \(r = 2\) Ом. Какую наибольшую мощность она может отдать во внешнюю цепь?</p>
+    <div class="check" data-ans="18" data-tol="0.01"><label>\(P_\text{max}\) = <input inputmode="decimal" autocomplete="off"> Вт</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="sol"><summary>Решение</summary><div class="inner">
+      <p>Наибольшая мощность — когда внешнее сопротивление равно внутреннему: \(R = r = 2\) Ом, ток \(I = \mathcal E/(2r) = 3\) А.</p>
+      $$P_\text{max} = \frac{\mathcal E^2}{4r} = \frac{144}{8} = 18\ \text{Вт}.$$
+      <p class="answer">Ответ: 18 Вт (КПД при этом всего 50%).</p>
+    </div></details>
+  </article>
   <label class="donebox"><input type="checkbox" data-done="b5"> Блок 5 разобран</label>
 </section>
 
@@ -1190,6 +1223,11 @@
     <li>Между двумя параллельными проводами: токи в <b>одну</b> сторону — поля противоположны (вычитаются); токи в <b>разные</b> — складываются.</li>
     <li>Поле витка направлено перпендикулярно его плоскости. Два витка во взаимно перпендикулярных плоскостях дают перпендикулярные поля.</li>
   </ul>
+
+  <h3>Контур с током в магнитном поле</h3>
+  <p>Маленький контур (виток, рамка) с током — магнитный диполь. Его характеристика — магнитный момент: вектор, перпендикулярный плоскости контура и направленный по правилу буравчика.</p>
+  <div class="f key">$$p_m = IS,\qquad M = p_mB\sin\alpha,\qquad B = \mu_0\mu H$$<p class="cap">\(\alpha\) — угол между \(\vec p_m\) и \(\vec B\). Поле поворачивает контур так, чтобы \(\vec p_m\) встал вдоль \(\vec B\). Энергия контура в поле \(W = -p_mB\cos\alpha\). Сила на прямой проводник (закон Ампера): \(F = IBl\sin\alpha\).</p></div>
+  <div class="trap">Момент сил считают через индукцию \(B\) в теслах. Если поле дано как \(H\) в А/м (как в формулах для провода и витка), сначала умножь на \(\mu_0 = 4\pi\cdot10^{-7}\).</div>
 
   <h3>Теорема о циркуляции</h3>
   <p>Если ток распределён симметрично (провод, труба, соленоид), вместо интегрирования по Био — Савару используют теорему: обход по замкнутому контуру даёт ток, который этот контур охватывает.</p>
@@ -1374,6 +1412,15 @@
       <p class="answer">Ответ: \(R \approx 8\) см.</p>
     </div></details>
   </article>
+  <article class="prob train" id="t6-4">
+    <span class="pnum">6.7</span>
+    <span class="tag train">Тренировка</span>
+    <p class="cond">Небольшой контур с магнитным моментом \(p_m = 2\) мА·м² находится в однородном поле с индукцией \(B = 0{,}1\) Тл. Магнитный момент составляет с полем угол \(30^\circ\). Найти момент сил, действующих на контур.</p>
+    <div class="check" data-ans="100" data-tol="0.01"><label>\(M\) = <input inputmode="decimal" autocomplete="off"> мкН·м</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="sol"><summary>Решение</summary><div class="inner">
+      $$M = p_mB\sin\alpha = 2\cdot10^{-3}\cdot0{,}1\cdot0{,}5 = 10^{-4}\ \text{Н·м} = 100\ \text{мкН·м}.$$
+    </div></details>
+  </article>
   <label class="donebox"><input type="checkbox" data-done="b6"> Блок 6 разобран</label>
 </section>
 
@@ -1424,6 +1471,32 @@
     <figcaption>За четверть периода поток растёт от 0 до \(BS\).</figcaption>
   </figure>
 
+  <h3>Стержень движется или вращается в поле</h3>
+  <p>Проводник, который движется в магнитном поле, тоже даёт ЭДС: на свободные заряды в нём действует сила Лоренца. Стержень длиной \(l\) движется поступательно со скоростью \(v\) поперёк поля: \(\varepsilon = Bvl\).</p>
+  <p>Если стержень <b>вращается</b> вокруг одного из концов, разные его точки движутся с разной скоростью \(v = \omega r\). Снова режем на кусочки: кусочек \(dr\) на расстоянии \(r\) от оси даёт \(d\varepsilon = Bv\,dr = B\omega r\,dr\). Складываем:</p>
+  $$\varepsilon = \int_0^{\ell} B\omega r\,dr = \frac{B\omega\ell^2}{2}.$$
+  <figure class="fig">
+    <svg viewBox="0 0 300 240" role="img" aria-label="Стержень OA вращается вокруг конца O в поле, направленном к нам; кусочек dr движется со скоростью v = ωr">
+      <g class="fillH" opacity=".5"><circle cx="40" cy="40" r="2.5"/><circle cx="100" cy="30" r="2.5"/><circle cx="260" cy="40" r="2.5"/><circle cx="270" cy="200" r="2.5"/><circle cx="40" cy="200" r="2.5"/><circle cx="110" cy="215" r="2.5"/><circle cx="200" cy="220" r="2.5"/><circle cx="35" cy="120" r="2.5"/><circle cx="275" cy="120" r="2.5"/><circle cx="190" cy="25" r="2.5"/></g>
+      <g class="vecH" stroke-width="1.2" fill="none"><circle cx="40" cy="40" r="7"/><circle cx="100" cy="30" r="7"/><circle cx="260" cy="40" r="7"/><circle cx="270" cy="200" r="7"/><circle cx="40" cy="200" r="7"/><circle cx="110" cy="215" r="7"/><circle cx="200" cy="220" r="7"/><circle cx="35" cy="120" r="7"/><circle cx="275" cy="120" r="7"/><circle cx="190" cy="25" r="7"/></g>
+      <text x="22" y="24" class="t-i fillH" font-size="16" font-weight="700">B</text>
+      <circle cx="150" cy="125" r="95" class="ln2"/>
+      <line x1="150" y1="125" x2="239.3" y2="92.5" class="ln" stroke-width="4"/>
+      <rect x="200" y="98" width="13" height="13" class="fillI" opacity=".85" transform="rotate(-20 206.5 104.5)"/>
+      <line x1="206.4" y1="104.5" x2="196.1" y2="76.3" class="vecB" marker-end="url(#aB)"/>
+      <line x1="239.3" y1="92.5" x2="223.2" y2="48.3" class="vecB" marker-end="url(#aB)"/>
+      <text x="180" y="72" class="t-i fillB" font-size="13">v = ωr</text>
+      <circle cx="150" cy="125" r="4" class="fillInk"/>
+      <text x="136" y="140" class="t-i" font-size="15">O</text>
+      <text x="246" y="104" class="t-i" font-size="15">A</text>
+      <text x="196" y="128" class="t-i" font-size="14">dr</text>
+      <path d="M 178 150 A 36 36 0 0 1 186 125" class="vecI" stroke-width="1.6" marker-end="url(#aI)"/>
+      <text x="186" y="160" class="t-i fillI" font-size="15">ω</text>
+    </svg>
+    <figcaption>Плоскость вращения перпендикулярна полю. Чем дальше от оси, тем быстрее движется кусочек и тем больше его вклад в ЭДС.</figcaption>
+  </figure>
+  <div class="f key">$$\varepsilon = Bvl\ \ \text{(поступательно)},\qquad \varepsilon = \frac{B\omega\ell^2}{2} = \pi nB\ell^2\ \ \text{(вращение вокруг конца, } \omega = 2\pi n)$$<p class="cap">То же самое через поток: за единицу времени стержень заметает площадь \(\omega\ell^2/2\), а \(\varepsilon = B\,dS/dt\).</p></div>
+
   <h3 class="probs-title">Задачи</h3>
 
   <article class="prob" id="idz-522">
@@ -1458,7 +1531,7 @@
   <article class="prob train" id="t7-1">
     <span class="pnum">7.2</span>
     <span class="tag train">Тренировка</span>
-    <p class="cond">Та же задача 5-22, строка «Шифр 1»: \(S = 200\) см², \(\nu = 10\) Гц, \(B = 0{,}2\) Тл. Найти среднюю ЭДС.</p>
+    <p class="cond">Рамка площадью \(S = 200\) см² равномерно вращается с частотой \(\nu = 10\) Гц вокруг оси, лежащей в её плоскости и перпендикулярной однородному полю \(B = 0{,}2\) Тл. Найти среднюю ЭДС индукции за время, пока поток через рамку растёт от нуля до максимума.</p>
     <div class="check" data-ans="0.16" data-tol="0.02"><label>\(\langle\varepsilon\rangle\) = <input inputmode="decimal" autocomplete="off"> В</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
     <details class="sol"><summary>Решение</summary><div class="inner">
       $$\langle\varepsilon\rangle = 4\nu BS = 4\cdot10\cdot0{,}2\cdot0{,}02 = 0{,}16\ \text{В}.$$
@@ -1482,6 +1555,15 @@
     <div class="check" data-ans="1" data-tol="0.02"><label>\(P\) = <input inputmode="decimal" autocomplete="off"> нВт</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
     <details class="sol"><summary>Решение</summary><div class="inner">
       $$\varepsilon = NS\frac{dB}{dt} = 1000\cdot4\cdot10^{-4}\cdot10^{-3} = 4\cdot10^{-4}\ \text{В},\qquad P = \frac{\varepsilon^2}{R} = \frac{1{,}6\cdot10^{-7}}{160} = 10^{-9}\ \text{Вт}.$$
+    </div></details>
+  </article>
+  <article class="prob train" id="t7-4">
+    <span class="pnum">7.5</span>
+    <span class="tag train">Тренировка</span>
+    <p class="cond">Металлический стержень длиной \(\ell = 50\) см вращается с частотой \(n = 10\ \text{с}^{-1}\) вокруг оси, проходящей через его конец перпендикулярно стержню. Плоскость вращения перпендикулярна однородному полю с индукцией \(B = 0{,}2\) Тл. Найти разность потенциалов на концах стержня.</p>
+    <div class="check" data-ans="1.57" data-tol="0.02"><label>\(U\) = <input inputmode="decimal" autocomplete="off"> В</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="sol"><summary>Решение</summary><div class="inner">
+      $$U = \frac{B\omega\ell^2}{2} = \pi nB\ell^2 = \pi\cdot10\cdot0{,}2\cdot0{,}25 \approx 1{,}57\ \text{В}.$$
     </div></details>
   </article>
   <label class="donebox"><input type="checkbox" data-done="b7"> Блок 7 разобран</label>
@@ -1523,6 +1605,7 @@
   <aside class="note">Во всех пяти разборах уже есть допущения, размерность и анализ — их можно переписать почти дословно.</aside>
   <div class="trap">Ответ записывай в тех единицах, что в шапке таблицы: \(q\) — в нКл, \(r_1\) — в Ом, \(H\) — в А/м, \(\nu\) — в Гц. И не забудь перевести 250 см² в 0,025 м² в задаче 5-22.</div>
   <p><b>ДЗ №2</b> (8.1.1, 8.2.5, 8.3.5, 8.4.1, 9.2.1) — оптика из сборника № 2376, которого здесь нет. Пришли его — разберу так же.</p>
+  <p>Та же теория и контрольная, но с ИДЗ для номера 5 по списку: <a href="5/">вариант номера 5</a>.</p>
 </section>
 
 <!-- ===================== ПРОБНИК ===================== -->
@@ -1658,20 +1741,24 @@
     <div class="card"><h4>Проводники и конденсаторы</h4>
       $$\varphi_\text{шара} = \frac{kq}{R},\quad C = \frac{\varepsilon\varepsilon_0S}{d},\quad W = \frac{CU^2}{2} = \frac{q^2}{2C}$$
       <p>Параллельно: \(C_1 + C_2\). Последовательно: \(1/C = 1/C_1 + 1/C_2\).</p>
-      <p>Подключён: \(U\) const, \(q \to \varepsilon q\). Отключён: \(q\) const, \(U \to U/\varepsilon\).</p></div>
+      <p>Подключён: \(U\) const, \(q \to \varepsilon q\). Отключён: \(q\) const, \(U \to U/\varepsilon\).</p>
+      <p>Диэлектрик в части зазора: \(\varepsilon_1E_1 = \varepsilon_2E_2\), \(U = E_1d_1 + E_2d_2\).</p></div>
     <div class="card"><h4>Заряд в поле</h4>
       $$a = \frac{qE}{m},\quad E = \frac{U}{d},\quad \frac{mv^2}{2} = qU$$
       $$\operatorname{tg}\alpha = \frac{eUL}{mdv_0^2},\quad T = 2\pi\sqrt{\frac{l}{g \pm qE/m}}$$</div>
     <div class="card"><h4>Ток</h4>
       $$I = \frac{\mathcal E}{R + r},\quad U = \mathcal E \mp Ir,\quad Q = \int I^2R\,dt$$
       $$0 \to I_m:\ \ q = \frac{I_mt}{2},\ \ Q = \frac{I_m^2Rt}{3}$$
-      <p>Кирхгоф: \(\sum I = 0\) в узле, \(\sum IR = \sum\mathcal E\) в контуре.</p></div>
+      <p>Кирхгоф: \(\sum I = 0\) в узле, \(\sum IR = \sum\mathcal E\) в контуре.</p>
+      <p>Мощность во внешней цепи: \(P = \mathcal EI - I^2r\), максимум \(\mathcal E^2/(4r)\) при \(R = r\).</p></div>
     <div class="card"><h4>Магнитное поле</h4>
       $$B = \mu_0\mu H,\quad H_\text{провод} = \frac{I}{2\pi r},\quad H_\text{центр витка} = \frac{I}{2R}$$
-      $$H_\text{ось} = \frac{IR^2}{2(R^2+x^2)^{3/2}},\quad H_\text{сол} = nI,\quad H\cdot2\pi r = I_\text{охв}$$</div>
+      $$H_\text{ось} = \frac{IR^2}{2(R^2+x^2)^{3/2}},\quad H_\text{сол} = nI,\quad H\cdot2\pi r = I_\text{охв}$$
+      $$p_m = IS,\quad M = p_mB\sin\alpha$$</div>
     <div class="card"><h4>Индукция</h4>
       $$\Phi = BS\cos\alpha,\quad \varepsilon = -N\frac{d\Phi}{dt},\quad \langle\varepsilon\rangle = \frac{N|\Delta\Phi|}{\Delta t}$$
-      $$\varepsilon_\text{max} = NBS\omega,\quad \omega = 2\pi\nu,\quad q = \frac{N|\Delta\Phi|}{R}$$</div>
+      $$\varepsilon_\text{max} = NBS\omega,\quad \omega = 2\pi\nu,\quad q = \frac{N|\Delta\Phi|}{R}$$
+      $$\varepsilon = Bvl,\quad \varepsilon_\text{вращ. стержня} = \frac{B\omega\ell^2}{2}$$</div>
     <div class="card"><h4>Интегралы</h4>
       $$\int t^n dt = \frac{t^{n+1}}{n+1},\quad \int\frac{dx}{x^2} = -\frac1x,\quad \int\frac{dx}{x} = \ln x$$
       <p>Схема: режем на кусочки \(dq\), \(dt\) или \(dl\) → вклад кусочка → складываем интегралом.</p></div>

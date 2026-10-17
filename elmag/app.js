@@ -91,8 +91,9 @@
   }
 
   /* ---------- прогресс ---------- */
-  var done = store.get('elmag-done', {});
-  var solved = store.get('elmag-solved', {});
+  var SP = (document.body && document.body.getAttribute('data-store')) || 'elmag';
+  var done = store.get(SP + '-done', {});
+  var solved = store.get(SP + '-solved', {});
   function updateProgress() {
     var blocks = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'];
     var n = 0;
@@ -110,7 +111,7 @@
     document.querySelectorAll('input[data-done]').forEach(function (cb) {
       var k = cb.getAttribute('data-done');
       cb.checked = !!done[k];
-      cb.addEventListener('change', function () { done[k] = cb.checked; store.set('elmag-done', done); updateProgress(); });
+      cb.addEventListener('change', function () { done[k] = cb.checked; store.set(SP + '-done', done); updateProgress(); });
     });
     Object.keys(solved).forEach(function (id) {
       var art = document.getElementById(id);
@@ -140,7 +141,7 @@
         if (ok) {
           out.textContent = 'Верно';
           out.className = 'verdict ok';
-          if (art) { art.classList.add('solved'); solved[art.id] = true; store.set('elmag-solved', solved); updateProgress(); }
+          if (art) { art.classList.add('solved'); solved[art.id] = true; store.set(SP + '-solved', solved); updateProgress(); }
         } else {
           var hint = '';
           if (Math.abs(v + ans) / Math.abs(ans) <= tol) hint = ' — похоже, перепутан знак';
