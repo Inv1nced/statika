@@ -121,3 +121,12 @@ section.ktype{padding:44px 0 10px;border-top:1px dashed var(--line-2);margin-top
 .exam ol{font:16px/1.55 var(--sans);padding-left:22px}
 .exam li{margin-bottom:8px}
 .exam .katex{color:var(--sheet)}
+
+/* 3D скрещённые провода */
+.anim.cross3d > svg{min-width:0!important;max-width:560px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.anim.cross3d > svg:active{cursor:grabbing}
+.anim .bar.views{padding-top:4px}
+.anim .bar .vlab{font:600 13.5px var(--sans);color:var(--ink-3)}
+.anim .chip{font:600 13.5px/1 var(--sans);padding:7px 11px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--ink);cursor:pointer}
+.anim .chip:hover{border-color:var(--blue)}
+.anim .chip.on{background:var(--ink);color:var(--sheet);border-color:var(--ink)}

@@ -119,6 +119,198 @@
     draw();
   }
 
+  /* ---------- тип 2: скрещённые провода в 3D ---------- */
+  function initCross() {
+    var box = $('#cross'); if (!box) return;
+    var svg = $('svg', box), items = $$('.say-list li', box), n = items.length, step = 0, count = $('.count', box);
+    var D2R = Math.PI / 180, SC = 64, CX = 240, CY = 165, KB = 1.4, WL = 2.2;
+    var PRE = { iso: [38, 26], top: [0, 90], w1: [90, 0], w2: [0, 0], high: [135, 62] };
+    var STEPV = ['iso', 'iso', 'w1', 'w2', 'high', 'high'];
+    var cam = { p: 38, t: 26 }, tgt = { p: 38, t: 26 }, view = 'iso', touched = false, clock = 0;
+
+    function P(v) {
+      var f = cam.p * D2R, t = cam.t * D2R, c = Math.cos(f), s = Math.sin(f);
+      var x1 = v[0] * c - v[1] * s, y1 = v[0] * s + v[1] * c;
+      return [CX + SC * x1, CY - SC * (v[2] * Math.cos(t) + y1 * Math.sin(t)), y1 * Math.cos(t) - v[2] * Math.sin(t)];
+    }
+    function add(a, b, k) { return [a[0] + b[0] * k, a[1] + b[1] * k, a[2] + b[2] * k]; }
+    function clamp(x) { return Math.max(0, Math.min(1, x)); }
+    function g(parent) { var e = mk('g', {}, parent || svg); e.style.transition = 'opacity .45s ease'; return e; }
+    function txt(parent, s, cls, size) { var e = mk('text', { class: cls || '', 'font-size': size || 15, 'text-anchor': 'middle' }, parent); e.textContent = s; return e; }
+    function poly(e, pts) { e.setAttribute('points', pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ')); }
+    function line(e, a, b) { e.setAttribute('x1', a[0].toFixed(1)); e.setAttribute('y1', a[1].toFixed(1)); e.setAttribute('x2', b[0].toFixed(1)); e.setAttribute('y2', b[1].toFixed(1)); }
+    function at(e, p, dx, dy) { e.setAttribute('x', (p[0] + (dx || 0)).toFixed(1)); e.setAttribute('y', (p[1] + (dy || 0)).toFixed(1)); }
+
+    /* значок «на нас / от нас» */
+    function sym(parent, color) {
+      var s = mk('g', {}, parent);
+      mk('circle', { r: 8, class: 'sheetfill' }, s);
+      mk('circle', { r: 8, fill: 'none', style: 'stroke:' + color + ';stroke-width:2' }, s);
+      var dot = mk('circle', { r: 2.6, style: 'fill:' + color }, s);
+      var cr = mk('path', { d: 'M-5 -5 L5 5 M5 -5 L-5 5', style: 'stroke:' + color + ';stroke-width:2' }, s);
+      return { el: s, put: function (p, toward, op) { s.setAttribute('transform', 'translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')'); s.style.opacity = op; dot.style.display = toward ? '' : 'none'; cr.style.display = toward ? 'none' : ''; } };
+    }
+    /* 3D-стрелка */
+    function vec(color, fillCls, w, label) {
+      var gg = g();
+      var halo = mk('line', { 'stroke-linecap': 'round', style: 'stroke:var(--sheet);stroke-width:' + (w + 5) }, gg);
+      var ln = mk('line', { 'stroke-linecap': 'round', style: 'stroke:' + color + ';stroke-width:' + w }, gg);
+      var hd = mk('polygon', { class: fillCls, style: 'stroke:var(--sheet);stroke-width:1.5;paint-order:stroke' }, gg);
+      var sm = sym(gg, color);
+      var lb = txt(gg, label, 't-i', 16); lb.setAttribute('font-weight', '700'); lb.style.fill = color;
+      return {
+        g: gg, set: function (o, v) {
+          var a = P(o), b = P(add(o, v, 1)), dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+          var op = clamp((L - 10) / 16), ux = dx / (L || 1), uy = dy / (L || 1), h = 9 + w * 1.4;
+          var e = [b[0] - ux * h * 0.7, b[1] - uy * h * 0.7];
+          line(halo, a, e); line(ln, a, e);
+          poly(hd, [b, [b[0] - ux * h - uy * h * 0.45, b[1] - uy * h + ux * h * 0.45], [b[0] - ux * h + uy * h * 0.45, b[1] - uy * h - ux * h * 0.45]]);
+          halo.style.opacity = ln.style.opacity = hd.style.opacity = op;
+          sm.put(a, b[2] < a[2], 1 - op);
+          if (op > 0.5) { var an = ux > 0.35 ? 'start' : ux < -0.35 ? 'end' : 'middle'; lb.setAttribute('text-anchor', an); at(lb, b, ux * 10, an === 'middle' ? (uy > 0 ? 20 : -8) : uy * 10 + 5); } else { lb.setAttribute('text-anchor', 'start'); at(lb, a, 13, 25); }
+        }
+      };
+    }
+
+    /* пол на уровне нижнего провода и тень верхнего */
+    var gFloor = g();
+    var floor = mk('polygon', { style: 'fill:var(--ink-3);fill-opacity:.08;stroke:var(--ink-3);stroke-opacity:.5;stroke-width:1' }, gFloor);
+    var shadow = mk('line', { style: 'stroke:var(--red);stroke-opacity:.55;stroke-width:2.2;stroke-dasharray:7 6' }, gFloor);
+    var flTxt = txt(gFloor, 'тень провода 1', 't-s', 13);
+    /* стены */
+    var gWall = g();
+    var wall1 = mk('polygon', { style: 'fill:var(--red);fill-opacity:.09;stroke:var(--red);stroke-opacity:.45;stroke-dasharray:5 4' }, gWall);
+    var wall2 = mk('polygon', { style: 'fill:var(--blue);fill-opacity:.09;stroke:var(--blue);stroke-opacity:.45;stroke-dasharray:5 4' }, gWall);
+    /* круги поля */
+    function ring(color) {
+      var gg = g(), path = mk('path', { fill: 'none', style: 'stroke:' + color + ';stroke-width:1.6;stroke-dasharray:6 5;stroke-opacity:.8' }, gg), dots = [];
+      for (var i = 0; i < 6; i++) dots.push(mk('circle', { r: 3.4, style: 'fill:' + color }, gg));
+      return { g: gg, path: path, dots: dots };
+    }
+    var c1 = ring('var(--red)'), c2 = ring('var(--blue)');
+    function circ1(t) { return [0, Math.sin(t), 1 - Math.cos(t)]; }
+    function circ2(t) { return [Math.sin(t), 0, -1 + Math.cos(t)]; }
+    /* провода */
+    function wire(color, fillCls, label) {
+      var gg = mk('g', {}, svg);
+      var halo = mk('line', { 'stroke-linecap': 'round', style: 'stroke:var(--sheet);stroke-width:11' }, gg);
+      var base = mk('line', { 'stroke-linecap': 'round', style: 'stroke:' + color + ';stroke-width:5' }, gg);
+      var flow = mk('line', { style: 'stroke:var(--sheet);stroke-width:1.6;stroke-dasharray:3 13;stroke-opacity:.9' }, gg);
+      var hd = mk('polygon', { class: fillCls, style: 'stroke:var(--sheet);stroke-width:1.5;paint-order:stroke' }, gg);
+      var sm = sym(gg, color);
+      var lb = txt(gg, label, '', 15); lb.setAttribute('font-weight', '700'); lb.style.fill = color;
+      return { g: gg, halo: halo, base: base, flow: flow, hd: hd, sm: sm, lb: lb };
+    }
+    var w2 = wire('var(--blue)', 'fillB', 'I₂ = 5 А'), w1 = wire('var(--red)', 'fillR', 'I₁ = 2 А');
+    function putWire(W, c, dir, ph, dim) {
+      var a = P(add(c, dir, -WL)), b = P(add(c, dir, WL)), m = P(c);
+      var L = Math.hypot(b[0] - a[0], b[1] - a[1]), op = clamp((L - 30) / 50);
+      line(W.halo, a, b); line(W.base, a, b); line(W.flow, a, b); W.halo.style.opacity = op; W.flow.style.strokeDashoffset = (-ph).toFixed(1);
+      W.base.style.opacity = W.flow.style.opacity = W.hd.style.opacity = op * dim;
+      var q = P(add(c, dir, WL * 0.72)), ux = (b[0] - a[0]) / (L || 1), uy = (b[1] - a[1]) / (L || 1), h = 15;
+      poly(W.hd, [[q[0] + ux * h * 0.5, q[1] + uy * h * 0.5], [q[0] - ux * h * 0.5 - uy * h * 0.5, q[1] - uy * h * 0.5 + ux * h * 0.5], [q[0] - ux * h * 0.5 + uy * h * 0.5, q[1] - uy * h * 0.5 - ux * h * 0.5]]);
+      W.sm.put(m, b[2] < a[2], 1 - op);
+      if (op > 0.5) {
+        var an = ux > 0.35 ? 'start' : ux < -0.35 ? 'end' : 'middle';
+        W.lb.setAttribute('text-anchor', an);
+        at(W.lb, b, ux * 12, an === 'middle' ? (uy > 0 ? 22 : -10) : uy * 12 + 5);
+      } else { W.lb.setAttribute('text-anchor', 'start'); at(W.lb, m, 12, -10); }
+      W.lb.style.opacity = 0.4 + 0.6 * dim;
+      return m[2];
+    }
+    /* общий перпендикуляр и точка A */
+    var gD = mk('g', {}, svg);
+    var dLine = mk('line', { style: 'stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 4' }, gD);
+    var m1 = txt(gD, '1 м', 't-s', 14), m2 = txt(gD, '1 м', 't-s', 14);
+    m1.setAttribute('text-anchor', 'start'); m2.setAttribute('text-anchor', 'start');
+    var gAng = g(), ang = mk('path', { fill: 'none', style: 'stroke:var(--ink);stroke-width:1.6' }, gAng);
+    var gRect = g(), r1 = mk('line', { style: 'stroke:var(--ink-3);stroke-width:1.4;stroke-dasharray:5 4' }, gRect), r2 = mk('line', { style: 'stroke:var(--ink-3);stroke-width:1.4;stroke-dasharray:5 4' }, gRect);
+    var V1 = vec('var(--red)', 'fillR', 3.2, 'B₁'), V2 = vec('var(--blue)', 'fillB', 3.2, 'B₂'), VB = vec('var(--ink)', 'fillInk', 3.8, 'B ≈ 1,08 мкТл');
+    var gA = mk('g', {}, svg), aDot = mk('circle', { r: 5, class: 'fillInk', style: 'stroke:var(--sheet);stroke-width:2' }, gA), aL = txt(gA, 'A', 't-i', 17);
+    aL.setAttribute('font-weight', '700');
+    var hint = txt(svg, 'потяни, чтобы повернуть ↔', 't-s', 13); hint.setAttribute('text-anchor', 'end'); at(hint, [472, 322]);
+
+    var X = [1, 0, 0], Y = [0, 1, 0], O = [0, 0, 0], ph1 = 0, ph2 = 0, fl1 = 0, fl2 = 0;
+    function draw() {
+      poly(floor, [[-WL, -WL, -1], [WL, -WL, -1], [WL, WL, -1], [-WL, WL, -1]].map(P));
+      var sa = P([-WL, 0, -1]), sb = P([WL, 0, -1]); line(shadow, sa, sb);
+      var sd = Math.hypot(sb[0] - sa[0], sb[1] - sa[1]) || 1, su = sb[0] < sa[0] ? -1 : 1;
+      var sp = P([1.6 * su, 0, -1]); flTxt.setAttribute('text-anchor', 'start'); at(flTxt, sp, 8, 18);
+      poly(wall1, [[-WL, 0, 1.5], [WL, 0, 1.5], [WL, 0, -1.5], [-WL, 0, -1.5]].map(P));
+      poly(wall2, [[0, -WL, 1.5], [0, WL, 1.5], [0, WL, -1.5], [0, -WL, -1.5]].map(P));
+      [[c1, circ1, ph1], [c2, circ2, ph2]].forEach(function (r) {
+        var d = '';
+        for (var i = 0; i <= 64; i++) { var p = P(r[1](i / 64 * 2 * Math.PI)); d += (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }
+        r[0].path.setAttribute('d', d);
+        r[0].dots.forEach(function (e, k) { var p = P(r[1](r[2] + k * Math.PI / 3)); e.setAttribute('cx', p[0].toFixed(1)); e.setAttribute('cy', p[1].toFixed(1)); });
+      });
+      var dim = step >= 4 ? 0.45 : 1, z1 = putWire(w1, [0, 0, 1], X, fl1, dim), z2 = putWire(w2, [0, 0, -1], Y, fl2, dim);
+      if ((z1 > z2) !== (w1.g.nextSibling === w2.g)) { if (z1 > z2) svg.insertBefore(w1.g, w2.g); else svg.insertBefore(w2.g, w1.g); }
+      var top = P([0, 0, 1]), bot = P([0, 0, -1]), a = P(O), dl = Math.hypot(top[0] - bot[0], top[1] - bot[1]);
+      line(dLine, top, bot);
+      m1.style.opacity = m2.style.opacity = step >= 3 ? 0 : clamp((dl - 60) / 40);
+      at(m1, P([0, 0, 0.5]), 9, 5); at(m2, P([0, 0, -0.5]), 9, 5);
+      var s = 0.28, q1 = P([s, 0, 0]), q2 = P([s, s, 0]), q3 = P([0, s, 0]);
+      ang.setAttribute('d', 'M' + q1[0].toFixed(1) + ' ' + q1[1].toFixed(1) + ' L' + q2[0].toFixed(1) + ' ' + q2[1].toFixed(1) + ' L' + q3[0].toFixed(1) + ' ' + q3[1].toFixed(1));
+      var e1 = P([0, 0.4 * KB, 0]), e2 = P([KB, 0, 0]), eb = P([KB, 0.4 * KB, 0]);
+      line(r1, e1, eb); line(r2, e2, eb);
+      V1.set(O, [0, 0.4 * KB, 0]); V2.set(O, [KB, 0, 0]); VB.set(O, [KB, 0.4 * KB, 0]);
+      aDot.setAttribute('cx', a[0].toFixed(1)); aDot.setAttribute('cy', a[1].toFixed(1)); var vx = step >= 3 ? eb[0] - a[0] : e1[0] - a[0], vy = step >= 3 ? eb[1] - a[1] : e1[1] - a[1], vl = Math.hypot(vx, vy);
+      if (step < 2 || vl < 5) at(aL, a, -15, -9); else at(aL, a, -vx / vl * 17, -vy / vl * 17 + 6);
+    }
+    function vis() {
+      gWall.style.opacity = step === 1 ? 1 : 0;
+      gFloor.style.opacity = step === 0 ? 1 : 0;
+      c1.g.style.opacity = step === 2 ? 1 : 0;
+      c2.g.style.opacity = step === 3 ? 1 : 0;
+      V1.g.style.opacity = step >= 2 ? 1 : 0;
+      V2.g.style.opacity = step >= 3 ? 1 : 0;
+      gAng.style.opacity = step >= 4 ? 1 : 0;
+      gRect.style.opacity = VB.g.style.opacity = step >= 5 ? 1 : 0;
+    }
+    function setView(v) {
+      view = v; tgt.p = PRE[v][0]; tgt.t = PRE[v][1];
+      $$('[data-view]', box).forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-view') === v); });
+      if (reduce) { cam.p = tgt.p; cam.t = tgt.t; draw(); }
+    }
+    function render() {
+      items.forEach(function (li, i) { li.classList.toggle('cur', i === step); });
+      if (count) count.textContent = 'Шаг ' + step + ' из ' + (n - 1);
+      $('[data-cx="prev"]', box).disabled = step === 0;
+      $('[data-cx="next"]', box).disabled = step === n - 1;
+      setView(STEPV[step]); vis(); draw();
+    }
+    var L = loop(box, function (dt) {
+      clock += dt;
+      if (!reduce) { ph1 += dt * 0.5; ph2 += dt * 1.25; fl1 += dt * 14; fl2 += dt * 35; }
+      if (!touched && view === 'iso' && !reduce) tgt.p = PRE.iso[0] + 6 * Math.sin(clock * 0.45);
+      var k = 1 - Math.exp(-dt * 4.5), dp = ((tgt.p - cam.p) % 360 + 540) % 360 - 180;
+      cam.p += dp * k; cam.t += (tgt.t - cam.t) * k;
+      draw();
+    });
+    box.addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-cx],[data-view]'); if (!b) return;
+      var a = b.getAttribute('data-cx');
+      if (a === 'next' && step < n - 1) step++;
+      if (a === 'prev' && step > 0) step--;
+      if (a === 'reset') { step = 0; touched = false; }
+      if (a) { render(); return; }
+      touched = true; setView(b.getAttribute('data-view'));
+    });
+    /* поворот мышкой и пальцем */
+    var drag = null;
+    svg.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, p: cam.p, t: cam.t }; touched = true; view = ''; $$('[data-view]', box).forEach(function (b) { b.classList.remove('on'); }); try { svg.setPointerCapture(e.pointerId); } catch (_) {} });
+    svg.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var r = svg.getBoundingClientRect(), k = 480 / (r.width || 480);
+      cam.p = tgt.p = drag.p - (e.clientX - drag.x) * k * 0.45;
+      cam.t = tgt.t = Math.max(-10, Math.min(90, drag.t + (e.clientY - drag.y) * k * 0.45));
+      draw();
+    });
+    ['pointerup', 'pointercancel'].forEach(function (t) { svg.addEventListener(t, function () { drag = null; }); });
+    render();
+  }
+
   /* ---------- тип 3: точка внутри и снаружи сферы ---------- */
   function initSphere() {
     var box = $('#sphere'); if (!box) return;
@@ -462,7 +654,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    initSteppers(); initWalks(); initOrbit(); initSphere(); initHill(); initRepel();
+    initSteppers(); initWalks(); initOrbit(); initCross(); initSphere(); initHill(); initRepel();
     initFocus(); initStrips(); initPend(); initEflight(); initCap(); initQuiz(); initFlash();
   });
 })();
