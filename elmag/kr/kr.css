@@ -33,8 +33,8 @@ section.ktype{padding:44px 0 10px;border-top:1px dashed var(--line-2);margin-top
 .recipe{background:var(--sheet);border:2px solid var(--ink);border-radius:14px;padding:14px 18px 8px;margin:18px 0}
 .recipe h3{margin:0 0 8px;font-size:18px}
 .recipe ol{counter-reset:r;list-style:none;padding:0;margin:0}
-.recipe li{counter-increment:r;display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:baseline;margin:0 0 10px;font:16px/1.5 var(--sans)}
-.recipe li::before{content:counter(r);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font:700 14px/1 var(--sans)}
+.recipe li{counter-increment:r;position:relative;padding-left:38px;min-height:26px;margin:0 0 10px;font:16px/1.55 var(--sans)}
+.recipe li::before{content:counter(r);position:absolute;left:0;top:0;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font:700 14px/1 var(--sans)}
 .formulas{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:12px 0 16px}
 .formulas .fm{background:var(--soft-blue);border-radius:12px;padding:8px 14px 10px}
 .formulas .fm .dm{margin:6px 0}

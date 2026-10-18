@@ -1,0 +1,36 @@
+/* ИДЗ к защите — дополнения к ../style.css и ../kr/kr.css */
+.zgrid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.zans{display:inline-block;margin-top:7px;font:700 13.5px/1.2 var(--sans);padding:5px 9px;border-radius:999px;background:var(--soft-blue);color:var(--blue)}
+.zans .katex{font-size:1em}
+.khead p b{color:var(--ink)}
+
+.zcond{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:12px 16px 2px;margin:12px 0 4px;box-shadow:var(--shadow)}
+.zcond > p{margin:0 0 6px;font-size:16.5px}
+.zcond .tbl{margin:10px 0 12px;box-shadow:none}
+
+details.zsheet{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin:18px 0}
+details.zsheet > summary{color:var(--ink)}
+
+.speech{position:relative;background:var(--soft-amber);border-radius:16px;padding:16px 20px 8px 20px;margin:22px 0;border-left:5px solid var(--amber)}
+.speech h3{margin:0 0 8px;font:750 18px/1.3 var(--sans);color:var(--amber)}
+.speech p{font:17px/1.65 var(--serif);margin:0 0 10px}
+
+.qa{margin:20px 0}
+.qa h3{margin:0 0 6px;font:750 18px/1.3 var(--sans)}
+.qa details > summary{color:var(--ink);font-weight:600}
+.qa details .inner{font:15.5px/1.55 var(--sans);color:var(--ink-2);padding-left:1.1em}
+
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;margin:14px 0 18px}
+.cheat .ch{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.cheat .ch b{display:block;font:700 15px/1.3 var(--sans);margin-bottom:4px}
+.cheat .ch p{margin:0;font:14px/1.45 var(--sans);color:var(--ink-2)}
+.cheat .ch .dm{margin:6px 0}
+
+#pipe .ctrl{grid-template-columns:1fr}
+#pipe input[type=range]{width:100%}
+@media (max-width:520px){
+  .speech{padding:14px 14px 6px}
+  .speech p{font-size:16px}
+}
+/* на телефоне рисунки целиком по ширине, без горизонтальной прокрутки */
+@media (max-width:520px){body[data-store="elmagidz"] .anim > svg{min-width:0!important}}

@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ИДЗ №1 к защите</title>
+<meta name="description" content="Пять задач ИДЗ №1 по электричеству и магнетизму (номер 8, шифр 3): рисунки и анимации, решение по шагам, что сказать на защите и какие вопросы могут задать.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Onest:wght@400;500;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../kr/kr.css">
+<link rel="stylesheet" href="idz.css">
+<script>try{var t=localStorage.getItem('elmag-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body data-store="elmagidz">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aK" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillInk"/></marker>
+    <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillR"/></marker>
+    <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillB"/></marker>
+    <marker id="aH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillH"/></marker>
+    <marker id="aI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillI"/></marker>
+  </defs>
+</svg>
+
+<header class="topbar krtop">
+  <a class="brand" href="../">← Вся теория</a>
+  <span class="grow"></span>
+  <span class="progress"><span class="lbl" id="progLbl"></span></span>
+  <button class="iconbtn" id="themeBtn" type="button" aria-label="Сменить тему">Тема</button>
+</header>
+
+<main class="krwrap" id="top">
+
+<div class="krhero">
+  <h1>ИДЗ №1<span>к защите</span></h1>
+  <p class="big">Пять задач твоего варианта собраны по порядку, каждая — в одном месте. Номер 8 по списку решает строку «шифр 3».</p>
+  <p>По каждой задаче: картинка или анимация, что происходит простыми словами, решение по шагам, как записать в тетради, <b>что сказать преподавателю</b> и <b>какие вопросы могут задать</b>, с ответами.</p>
+</div>
+
+<section id="map">
+  <h2 class="probs-title">Пять задач</h2>
+  <nav class="typegrid zgrid" aria-label="Задачи ИДЗ">
+    <a href="#z1"><span class="n">1</span><span><b>Кольцо и заряд на оси</b><small>3-04 · найти заряд кольца \(q_1\)</small><span class="zans">\(q_1 \approx -6{,}5\) нКл</span></span></a>
+    <a href="#z2"><span class="n">2</span><span><b>Два шара и проволока</b><small>3-19 · найти заряд \(q_2\)</small><span class="zans">\(q_2 \approx +4{,}95\) нКл</span></span></a>
+    <a href="#z3"><span class="n">3</span><span><b>Две батареи и вольтметр</b><small>4-01 · найти \(r_1\)</small><span class="zans">\(r_1 = 0{,}15\) Ом</span></span></a>
+    <a href="#z4"><span class="n">4</span><span><b>Толстая труба с током</b><small>5-05 · найти \(H\)</small><span class="zans">\(H \approx 1{,}23\) А/м</span></span></a>
+    <a href="#z5"><span class="n">5</span><span><b>Вращающаяся рамка</b><small>5-22 · найти частоту \(\nu\)</small><span class="zans">\(\nu \approx 11{,}1\) Гц</span></span></a>
+  </nav>
+</section>
+
+<section id="how">
+  <h2 class="probs-title">Как отвечать на защите</h2>
+  <p>Защита — это разговор, а не экзамен по памяти: тетрадь с решением лежит перед тобой. Преподавателю важно увидеть, что ты понимаешь, <em>какой закон</em> применил и <em>почему</em>. Для любой задачи подходит один и тот же план из пяти шагов:</p>
+  <div class="recipe">
+    <h3>План ответа на любую задачу</h3>
+    <ol>
+      <li><b>Что дано и что ищем.</b> Одной фразой, своими словами: «заряд переносят вдоль оси кольца, ищем заряд кольца».</li>
+      <li><b>Какой закон.</b> Назови его: работа через потенциалы, сохранение заряда, закон Ома, теорема о циркуляции, закон Фарадея.</li>
+      <li><b>Как он записан для этой задачи.</b> Почему именно так: почему все кусочки кольца на одном расстоянии, почему контур — окружность, почему четверть оборота.</li>
+      <li><b>Формула в общем виде, потом числа.</b> Сначала выразил неизвестное буквами, потом подставил.</li>
+      <li><b>Проверка.</b> Размерность, знак ответа, предельный случай. Это сильно впечатляет, а сказать — две фразы.</li>
+    </ol>
+  </div>
+  <div class="idea">Тексты «Что сказать на защите» ниже — опора, а не заучивание. Прочитай вслух пару раз, потом попробуй пересказать своими словами, глядя только на рисунок. Если получилось — задачу ты защитишь.</div>
+  <details class="hint"><summary>Если спросят «почему у тебя эти задачи и шифр 3?»</summary><div class="inner">Оба выбираются по номеру в списке группы. Номерам 6–10 достались задачи 3-04, 3-19, 4-01, 5-05, 5-22 из сборника МИСиС. Строка таблицы (шифр) — тоже по номеру: номера 3, 8, 13, 18, 23, 28 решают строку 3. Ты восьмой — значит, эти задачи и шифр 3.</div></details>
+</section>
+
+<!-- ================= ЗАДАЧА 1: 3-04 ================= -->
+<section class="ktype" id="z1">
+  <div class="khead"><span class="num">1</span><div><h2>Кольцо и заряд на оси</h2><p>Задача 3-04 · найти заряд кольца \(q_1\) · ответ <b>\(q_1 \approx -6{,}5\) нКл</b></p></div></div>
+  <div class="zcond">
+    <p>По тонкому кольцу радиуса \(R\) равномерно распределён заряд \(q_1\). Точечный заряд \(q_2\) перемещается вдоль оси кольца из точки на расстоянии \(h_1\) от плоскости кольца в точку на расстоянии \(h_2\) от неё. При этом совершается работа \(A\) против сил поля. Определите неизвестную величину.</p>
+    <div class="tbl"><table>
+      <tr><th>Шифр</th><th>\(R\), см</th><th>\(q_1\), нКл</th><th>\(q_2\), нКл</th><th>\(h_1\), см</th><th>\(h_2\), см</th><th>\(A\), мкДж</th></tr>
+      <tr><td class="c"><b>3</b></td><td class="c">3,1</td><td class="c"><b>?</b></td><td class="c">−9</td><td class="c">17</td><td class="c">24</td><td class="c">−0,87</td></tr>
+    </table></div>
+  </div>
+  <p class="gist">Заряд \(q_2\) отодвигают от заряженного кольца, и известно, сколько на это ушло работы. Работа в электрическом поле считается проще всего через <em>потенциалы</em>: потенциал — это просто число в каждой точке, как высота на карте. Работа = заряд × разность «высот». Осталось узнать потенциал на оси кольца, и тут помогает одно наблюдение: <em>все кусочки кольца находятся от точки на оси на одном и том же расстоянии</em>.</p>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация по шагам: откуда берётся потенциал кольца</p>
+    <svg viewBox="0 0 560 290" role="img" aria-label="Заряженное кольцо, ось, заряд q2 переносят из точки h1 в точку h2">
+      <line x1="60" y1="145" x2="548" y2="145" class="ln2"/>
+      <text x="300" y="137" text-anchor="middle" class="t-s">ось кольца</text>
+      <ellipse cx="120" cy="145" rx="26" ry="92" fill="none" style="stroke:var(--blue);stroke-width:3"/>
+      <g>
+        <circle cx="142.5" cy="99" r="8" class="sheetfill" style="stroke:var(--blue);stroke-width:1.5"/><circle cx="142.5" cy="191" r="8" class="sheetfill" style="stroke:var(--blue);stroke-width:1.5"/><circle cx="120" cy="237" r="8" class="sheetfill" style="stroke:var(--blue);stroke-width:1.5"/><circle cx="97.5" cy="191" r="8" class="sheetfill" style="stroke:var(--blue);stroke-width:1.5"/><circle cx="97.5" cy="99" r="8" class="sheetfill" style="stroke:var(--blue);stroke-width:1.5"/>
+        <g style="stroke:var(--blue);stroke-width:2"><line x1="138.5" y1="99" x2="146.5" y2="99"/><line x1="138.5" y1="191" x2="146.5" y2="191"/><line x1="116" y1="237" x2="124" y2="237"/><line x1="93.5" y1="191" x2="101.5" y2="191"/><line x1="93.5" y1="99" x2="101.5" y2="99"/></g>
+      </g>
+      <text x="40" y="70" class="t-i fillB" font-size="17">q₁ = ?</text>
+      <circle cx="120" cy="145" r="3" class="fillInk"/>
+      <line x1="120" y1="248" x2="375" y2="248" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/>
+      <text x="248" y="268" text-anchor="middle" class="t-s">h₁ = 17 см</text>
+      <line class="el" data-s="3" x1="120" y1="276" x2="480" y2="276" style="stroke:var(--ink-3);stroke-width:1" marker-start="url(#aK)" marker-end="url(#aK)"/>
+      <rect class="el" data-s="3" x="270" y="267" width="84" height="18" style="fill:var(--sheet)"/>
+      <text class="el t-s" data-s="3" x="312" y="281" text-anchor="middle">h₂ = 24 см</text>
+      <!-- шаг 1: треугольник и равные расстояния -->
+      <g class="el" data-s="1" data-e="2">
+        <line x1="120" y1="237" x2="375" y2="145" style="stroke:var(--teal);stroke-width:1.3;stroke-dasharray:4 4"/>
+        <line x1="100" y1="86" x2="375" y2="145" style="stroke:var(--teal);stroke-width:1.3;stroke-dasharray:4 4"/>
+        <line x1="140" y1="204" x2="375" y2="145" style="stroke:var(--teal);stroke-width:1.3;stroke-dasharray:4 4"/>
+      </g>
+      <g class="el" data-s="1">
+        <path d="M 114 58 Q 120 50 127 58" fill="none" style="stroke:var(--red);stroke-width:6;stroke-linecap:round"/>
+        <text x="132" y="40" class="t-i fillR" font-size="15">dq</text>
+        <line x1="120" y1="145" x2="120" y2="53" class="ln" stroke-width="1.6"/>
+        <text x="113" y="130" text-anchor="end" class="t-i" font-size="16">R</text>
+        <line x1="120" y1="53" x2="375" y2="145" style="stroke:var(--teal);stroke-width:2.4"/>
+        <text x="262" y="84" class="t-i fillH" font-size="16" text-anchor="middle">r = √(R² + h²)</text>
+        <path d="M120 133 L132 133 L132 145" class="thin"/>
+      </g>
+      <!-- шаг 2: потенциал -->
+      <g class="el" data-s="2">
+        <rect x="335" y="98" width="80" height="26" rx="6" style="fill:var(--soft-teal)"/>
+        <text x="375" y="116" text-anchor="middle" class="t-i fillH" font-size="16" font-weight="700">φ₁</text>
+      </g>
+      <g class="el" data-s="3">
+        <rect x="440" y="98" width="80" height="26" rx="6" style="fill:var(--soft-teal)"/>
+        <text x="480" y="116" text-anchor="middle" class="t-i fillH" font-size="16" font-weight="700">φ₂</text>
+      </g>
+      <circle class="el" data-s="3" cx="375" cy="145" r="6" fill="none" style="stroke:var(--blue);stroke-width:1.5;stroke-dasharray:3 2"/>
+      <text class="el t-s" data-s="3" x="375" y="170" text-anchor="middle">было здесь</text>
+      <!-- заряд q2 -->
+      <g class="el mv" data-move="105 0" data-mv="3" data-s="0">
+        <circle cx="375" cy="145" r="14" class="fillB" style="stroke:var(--sheet);stroke-width:2"/>
+        <text x="375" y="151" text-anchor="middle" font-size="18" font-weight="800" style="fill:#fff">−</text>
+        <text x="375" y="178" text-anchor="middle" class="t-i fillB" font-size="15">q₂ = −9 нКл</text>
+      </g>
+      <g class="el" data-s="4" data-arrow="498 145 548 145" data-c="R" data-w="3"></g>
+      <text class="el fillR" data-s="4" x="524" y="136" text-anchor="middle" font-size="14" font-weight="700">F</text>
+      <text class="el t-s" data-s="4" x="548" y="200" text-anchor="end">оба «−»: отталкиваются</text>
+      <text x="548" y="24" text-anchor="end" class="t-s">рисунок не в масштабе</text>
+    </svg>
+    <ol class="say-list">
+      <li>Кольцо радиуса \(R = 3{,}1\) см, на нём заряд \(q_1\) — его и ищем. На оси, в \(h_1 = 17\) см от кольца, стоит заряд \(q_2 = -9\) нКл. Нажимай «Дальше».</li>
+      <li><b>Шаг 1.</b> Разобьём кольцо на крошечные кусочки \(dq\). Главное наблюдение: <b>каждый кусочек</b> находится от точки на оси на одном и том же расстоянии — это гипотенуза треугольника с катетами \(R\) и \(h\): \(r = \sqrt{R^2 + h^2}\).</li>
+      <li><b>Шаг 2.</b> Потенциал — число, вклады кусочков просто складываются: \(\varphi = \sum \frac{k\,dq}{r}\). Раз \(r\) у всех одинаковое, его выносим, а сумма всех \(dq\) — это весь заряд \(q_1\): \(\varphi_1 = \dfrac{kq_1}{\sqrt{R^2 + h_1^2}}\). Вот почему здесь не нужен сложный интеграл.</li>
+      <li><b>Шаг 3.</b> Переносим \(q_2\) в точку \(h_2 = 24\) см. Там потенциал \(\varphi_2 = \dfrac{kq_1}{\sqrt{R^2 + h_2^2}}\).</li>
+      <li><b>Шаг 4.</b> Работа против сил поля \(A = q_2(\varphi_2 - \varphi_1)\). Оба заряда отрицательные — отталкиваются: поле само выталкивает \(q_2\), а мы его как бы придерживаем, поэтому работа <em>против</em> поля отрицательная, как в условии. Выражаем \(q_1\) и получаем \(-6{,}5\) нКл.</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Решение по шагам</b> — нажимай «Следующий шаг».</p>
+    <div class="wstep"><h4>Шаг 1. Всё в СИ</h4><p>\(R = 0{,}031\) м, \(q_2 = -9\cdot10^{-9}\) Кл, \(h_1 = 0{,}17\) м, \(h_2 = 0{,}24\) м, \(A = -0{,}87\) мкДж \(= -8{,}7\cdot10^{-7}\) Дж.</p></div>
+    <div class="wstep"><h4>Шаг 2. Расстояния от кольца до точек</h4><p>$$r_1 = \sqrt{0{,}031^2 + 0{,}17^2} = 0{,}1728\ \text{м},\qquad r_2 = \sqrt{0{,}031^2 + 0{,}24^2} = 0{,}2420\ \text{м}.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Закон: работа через потенциалы</h4><p>$$A = q_2(\varphi_2 - \varphi_1) = kq_1q_2\left(\frac{1}{r_2} - \frac{1}{r_1}\right).$$</p><p class="why">Работа против поля = заряд × (потенциал конца − потенциал начала). От формы пути она не зависит.</p></div>
+    <div class="wstep"><h4>Шаг 4. Выражаем неизвестное</h4><p>$$q_1 = \frac{A}{kq_2\left(\frac{1}{r_2} - \frac{1}{r_1}\right)}.$$</p></div>
+    <div class="wstep"><h4>Шаг 5. Числа</h4><p>$$\frac{1}{r_2} - \frac{1}{r_1} = 4{,}132 - 5{,}787 = -1{,}655\ \text{м}^{-1},\qquad kq_2\cdot(-1{,}655) = 9\cdot10^9\cdot(-9\cdot10^{-9})\cdot(-1{,}655) = 134\ \text{В},$$</p><p>$$q_1 = \frac{-8{,}7\cdot10^{-7}}{134} = -6{,}49\cdot10^{-9}\ \text{Кл} \approx -6{,}5\ \text{нКл}.$$</p></div>
+    <div class="wstep"><h4>Шаг 6. Проверка знака</h4><p>Кольцо получилось отрицательным, как и \(q_2\). Одноимённые заряды отталкиваются, \(q_2\) уходит от кольца — поле совершает положительную работу, а работа против поля отрицательная. С условием (\(A \lt 0\)) сходится.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <details class="zsheet"><summary>Как это записать в тетради: Дано, допущения, решение, размерность</summary><div class="inner">
+<div class="sheet">
+        <div class="given"><span class="lab">Дано:</span>
+          <p>\(R = 3{,}1\) см \(= 0{,}031\) м</p><p>\(q_2 = -9\) нКл \(= -9\cdot10^{-9}\) Кл</p><p>\(h_1 = 17\) см \(= 0{,}17\) м</p><p>\(h_2 = 24\) см \(= 0{,}24\) м</p><p>\(A = -0{,}87\) мкДж \(= -8{,}7\cdot10^{-7}\) Дж</p>
+          <div class="find"><p>Найти: \(q_1\) — ?</p></div></div>
+        <div class="work">
+          <p><b>Допущения.</b> Кольцо тонкое, заряд \(q_1\) распределён по нему равномерно и не перераспределяется при движении \(q_2\); среда — вакуум (\(\varepsilon = 1\)).</p>
+          <p><b>1. Потенциал на оси кольца.</b> Разобьём кольцо на малые элементы с зарядом \(dq\). Каждый удалён от точки оси на одно и то же расстояние \(r = \sqrt{R^2+h^2}\), поэтому</p>
+          $$\varphi(h) = \int\frac{k\,dq}{\sqrt{R^2+h^2}} = \frac{kq_1}{\sqrt{R^2+h^2}}.$$
+          <p><b>2. Работа.</b> Работа сил поля при перемещении \(q_2\) из точки 1 в точку 2: \(A_\text{поля} = q_2(\varphi_1 - \varphi_2)\). Работа против сил поля — с обратным знаком:</p>
+          $$A = q_2(\varphi_2 - \varphi_1),$$
+          $$A = kq_1q_2\left(\frac{1}{\sqrt{R^2+h_2^2}} - \frac{1}{\sqrt{R^2+h_1^2}}\right).$$
+          <p><b>3. Выражаем неизвестное:</b></p>
+          $$q_1 = \frac{A}{k\,q_2\left(\frac{1}{\sqrt{R^2+h_2^2}} - \frac{1}{\sqrt{R^2+h_1^2}}\right)}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{Дж}}{\frac{\text{Н·м}^2}{\text{Кл}^2}\cdot\text{Кл}\cdot\frac{1}{\text{м}}} = \dfrac{\text{Дж·Кл}}{\text{Н·м}} = \text{Кл}\).</p>
+          <p><b>4. Вычисления.</b></p>
+          $$\sqrt{R^2+h_1^2} = \sqrt{0{,}031^2 + 0{,}17^2} = \sqrt{0{,}02986} = 0{,}1728\ \text{м},$$
+          $$\sqrt{R^2+h_2^2} = \sqrt{0{,}031^2 + 0{,}24^2} = \sqrt{0{,}05856} = 0{,}2420\ \text{м},$$
+          $$\frac{1}{0{,}2420} - \frac{1}{0{,}1728} = 4{,}132 - 5{,}787 = -1{,}655\ \text{м}^{-1},$$
+          $$k\,q_2\cdot(-1{,}655) = 9\cdot10^{9}\cdot(-9\cdot10^{-9})\cdot(-1{,}655) = 134{,}0\ \text{В},$$
+          $$q_1 = \frac{-8{,}7\cdot10^{-7}}{134{,}0} = -6{,}49\cdot10^{-9}\ \text{Кл}.$$
+          <p><b>5. Анализ.</b> \(q_1\) и \(q_2\) оба отрицательные — отталкиваются. Заряд \(q_2\) удаляется от кольца (\(h\) растёт с 17 до 24 см), поле само его выталкивает, работа поля положительна, а работа против поля — отрицательна. Именно так и дано (\(A \lt 0\)), ответ согласован с условием.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(q_1 \approx -6{,}5\) нКл.</p>
+  </div></details>
+
+  <div class="speech">
+    <h3>Что сказать на защите</h3>
+    <p>«В задаче заряд \(q_2\) переносят вдоль оси заряженного кольца, известна работа против сил поля, нужно найти заряд кольца. Работа в электростатическом поле не зависит от пути и выражается через потенциалы: \(A = q_2(\varphi_2 - \varphi_1)\).</p>
+    <p>Потенциал на оси кольца я нашёл так: разбил кольцо на маленькие заряды \(dq\). Все они находятся на одинаковом расстоянии \(\sqrt{R^2 + h^2}\) от точки, поэтому их потенциалы просто складываются, и \(\varphi = kq_1/\sqrt{R^2 + h^2}\).</p>
+    <p>Подставил потенциалы в формулу работы и выразил \(q_1\), получилось \(q_1 \approx -6{,}5\) нКл. Проверка: оба заряда отрицательные и отталкиваются, \(q_2\) удаляется от кольца, поле само его толкает, поэтому работа против поля отрицательная — как и дано в условии.»</p>
+  </div>
+
+  <div class="qa">
+    <h3>Что могут спросить</h3>
+    <details><summary>Почему здесь не нужен интеграл, а в задачах со стержнем нужен?</summary><div class="inner">Формально интеграл есть: \(\varphi = \int k\,dq/r\). Но у кольца все кусочки на одном расстоянии от точки на оси, \(r\) выносится за интеграл, остаётся \(\int dq = q_1\). У стержня кусочки на разных расстояниях, поэтому там интеграл приходится честно считать.</div></details>
+    <details><summary>Чем потенциал отличается от напряжённости?</summary><div class="inner">Напряжённость \(\vec E\) — вектор, это сила, действующая на единичный положительный заряд. Потенциал \(\varphi\) — скаляр, это энергия единичного положительного заряда в данной точке. Потенциалы разных зарядов складываются как числа, а напряжённости — как стрелки, с учётом направлений.</div></details>
+    <details><summary>Почему работа против поля отрицательная?</summary><div class="inner">Кольцо и \(q_2\) заряжены одноимённо и отталкиваются. Заряд уходит от кольца, поле само его выталкивает и совершает положительную работу. Внешняя сила при этом только придерживает заряд, направлена против движения, и её работа отрицательна.</div></details>
+    <details><summary>Зависит ли работа от того, по какому пути двигали заряд?</summary><div class="inner">Нет. Электростатическое поле потенциальное: работа зависит только от начальной и конечной точек. Поэтому достаточно знать потенциалы в этих двух точках.</div></details>
+    <details><summary>Чем работа поля отличается от работы против поля?</summary><div class="inner">Они равны по модулю и противоположны по знаку: работа поля \(A_\text{поля} = q_2(\varphi_1 - \varphi_2)\), работа внешней силы против поля \(A = q_2(\varphi_2 - \varphi_1)\).</div></details>
+    <details><summary>А какая напряжённость на оси кольца?</summary><div class="inner">Поперечные составляющие от противоположных кусочков гасят друг друга, остаётся составляющая вдоль оси: \(E = \dfrac{kq_1h}{(R^2 + h^2)^{3/2}}\). В центре кольца (\(h = 0\)) \(E = 0\), а потенциал при этом не ноль: \(\varphi = kq_1/R\).</div></details>
+    <details><summary>Почему ответ получился отрицательным?</summary><div class="inner">По формуле: \(A \lt 0\), \(q_2 \lt 0\), а скобка \(1/r_2 - 1/r_1 \lt 0\), потому что \(r_2 \gt r_1\). Минус делить на (минус × минус) — минус. И по физике: заряд \(q_2\) отталкивается, значит, кольцо того же знака.</div></details>
+  </div>
+
+  <div class="self" data-solve id="self-z1">
+    <h4>Проверь, что понял</h4>
+    <p>Какую работу против сил поля нужно совершить, чтобы вернуть \(q_2\) обратно из точки \(h_2\) в точку \(h_1\)?</p>
+    <div class="check" data-ans="0.87" data-tol="0.02"><label>\(A'\) = <input inputmode="decimal" autocomplete="off"> мкДж</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Начало и конец поменялись местами — что станет с разностью потенциалов?</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(A' = q_2(\varphi_1 - \varphi_2) = -A = +0{,}87\) мкДж. Теперь заряд придвигают к одноимённому кольцу, и приходится толкать его против отталкивания.</div></details>
+  </div>
+</section>
+
+<!-- ================= ЗАДАЧА 2: 3-19 ================= -->
+<section class="ktype" id="z2">
+  <div class="khead"><span class="num">2</span><div><h2>Два шара и проволока</h2><p>Задача 3-19 · найти заряд \(q_2\) · ответ <b>\(q_2 \approx +4{,}95\) нКл</b></p></div></div>
+  <div class="zcond">
+    <p>Два шара радиусами \(R_1\) и \(R_2\) имели заряды \(q_1\) и \(q_2\). После того как шары соединили тонкой проволокой, их потенциалы стали одинаковыми и равными \(\varphi\). Определите неизвестную величину.</p>
+    <div class="tbl"><table>
+      <tr><th>Шифр</th><th>\(R_1\), см</th><th>\(R_2\), см</th><th>\(q_1\), нКл</th><th>\(q_2\), нКл</th><th>\(\varphi\), кВ</th></tr>
+      <tr><td class="c"><b>3</b></td><td class="c">3,2</td><td class="c">2,6</td><td class="c">−6,5</td><td class="c"><b>?</b></td><td class="c">−0,24</td></tr>
+    </table></div>
+  </div>
+  <p class="gist">Представь два бака с водой на разной высоте. Соедини их трубкой — вода потечёт, пока <em>уровни не сравняются</em>. С шарами то же самое: заряд — это вода, потенциал — уровень. По проволоке течёт заряд, пока потенциалы шаров не станут одинаковыми. И при этом <em>воды не прибавляется и не убавляется</em>: общий заряд сохраняется. Эти два условия и решают задачу.</p>
+
+  <div class="anim" id="balls">
+    <p class="atitle">Анимация: соединяем шары — заряд перетекает, потенциалы съезжаются</p>
+    <svg viewBox="0 0 560 300" role="img" aria-label="Два шара соединяют проволокой, электроны перетекают, потенциалы выравниваются до −240 В"></svg>
+    <div class="bar"><button class="btn" type="button" data-b="go">Соединить проволокой</button><button class="btn ghost" type="button" data-b="reset">Сначала</button><span class="count" id="ballsTxt">до соединения</span></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Решение по шагам</b> — нажимай «Следующий шаг».</p>
+    <div class="wstep"><h4>Шаг 1. Всё в СИ</h4><p>\(R_1 = 0{,}032\) м, \(R_2 = 0{,}026\) м, \(q_1 = -6{,}5\cdot10^{-9}\) Кл, \(\varphi = -0{,}24\) кВ \(= -240\) В.</p></div>
+    <div class="wstep"><h4>Шаг 2. Условие 1: потенциалы равны</h4><p>Потенциал шара \(\varphi = kq/R\). После соединения у обоих шаров потенциал \(\varphi\), значит, их новые заряды:</p><p>$$q_1' = \frac{\varphi R_1}{k},\qquad q_2' = \frac{\varphi R_2}{k}.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Условие 2: заряд сохраняется</h4><p>$$q_1 + q_2 = q_1' + q_2' = \frac{\varphi(R_1 + R_2)}{k}\quad\Rightarrow\quad q_2 = \frac{\varphi(R_1 + R_2)}{k} - q_1.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Числа</h4><p>$$\frac{\varphi(R_1 + R_2)}{k} = \frac{-240\cdot0{,}058}{9\cdot10^9} = -1{,}547\cdot10^{-9}\ \text{Кл},$$</p><p>$$q_2 = -1{,}547\cdot10^{-9} - (-6{,}5\cdot10^{-9}) = 4{,}95\cdot10^{-9}\ \text{Кл} = 4{,}95\ \text{нКл}.$$</p></div>
+    <div class="wstep"><h4>Шаг 5. Проверка</h4><p>До соединения: \(\varphi_1 = kq_1/R_1 \approx -1830\) В, \(\varphi_2 = kq_2/R_2 \approx +1710\) В. Общий потенциал \(-240\) В лежит между ними — так и должно быть: «уровни» встретились посередине.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <details class="zsheet"><summary>Как это записать в тетради: Дано, допущения, решение, размерность</summary><div class="inner">
+<div class="sheet">
+        <div class="given"><span class="lab">Дано:</span>
+          <p>\(R_1 = 3{,}2\) см \(= 0{,}032\) м</p><p>\(R_2 = 2{,}6\) см \(= 0{,}026\) м</p><p>\(q_1 = -6{,}5\) нКл \(= -6{,}5\cdot10^{-9}\) Кл</p><p>\(\varphi = -0{,}24\) кВ \(= -240\) В</p>
+          <div class="find"><p>Найти: \(q_2\) — ?</p></div></div>
+        <div class="work">
+          <p><b>Допущения.</b> Шары находятся далеко друг от друга, поэтому потенциал каждого определяется только его собственным зарядом; заряд и ёмкость тонкой проволоки пренебрежимо малы; среда — воздух (\(\varepsilon = 1\)).</p>
+          <p><b>1.</b> После соединения шары образуют один проводник, их потенциалы равны \(\varphi\). Потенциал шара радиуса \(R\) с зарядом \(q\): \(\varphi = kq/R\). Отсюда заряды после соединения:</p>
+          $$q_1' = \frac{\varphi R_1}{k},\qquad q_2' = \frac{\varphi R_2}{k}.$$
+          <p><b>2.</b> По закону сохранения заряда \(q_1 + q_2 = q_1' + q_2'\), поэтому</p>
+          $$q_2 = \frac{\varphi(R_1+R_2)}{k} - q_1.$$
+          <p class="dim">Размерность: \(\dfrac{\text{В·м}}{\text{Н·м}^2/\text{Кл}^2} = \dfrac{\text{В·Кл}^2}{\text{Н·м}} = \dfrac{\text{В·Кл}^2}{\text{Дж}} = \text{Кл}\), так как \(\text{Дж} = \text{В·Кл}\).</p>
+          <p><b>3. Вычисления.</b></p>
+          $$\frac{\varphi(R_1+R_2)}{k} = \frac{-240\cdot0{,}058}{9\cdot10^9} = -1{,}547\cdot10^{-9}\ \text{Кл},$$
+          $$q_2 = -1{,}547\cdot10^{-9} - (-6{,}5\cdot10^{-9}) = 4{,}95\cdot10^{-9}\ \text{Кл}.$$
+          <p><b>4. Анализ.</b> До соединения потенциалы были \(\varphi_1 = kq_1/R_1 \approx -1830\) В и \(\varphi_2 = kq_2/R_2 \approx +1710\) В. Общий потенциал \(-240\) В лежит между ними — так и должно быть. После соединения заряды \(q_1' \approx -0{,}85\) нКл и \(q_2' \approx -0{,}69\) нКл, их сумма \(-1{,}55\) нКл равна \(q_1 + q_2\).</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(q_2 \approx +4{,}95\) нКл.</p>
+  </div></details>
+
+  <div class="speech">
+    <h3>Что сказать на защите</h3>
+    <p>«Два заряженных шара соединили проволокой. После этого они стали одним проводником, а у проводника в равновесии потенциал всюду одинаковый: заряды перетекают, пока потенциалы не сравняются.</p>
+    <p>Я использовал два условия. Первое — закон сохранения заряда: сумма зарядов до и после соединения одна и та же. Второе — равенство потенциалов. Потенциал шара \(\varphi = kq/R\), отсюда заряды после соединения \(q' = \varphi R/k\).</p>
+    <p>Сумму новых зарядов приравнял к \(q_1 + q_2\) и выразил \(q_2 = \varphi(R_1 + R_2)/k - q_1 \approx +4{,}95\) нКл. Проверка: до соединения потенциалы были примерно \(-1830\) В и \(+1710\) В, общий \(-240\) В лежит между ними.»</p>
+  </div>
+
+  <div class="qa">
+    <h3>Что могут спросить</h3>
+    <details><summary>Почему после соединения потенциалы одинаковые?</summary><div class="inner">Соединённые шары — один проводник. Пока потенциалы разные, внутри проводника есть поле, и оно гонит заряды. Движение прекращается, когда поле внутри исчезает, а это и значит, что потенциал всюду одинаков.</div></details>
+    <details><summary>Почему потенциал шара равен \(kq/R\)?</summary><div class="inner">Снаружи и на поверхности заряженный шар создаёт такое же поле, как точечный заряд в его центре. Потенциал точечного заряда \(kq/r\), а на поверхности шара \(r = R\).</div></details>
+    <details><summary>Какой закон сохранения здесь работает?</summary><div class="inner">Закон сохранения электрического заряда: в замкнутой системе алгебраическая сумма зарядов постоянна. Заряд не появляется и не исчезает, а только перетекает: \(q_1 + q_2 = q_1' + q_2'\).</div></details>
+    <details><summary>Зачем допущение, что шары далеко друг от друга?</summary><div class="inner">Тогда потенциал каждого шара зависит только от его собственного заряда. Если шары близко, поле одного меняет потенциал другого, и формула \(\varphi = kq/R\) становится неточной.</div></details>
+    <details><summary>Что именно текло по проволоке и куда?</summary><div class="inner">Электроны. Они движутся туда, где потенциал выше: от первого шара (около \(-1830\) В) ко второму (около \(+1710\) В). Первый шар терял отрицательный заряд, второй его получал, пока оба не пришли к \(-240\) В.</div></details>
+    <details><summary>Как заряды поделились между шарами?</summary><div class="inner">Пропорционально радиусам: \(q_1'/q_2' = R_1/R_2\), потому что \(q' = \varphi R/k\) с одним и тем же \(\varphi\). Ёмкость шара \(C = 4\pi\varepsilon_0R\): больший шар забирает больше заряда.</div></details>
+  </div>
+
+  <div class="self" data-solve id="self-z2">
+    <h4>Проверь, что понял</h4>
+    <p>Какой заряд оказался на первом шаре после соединения?</p>
+    <div class="check" data-ans="-0.853" data-tol="0.03"><label>\(q_1'\) = <input inputmode="decimal" autocomplete="off"> нКл</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">\(q_1' = \varphi R_1/k\), потенциал отрицательный.</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(q_1' = \dfrac{-240\cdot0{,}032}{9\cdot10^9} \approx -0{,}85\cdot10^{-9}\) Кл \(= -0{,}85\) нКл.</div></details>
+  </div>
+</section>
+
+<!-- ================= ЗАДАЧА 3: 4-01 ================= -->
+<section class="ktype" id="z3">
+  <div class="khead"><span class="num">3</span><div><h2>Две батареи и вольтметр</h2><p>Задача 4-01 · найти внутреннее сопротивление \(r_1\) · ответ <b>\(r_1 = 0{,}15\) Ом</b></p></div></div>
+  <div class="zcond">
+    <p>Две батареи с электродвижущими силами \(\mathcal E_1\) и \(\mathcal E_2\) и внутренними сопротивлениями \(r_1\) и \(r_2\) соединены одноимёнными полюсами. Вольтметр с очень большим внутренним сопротивлением, подключённый к полюсам батарей, показывает разность потенциалов \(U\). Определите неизвестную величину.</p>
+    <div class="tbl"><table>
+      <tr><th>Шифр</th><th>\(\mathcal E_1\), В</th><th>\(\mathcal E_2\), В</th><th>\(r_1\), Ом</th><th>\(r_2\), Ом</th><th>\(U\), В</th></tr>
+      <tr><td class="c"><b>3</b></td><td class="c">9,6</td><td class="c">7,2</td><td class="c"><b>?</b></td><td class="c">0,25</td><td class="c">8,7</td></tr>
+    </table></div>
+  </div>
+  <p class="gist">Представь два насоса, соединённых «нос к носу»: каждый пытается гнать воду по кругу в свою сторону. Первый сильнее (9,6 В против 7,2 В), он побеждает: вода идёт по кругу, а <em>через второй насос продавливается задом наперёд</em>. Вольтметр — как манометр: воду не пропускает, а только показывает «давление» между общими точками \(A\) и \(B\).</p>
+
+  <div class="anim" id="circuit">
+    <p class="atitle">Анимация: куда течёт ток (через вольтметр — нет)</p>
+    <svg viewBox="0 0 560 280" role="img" aria-label="Две батареи соединены плюс к плюсу, ток течёт по кругу через обе батареи, через вольтметр ток не идёт">
+      <path id="cirLoop" d="M110 230 L110 50 L280 50 L280 230 Z" fill="none" style="stroke:var(--amber);stroke-opacity:.22;stroke-width:12;stroke-linejoin:round"/>
+      <polyline points="110,128 110,50 450,50 450,118" class="ln"/>
+      <polyline points="110,150 110,230 450,230 450,162" class="ln"/>
+      <line x1="280" y1="50" x2="280" y2="128" class="ln"/>
+      <line x1="280" y1="150" x2="280" y2="230" class="ln"/>
+      <line x1="84" y1="130" x2="136" y2="130" class="ln" stroke-width="2.4"/>
+      <line x1="97" y1="148" x2="123" y2="148" class="ln" stroke-width="6"/>
+      <line x1="254" y1="130" x2="306" y2="130" class="ln" stroke-width="2.4"/>
+      <line x1="267" y1="148" x2="293" y2="148" class="ln" stroke-width="6"/>
+      <text x="76" y="128" text-anchor="end" class="fillR" font-size="17" font-weight="700">+</text>
+      <text x="246" y="128" text-anchor="end" class="fillR" font-size="17" font-weight="700">+</text>
+      <text x="76" y="158" text-anchor="end" class="fillB" font-size="19" font-weight="700">−</text>
+      <text x="246" y="158" text-anchor="end" class="fillB" font-size="19" font-weight="700">−</text>
+      <text x="144" y="136" class="t-i" font-size="15">ℰ₁ = 9,6 В</text>
+      <text x="144" y="156" class="t-i" font-size="15">r₁ = ?</text>
+      <text x="314" y="136" class="t-i" font-size="15">ℰ₂ = 7,2 В</text>
+      <text x="314" y="156" class="t-i" font-size="15">r₂ = 0,25 Ом</text>
+      <circle cx="450" cy="140" r="22" class="sheetfill"/>
+      <circle cx="450" cy="140" r="22" class="ln"/>
+      <text x="450" y="146" text-anchor="middle" font-size="17" font-weight="700">V</text>
+      <text x="482" y="136" class="t-i" font-size="15">U =</text>
+      <text x="482" y="156" font-size="15" font-weight="700">8,7 В</text>
+      <circle cx="280" cy="50" r="4" class="fillInk"/><circle cx="280" cy="230" r="4" class="fillInk"/>
+      <text x="280" y="36" text-anchor="middle" font-size="15" font-weight="700">A</text>
+      <text x="280" y="256" text-anchor="middle" font-size="15" font-weight="700">B</text>
+      <text x="450" y="274" text-anchor="middle" class="t-s">через вольтметр тока нет</text>
+      <g id="cirDots"></g>
+      <text x="195" y="76" text-anchor="middle" class="t-i fillI" font-size="16" font-weight="700">I</text>
+    </svg>
+    <div class="bar"><button class="btn ghost" type="button" data-c="toggle">Пауза</button><span class="count">первая батарея сильнее — ток идёт через вторую против её ЭДС</span></div>
+  </div>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация по шагам: «лесенка» потенциала от точки B до точки A</p>
+    <svg viewBox="0 0 560 300" role="img" aria-label="Подъём потенциала от B к A через батарею 2 и через батарею 1">
+      <line x1="70" y1="30" x2="70" y2="270" class="ln"/>
+      <g class="t-s" text-anchor="end"><text x="62" y="274">0</text><text x="62" y="226">2</text><text x="62" y="178">4</text><text x="62" y="130">6</text><text x="62" y="82">8</text><text x="62" y="34">10</text></g>
+      <g class="thin"><line x1="66" y1="222" x2="74" y2="222"/><line x1="66" y1="174" x2="74" y2="174"/><line x1="66" y1="126" x2="74" y2="126"/><line x1="66" y1="78" x2="74" y2="78"/><line x1="66" y1="30" x2="74" y2="30"/></g>
+      <text x="80" y="22" class="t-i" font-size="15">φ, В</text>
+      <line x1="70" y1="270" x2="548" y2="270" class="ln"/>
+      <text x="80" y="262" class="t-s">B: φ = 0</text>
+      <line x1="70" y1="61.2" x2="548" y2="61.2" style="stroke:var(--ink);stroke-width:1.4;stroke-dasharray:6 4"/>
+      <text x="80" y="54" font-size="14" font-weight="700">A: 8,7 В</text>
+      <text x="225" y="292" text-anchor="middle" class="t-s">через батарею 2</text>
+      <text x="395" y="292" text-anchor="middle" class="t-s">через батарею 1</text>
+      <g class="el" data-s="1"><rect x="190" y="97.2" width="70" height="172.8" style="fill:var(--soft-blue);stroke:var(--blue);stroke-width:1.5"/><text x="225" y="190" text-anchor="middle" class="fillB" font-size="15" font-weight="700">ℰ₂</text><text x="225" y="210" text-anchor="middle" class="fillB" font-size="14">7,2 В</text></g>
+      <g class="el" data-s="2"><rect x="190" y="61.2" width="70" height="36" style="fill:var(--soft-amber);stroke:var(--amber);stroke-width:1.5"/><text x="266" y="84" class="fillI" font-size="13" font-weight="700">+Ir₂ = 1,5 В</text><text x="266" y="104" class="t-s">→ I = 6 А</text></g>
+      <g class="el" data-s="3"><rect x="360" y="39.6" width="70" height="230.4" style="fill:var(--soft-blue);stroke:var(--blue);stroke-width:1.5"/><text x="395" y="170" text-anchor="middle" class="fillB" font-size="15" font-weight="700">ℰ₁</text><text x="395" y="190" text-anchor="middle" class="fillB" font-size="14">9,6 В</text></g>
+      <g class="el" data-s="4"><rect x="360" y="39.6" width="70" height="21.6" style="fill:var(--soft-red);stroke:var(--red);stroke-width:1.5"/><text x="436" y="40" class="fillR" font-size="14" font-weight="700">−Ir₁ = 0,9 В</text><text x="436" y="84" class="t-s">→ r₁ = 0,15 Ом</text></g>
+    </svg>
+    <ol class="say-list">
+      <li>Вольтметр показывает разность потенциалов между общими точками \(A\) и \(B\): \(U = 8{,}7\) В. Примем потенциал \(B\) за ноль, тогда \(A\) — на «высоте» 8,7 В. До \(A\) можно дойти двумя путями: через батарею 2 или через батарею 1. Оба пути обязаны дать одну и ту же высоту.</li>
+      <li><b>Шаг 1. Через батарею 2.</b> Её ЭДС поднимает потенциал на 7,2 В. До 8,7 В не хватает 1,5 В.</li>
+      <li><b>Шаг 2.</b> Эти 1,5 В — падение напряжения на внутреннем сопротивлении: ток продавливают через батарею 2 против её ЭДС, поэтому напряжение на ней больше ЭДС: \(U = \mathcal E_2 + Ir_2\). Отсюда ток: \(I = 1{,}5/0{,}25 = 6\) А.</li>
+      <li><b>Шаг 3. Через батарею 1.</b> Её ЭДС поднимает на 9,6 В — это больше, чем 8,7 В.</li>
+      <li><b>Шаг 4.</b> Лишние 0,9 В теряются внутри самой батареи на её сопротивлении: \(U = \mathcal E_1 - Ir_1\). Значит, \(Ir_1 = 0{,}9\) В и \(r_1 = 0{,}9/6 = 0{,}15\) Ом.</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Решение по шагам</b> — нажимай «Следующий шаг».</p>
+    <div class="wstep"><h4>Шаг 1. Куда течёт ток</h4><p>Батареи соединены одноимёнными полюсами, их ЭДС в контуре направлены навстречу. \(\mathcal E_1 \gt \mathcal E_2\), поэтому ток идёт через первую батарею от «−» к «+», а через вторую — против её ЭДС. Вольтметр идеальный: тока через него нет, и по контуру из двух батарей течёт один и тот же ток \(I\).</p></div>
+    <div class="wstep"><h4>Шаг 2. Напряжение через батарею 2 → ток</h4><p>$$U = \mathcal E_2 + Ir_2\quad\Rightarrow\quad I = \frac{U - \mathcal E_2}{r_2} = \frac{8{,}7 - 7{,}2}{0{,}25} = 6\ \text{А}.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Напряжение через батарею 1 → \(r_1\)</h4><p>$$U = \mathcal E_1 - Ir_1\quad\Rightarrow\quad r_1 = \frac{\mathcal E_1 - U}{I} = \frac{(\mathcal E_1 - U)\,r_2}{U - \mathcal E_2} = \frac{9{,}6 - 8{,}7}{6} = 0{,}15\ \text{Ом}.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Проверка по правилу Кирхгофа</h4><p>$$I = \frac{\mathcal E_1 - \mathcal E_2}{r_1 + r_2} = \frac{2{,}4}{0{,}15 + 0{,}25} = 6\ \text{А}$$ — совпало. И показание вольтметра лежит между ЭДС: \(7{,}2 \lt 8{,}7 \lt 9{,}6\).</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <details class="zsheet"><summary>Как это записать в тетради: Дано, допущения, решение, размерность</summary><div class="inner">
+<div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(\mathcal E_1 = 9{,}6\) В</p><p>\(\mathcal E_2 = 7{,}2\) В</p><p>\(r_2 = 0{,}25\) Ом</p><p>\(U = 8{,}7\) В</p><p>\(R_V \to \infty\)</p><div class="find"><p>Найти: \(r_1\) — ?</p></div></div>
+        <div class="work">
+          <p><b>Допущения.</b> Сопротивление соединительных проводов равно нулю; вольтметр идеальный (\(R_V\to\infty\)), ток через него не течёт.</p>
+          <p><b>1.</b> Батареи соединены одноимёнными полюсами (параллельно), их ЭДС в контуре направлены навстречу друг другу. Так как \(\mathcal E_1 \gt \mathcal E_2\), ток \(I\) идёт через первую батарею от «−» к «+» (она отдаёт энергию), а через вторую — от «+» к «−» (против её ЭДС).</p>
+          <p>По второму правилу Кирхгофа для этого контура:</p>
+          $$I(r_1 + r_2) = \mathcal E_1 - \mathcal E_2.\qquad(1)$$
+          <p><b>2.</b> Вольтметр показывает напряжение между общими полюсами \(A\) и \(B\). Запишем его через каждую батарею:</p>
+          $$U = \mathcal E_1 - Ir_1,\qquad(2)\qquad\qquad U = \mathcal E_2 + Ir_2.\qquad(3)$$
+          <p><b>3.</b> Из (3): \(I = \dfrac{U - \mathcal E_2}{r_2}\). Подставляем в (2):</p>
+          $$r_1 = \frac{\mathcal E_1 - U}{I} = \frac{(\mathcal E_1 - U)\,r_2}{U - \mathcal E_2}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{В}\cdot\text{Ом}}{\text{В}} = \text{Ом}\).</p>
+          <p><b>4. Вычисления.</b></p>
+          $$I = \frac{8{,}7 - 7{,}2}{0{,}25} = 6\ \text{А},\qquad r_1 = \frac{9{,}6 - 8{,}7}{6} = 0{,}15\ \text{Ом}.$$
+          <p><b>5. Проверка</b> по (1): \(I = \dfrac{9{,}6 - 7{,}2}{0{,}15 + 0{,}25} = \dfrac{2{,}4}{0{,}4} = 6\) А — совпало. Показание вольтметра лежит между ЭДС батарей (\(7{,}2 \lt 8{,}7 \lt 9{,}6\)), как и должно быть.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(r_1 = 0{,}15\) Ом.</p>
+  </div></details>
+
+  <div class="speech">
+    <h3>Что сказать на защите</h3>
+    <p>«Две батареи соединены одноимёнными полюсами, то есть параллельно, и их ЭДС в контуре направлены навстречу. Вольтметр идеальный, ток через него не идёт, поэтому по контуру из двух батарей течёт один и тот же ток. Первая батарея сильнее, она гонит ток через вторую против её ЭДС.</p>
+    <p>Показание вольтметра — это напряжение между общими полюсами, и его можно записать через каждую батарею: \(U = \mathcal E_1 - Ir_1\) и \(U = \mathcal E_2 + Ir_2\). Из второго уравнения нашёл ток \(I = 6\) А, из первого — \(r_1 = 0{,}15\) Ом.</p>
+    <p>Проверил по второму правилу Кирхгофа для контура: \(I = (\mathcal E_1 - \mathcal E_2)/(r_1 + r_2) = 2{,}4/0{,}4 = 6\) А — сошлось.»</p>
+  </div>
+
+  <div class="qa">
+    <h3>Что могут спросить</h3>
+    <details><summary>Зачем нужен вольтметр с очень большим сопротивлением?</summary><div class="inner">Через него не идёт ток, поэтому он не меняет схему: показывает напряжение между точками, а по контуру из двух батарей течёт один и тот же ток.</div></details>
+    <details><summary>Почему для первой батареи «минус \(Ir\)», а для второй «плюс»?</summary><div class="inner">Первая работает как источник: ток идёт внутри неё от «−» к «+», и часть ЭДС теряется на её внутреннем сопротивлении: \(U = \mathcal E_1 - Ir_1\). Через вторую ток продавливают против её ЭДС (она как бы заряжается), поэтому напряжение на ней больше ЭДС: \(U = \mathcal E_2 + Ir_2\).</div></details>
+    <details><summary>Что такое ЭДС?</summary><div class="inner">Работа сторонних (не электростатических) сил по перемещению единичного положительного заряда внутри источника. ЭДС равна напряжению на полюсах разомкнутого источника, когда ток не идёт.</div></details>
+    <details><summary>Запиши второе правило Кирхгофа для этого контура.</summary><div class="inner">В замкнутом контуре алгебраическая сумма ЭДС равна сумме падений напряжения: \(\mathcal E_1 - \mathcal E_2 = I(r_1 + r_2)\). ЭДС берём с плюсом, если она направлена по направлению обхода, и с минусом — если против.</div></details>
+    <details><summary>Почему показание вольтметра между 7,2 и 9,6 В?</summary><div class="inner">Если бы \(r_1 = 0\), вольтметр показал бы \(\mathcal E_1 = 9{,}6\) В; если бы \(r_2 = 0\) — \(\mathcal E_2 = 7{,}2\) В. При реальных сопротивлениях напряжение где-то между ними.</div></details>
+    <details><summary>Что было бы, если соединить батареи разноимёнными полюсами?</summary><div class="inner">Их ЭДС в контуре сложились бы: \(I = (\mathcal E_1 + \mathcal E_2)/(r_1 + r_2) = 16{,}8/0{,}4 = 42\) А — почти короткое замыкание.</div></details>
+  </div>
+
+  <div class="self" data-solve id="self-z3">
+    <h4>Проверь, что понял</h4>
+    <p>Вторую батарею заменили на другую с той же ЭДС 7,2 В, но с \(r_2 = 0{,}45\) Ом. Что покажет вольтметр? (\(r_1 = 0{,}15\) Ом.)</p>
+    <div class="check" data-ans="9" data-tol="0.01"><label>\(U\) = <input inputmode="decimal" autocomplete="off"> В</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Сначала ток по Кирхгофу: \(I = (\mathcal E_1 - \mathcal E_2)/(r_1 + r_2)\), потом \(U = \mathcal E_1 - Ir_1\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(I = 2{,}4/0{,}6 = 4\) А, \(U = 9{,}6 - 4\cdot0{,}15 = 9{,}0\) В.</div></details>
+  </div>
+</section>
+
+<!-- ================= ЗАДАЧА 4: 5-05 ================= -->
+<section class="ktype" id="z4">
+  <div class="khead"><span class="num">4</span><div><h2>Толстая труба с током</h2><p>Задача 5-05 · найти напряжённость \(H\) · ответ <b>\(H \approx 1{,}23\) А/м</b></p></div></div>
+  <div class="zcond">
+    <p>Вдоль толстостенной трубы с внутренним радиусом \(R_1\) и внешним \(R_2\) идёт ток \(I\), равномерно распределённый по сечению. На расстоянии \(r\) от оси трубы напряжённость магнитного поля равна \(H\). Определите неизвестную величину.</p>
+    <div class="tbl"><table>
+      <tr><th>Шифр</th><th>\(R_1\), см</th><th>\(R_2\), см</th><th>\(I\), А</th><th>\(r\), см</th><th>\(H\), А/м</th></tr>
+      <tr><td class="c"><b>3</b></td><td class="c">26,0</td><td class="c">36,0</td><td class="c">5,2</td><td class="c">31,0</td><td class="c"><b>?</b></td></tr>
+    </table></div>
+  </div>
+  <p class="gist">Ток течёт не по тонкому проводу, а по толстой стенке трубы. Главный инструмент — <em>теорема о циркуляции</em>: обводишь окружность радиуса \(r\) вокруг оси, как забор вокруг участка, и смотришь, какой ток оказался внутри забора. Поле на этой окружности «чувствует» только охваченный ток. Наша точка — <em>внутри стенки</em> (26 &lt; 31 &lt; 36 см), поэтому внутри забора только часть тока: та, что течёт между \(R_1\) и \(r\).</p>
+
+  <div class="anim" id="pipe">
+    <p class="atitle">Интерактив: двигай радиус контура и смотри, какой ток он охватывает</p>
+    <svg viewBox="0 0 600 300" role="img" aria-label="Сечение трубы с контуром радиуса r и график зависимости H от r"></svg>
+    <div class="ctrl"><label><span>Радиус контура \(r\) = <output id="pipeR">31 см</output></span><input type="range" id="pipeSl" min="0" max="45" step="0.5" value="31"></label></div>
+    <p class="say" id="pipeTxt"></p>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Решение по шагам</b> — нажимай «Следующий шаг».</p>
+    <div class="wstep"><h4>Шаг 1. Где точка</h4><p>\(R_1 = 0{,}26\) м, \(R_2 = 0{,}36\) м, \(r = 0{,}31\) м, \(I = 5{,}2\) А. Сравниваем: \(0{,}26 \lt 0{,}31 \lt 0{,}36\) — точка внутри стенки трубы.</p></div>
+    <div class="wstep"><h4>Шаг 2. Теорема о циркуляции по окружности радиуса \(r\)</h4><p>$$\oint H\,dl = H\cdot2\pi r = I_\text{охв}.$$</p><p class="why">Из симметрии \(H\) на окружности направлен по касательной и везде одинаков, поэтому интеграл — это просто \(H\) × длина окружности.</p></div>
+    <div class="wstep"><h4>Шаг 3. Какой ток охвачен</h4><p>Ток распределён по сечению равномерно, значит, доля тока = доля площади:</p><p>$$I_\text{охв} = I\,\frac{\pi(r^2 - R_1^2)}{\pi(R_2^2 - R_1^2)} = 5{,}2\cdot\frac{0{,}0961 - 0{,}0676}{0{,}1296 - 0{,}0676} = 5{,}2\cdot0{,}460 = 2{,}39\ \text{А}.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Ответ</h4><p>$$H = \frac{I\,(r^2 - R_1^2)}{2\pi r\,(R_2^2 - R_1^2)} = \frac{2{,}39}{2\pi\cdot0{,}31} \approx 1{,}23\ \text{А/м}.$$</p></div>
+    <div class="wstep"><h4>Шаг 5. Проверка предельными случаями</h4><p>При \(r = R_1\) формула даёт \(H = 0\) (в полости тока нет), при \(r = R_2\) — \(H = I/(2\pi R_2) \approx 2{,}30\) А/м, как у тонкого провода. Наш ответ лежит между ними.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <details class="zsheet"><summary>Как это записать в тетради: Дано, допущения, решение, размерность</summary><div class="inner">
+<div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(R_1 = 26\) см \(= 0{,}26\) м</p><p>\(R_2 = 36\) см \(= 0{,}36\) м</p><p>\(I = 5{,}2\) А</p><p>\(r = 31\) см \(= 0{,}31\) м</p><div class="find"><p>Найти: \(H\) — ?</p></div></div>
+        <div class="work">
+          <p><b>Допущения.</b> Труба бесконечно длинная, ток распределён по сечению стенки равномерно, магнитная проницаемость \(\mu = 1\).</p>
+          <p><b>1.</b> Из симметрии линии \(\vec H\) — окружности с центром на оси трубы, и на окружности радиуса \(r\) модуль \(H\) везде одинаков. По теореме о циркуляции для этой окружности:</p>
+          $$\oint H\,dl = H\cdot2\pi r = I_\text{охв}.$$
+          <p><b>2.</b> Так как \(R_1 \lt r \lt R_2\), контур охватывает только часть тока. Плотность тока \(j = \dfrac{I}{\pi(R_2^2 - R_1^2)}\), охваченная площадь \(\pi(r^2 - R_1^2)\):</p>
+          $$I_\text{охв} = j\,\pi(r^2 - R_1^2) = I\,\frac{r^2 - R_1^2}{R_2^2 - R_1^2}.$$
+          <p><b>3.</b> Отсюда</p>
+          $$H = \frac{I\,(r^2 - R_1^2)}{2\pi r\,(R_2^2 - R_1^2)}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{А}\cdot\text{м}^2}{\text{м}\cdot\text{м}^2} = \text{А/м}\).</p>
+          <p><b>4. Вычисления.</b></p>
+          $$\frac{r^2 - R_1^2}{R_2^2 - R_1^2} = \frac{0{,}0961 - 0{,}0676}{0{,}1296 - 0{,}0676} = \frac{0{,}0285}{0{,}0620} = 0{,}460,\qquad I_\text{охв} = 5{,}2\cdot0{,}460 = 2{,}39\ \text{А},$$
+          $$H = \frac{2{,}39}{2\pi\cdot0{,}31} = \frac{2{,}39}{1{,}948} \approx 1{,}23\ \text{А/м}.$$
+          <p><b>5. Анализ.</b> Предельные случаи: при \(r = R_1\) формула даёт \(H = 0\) (в полости тока нет), при \(r = R_2\) — \(H = I/(2\pi R_2) \approx 2{,}30\) А/м, как у тонкого провода. Наш ответ лежит между ними.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(H \approx 1{,}23\) А/м.</p>
+  </div></details>
+
+  <div class="speech">
+    <h3>Что сказать на защите</h3>
+    <p>«Ток течёт по толстостенной трубе. Нужно найти напряжённость поля в точке внутри стенки: \(r = 31\) см лежит между \(R_1 = 26\) и \(R_2 = 36\) см.</p>
+    <p>Я использовал теорему о циркуляции: циркуляция \(H\) по замкнутому контуру равна охваченному току. Контур — окружность радиуса \(r\) вокруг оси. Из симметрии \(H\) на ней направлен по касательной и одинаков по модулю, поэтому циркуляция равна \(H\cdot2\pi r\).</p>
+    <p>Контур охватывает не весь ток, а только часть стенки от \(R_1\) до \(r\). Ток распределён равномерно, поэтому доля тока равна доле площади. Получил \(H = I(r^2 - R_1^2)/(2\pi r(R_2^2 - R_1^2)) \approx 1{,}23\) А/м. Проверка: при \(r = R_1\) формула даёт ноль, при \(r = R_2\) — \(I/(2\pi R_2)\), как у тонкого провода.»</p>
+  </div>
+
+  <div class="qa">
+    <h3>Что могут спросить</h3>
+    <details><summary>Сформулируй теорему о циркуляции.</summary><div class="inner">Циркуляция вектора \(\vec H\) по любому замкнутому контуру равна сумме токов, охваченных этим контуром: \(\oint \vec H\,d\vec l = \sum I_\text{охв}\).</div></details>
+    <details><summary>Почему контур — именно окружность?</summary><div class="inner">Из симметрии линии \(\vec H\) — окружности вокруг оси трубы. На окружности радиуса \(r\) вектор \(\vec H\) направлен по касательной и одинаков по модулю, и интеграл превращается в \(H\cdot2\pi r\). Для другого контура теорема тоже верна, но посчитать интеграл не получится.</div></details>
+    <details><summary>Почему ты берёшь не весь ток?</summary><div class="inner">Контур охватывает только часть стенки — от \(R_1\) до \(r\). Ток распределён равномерно, то есть на каждый квадратный метр сечения приходится одинаковый ток, поэтому доля тока равна доле площади.</div></details>
+    <details><summary>Чему равно \(H\) в полости трубы и снаружи?</summary><div class="inner">В полости (\(r \lt R_1\)) ток не охвачен, \(H = 0\). Снаружи (\(r \gt R_2\)) охвачен весь ток, \(H = I/(2\pi r)\) — как у тонкого провода. Можешь проверить это на интерактиве выше.</div></details>
+    <details><summary>Как связаны \(H\) и \(B\)?</summary><div class="inner">\(B = \mu_0\mu H\). Здесь \(\mu = 1\): \(B = 4\pi\cdot10^{-7}\cdot1{,}23 \approx 1{,}5\cdot10^{-6}\) Тл = 1,5 мкТл.</div></details>
+    <details><summary>Куда направлено поле?</summary><div class="inner">По касательной к окружности вокруг оси, по правилу правого винта (буравчика): если ток идёт к нам, линии \(H\) идут против часовой стрелки.</div></details>
+  </div>
+
+  <div class="self" data-solve id="self-z4">
+    <h4>Проверь, что понял</h4>
+    <p>Найди \(H\) на внешней поверхности трубы, при \(r = R_2 = 36\) см.</p>
+    <div class="check" data-ans="2.30" data-tol="0.015"><label>\(H\) = <input inputmode="decimal" autocomplete="off"> А/м</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">На внешней поверхности охвачен весь ток. Поставь ползунок на 36 см.</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(H = \dfrac{I}{2\pi R_2} = \dfrac{5{,}2}{2\pi\cdot0{,}36} \approx 2{,}30\) А/м.</div></details>
+  </div>
+</section>
+
+<!-- ================= ЗАДАЧА 5: 5-22 ================= -->
+<section class="ktype" id="z5">
+  <div class="khead"><span class="num">5</span><div><h2>Вращающаяся рамка</h2><p>Задача 5-22 · найти частоту \(\nu\) · ответ <b>\(\nu \approx 11{,}1\) Гц</b></p></div></div>
+  <div class="zcond">
+    <p>Рамка площадью \(S\) равномерно вращается с частотой \(\nu\) относительно оси, лежащей в плоскости рамки и перпендикулярной вектору индукции однородного магнитного поля \(\vec B\). Среднее значение ЭДС индукции за время, в течение которого магнитный поток, пронизывающий рамку, изменится от нуля до максимального значения, равно \(\langle\varepsilon_i\rangle\). Определите неизвестную величину.</p>
+    <div class="tbl"><table>
+      <tr><th>Шифр</th><th>\(S\), см²</th><th>\(\nu\), Гц</th><th>\(|\vec B|\), Тл</th><th>\(\langle\varepsilon_i\rangle\), В</th></tr>
+      <tr><td class="c"><b>3</b></td><td class="c">250</td><td class="c"><b>?</b></td><td class="c">0,18</td><td class="c">0,2</td></tr>
+    </table></div>
+  </div>
+  <p class="gist">Магнитный поток — это «сколько линий поля проходит сквозь рамку». Посмотри на рамку <em>вдоль линий поля</em>: повёрнута к полю лицом — видна вся, линий сквозь неё больше всего, поток максимальный; стоит ребром — не видно ничего, поток ноль. Рамка крутится — поток меняется — в ней возникает <em>ЭДС индукции</em>. Средняя ЭДС = насколько изменился поток ÷ за какое время.</p>
+
+  <div class="anim" id="frame">
+    <p class="atitle">Анимация: рамка вращается в поле (сильно замедлено). Справа — вид вдоль линий поля</p>
+    <svg viewBox="0 0 600 400" role="img" aria-label="Рамка вращается в однородном магнитном поле, справа видна её проекция вдоль поля, внизу график потока"></svg>
+    <div class="bar"><button class="btn ghost" type="button" data-f="toggle">Пауза</button><button class="btn" type="button" data-f="quarter">Показать четверть оборота</button><span class="count" id="frameTxt"></span></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Решение по шагам</b> — нажимай «Следующий шаг».</p>
+    <div class="wstep"><h4>Шаг 1. Всё в СИ</h4><p>\(S = 250\) см² \(= 250\cdot10^{-4}\) м² \(= 0{,}025\) м², \(B = 0{,}18\) Тл, \(\langle\varepsilon_i\rangle = 0{,}2\) В. Рамка — один виток.</p></div>
+    <div class="wstep"><h4>Шаг 2. Поток и его крайние значения</h4><p>\(\Phi = BS\cos\alpha\), где \(\alpha\) — угол между \(\vec B\) и нормалью к рамке. Поток равен нулю, когда рамка стоит ребром к полю (\(\alpha = 90^\circ\)), и максимален, \(\Phi_\text{max} = BS\), когда рамка повёрнута к полю лицом (\(\alpha = 0\)).</p></div>
+    <div class="wstep"><h4>Шаг 3. Сколько длится «от нуля до максимума»</h4><p>Между этими положениями поворот на 90° — четверть оборота:</p><p>$$\Delta t = \frac{T}{4} = \frac{1}{4\nu},\qquad \Delta\Phi = BS - 0 = BS.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Закон Фарадея</h4><p>$$\langle\varepsilon_i\rangle = \frac{|\Delta\Phi|}{\Delta t} = \frac{BS}{1/(4\nu)} = 4\nu BS\quad\Rightarrow\quad \nu = \frac{\langle\varepsilon_i\rangle}{4BS}.$$</p></div>
+    <div class="wstep"><h4>Шаг 5. Числа</h4><p>$$\nu = \frac{0{,}2}{4\cdot0{,}18\cdot0{,}025} = \frac{0{,}2}{0{,}018} \approx 11{,}1\ \text{Гц}.$$</p></div>
+    <div class="wstep"><h4>Шаг 6. Проверка</h4><p>Максимальная ЭДС при такой частоте \(\varepsilon_\text{max} = 2\pi\nu BS \approx 0{,}31\) В. Средняя за четверть периода должна быть \(2/\pi \approx 0{,}64\) от максимальной: \(0{,}2/0{,}31 \approx 0{,}64\). Сходится.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <details class="zsheet"><summary>Как это записать в тетради: Дано, допущения, решение, размерность</summary><div class="inner">
+<div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(S = 250\) см² \(= 0{,}025\) м²</p><p>\(B = 0{,}18\) Тл</p><p>\(\langle\varepsilon_i\rangle = 0{,}2\) В</p><p>\(N = 1\)</p><div class="find"><p>Найти: \(\nu\) — ?</p></div></div>
+        <div class="work">
+          <p><b>Допущения.</b> Поле однородное, рамка — один виток, вращение равномерное.</p>
+          <p><b>1.</b> Поток через рамку \(\Phi = BS\cos\alpha\), где \(\alpha\) — угол между \(\vec B\) и нормалью к рамке. Поток равен нулю, когда плоскость рамки параллельна \(\vec B\) (\(\alpha = 90^\circ\)), и максимален (\(\Phi_\text{max} = BS\)), когда плоскость перпендикулярна \(\vec B\) (\(\alpha = 0\)). Между этими положениями рамка поворачивается на 90°, то есть на четверть оборота:</p>
+          $$\Delta t = \frac{T}{4} = \frac{1}{4\nu},\qquad |\Delta\Phi| = BS - 0 = BS.$$
+          <p><b>2.</b> По закону Фарадея средняя ЭДС:</p>
+          $$\langle\varepsilon_i\rangle = \frac{|\Delta\Phi|}{\Delta t} = 4\nu BS\ \Rightarrow\ \nu = \frac{\langle\varepsilon_i\rangle}{4BS}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{В}}{\text{Тл·м}^2} = \dfrac{\text{В}}{\text{Вб}} = \dfrac{\text{В}}{\text{В·с}} = \text{с}^{-1} = \text{Гц}\).</p>
+          <p><b>3. Вычисления.</b></p>
+          $$\nu = \frac{0{,}2}{4\cdot0{,}18\cdot0{,}025} = \frac{0{,}2}{0{,}018} \approx 11{,}1\ \text{Гц}.$$
+          <p><b>4. Анализ.</b> Максимальная ЭДС при такой частоте \(\varepsilon_\text{max} = 2\pi\nu BS \approx 0{,}31\) В. Отношение средней к максимальной \(0{,}2/0{,}314 = 0{,}64 \approx 2/\pi\) — это и есть среднее значение синуса за четверть периода, ответ согласован.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\nu \approx 11{,}1\) Гц.</p>
+  </div></details>
+
+  <div class="speech">
+    <h3>Что сказать на защите</h3>
+    <p>«Рамка вращается в однородном магнитном поле, ось вращения перпендикулярна полю. Поток через рамку \(\Phi = BS\cos\alpha\) меняется, поэтому в ней возникает ЭДС индукции.</p>
+    <p>Средняя ЭДС по закону Фарадея — это изменение потока, делённое на время. Поток меняется от нуля, когда рамка стоит ребром к полю, до максимума \(BS\), когда она повёрнута к полю лицом. Это поворот на 90°, четверть оборота, то есть \(\Delta t = T/4 = 1/(4\nu)\).</p>
+    <p>Получается \(\langle\varepsilon\rangle = 4\nu BS\), откуда \(\nu = \langle\varepsilon\rangle/(4BS) \approx 11{,}1\) Гц. Площадь перевёл в квадратные метры: 250 см² = 0,025 м². Проверка: средняя ЭДС за четверть периода должна быть \(2/\pi\) от максимальной, и \(0{,}2/0{,}31 \approx 0{,}64\) — сходится.»</p>
+  </div>
+
+  <div class="qa">
+    <h3>Что могут спросить</h3>
+    <details><summary>Что такое магнитный поток?</summary><div class="inner">\(\Phi = BS\cos\alpha\), где \(\alpha\) — угол между \(\vec B\) и нормалью к рамке. Единица — вебер: 1 Вб = 1 Тл·м². Наглядно — сколько линий поля проходит сквозь рамку.</div></details>
+    <details><summary>Сформулируй закон Фарадея.</summary><div class="inner">ЭДС индукции в контуре равна скорости изменения магнитного потока через него, взятой с минусом: \(\varepsilon_i = -\dfrac{d\Phi}{dt}\). Средняя ЭДС за время \(\Delta t\) равна \(|\Delta\Phi|/\Delta t\).</div></details>
+    <details><summary>Что означает минус в законе Фарадея?</summary><div class="inner">Это правило Ленца: индукционный ток направлен так, чтобы своим магнитным полем мешать тому изменению потока, которое его вызвало.</div></details>
+    <details><summary>Почему именно четверть оборота?</summary><div class="inner">Поток равен нулю, когда рамка стоит ребром к полю, и максимален, когда она повёрнута к полю лицом. Между этими положениями поворот на 90°, а это четверть полного оборота: \(\Delta t = T/4\), где \(T = 1/\nu\).</div></details>
+    <details><summary>Когда ЭДС максимальна?</summary><div class="inner">Если \(\Phi = BS\cos\omega t\), то \(\varepsilon = BS\omega\sin\omega t\). ЭДС максимальна, когда поток проходит через ноль: там он меняется быстрее всего. Максимум \(\varepsilon_\text{max} = BS\omega = 2\pi\nu BS \approx 0{,}31\) В. Это хорошо видно на графике в анимации.</div></details>
+    <details><summary>Что изменится, если у рамки \(N\) витков?</summary><div class="inner">ЭДС станет в \(N\) раз больше: \(\langle\varepsilon\rangle = 4N\nu BS\). При той же ЭДС частота была бы в \(N\) раз меньше.</div></details>
+  </div>
+
+  <div class="self" data-solve id="self-z5">
+    <h4>Проверь, что понял</h4>
+    <p>Какая максимальная ЭДС индукции при найденной частоте?</p>
+    <div class="check" data-ans="0.314" data-tol="0.02"><label>\(\varepsilon_\text{max}\) = <input inputmode="decimal" autocomplete="off"> В</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">\(\varepsilon_\text{max} = BS\omega\), а \(\omega = 2\pi\nu\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(\varepsilon_\text{max} = 2\pi\cdot11{,}1\cdot0{,}18\cdot0{,}025 \approx 0{,}314\) В.</div></details>
+  </div>
+</section>
+
+<!-- ================= ШПАРГАЛКА ================= -->
+<section class="ktype" id="cheat">
+  <div class="khead"><span class="num">✓</span><div><h2>Перед защитой: всё на одном экране</h2><p>Пробеги глазами за пять минут до захода.</p></div></div>
+  <div class="cheat">
+    <div class="ch"><b>1 · Кольцо (3-04)</b><p>Работа через потенциалы, все кусочки кольца на одном расстоянии.</p>$$A = q_2(\varphi_2 - \varphi_1),\quad \varphi = \frac{kq_1}{\sqrt{R^2 + h^2}}$$<span class="zans">\(q_1 \approx -6{,}5\) нКл</span></div>
+    <div class="ch"><b>2 · Два шара (3-19)</b><p>Заряд сохраняется, потенциалы выравниваются.</p>$$q_1 + q_2 = q_1' + q_2',\quad q' = \frac{\varphi R}{k}$$<span class="zans">\(q_2 \approx +4{,}95\) нКл</span></div>
+    <div class="ch"><b>3 · Две батареи (4-01)</b><p>Одно напряжение через каждую батарею.</p>$$U = \mathcal E_1 - Ir_1 = \mathcal E_2 + Ir_2$$<span class="zans">\(I = 6\) А, \(r_1 = 0{,}15\) Ом</span></div>
+    <div class="ch"><b>4 · Труба (5-05)</b><p>Теорема о циркуляции, охвачена часть тока.</p>$$H\cdot2\pi r = I\,\frac{r^2 - R_1^2}{R_2^2 - R_1^2}$$<span class="zans">\(H \approx 1{,}23\) А/м</span></div>
+    <div class="ch"><b>5 · Рамка (5-22)</b><p>Закон Фарадея, от нуля до максимума — четверть оборота.</p>$$\langle\varepsilon\rangle = \frac{BS}{T/4} = 4\nu BS$$<span class="zans">\(\nu \approx 11{,}1\) Гц</span></div>
+  </div>
+  <div class="recipe">
+    <h3>Постоянные и единицы, которые могут спросить</h3>
+    <ol>
+      <li>\(k = \dfrac{1}{4\pi\varepsilon_0} = 9\cdot10^9\) Н·м²/Кл², \(\varepsilon_0 = 8{,}85\cdot10^{-12}\) Ф/м, \(\mu_0 = 4\pi\cdot10^{-7}\) Гн/м.</li>
+      <li>Потенциал и напряжение — в вольтах: 1 В = 1 Дж/Кл. Заряд — в кулонах, нКл = \(10^{-9}\) Кл.</li>
+      <li>\(H\) — в А/м, \(B\) — в теслах, поток — в веберах: 1 Вб = 1 Тл·м².</li>
+      <li>Частота \(\nu\) — в герцах (1/с), период \(T = 1/\nu\), \(\omega = 2\pi\nu\).</li>
+    </ol>
+  </div>
+  <div class="idea">Если вопрос застал врасплох — не молчи, а рассуждай вслух по плану: «здесь работает такой-то закон, потому что…». Преподавателю важнее ход мысли, чем мгновенный ответ.</div>
+  <p class="muted">Полная теория по блокам — на <a href="../">главной странице</a>, подготовка к контрольной — в <a href="../kr/">«Режиме КР»</a>.</p>
+  <footer class="foot"><p>Все числа пересчитаны. Условия — из ИДЗ №1 (сборник МИСиС), строка «шифр 3».</p></footer>
+</section>
+
+</main>
+<script src="../app.js"></script>
+<script src="../kr/kr.js"></script>
+<script src="idz.js"></script>
+</body>
+</html>
