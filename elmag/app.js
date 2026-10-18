@@ -95,7 +95,7 @@
   var done = store.get(SP + '-done', {});
   var solved = store.get(SP + '-solved', {});
   function updateProgress() {
-    var blocks = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'];
+    var blocks = Array.prototype.map.call(document.querySelectorAll('.sidebar a[data-nav]'), function (x) { return x.getAttribute('data-nav'); });
     var n = 0;
     blocks.forEach(function (b) {
       var a = document.querySelector('.sidebar a[data-nav="' + b + '"]');
@@ -103,9 +103,9 @@
     });
     var s = Object.keys(solved).filter(function (k) { return solved[k]; }).length;
     var lbl = document.getElementById('progLbl');
-    if (lbl) lbl.textContent = n + ' из 8 блоков, задач решено: ' + s;
+    if (lbl) lbl.textContent = n + ' из ' + blocks.length + ' блоков, задач решено: ' + s;
     var bar = document.getElementById('progBar');
-    if (bar) bar.style.width = (n / 8 * 100) + '%';
+    if (bar) bar.style.width = (blocks.length ? n / blocks.length * 100 : 0) + '%';
   }
   function initProgress() {
     document.querySelectorAll('input[data-done]').forEach(function (cb) {
