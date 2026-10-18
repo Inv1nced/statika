@@ -103,7 +103,7 @@
     });
     var s = Object.keys(solved).filter(function (k) { return solved[k]; }).length;
     var lbl = document.getElementById('progLbl');
-    if (lbl) lbl.textContent = n + ' из ' + blocks.length + ' блоков, задач решено: ' + s;
+    if (lbl) lbl.textContent = blocks.length ? n + ' из ' + blocks.length + ' блоков, задач решено: ' + s : 'задач решено: ' + s;
     var bar = document.getElementById('progBar');
     if (bar) bar.style.width = (blocks.length ? n / blocks.length * 100 : 0) + '%';
   }
@@ -133,7 +133,7 @@
       var out = box.querySelector('.verdict');
       var ans = parseFloat(box.getAttribute('data-ans'));
       var tol = parseFloat(box.getAttribute('data-tol') || '0.02');
-      var art = box.closest('article');
+      var art = box.closest('article, [data-solve]');
       function check() {
         var v = parseNum(input.value);
         if (isNaN(v)) { out.textContent = 'Впиши число, например 4,5'; out.className = 'verdict no'; return; }

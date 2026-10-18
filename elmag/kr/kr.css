@@ -1,0 +1,123 @@
+/* Режим КР — дополнения к ../style.css */
+.krwrap{max-width:780px;margin:0 auto;padding:0 20px 120px}
+@media (max-width:640px){.krwrap{padding:0 14px 100px}}
+.krtop a.brand{display:flex;align-items:center;gap:8px}
+.krhero{padding:40px 0 10px}
+.krhero h1{font:800 clamp(34px,5.4vw,56px)/1.02 var(--sans);letter-spacing:-.025em;margin:0 0 16px}
+.krhero h1 span{display:block;color:var(--ink-2);font-weight:600}
+.krhero p{color:var(--ink-2);max-width:36em}
+.krhero .big{font-size:19px;color:var(--ink)}
+
+/* карта типов */
+.typegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:18px 0 8px}
+.typegrid a{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--sheet);text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
+.typegrid a:hover{border-color:var(--blue)}
+.typegrid .n{font:800 26px/1 var(--sans);color:var(--blue)}
+.typegrid b{display:block;font:700 15.5px/1.25 var(--sans);margin-bottom:4px}
+.typegrid small{display:block;font:13.5px/1.4 var(--sans);color:var(--ink-2)}
+.typegrid .freq{display:inline-block;margin-top:6px;font:600 12.5px/1 var(--sans);padding:4px 8px;border-radius:999px;background:var(--soft-red);color:var(--red)}
+.typegrid .freq.mid{background:var(--soft-amber);color:var(--amber)}
+
+/* секция типа */
+section.ktype{padding:44px 0 10px;border-top:1px dashed var(--line-2);margin-top:30px}
+.khead{display:flex;gap:16px;align-items:flex-start;margin-bottom:14px}
+.khead .num{flex:none;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--ink);color:var(--sheet);font:800 26px/1 var(--sans)}
+.khead h2{font:750 clamp(25px,3.4vw,33px)/1.12 var(--sans);margin:4px 0 6px;letter-spacing:-.015em}
+.khead p{margin:0;color:var(--ink-2)}
+.recog{background:var(--sheet);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:10px;padding:10px 14px;margin:12px 0;font:15px/1.5 var(--sans)}
+.recog b{color:var(--red)}
+.gist{font-size:18px;line-height:1.7;margin:14px 0}
+.gist em{font-style:normal;background:linear-gradient(transparent 62%,var(--soft-amber) 62%)}
+
+/* рецепт */
+.recipe{background:var(--sheet);border:2px solid var(--ink);border-radius:14px;padding:14px 18px 8px;margin:18px 0}
+.recipe h3{margin:0 0 8px;font-size:18px}
+.recipe ol{counter-reset:r;list-style:none;padding:0;margin:0}
+.recipe li{counter-increment:r;display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:baseline;margin:0 0 10px;font:16px/1.5 var(--sans)}
+.recipe li::before{content:counter(r);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font:700 14px/1 var(--sans)}
+.formulas{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:12px 0 16px}
+.formulas .fm{background:var(--soft-blue);border-radius:12px;padding:8px 14px 10px}
+.formulas .fm .dm{margin:6px 0}
+.formulas .fm p{margin:0;font:13.5px/1.4 var(--sans);color:var(--ink-2)}
+.traps{font:15px/1.5 var(--sans);background:var(--soft-red);border-radius:10px;padding:10px 14px;margin:12px 0}
+.traps b{color:var(--red)}
+.traps ul{margin:4px 0 0;padding-left:20px}
+
+/* анимации */
+.anim{background:var(--sheet);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px;margin:18px 0}
+.anim .atitle{font:700 14px/1.3 var(--sans);color:var(--ink-2);margin:0 4px 8px}
+.anim > svg{display:block;width:100%;height:auto;max-width:600px;margin:0 auto;overflow:hidden}
+.anim .bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 4px 2px}
+.anim .bar .count{font:600 13.5px var(--sans);color:var(--ink-3);margin-left:auto}
+.anim .say{font:16px/1.55 var(--sans);min-height:3.2em;padding:10px 12px;margin:8px 0 0;background:var(--paper);border-radius:10px}
+.anim .say b{color:var(--ink)}
+.anim ol.say-list{list-style:none;margin:8px 0 0;padding:0}
+.anim ol.say-list li{display:none;font:16px/1.55 var(--sans);padding:10px 12px;background:var(--paper);border-radius:10px;min-height:3.2em}
+.anim ol.say-list li.cur{display:block}
+.anim .ctrl{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 16px;padding:10px 4px 0;font:14px/1.3 var(--sans);color:var(--ink-2)}
+.anim .ctrl label{display:flex;flex-direction:column;gap:4px}
+.anim .ctrl output{font-weight:700;color:var(--ink)}
+
+.anim svg .el{opacity:0;transition:opacity .45s ease}
+.anim svg .el.on{opacity:1}
+.anim svg .el .draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .75s ease}
+.anim svg .el.on .draw{stroke-dashoffset:0}
+.anim svg .el .head{opacity:0;transition:opacity .2s ease .6s}
+.anim svg .el.on .head{opacity:1}
+.anim svg .mv{transition:transform .9s cubic-bezier(.45,0,.2,1)}
+.anim svg .hl.on{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.anim svg *{transition:none!important;animation:none!important}}
+@media (max-width:520px){.anim{overflow-x:auto}.anim > svg[viewBox^="0 0 4"],.anim > svg[viewBox^="0 0 5"],.anim > svg[viewBox^="0 0 6"]{min-width:440px}}
+
+/* разбор по шагам */
+.walk{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:14px 16px 12px;margin:18px 0;box-shadow:var(--shadow)}
+.walk .wcond{font-size:16px;margin:0 0 10px}
+.walk .wstep{display:none;border-left:3px solid var(--blue);padding:6px 0 6px 14px;margin:10px 0}
+.walk .wstep.show{display:block;animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.walk .wstep h4{margin:0 0 4px;font:700 15.5px/1.35 var(--sans);color:var(--blue)}
+.walk .wstep p{margin:0 0 6px}
+.walk .wstep .why{font:14.5px/1.5 var(--sans);color:var(--ink-2)}
+.walk .wbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.walk .wans{display:none}
+.walk .wans.show{display:block}
+
+/* сам */
+.self{background:var(--soft-teal);border-radius:14px;padding:14px 16px;margin:18px 0}
+.self h4{margin:0 0 6px;color:var(--teal)}
+.self details{border-top-color:color-mix(in srgb,var(--teal) 30%,transparent)}
+
+/* квиз */
+.quiz{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0;box-shadow:var(--shadow)}
+.quiz .qtext{font-size:17px;min-height:4.5em;margin:0 0 12px}
+.quiz .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.quiz .opts button{text-align:left;font:600 14.5px/1.3 var(--sans);padding:10px 12px;border-radius:10px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);cursor:pointer}
+.quiz .opts button:hover{border-color:var(--blue)}
+.quiz .opts button.right{background:var(--soft-teal);border-color:var(--teal)}
+.quiz .opts button.wrong{background:var(--soft-red);border-color:var(--red)}
+.quiz .qfb{font:15px/1.5 var(--sans);margin:12px 0 0;min-height:1.5em}
+.quiz .qbar{display:flex;align-items:center;gap:10px;margin-top:10px;font:600 14px var(--sans);color:var(--ink-2)}
+
+/* карточки */
+.flash{display:grid;gap:12px;margin:16px 0}
+.fcard{position:relative;min-height:190px;border-radius:16px;cursor:pointer;perspective:1200px}
+.fcard .in{position:absolute;inset:0;transition:transform .5s ease;transform-style:preserve-3d}
+.fcard.flip .in{transform:rotateY(180deg)}
+.fcard .face{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:16px 20px;border-radius:16px;border:1px solid var(--line);background:var(--sheet);box-shadow:var(--shadow);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fcard .back{transform:rotateY(180deg);background:var(--soft-blue)}
+.fcard .face .q{font:700 21px/1.3 var(--sans)}
+.fcard .face .hint{font:13.5px var(--sans);color:var(--ink-3);margin-top:10px}
+.fcard .face .dm{margin:4px 0}
+.fcard .face .mn{font:14.5px/1.4 var(--sans);color:var(--ink-2);margin-top:6px}
+@media (prefers-reduced-motion:reduce){.fcard .in{transition:none}}
+.fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:600 14px var(--sans);color:var(--ink-2)}
+
+.plan ol{padding-left:22px}
+.plan li{margin-bottom:10px}
+.plan .when{font:700 15px var(--sans);color:var(--blue)}
+.exam{background:var(--ink);color:var(--sheet);border-radius:16px;padding:18px 20px 10px;margin:18px 0}
+.exam h3{margin:0 0 10px;color:var(--sheet)}
+.exam ol{font:16px/1.55 var(--sans);padding-left:22px}
+.exam li{margin-bottom:8px}
+.exam .katex{color:var(--sheet)}

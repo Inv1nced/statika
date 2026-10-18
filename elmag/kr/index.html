@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Режим КР — 8 типов задач</title>
+<meta name="description" content="Восемь типов задач контрольной по электричеству и магнетизму: как узнать тип, рецепт решения, анимации, разборы по шагам и тренажёр.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Onest:wght@400;500;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="kr.css">
+<script>try{var t=localStorage.getItem('elmag-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body data-store="elmagkr">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aK" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillInk"/></marker>
+    <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillR"/></marker>
+    <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillB"/></marker>
+    <marker id="aH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillH"/></marker>
+    <marker id="aI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillI"/></marker>
+  </defs>
+</svg>
+
+<header class="topbar krtop">
+  <a class="brand" href="../">← Вся теория</a>
+  <span class="grow"></span>
+  <span class="progress"><span class="lbl" id="progLbl"></span></span>
+  <button class="iconbtn" id="themeBtn" type="button" aria-label="Сменить тему">Тема</button>
+</header>
+
+<main class="krwrap" id="top">
+
+<div class="krhero">
+  <h1>Контрольная<span>за 8 рецептов</span></h1>
+  <p class="big">На КР не нужно ничего придумывать. Во всех пяти вариантах, которые были у других групп, встречается всего восемь типов задач. У каждого типа свой рецепт из трёх-четырёх шагов и одна-две формулы.</p>
+  <p>Схема на КР одна: прочитал условие → узнал тип по ключевым словам → прошёл рецепт. Здесь для каждого типа есть «суть на пальцах», анимация, рецепт, разбор настоящей задачи из КР по шагам и задача, чтобы попробовать самому.</p>
+</div>
+
+<section class="plan" id="plan">
+  <h2 class="probs-title">План на два дня</h2>
+  <ol>
+    <li><span class="when">Сегодня вечером, 20–30 минут, не больше.</span> Посмотри карту типов ниже и пройди тип 1. Потом спать: во сне мозг укладывает то, что ты разобрал, и наутро это будет казаться проще.</li>
+    <li><span class="when">Завтра утром, около двух часов.</span> Типы 1–4. После каждого типа — перерыв минут на десять, встань и пройдись.</li>
+    <li><span class="when">Завтра днём, около двух часов.</span> Типы 5–8.</li>
+    <li><span class="when">Завтра вечером, около часа.</span> <a href="#quiz">Тренажёр «Узнай тип»</a>, <a href="#flash">карточки с формулами</a> и один <a href="../#mock">пробник</a> на время. Ляг не поздно — свежая голова на КР даст больше, чем лишний час зубрёжки.</li>
+    <li><span class="when">В день КР, 15 минут.</span> Карточки ещё раз и памятка <a href="#exam">«Что делать на самой КР»</a>.</li>
+  </ol>
+</section>
+
+<section id="map">
+  <h2 class="probs-title">Карта: 8 типов задач</h2>
+  <p class="muted">Красная метка — тип был во всех вариантах, жёлтая — только в одном из двух наборов. Нажми на тип, чтобы перейти к нему.</p>
+  <nav class="typegrid" aria-label="Типы задач">
+    <a href="#t1"><span class="n">1</span><span><b>Поле нескольких зарядов</b><small>«найти напряжённость E в точке», «где поле равно нулю»</small><span class="freq">во всех вариантах</span></span></a>
+    <a href="#t2"><span class="n">2</span><span><b>Магнитное поле проводов</b><small>«по проводам текут токи… найти B или H»</small><span class="freq">во всех вариантах</span></span></a>
+    <a href="#t3"><span class="n">3</span><span><b>Потенциал и сферы</b><small>«найти потенциал φ», «сфера», «в центре сфер»</small><span class="freq mid">набор Б и ИДЗ</span></span></a>
+    <a href="#t4"><span class="n">4</span><span><b>Энергия: «горки»</b><small>«найти скорость», «отпускают», «изменение кинетической энергии»</small><span class="freq mid">набор Б</span></span></a>
+    <a href="#t5"><span class="n">5</span><span><b>Заряд в магнитном поле</b><small>«влетает в магнитное поле», «радиус», «период», «q/m»</small><span class="freq mid">набор Б</span></span></a>
+    <a href="#t6"><span class="n">6</span><span><b>Ток меняется</b><small>«ток равномерно растёт/убывает», «теплота», «заряд»</small><span class="freq mid">набор А</span></span></a>
+    <a href="#t7"><span class="n">7</span><span><b>Маятник и электрон в поле</b><small>«грузик на нити в поле», «электрон влетает в конденсатор»</small><span class="freq mid">набор А</span></span></a>
+    <a href="#t8"><span class="n">8</span><span><b>Стержень и конденсатор</b><small>«стержень заряжен с плотностью τ», «заполнили диэлектриком»</small><span class="freq mid">набор А</span></span></a>
+  </nav>
+  <p class="muted small">Потренироваться узнавать тип по условию можно в <a href="#quiz">тренажёре внизу</a>.</p>
+</section>
+
+<!-- ================= ТИП 1 ================= -->
+<section class="ktype" id="t1">
+  <div class="khead"><span class="num">1</span><div><h2>Поле нескольких зарядов</h2><p>Было во всех вариантах: А2-2, А3-2, Б3-1, Б2-1.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> несколько точечных зарядов и вопрос «найти напряжённость \(E\) в точке» или «где напряжённость равна нулю».</div>
+  <p class="gist">Представь, что в точку посадили маленький плюсик-разведчик. Каждый заряд на него действует: <em>плюс толкает от себя, минус тянет к себе</em>. Сила толчка тем больше, чем больше заряд и чем он ближе: \(E = k|q|/r^2\). Ответ — это все толчки, сложенные как стрелки.</p>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация: как складываются поля двух зарядов (задача А2-2)</p>
+    <svg viewBox="0 0 460 262" role="img" aria-label="Пошаговое сложение векторов E1 и E2 в точке C">
+      <line x1="70" y1="230" x2="370" y2="230" class="ln2"/>
+      <line x1="70" y1="230" x2="262" y2="86" class="ln2"/>
+      <line x1="370" y1="230" x2="262" y2="86" class="ln2"/>
+      <circle cx="70" cy="230" r="15" class="pos"/><text x="70" y="236" text-anchor="middle" class="white" font-size="20" font-weight="700">+</text>
+      <circle cx="370" cy="230" r="12" class="neg"/><text x="370" y="235" text-anchor="middle" class="white" font-size="20" font-weight="700">−</text>
+      <text x="56" y="206" text-anchor="end" class="t-i" font-size="16">q₁ = +40 нКл</text>
+      <text x="392" y="214" class="t-i" font-size="16">q₂ = −10</text>
+      <text x="150" y="150" class="t-s" text-anchor="end">8 см</text>
+      <text x="330" y="160" class="t-s">6 см</text>
+      <text x="220" y="250" class="t-s" text-anchor="middle">10 см</text>
+      <circle cx="262" cy="86" r="4.5" class="fillInk"/>
+      <text x="246" y="80" class="t-i" font-size="16" text-anchor="end">C</text>
+      <g class="el" data-s="1" data-arrow="262 86 334 32" data-c="R"></g>
+      <text class="el t-i fillR" data-s="1" x="340" y="28" font-size="14">E₁ = 56 кВ/м</text>
+      <g class="el" data-s="2" data-arrow="262 86 286 118" data-c="B"></g>
+      <text class="el t-i fillB" data-s="2" x="292" y="134" font-size="14">E₂ = 25 кВ/м</text>
+      <path class="el hl" data-s="3" data-e="4" d="M 250.8 94.4 L 259.2 105.6 L 270.4 97.2" stroke="currentColor" fill="none" style="stroke:var(--red);stroke-width:2"/>
+      <text class="el fillR" data-s="3" data-e="3" x="205" y="118" font-size="14" font-weight="700">90°</text>
+      <g class="el mv" data-s="4" data-arrow="262 86 286 118" data-c="B" data-dash="1" data-move="72 -54"></g>
+      <g class="el" data-s="5" data-arrow="262 86 358 64" data-c="K" data-w="3"></g>
+      <text class="el" data-s="5" x="364" y="72" font-size="15" font-weight="700">E ≈ 62 кВ/м</text>
+    </svg>
+    <ol class="say-list">
+      <li>Есть два заряда и точка \(C\). Расстояния 8 и 6 см, между зарядами 10 см. Ищем поле в \(C\).</li>
+      <li><b>Шаг 1.</b> Поле от \(q_1\): \(E_1 = k|q_1|/r_1^2 = 56\) кВ/м. Заряд плюсовой — стрелка <b>от</b> него, продолжает линию \(q_1C\).</li>
+      <li><b>Шаг 2.</b> Поле от \(q_2\): \(E_2 = 25\) кВ/м. Заряд минусовой — стрелка <b>к</b> нему.</li>
+      <li><b>Шаг 3.</b> Замечаем: \(6^2 + 8^2 = 10^2\), значит угол при \(C\) прямой. Стрелки лежат на этих сторонах — они перпендикулярны.</li>
+      <li><b>Шаг 4.</b> Складываем стрелки: переносим \(\vec E_2\) к концу \(\vec E_1\). Получился прямоугольный треугольник.</li>
+      <li><b>Шаг 5.</b> Сумма — гипотенуза: \(E = \sqrt{56^2 + 25^2} \approx 62\) кВ/м. Готово.</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Нарисуй заряды и точку, подпиши расстояния. Переведи в СИ: нКл → \(10^{-9}\), см → м.</li>
+      <li>Для каждого заряда: \(E = k|q|/r^2\). Знак заряда в формулу не ставь.</li>
+      <li>Нарисуй стрелки: от «+», к «−».</li>
+      <li>Сложи: на одной прямой — плюс или минус; под прямым углом — Пифагор. Если в условии стороны 3-4-5 или 6-8-10, угол прямой.</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$E = \frac{k|q|}{r^2},\quad k = 9\cdot10^9$$<p>Как у гравитации Ньютона: заряд делить на квадрат расстояния.</p></div>
+    <div class="fm">$$E = \sqrt{E_1^2 + E_2^2}$$<p>Только если стрелки перпендикулярны.</p></div>
+  </div>
+  <div class="traps"><b>Если спрашивают, где поле равно нулю:</b>
+    <ul>
+      <li>заряды одного знака — точка <b>между</b> ними, ближе к меньшему: \(\dfrac{d - x}{x} = \sqrt{q_2/q_1}\);</li>
+      <li>разных знаков — <b>снаружи</b>, за меньшим по модулю: \(\dfrac{d + x}{x} = \sqrt{|q_1|/|q_2|}\).</li>
+    </ul>
+    Секрет: не раскрывай квадраты, извлеки корень из обеих частей — получится одна строчка.</div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант 3, задача 2).</b> Положительные заряды \(q_1 = 9\) нКл и \(q_2 = 4\) нКл. Точка, где поле равно нулю, — в 33 см от первого. Найти расстояние между зарядами.</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Где напряжённость равна нулю» — тип 1. Заряды одного знака — точка между ними.</p></div>
+    <div class="wstep"><h4>Шаг 2. Пишем условие «поля равны»</h4><p>$$\frac{kq_1}{x^2} = \frac{kq_2}{(d - x)^2}$$</p><p class="why">Слева поле первого заряда (до него \(x = 33\) см), справа второго (до него \(d - x\)). \(k\) сокращается.</p></div>
+    <div class="wstep"><h4>Шаг 3. Извлекаем корень</h4><p>$$\frac{d - x}{x} = \sqrt{\frac{q_2}{q_1}} = \sqrt{\frac49} = \frac23$$</p><p class="why">Заряды входят отношением, поэтому нКл в кулоны переводить не нужно.</p></div>
+    <div class="wstep"><h4>Шаг 4. Считаем</h4><p>$$d - 33 = 22\ \Rightarrow\ d = 55\ \text{см}.$$</p><p class="why">Проверка: до меньшего заряда 22 см — ближе, чем до большего. Так и должно быть.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-1">
+    <h4>Теперь сам</h4>
+    <p>Заряды \(q_1 = +20\) нКл и \(q_2 = -30\) нКл находятся на расстоянии 5 см. Найти напряжённость в точке, которая в 3 см от \(q_1\) и в 4 см от \(q_2\).</p>
+    <div class="check" data-ans="262" data-tol="0.015"><label>\(E\) = <input inputmode="decimal" autocomplete="off"> кВ/м</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">3-4-5 — угол прямой. \(E_1 = 9\cdot10^9\cdot2\cdot10^{-8}/0{,}03^2\), \(E_2 = 9\cdot10^9\cdot3\cdot10^{-8}/0{,}04^2\), потом Пифагор.</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(E_1 = 200\) кВ/м, \(E_2 = 168{,}75\) кВ/м, \(E = \sqrt{200^2 + 168{,}75^2} \approx 262\) кВ/м.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 2 ================= -->
+<section class="ktype" id="t2">
+  <div class="khead"><span class="num">2</span><div><h2>Магнитное поле проводов и витков</h2><p>Было во всех вариантах: А2-5, А3-5, Б1-4, Б2-4, Б3-4.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> провода или витки с током, вопрос «найти индукцию \(B\)» или «напряжённость \(H\) магнитного поля в точке».</div>
+  <p class="gist">Провод с током — как ось карусели. Магнитное поле бежит <em>кругами вокруг провода</em>. Стрелка поля в точке всегда касается такого круга, то есть <em>перпендикулярна линии «провод — точка»</em>. Куда крутится круг, подскажет правая рука: большой палец по току, согнутые пальцы — направление поля.</p>
+
+  <div class="anim" id="orbit">
+    <p class="atitle">Анимация: где бы ни была точка, стрелка \(B\) перпендикулярна радиусу</p>
+    <svg viewBox="0 0 320 220" role="img" aria-label="Точка движется по окружности вокруг провода, стрелка поля всегда касается окружности">
+      <circle cx="160" cy="110" r="75" class="vecH" stroke-width="1.2" stroke-dasharray="5 5"/>
+      <line id="orbR" x1="160" y1="110" x2="235" y2="110" class="ln2"/>
+      <path id="orbSq" d="" class="thin"/>
+      <line id="orbB" x1="235" y1="110" x2="235" y2="55" class="vecH" stroke-width="2.6" marker-end="url(#aH)"/>
+      <circle id="orbP" cx="235" cy="110" r="5" class="fillInk"/>
+      <text id="orbBL" x="242" y="60" class="t-i fillH" font-size="16" font-weight="700">B</text>
+      <circle cx="160" cy="110" r="12" class="sheetfill"/><circle cx="160" cy="110" r="12" class="ln"/>
+      <circle id="orbDot" cx="160" cy="110" r="3.4" class="fillInk"/>
+      <path id="orbX" d="M152 102 L168 118 M168 102 L152 118" class="ln" style="display:none"/>
+    </svg>
+    <div class="bar"><button class="btn ghost" type="button" data-orb="toggle">Пауза</button><button class="btn ghost" type="button" data-orb="dir">Ток от нас</button><span class="count" id="orbTxt">ток к нам — поле против часовой</span></div>
+  </div>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация: два провода, токи навстречу (задача Б3-4)</p>
+    <svg viewBox="0 0 400 250" role="img" aria-label="Пошаговое сложение полей двух проводов в точке P">
+      <circle class="el" data-s="1" cx="100" cy="210" r="120" fill="none" style="stroke:var(--teal);stroke-width:1.2;stroke-dasharray:5 5"/>
+      <circle class="el" data-s="2" cx="300" cy="210" r="160" fill="none" style="stroke:var(--teal);stroke-width:1.2;stroke-dasharray:5 5"/>
+      <line x1="100" y1="210" x2="300" y2="210" class="ln2"/>
+      <line x1="100" y1="210" x2="172" y2="114" class="ln2"/>
+      <line x1="300" y1="210" x2="172" y2="114" class="ln2"/>
+      <circle cx="100" cy="210" r="11" class="sheetfill"/><circle cx="100" cy="210" r="11" class="ln"/><circle cx="100" cy="210" r="3.2" class="fillInk"/>
+      <circle cx="300" cy="210" r="11" class="sheetfill"/><circle cx="300" cy="210" r="11" class="ln"/><path d="M293 203 L307 217 M307 203 L293 217" class="ln"/>
+      <text x="78" y="238" class="t-i" font-size="14">I₁ к нам</text>
+      <text x="292" y="240" class="t-i" font-size="14">I₂ от нас</text>
+      <text x="124" y="166" class="t-s" text-anchor="end">3 см</text>
+      <text x="244" y="170" class="t-s">4 см</text>
+      <circle cx="172" cy="114" r="4" class="fillInk"/>
+      <text x="184" y="122" class="t-i" font-size="15">P</text>
+      <g class="el" data-s="1" data-arrow="172 114 129.3 82" data-c="H"></g>
+      <text class="el t-i fillH" data-s="1" x="40" y="80" font-size="14">B₁ = 13,3 мкТл</text>
+      <g class="el" data-s="2" data-arrow="172 114 208 66" data-c="H"></g>
+      <text class="el t-i fillH" data-s="2" x="214" y="64" font-size="14">B₂ = 15 мкТл</text>
+      <path class="el hl" data-s="3" data-e="3" d="M 164.8 123.6 L 174.4 130.8 L 181.6 121.2" fill="none" style="stroke:var(--red);stroke-width:2"/>
+      <g class="el mv" data-s="4" data-arrow="172 114 208 66" data-c="H" data-dash="1" data-move="-42.7 -32"></g>
+      <g class="el" data-s="5" data-arrow="172 114 165.3 34" data-c="K" data-w="3"></g>
+      <text class="el" data-s="5" x="174" y="30" font-size="15" font-weight="700">B ≈ 20 мкТл</text>
+    </svg>
+    <ol class="say-list">
+      <li>Два провода в 5 см друг от друга, токи навстречу. Точка \(P\) — в 3 см от первого и в 4 см от второго.</li>
+      <li><b>Шаг 1.</b> Поле первого провода — круги вокруг него. В точке \(P\) стрелка касается круга: \(B_1 = 2\cdot10^{-7}\cdot I_1/r_1 = 13{,}3\) мкТл.</li>
+      <li><b>Шаг 2.</b> То же для второго: \(B_2 = 2\cdot10^{-7}\cdot I_2/r_2 = 15\) мкТл. Ток от нас — поле крутится по часовой.</li>
+      <li><b>Шаг 3.</b> \(3^2 + 4^2 = 5^2\): линии к проводам перпендикулярны. Каждая стрелка перпендикулярна своей линии — значит, и стрелки перпендикулярны друг другу.</li>
+      <li><b>Шаг 4.</b> Складываем: переносим \(\vec B_2\) к концу \(\vec B_1\).</li>
+      <li><b>Шаг 5.</b> Пифагор: \(B = \sqrt{13{,}3^2 + 15^2} \approx 20\) мкТл.</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Для каждого провода: \(B = 2\cdot10^{-7}\cdot I/r\) (если спрашивают \(H\) — то \(H = I/(2\pi r)\)).</li>
+      <li>Стрелка перпендикулярна линии «провод — точка».</li>
+      <li>Угол между стрелками такой же, как между линиями к проводам. Стороны 3-4-5 → 90°. Точка на одинаковом расстоянии \(d\) от обоих проводов → 60° (токи в одну сторону) или 120° (навстречу). Посередине между проводами — одна прямая.</li>
+      <li>Сложи: Пифагор, теорема косинусов или плюс-минус.</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$B = \frac{\mu_0I}{2\pi r} = 2\cdot10^{-7}\,\frac{I}{r}$$<p>«Два на десять в минус седьмой» — запомни как пароль.</p></div>
+    <div class="fm">$$B_\text{центр витка} = \frac{\mu_0I}{2R},\quad H = \frac{I}{2R}$$<p>Стрелка — по оси витка. Два витка в перпендикулярных плоскостях дают перпендикулярные стрелки.</p></div>
+    <div class="fm">$$B = \mu_0H,\quad \mu_0 = 4\pi\cdot10^{-7}$$<p>\(H\) в А/м, \(B\) в теслах.</p></div>
+    <div class="fm">$$B = \sqrt{B_1^2 + B_2^2 + 2B_1B_2\cos\alpha}$$<p>\(\alpha\) — угол между стрелками: 60° даёт \(+B_1B_2\), 120° даёт \(-B_1B_2\).</p></div>
+  </div>
+  <div class="traps"><b>Ловушки:</b>
+    <ul>
+      <li>Между двумя проводами при токах в <b>одну</b> сторону поля вычитаются, при токах навстречу — складываются.</li>
+      <li>Скрещённые провода в перпендикулярных плоскостях: в середине между ними стрелки перпендикулярны — снова Пифагор.</li>
+    </ul></div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант Б1, задача 4).</b> Два скрещённых перпендикулярных провода в перпендикулярных плоскостях, \(I_1 = 2\) А, \(I_2 = 5\) А, расстояние между ними \(d = 2\) м. Найти \(B\) посередине.</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>Провода, токи, найти \(B\) — тип 2. До каждого провода \(r = d/2 = 1\) м.</p></div>
+    <div class="wstep"><h4>Шаг 2. Поле каждого провода</h4><p>$$B_1 = 2\cdot10^{-7}\cdot\frac{2}{1} = 4\cdot10^{-7}\ \text{Тл},\qquad B_2 = 2\cdot10^{-7}\cdot\frac{5}{1} = 10^{-6}\ \text{Тл}.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Угол между стрелками</h4><p>Стрелка поля первого провода направлена вдоль второго провода, а второго — вдоль первого. Провода перпендикулярны — стрелки тоже.</p></div>
+    <div class="wstep"><h4>Шаг 4. Пифагор</h4><p>$$B = \sqrt{(0{,}4)^2 + 1^2}\cdot10^{-6} \approx 1{,}08\cdot10^{-6}\ \text{Тл}.$$</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-2">
+    <h4>Теперь сам</h4>
+    <p>Два длинных параллельных провода на расстоянии \(d = 20\) см, токи \(I_1 = I_2 = 10\) А текут в одну сторону. Найти \(B\) в точке, удалённой от каждого провода на \(d\).</p>
+    <div class="check" data-ans="17.3" data-tol="0.015"><label>\(B\) = <input inputmode="decimal" autocomplete="off"> мкТл</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Равносторонний треугольник, токи в одну сторону — угол 60°. \(B_1 = B_2 = 2\cdot10^{-7}\cdot10/0{,}2 = 10\) мкТл.</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(B = \sqrt{10^2 + 10^2 + 2\cdot10\cdot10\cdot0{,}5} = 10\sqrt3 \approx 17{,}3\) мкТл.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 3 ================= -->
+<section class="ktype" id="t3">
+  <div class="khead"><span class="num">3</span><div><h2>Потенциал и сферы</h2><p>Было в наборе Б: Б1-1, Б1-2, Б2-2, Б3-2 (и в ИДЗ 3-04).</p></div></div>
+  <div class="recog"><b>Как узнать:</b> вопрос «найти потенциал \(\varphi\)»; слова «сфера», «концентрические сферы», «в центре сфер»; «работа при перемещении заряда».</div>
+  <p class="gist">Потенциал — это не стрелка, а <em>просто число</em>, как баланс на счёте. Каждый заряд вносит свою сумму \(kq/r\): плюсовой пополняет счёт, минусовой списывает. Итог — сложить числа со знаками, без всяких углов. А внутри заряженной сферы <em>«пол ровный»</em>: где ни стой, потенциал одинаковый и равен потенциалу на поверхности, \(kq/R\).</p>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация: потенциал в центре квадрата складывается как чек в магазине (задача Б1-1)</p>
+    <svg viewBox="0 0 480 280" role="img" aria-label="Каждый заряд даёт свой вклад в потенциал, вклады складываются как числа">
+      <polygon points="80,50 260,50 260,230 80,230" class="thin"/>
+      <line x1="170" y1="140" x2="80" y2="50" class="ln2"/><line x1="170" y1="140" x2="260" y2="50" class="ln2"/><line x1="170" y1="140" x2="260" y2="230" class="ln2"/><line x1="170" y1="140" x2="80" y2="230" class="ln2"/>
+      <circle cx="80" cy="50" r="11" class="neg"/><circle cx="260" cy="50" r="12" class="neg"/><circle cx="260" cy="230" r="13" class="pos"/><circle cx="80" cy="230" r="14" class="pos"/>
+      <text x="80" y="55" text-anchor="middle" class="white" font-size="15" font-weight="700">−</text>
+      <text x="260" y="55" text-anchor="middle" class="white" font-size="15" font-weight="700">−</text>
+      <text x="260" y="235" text-anchor="middle" class="white" font-size="15" font-weight="700">+</text>
+      <text x="80" y="235" text-anchor="middle" class="white" font-size="15" font-weight="700">+</text>
+      <text x="58" y="80" text-anchor="end" class="t-s">−2 нКл</text>
+      <text x="282" y="80" class="t-s">−4 нКл</text>
+      <text x="282" y="210" class="t-s">+6 нКл</text>
+      <text x="58" y="210" text-anchor="end" class="t-s">+8 нКл</text>
+      <circle cx="170" cy="140" r="4.5" class="fillInk"/>
+      <text x="178" y="136" class="t-i" font-size="15">O</text>
+      <text x="170" y="168" text-anchor="middle" class="t-s">r = a/√2 ≈ 7,07 см</text>
+      <g class="el" data-s="2"><rect x="335" y="36" width="130" height="200" rx="10" class="sheetfill" style="stroke:var(--line-2)"/><text x="400" y="30" text-anchor="middle" class="t-s">Σ в центре</text></g>
+      <g class="el mv" data-s="1" data-mv="2" data-move="320 40"><rect x="45" y="7" width="70" height="26" rx="8" style="fill:var(--soft-blue);stroke:var(--blue)"/><text x="80" y="25" text-anchor="middle" font-size="14" font-weight="700" class="fillB">−255 В</text></g>
+      <g class="el mv" data-s="1" data-mv="2" data-move="140 80"><rect x="225" y="7" width="70" height="26" rx="8" style="fill:var(--soft-blue);stroke:var(--blue)"/><text x="260" y="25" text-anchor="middle" font-size="14" font-weight="700" class="fillB">−509 В</text></g>
+      <g class="el mv" data-s="1" data-mv="2" data-move="140 -122"><rect x="225" y="249" width="70" height="26" rx="8" style="fill:var(--soft-red);stroke:var(--red)"/><text x="260" y="267" text-anchor="middle" font-size="14" font-weight="700" class="fillR">+764 В</text></g>
+      <g class="el mv" data-s="1" data-mv="2" data-move="320 -82"><rect x="45" y="249" width="70" height="26" rx="8" style="fill:var(--soft-red);stroke:var(--red)"/><text x="80" y="267" text-anchor="middle" font-size="14" font-weight="700" class="fillR">+1018 В</text></g>
+      <g class="el" data-s="3"><line x1="350" y1="202" x2="450" y2="202" class="ln"/><text x="400" y="226" text-anchor="middle" font-size="16" font-weight="800">φ = 1018 В</text></g>
+    </svg>
+    <ol class="say-list">
+      <li>Четыре заряда в вершинах квадрата со стороной 10 см. Все они на одном расстоянии от центра — половина диагонали, 7,07 см.</li>
+      <li><b>Шаг 1.</b> Каждый заряд даёт свой вклад \(\varphi_i = kq_i/r\). Со знаком! Минусовые заряды дают минус.</li>
+      <li><b>Шаг 2.</b> Собираем все вклады в «чек». Никаких стрелок и углов — потенциал это число.</li>
+      <li><b>Шаг 3.</b> Складываем: \(-255 - 509 + 764 + 1018 = 1018\) В. Быстрее: сумма зарядов 8 нКл, и \(\varphi = k\cdot8\ \text{нКл}/r\).</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="anim" id="sphere">
+    <p class="atitle">Подвигай точку: внутри сферы потенциал не меняется (задача Б1-2: \(kq = 80\) В·м, \(R = 1\) м)</p>
+    <svg viewBox="0 0 520 210" role="img" aria-label="Слева сфера и точка на радиусе, справа график потенциала от расстояния">
+      <circle cx="80" cy="105" r="50" class="soft"/><circle cx="80" cy="105" r="50" class="ln" stroke-width="2"/>
+      <text x="80" y="170" text-anchor="middle" class="t-s">сфера R = 1 м</text>
+      <line x1="80" y1="105" x2="240" y2="105" class="ln2"/>
+      <circle cx="80" cy="105" r="3" class="fillInk"/>
+      <circle id="sphP" cx="105" cy="105" r="7" class="fillR"/>
+      <line x1="290" y1="180" x2="510" y2="180" class="thin" marker-end="url(#aK)"/>
+      <line x1="290" y1="180" x2="290" y2="20" class="thin" marker-end="url(#aK)"/>
+      <polyline id="sphCurve" points="" class="ln" stroke-width="2.4"/>
+      <line x1="360" y1="40" x2="360" y2="180" class="ln2"/>
+      <text x="360" y="196" text-anchor="middle" class="t-s">R</text>
+      <text x="298" y="24" class="t-i" font-size="15">φ, В</text>
+      <text x="500" y="198" class="t-i" font-size="14">r</text>
+      <text x="284" y="44" text-anchor="end" class="t-s">80</text>
+      <circle id="sphM" cx="300" cy="40" r="6" class="fillR"/>
+    </svg>
+    <div class="ctrl"><label><span>Расстояние от центра \(r\) = <output id="sphRo">0,50</output> м</span><input type="range" id="sphR" min="0" max="3" step="0.05" value="0.5"></label></div>
+    <p class="say" id="sphTxt"></p>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Для каждого заряда: \(\varphi = kq/r\) — заряд <b>со знаком</b>.</li>
+      <li>Для сферы посмотри, где точка: снаружи — \(kq/r\), внутри — \(kq/R\) (радиус сферы, а не расстояние до точки).</li>
+      <li>Сложи все вклады как обычные числа.</li>
+      <li>Если дана напряжённость снаружи сферы, сначала найди из неё \(kq = Er^2\).</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$\varphi = \frac{kq}{r}$$<p>Как поле, только без квадрата и со знаком.</p></div>
+    <div class="fm">$$\varphi_\text{внутри сферы} = \frac{kq}{R}$$<p>«Пол ровный»: везде внутри одно и то же значение.</p></div>
+    <div class="fm">$$A_\text{поля} = q(\varphi_1 - \varphi_2)$$<p>Работа — через разность потенциалов (как в ИДЗ 3-04).</p></div>
+  </div>
+  <div class="traps"><b>Ловушки:</b>
+    <ul>
+      <li>Внутри сферы подставляют расстояние до точки и получают ответ вдвое больше. Внутри — только \(R\).</li>
+      <li>Забывают знак заряда. В потенциале знак важен: \(-10\) нКл даёт отрицательный вклад.</li>
+    </ul></div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант Б2, задача 2).</b> Две концентрические сферы: \(R_1 = 1\) м, \(q_1 = -10\) нКл; \(R_2 = 2\) м, \(q_2 = 10\) нКл. Найти потенциал в центре.</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Потенциал», «сферы» — тип 3.</p></div>
+    <div class="wstep"><h4>Шаг 2. Где точка относительно каждой сферы?</h4><p>Центр внутри обеих сфер. Значит, каждая даёт потенциал своей поверхности: \(kq_i/R_i\).</p></div>
+    <div class="wstep"><h4>Шаг 3. Складываем как числа</h4><p>$$\varphi = \frac{9\cdot10^9\cdot(-10^{-8})}{1} + \frac{9\cdot10^9\cdot10^{-8}}{2} = -90 + 45 = -45\ \text{В}.$$</p><p class="why">Заряды равны по модулю, но у внутренней сферы радиус меньше — её вклад больше.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-3">
+    <h4>Теперь сам</h4>
+    <p>Концентрические сферы: \(R_1 = 0{,}5\) м, \(q_1 = +4\) нКл; \(R_2 = 1\) м, \(q_2 = -6\) нКл. Найти потенциал в центре.</p>
+    <div class="check" data-ans="18" data-tol="0.01"><label>\(\varphi\) = <input inputmode="decimal" autocomplete="off"> В</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Центр внутри обеих: \(\varphi = kq_1/R_1 + kq_2/R_2\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(\varphi = 9\cdot4/0{,}5 - 9\cdot6/1 = 72 - 54 = 18\) В.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 4 ================= -->
+<section class="ktype" id="t4">
+  <div class="khead"><span class="num">4</span><div><h2>Энергия: «горки»</h2><p>Было в наборе Б: Б1-3, Б2-3, Б3-3.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> «найти скорость», «шарики отпускают», «удалятся на большое расстояние», «перемещается из точки с потенциалом \(\varphi_1\) в точку \(\varphi_2\)», «изменение кинетической энергии».</div>
+  <p class="gist">Это как американские горки: <em>энергия не исчезает, а перетекает</em>. У заряда в поле есть «энергия положения» \(q\varphi\) — как \(mgh\) у тележки. Скатился с высокого потенциала на низкий — разогнался. Два одноимённых заряда — как сжатая пружина: отпустил, и энергия взаимодействия \(kq_1q_2/r\) уходит в скорость.</p>
+
+  <div class="anim" id="hill">
+    <p class="atitle">Анимация: шарик скатывается с потенциала 600 В до нуля (задача Б2-3)</p>
+    <svg viewBox="0 0 520 230" role="img" aria-label="Шарик катится по горке потенциала, справа столбики кинетической и потенциальной энергии">
+      <path d="M30 60 C 120 60, 200 190, 330 190" class="ln" stroke-width="2.4"/>
+      <text x="30" y="46" class="t-s">φ₁ = 600 В</text>
+      <text x="300" y="214" class="t-s">φ₂ = 0</text>
+      <circle id="hillBall" cx="30" cy="50" r="10" class="pos"/>
+      <line x1="370" y1="200" x2="510" y2="200" class="thin"/>
+      <line x1="370" y1="80" x2="510" y2="80" class="ln2"/>
+      <text x="508" y="74" text-anchor="end" class="t-s">полная энергия</text>
+      <rect id="hillK" x="385" y="116" width="44" height="84" class="fillB" opacity=".85"/>
+      <rect id="hillU" x="450" y="164" width="44" height="36" class="fillI" opacity=".9"/>
+      <text x="407" y="218" text-anchor="middle" class="t-s">кинет.</text>
+      <text x="472" y="218" text-anchor="middle" class="t-s">qφ</text>
+    </svg>
+    <div class="bar"><button class="btn" type="button" data-hill="go">Пустить шарик</button><button class="btn ghost" type="button" data-hill="reset">Сначала</button><span class="count" id="hillTxt"></span></div>
+    <p class="say">Высота горки — это потенциал. Пока шарик катится вниз, жёлтый столбик (энергия положения \(q\varphi\)) уменьшается, а синий (кинетическая) растёт. Сумма не меняется — это и есть закон сохранения энергии.</p>
+  </div>
+
+  <div class="anim" id="repel">
+    <p class="atitle">Анимация: два одинаковых заряда отпустили (задача Б1-3)</p>
+    <svg viewBox="0 0 520 170" role="img" aria-label="Два шарика разлетаются, энергия взаимодействия переходит в кинетическую">
+      <line x1="10" y1="60" x2="510" y2="60" class="ln2"/>
+      <circle id="repA" cx="230" cy="60" r="11" class="pos"/>
+      <circle id="repB" cx="290" cy="60" r="11" class="pos"/>
+      <text x="20" y="112" class="t-s">kq²/r</text>
+      <rect id="repW" x="90" y="100" width="300" height="16" class="fillI" opacity=".9"/>
+      <text x="20" y="140" class="t-s">2·mv²/2</text>
+      <rect id="repK" x="90" y="128" width="0" height="16" class="fillB" opacity=".85"/>
+      <text id="repTxt" x="400" y="140" class="t-s"></text>
+    </svg>
+    <div class="bar"><button class="btn" type="button" data-rep="go">Отпустить</button><button class="btn ghost" type="button" data-rep="reset">Сначала</button></div>
+    <p class="say">Жёлтая полоска — энергия взаимодействия, она тает по мере разлёта. Синяя — кинетическая энергия обоих шариков. Когда шарики далеко, вся энергия стала кинетической: \(kq^2/d = 2\cdot mv^2/2\).</p>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Запиши энергию «до»: \(\dfrac{mv_1^2}{2} + q\varphi_1\). Для двух зарядов — \(\dfrac{kq_1q_2}{r}\) плюс кинетическая.</li>
+      <li>Запиши энергию «после» тем же способом. «Удалились на большое расстояние» — энергия взаимодействия стала нулём.</li>
+      <li>Приравняй «до» и «после», вырази скорость.</li>
+      <li>Для электрона \(q = -e\): если он летит вдоль поля, поле его тормозит.</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$\frac{mv_1^2}{2} + q\varphi_1 = \frac{mv_2^2}{2} + q\varphi_2$$<p>«До» = «после».</p></div>
+    <div class="fm">$$\Delta E_\text{кин} = qU = qEL$$<p>Изменение кинетической энергии = работа поля.</p></div>
+    <div class="fm">$$W = \frac{kq_1q_2}{r}$$<p>Энергия двух зарядов. Одинаковые шарики разлетаются с одинаковой скоростью.</p></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант Б3, задача 3).</b> Электрон пролетел \(L = 1\) м вдоль линии однородного поля \(E = 12\) В/м. Найти изменение его кинетической энергии.</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Изменение кинетической энергии» — тип 4. Изменение кинетической энергии = работа поля.</p></div>
+    <div class="wstep"><h4>Шаг 2. Работа поля</h4><p>$$A = qEL = (-1{,}6\cdot10^{-19})\cdot12\cdot1 = -1{,}92\cdot10^{-18}\ \text{Дж}.$$</p><p class="why">Заряд электрона отрицательный: сила направлена против поля, то есть против движения.</p></div>
+    <div class="wstep"><h4>Шаг 3. Ответ словами</h4><p>Кинетическая энергия уменьшилась на \(1{,}92\cdot10^{-18}\) Дж — это 12 эВ (электрон «поднялся» на 12 В).</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-4">
+    <h4>Теперь сам</h4>
+    <p>Электрон, который покоился, разогнали разностью потенциалов \(U = 100\) В. Какую скорость он получил? Ответ в единицах \(10^6\) м/с.</p>
+    <div class="check" data-ans="5.93" data-tol="0.015"><label>\(v\) = <input inputmode="decimal" autocomplete="off"> ·10⁶ м/с</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">\(mv^2/2 = eU\), значит \(v = \sqrt{2eU/m}\), а \(e/m = 1{,}76\cdot10^{11}\) Кл/кг.</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(v = \sqrt{2\cdot1{,}76\cdot10^{11}\cdot100} \approx 5{,}93\cdot10^6\) м/с.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 5 ================= -->
+<section class="ktype" id="t5">
+  <div class="khead"><span class="num">5</span><div><h2>Заряд в магнитном поле</h2><p>Было в наборе Б: Б1-5, Б2-5, Б3-5.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> «влетает в магнитное поле перпендикулярно линиям индукции», «радиус кривизны (окружности)», «период обращения», «удельный заряд \(q/m\)», «пучок фокусируется».</div>
+  <p class="gist">Магнитное поле действует на летящий заряд как верёвка на мяч, который раскручивают над головой: <em>сила всегда тянет к центру</em>, не разгоняет и не тормозит — только поворачивает. Поэтому заряд ходит по кругу. Быстрый — по большому кругу, медленный — по маленькому, но <em>оборот они делают за одно и то же время</em>.</p>
+
+  <div class="anim" id="focus">
+    <p class="atitle">Анимация: три частицы с разной скоростью влетают в поле из одной точки</p>
+    <svg viewBox="0 0 360 260" role="img" aria-label="Три частицы движутся по окружностям разного радиуса и одновременно возвращаются в точку влёта">
+      <g id="focGrid" class="vecH" stroke-width="1.2" opacity=".35"></g>
+      <line x1="8" y1="220" x2="108" y2="220" class="vecB" marker-end="url(#aB)"/>
+      <text x="10" y="210" class="t-s">влетают</text>
+      <polyline id="focT0" points="" fill="none" style="stroke:var(--blue);stroke-width:1.6;opacity:.6"/>
+      <polyline id="focT1" points="" fill="none" style="stroke:var(--teal);stroke-width:1.6;opacity:.6"/>
+      <polyline id="focT2" points="" fill="none" style="stroke:var(--amber);stroke-width:1.6;opacity:.6"/>
+      <line id="focF" x1="0" y1="0" x2="0" y2="0" class="vecR" marker-end="url(#aR)"/>
+      <circle id="focP0" r="6" style="fill:var(--blue)"/>
+      <circle id="focP1" r="6" style="fill:var(--teal)"/>
+      <circle id="focP2" r="6" style="fill:var(--amber)"/>
+      <circle id="focE" cx="120" cy="220" r="9" fill="none" style="stroke:var(--red);stroke-width:2"/>
+      <text x="300" y="24" class="t-i fillH" font-size="15" font-weight="700">B ⊗</text>
+    </svg>
+    <div class="ctrl"><label><span>Индукция поля \(B\): <output id="focBo">×1,0</output></span><input type="range" id="focB" min="0.8" max="1.6" step="0.1" value="1"></label></div>
+    <div class="bar"><button class="btn ghost" type="button" data-foc="toggle">Пауза</button><span class="count" id="focTxt"></span></div>
+    <p class="say">Три частицы влетели с разной скоростью. Радиусы разные, но все три одновременно возвращаются в красный кружок. Период \(T = 2\pi m/(qB)\) не зависит от скорости. Сделай поле сильнее — круги станут меньше, а обороты быстрее. Красная стрелка — сила, она всегда смотрит к центру.</p>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Сила Лоренца работает как центростремительная: \(qvB = \dfrac{mv^2}{R}\).</li>
+      <li>Отсюда радиус \(R = \dfrac{mv}{qB}\) и период \(T = \dfrac{2\pi R}{v} = \dfrac{2\pi m}{qB}\).</li>
+      <li>Вырази то, что спрашивают. Скорость по радиусу и периоду: \(v = 2\pi R/T\).</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$qvB = \frac{mv^2}{R}$$<p>Главная строчка. Всё остальное получается из неё за один шаг.</p></div>
+    <div class="fm">$$R = \frac{mv}{qB},\quad T = \frac{2\pi m}{qB}$$<p>В периоде скорости нет — отсюда «фокусировка».</p></div>
+    <div class="fm">$$F = qvB\sin\alpha$$<p>Сила Лоренца. Поперёк поля \(\sin\alpha = 1\).</p></div>
+  </div>
+  <div class="traps"><b>Константы электрона:</b> \(e = 1{,}6\cdot10^{-19}\) Кл, \(m = 9{,}1\cdot10^{-31}\) кг, \(e/m = 1{,}76\cdot10^{11}\) Кл/кг. Протон: \(m_p = 1{,}67\cdot10^{-27}\) кг.</div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант Б2, задача 5).</b> Узкий параллельный пучок электронов влетает в перпендикулярное магнитное поле. Через \(t = 2\cdot10^{-8}\) с пучок фокусируется в одной точке. Найти \(B\).</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Влетает в магнитное поле» — тип 5.</p></div>
+    <div class="wstep"><h4>Шаг 2. Что значит «фокусируется»</h4><p>Скорости у электронов немного разные — радиусы тоже. Но период у всех одинаковый. Через один оборот все снова в точке влёта (как в анимации выше). Значит, \(t = T\).</p></div>
+    <div class="wstep"><h4>Шаг 3. Формула периода</h4><p>$$T = \frac{2\pi m}{eB}\ \Rightarrow\ B = \frac{2\pi m}{et}.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Числа</h4><p>$$B = \frac{2\pi\cdot9{,}1\cdot10^{-31}}{1{,}6\cdot10^{-19}\cdot2\cdot10^{-8}} \approx 1{,}8\cdot10^{-3}\ \text{Тл}.$$</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-5">
+    <h4>Теперь сам</h4>
+    <p>Электрон движется в магнитном поле \(B = 1\) мТл по окружности радиусом \(R = 2\) см. Найти его скорость. Ответ в единицах \(10^6\) м/с.</p>
+    <div class="check" data-ans="3.52" data-tol="0.015"><label>\(v\) = <input inputmode="decimal" autocomplete="off"> ·10⁶ м/с</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Из \(R = mv/(eB)\): \(v = (e/m)\,BR\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(v = 1{,}76\cdot10^{11}\cdot10^{-3}\cdot0{,}02 = 3{,}52\cdot10^6\) м/с.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 6 ================= -->
+<section class="ktype" id="t6">
+  <div class="khead"><span class="num">6</span><div><h2>Ток меняется: площадь под графиком</h2><p>Было в наборе А: А2-4, А3-4.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> «сила тока равномерно возрастает» или «равномерно убывает», вопрос про «количество теплоты» или «количество электричества (заряд)».</div>
+  <p class="gist">Заряд — это «сколько электричества протекло», и это <em>площадь под графиком тока</em>. Ток растёт с нуля по прямой — график треугольник, его площадь — половина. Теплота — площадь под графиком \(I^2R\). Это уже не треугольник, а кривая, и её площадь — <em>треть</em> прямоугольника. Запомни коротко: «заряд — половина, тепло — треть».</p>
+
+  <div class="anim" id="strips">
+    <p class="atitle">Анимация: интеграл — это сумма тонких полосок (задача А3-4: ток растёт от 0 до 5 А за 8 с, \(R = 3\) Ом)</p>
+    <svg viewBox="0 0 520 250" role="img" aria-label="Площадь под графиком тока набирается из прямоугольных полосок">
+      <g id="strG"></g>
+      <polyline id="strCurve" points="" class="ln" stroke-width="2.6"/>
+      <line x1="50" y1="210" x2="500" y2="210" class="thin" marker-end="url(#aK)"/>
+      <line x1="50" y1="210" x2="50" y2="20" class="thin" marker-end="url(#aK)"/>
+      <text id="strYl" x="58" y="26" class="t-i" font-size="14">I, А</text>
+      <text x="490" y="230" class="t-i" font-size="14">t, с</text>
+      <text x="450" y="228" text-anchor="middle" class="t-s">8</text>
+    </svg>
+    <div class="bar">
+      <span class="seg" role="group" aria-label="Что считаем"><button type="button" class="on" data-str="q">Заряд: площадь под I</button><button type="button" data-str="Q">Теплота: под I²R</button></span>
+      <span class="seg" role="group" aria-label="Число полосок"><button type="button" data-n="4" class="on">4</button><button type="button" data-n="8">8</button><button type="button" data-n="16">16</button><button type="button" data-n="64">64</button></span>
+    </div>
+    <p class="say" id="strTxt"></p>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт</h3>
+    <ol>
+      <li>Нарисуй график тока: прямая от \(I_0\) до \(I_1\).</li>
+      <li>Заряд — площадь под графиком: \(q = \dfrac{I_0 + I_1}{2}\,t\). С нуля: \(q = \dfrac{I_mt}{2}\).</li>
+      <li>Теплота при токе от 0 до \(I_m\) (или от \(I_m\) до 0): \(Q = \dfrac{I_m^2Rt}{3}\).</li>
+      <li>Если \(I_m\) неизвестен — найди его из того, что дано (например, из теплоты).</li>
+    </ol>
+  </div>
+  <div class="formulas">
+    <div class="fm">$$q = \frac{I_mt}{2}$$<p>Заряд — половина (площадь треугольника).</p></div>
+    <div class="fm">$$Q = \frac{I_m^2Rt}{3}$$<p>Теплота — треть. Это результат интеграла \(\int I^2R\,dt\).</p></div>
+  </div>
+  <div class="traps"><b>Ловушка:</b> нельзя взять «средний ток» \(I_m/2\) и подставить в \(I^2Rt\) — получится четверть вместо трети. Поэтому и нужен интеграл (или готовая формула с тройкой).</div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант А3, задача 4).</b> Ток в проводнике \(R = 3\) Ом равномерно растёт с нуля. За \(t = 8\) с выделилось \(Q = 200\) Дж. Найти заряд \(q\).</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Равномерно возрастает», «теплота», «заряд» — тип 6.</p></div>
+    <div class="wstep"><h4>Шаг 2. Находим конечный ток из теплоты</h4><p>$$Q = \frac{I_m^2Rt}{3}\ \Rightarrow\ I_m^2 = \frac{3Q}{Rt} = \frac{600}{24} = 25,\quad I_m = 5\ \text{А}.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Заряд — площадь треугольника</h4><p>$$q = \frac{I_mt}{2} = \frac{5\cdot8}{2} = 20\ \text{Кл}.$$</p><p class="why">Всё. Два коротких шага, если помнишь «половина и треть».</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-6">
+    <h4>Теперь сам</h4>
+    <p>Ток в проводнике \(R = 10\) Ом равномерно убывает от 6 А до нуля за 5 с. Найти выделившуюся теплоту.</p>
+    <div class="check" data-ans="600" data-tol="0.01"><label>\(Q\) = <input inputmode="decimal" autocomplete="off"> Дж</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">Убывает до нуля — та же «треть»: \(Q = I_m^2Rt/3\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(Q = 36\cdot10\cdot5/3 = 600\) Дж.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 7 ================= -->
+<section class="ktype" id="t7">
+  <div class="khead"><span class="num">7</span><div><h2>Маятник и электрон в электрическом поле</h2><p>Было в наборе А: А3-1, А3-3.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> «грузик на нити», «математический маятник», «период колебаний» и электрическое поле; или «электрон влетает в конденсатор параллельно пластинам», «на какой угол отклонится».</div>
+  <p class="gist"><b>Маятник.</b> Поле добавляет к весу ещё одну постоянную силу \(qE\). Если она вниз — маятник будто <em>стал тяжелее</em> и качается быстрее; если вверх — легче и медленнее. Считаешь «новое \(g\)» и подставляешь в обычную формулу периода.</p>
+  <p class="gist"><b>Электрон в конденсаторе</b> — это мяч, брошенный горизонтально: вдоль пластин летит равномерно, а поперёк <em>«падает» к плюсовой пластине</em> с постоянным ускорением.</p>
+
+  <div class="anim" id="pend">
+    <p class="atitle">Анимация: маятник без поля и в поле</p>
+    <svg viewBox="0 0 520 250" role="img" aria-label="Два маятника: без поля и в электрическом поле, качаются с разным периодом">
+      <line x1="80" y1="30" x2="200" y2="30" class="ln" stroke-width="2"/>
+      <line x1="320" y1="30" x2="440" y2="30" class="ln" stroke-width="2"/>
+      <line id="pdL" x1="140" y1="30" x2="140" y2="180" class="ln"/>
+      <circle id="pbL" cx="140" cy="180" r="11" class="fillInk"/>
+      <line id="pdR" x1="380" y1="30" x2="380" y2="180" class="ln"/>
+      <circle id="pbR" cx="380" cy="180" r="11" class="pos"/>
+      <g id="pFld" class="vecR" stroke-width="1.2" opacity=".45"></g>
+      <line id="pMg" x1="380" y1="192" x2="380" y2="228" class="vecE" marker-end="url(#aK)"/>
+      <line id="pQe" x1="392" y1="192" x2="392" y2="228" class="vecR" marker-end="url(#aR)"/>
+      <text x="140" y="244" text-anchor="middle" class="t-s">без поля</text>
+      <text id="pLab" x="380" y="248" text-anchor="middle" class="t-s">в поле</text>
+    </svg>
+    <div class="bar">
+      <span class="seg" role="group" aria-label="Поле"><button type="button" data-pf="0">Поля нет</button><button type="button" data-pf="1" class="on">Сила qE вниз</button><button type="button" data-pf="-1">Сила qE вверх</button></span>
+      <span class="count" id="pTxt"></span>
+    </div>
+    <p class="say">Красный шарик заряжен. Когда сила \(qE\) направлена вниз, она добавляется к весу: \(g_\text{эф} = g + qE/m\), и маятник качается чаще. Вверх — вычитается, и маятник качается медленнее.</p>
+  </div>
+
+  <div class="anim" id="eflight">
+    <p class="atitle">Анимация: электрон пролетает конденсатор</p>
+    <svg viewBox="0 0 520 200" role="img" aria-label="Электрон влетает между пластинами и отклоняется к положительной пластине">
+      <rect x="120" y="24" width="280" height="7" class="fillR" opacity=".85"/>
+      <rect x="120" y="170" width="280" height="7" class="fillB" opacity=".85"/>
+      <text x="408" y="32" class="fillR" font-size="16" font-weight="700">+</text>
+      <text x="408" y="180" class="fillB" font-size="18" font-weight="700">−</text>
+      <line x1="10" y1="100" x2="510" y2="100" class="ln2"/>
+      <polyline id="efTrail" points="" fill="none" class="ln" stroke-width="2.2"/>
+      <circle id="efE" cx="20" cy="100" r="8" class="neg"/>
+      <g id="efV" style="opacity:0">
+        <line x1="400" y1="60" x2="470" y2="60" class="vecB" marker-end="url(#aB)"/>
+        <line x1="470" y1="60" x2="470" y2="40" class="vecR" marker-end="url(#aR)"/>
+        <line x1="400" y1="60" x2="470" y2="40" class="vecE" marker-end="url(#aK)"/>
+        <text x="436" y="78" class="t-i fillB" font-size="14">v₀</text>
+        <text x="476" y="52" class="t-i fillR" font-size="14">v_y</text>
+        <text x="424" y="56" class="t-i" font-size="13">α</text>
+      </g>
+      <text x="260" y="196" text-anchor="middle" class="t-s">длина пластин L</text>
+    </svg>
+    <div class="bar"><button class="btn" type="button" data-ef="go">Запустить электрон</button></div>
+    <p class="say">Вдоль пластин скорость \(v_0\) не меняется, время пролёта \(t = L/v_0\). Поперёк — ускорение \(a = eU/(md)\), к вылету набирается \(v_y = at\). Угол: \(\operatorname{tg}\alpha = v_y/v_0 = \dfrac{eUL}{mdv_0^2}\).</p>
+  </div>
+
+  <div class="recipe">
+    <h3>Рецепт для маятника</h3>
+    <ol>
+      <li>Определи, куда направлена сила \(qE\): для плюсового заряда — по полю.</li>
+      <li>Новое \(g\): \(g_\text{эф} = g + qE/m\) (сила вниз) или \(g - qE/m\) (вверх).</li>
+      <li>\(T = 2\pi\sqrt{l/g_\text{эф}}\). Если дан период — вырази \(g_\text{эф} = 4\pi^2l/T^2\), а из него \(q\).</li>
+    </ol>
+  </div>
+  <div class="recipe">
+    <h3>Рецепт для электрона в конденсаторе</h3>
+    <ol>
+      <li>Время между пластинами: \(t = L/v_0\).</li>
+      <li>Ускорение поперёк: \(a = eE/m = eU/(md)\).</li>
+      <li>Поперечная скорость на вылете: \(v_y = at\).</li>
+      <li>Угол: \(\operatorname{tg}\alpha = v_y/v_0\).</li>
+    </ol>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант А3, задача 1).</b> Грузик \(m = 10\) г на нити \(l = 25\) см, заряд положительный, поле \(E = 3\) кВ/м направлено вниз. Период \(T = 0{,}5\) с. Найти заряд и сравнить с периодом без поля (\(g = 10\)).</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>Маятник в поле — тип 7. Заряд плюс, поле вниз — сила \(qE\) вниз, маятник «тяжелее».</p></div>
+    <div class="wstep"><h4>Шаг 2. Новое g из периода</h4><p>$$g_\text{эф} = \frac{4\pi^2l}{T^2} = \frac{4\pi^2\cdot0{,}25}{0{,}25} = 4\pi^2 \approx 39{,}5\ \text{м/с}^2.$$</p></div>
+    <div class="wstep"><h4>Шаг 3. Заряд</h4><p>$$g_\text{эф} = g + \frac{qE}{m}\ \Rightarrow\ q = \frac{m(g_\text{эф} - g)}{E} = \frac{0{,}01\cdot29{,}5}{3000} \approx 9{,}8\cdot10^{-5}\ \text{Кл}.$$</p></div>
+    <div class="wstep"><h4>Шаг 4. Сравнение</h4><p>Без поля \(T_0 = 2\pi\sqrt{0{,}025} \approx 0{,}99\) с — примерно в 2 раза больше, чем в поле.</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-7">
+    <h4>Теперь сам</h4>
+    <p>Шарик \(m = 10\) г с зарядом \(q = +10\) мкКл висит на нити \(l = 1\) м в поле \(E = 5\) кВ/м, направленном вниз. Найти период малых колебаний (\(g = 10\)).</p>
+    <div class="check" data-ans="1.62" data-tol="0.015"><label>\(T\) = <input inputmode="decimal" autocomplete="off"> с</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="hint"><summary>Подсказка</summary><div class="inner">\(qE/m = 10^{-5}\cdot5000/0{,}01 = 5\) м/с², значит \(g_\text{эф} = 15\).</div></details>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(T = 2\pi\sqrt{1/15} \approx 1{,}62\) с.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТИП 8 ================= -->
+<section class="ktype" id="t8">
+  <div class="khead"><span class="num">8</span><div><h2>Стержень и конденсатор</h2><p>Было в наборе А: А2-1, А2-3.</p></div></div>
+  <div class="recog"><b>Как узнать:</b> «стержень заряжен с линейной плотностью \(\tau\)», «на продолжении оси»; или «конденсатор подсоединён к батарее», «заполнили диэлектриком».</div>
+  <p class="gist"><b>Стержень</b> — это цепочка маленьких точечных зарядов. Каждый кусочек толкает заряд \(Q\) по формуле Кулона, все толчки по одной прямой — их просто складывают. Для длинного стержня ответ готовый: <em>\(F = kQ\tau/a\)</em>.</p>
+  <p class="gist"><b>Конденсатор.</b> Подключён к батарее — <em>батарея держит напряжение</em>, поэтому заряд растёт в \(\varepsilon\) раз. Отключён — <em>заряд заперт</em>, поэтому падает напряжение.</p>
+
+  <div class="anim stepper">
+    <p class="atitle">Анимация: стержень = цепочка точечных зарядов (задача А2-1)</p>
+    <svg viewBox="0 0 600 220" role="img" aria-label="Стержень делится на кусочки, каждый кусочек толкает заряд Q, толчки складываются">
+      <rect x="40" y="64" width="260" height="12" rx="6" class="softA" style="stroke:var(--amber)"/>
+      <circle cx="420" cy="70" r="12" class="pos"/><text x="420" y="75" text-anchor="middle" class="white" font-size="16" font-weight="700">+</text>
+      <text x="440" y="56" class="t-i" font-size="16">Q</text>
+      <text x="170" y="52" text-anchor="middle" class="t-s">стержень, плотность τ</text>
+      <line x1="300" y1="92" x2="420" y2="92" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/>
+      <text x="360" y="88" text-anchor="middle" class="t-i" font-size="14">a</text>
+      <g class="el" data-s="1" style="stroke:var(--amber);stroke-width:2"><line x1="83.3" y1="60" x2="83.3" y2="80"/><line x1="126.7" y1="60" x2="126.7" y2="80"/><line x1="170" y1="60" x2="170" y2="80"/><line x1="213.3" y1="60" x2="213.3" y2="80"/><line x1="256.7" y1="60" x2="256.7" y2="80"/></g>
+      <rect class="el hl" data-s="2" data-e="2" x="256.7" y="62" width="43.3" height="16" style="fill:var(--red);opacity:.5"/>
+      <g class="el" data-s="2" data-arrow="420 112 480 112" data-c="R"></g>
+      <g class="el" data-s="3" data-arrow="420 124 455.3 124" data-c="R"></g>
+      <g class="el" data-s="3" data-arrow="420 136 443.1 136" data-c="R"></g>
+      <g class="el" data-s="3" data-arrow="420 148 436.3 148" data-c="R"></g>
+      <g class="el" data-s="3" data-arrow="420 160 432.2 160" data-c="R"></g>
+      <g class="el" data-s="3" data-arrow="420 172 429.4 172" data-c="R"></g>
+      <text class="el t-s" data-s="2" x="486" y="116">ближний кусочек</text>
+      <text class="el t-s" data-s="3" x="440" y="186">дальние толкают слабее</text>
+      <g class="el" data-s="4" data-arrow="420 204 576 204" data-c="K" data-w="3"></g>
+      <text class="el" data-s="4" x="300" y="208" font-size="14" font-weight="700" text-anchor="end">F = сумма</text>
+    </svg>
+    <ol class="say-list">
+      <li>Длинный стержень с зарядом на каждом метре \(\tau\). На расстоянии \(a\) от конца — заряд \(Q\). Как стержень на него действует?</li>
+      <li><b>Шаг 1.</b> Режем стержень на кусочки. Каждый кусочек короткий — почти точка с зарядом \(\tau\cdot dx\).</li>
+      <li><b>Шаг 2.</b> Ближний кусочек толкает \(Q\) по закону Кулона: \(dF = kQ\tau\,dx/x^2\).</li>
+      <li><b>Шаг 3.</b> Остальные кусочки толкают в ту же сторону, но слабее — они дальше.</li>
+      <li><b>Шаг 4.</b> Складываем все толчки (это интеграл). Для длинного стержня ответ: \(F = kQ\tau/a\).</li>
+    </ol>
+    <div class="bar"><button class="btn ghost" type="button" data-act="prev">← Назад</button><button class="btn" type="button" data-act="next">Дальше →</button><button class="btn ghost" type="button" data-act="reset">С начала</button><span class="count"></span></div>
+  </div>
+
+  <div class="anim" id="cap">
+    <p class="atitle">Поиграй: конденсатор с батареей и без неё</p>
+    <svg viewBox="0 0 460 200" role="img" aria-label="Конденсатор, батарея и пластина диэлектрика; заряд и напряжение меняются">
+      <polyline points="290,52 290,20 70,20 70,84" class="ln"/>
+      <polyline id="capW2" points="70,104 70,180 290,180 290,148" class="ln"/>
+      <line x1="50" y1="86" x2="90" y2="86" class="ln" stroke-width="2.4"/>
+      <line x1="60" y1="100" x2="80" y2="100" class="ln" stroke-width="4"/>
+      <text x="100" y="98" class="t-i" font-size="15">ℰ</text>
+      <rect id="capGap" x="150" y="172" width="34" height="16" class="sheetfill" style="display:none"/>
+      <rect id="capSlab" x="380" y="58" width="136" height="84" class="softT" style="stroke:var(--teal);transition:x .8s ease"/>
+      <line x1="222" y1="52" x2="358" y2="52" class="ln" stroke-width="4"/>
+      <line x1="222" y1="148" x2="358" y2="148" class="ln" stroke-width="4"/>
+      <g id="capPlus" class="fillR" font-size="16" font-weight="700"></g>
+      <g id="capMinus" class="fillB" font-size="18" font-weight="700"></g>
+      <g id="capFlow" style="opacity:0"><line x1="120" y1="12" x2="190" y2="12" class="vecI" marker-end="url(#aI)"/><text x="196" y="16" class="t-s fillI">Δq течёт</text></g>
+      <text id="capU" x="452" y="194" text-anchor="end" class="t-s"></text>
+    </svg>
+    <div class="bar"><button class="btn ghost" type="button" data-cap="bat">Отключить батарею</button><button class="btn" type="button" data-cap="slab">Вставить диэлектрик (ε = 2)</button></div>
+    <p class="say" id="capTxt"></p>
+  </div>
+
+  <div class="formulas">
+    <div class="fm">$$F = \frac{kQ\tau}{a}$$<p>Длинный стержень, заряд на продолжении оси.</p></div>
+    <div class="fm">$$F = \frac{kQq}{a(a+l)}$$<p>Стержень конечной длины \(l\) с зарядом \(q\).</p></div>
+    <div class="fm">$$\Delta q = (\varepsilon - 1)\,C\mathcal E$$<p>Конденсатор у батареи, внесли диэлектрик.</p></div>
+  </div>
+
+  <div class="walk">
+    <p class="wcond"><b>Разбор КР (вариант А2, задача 1).</b> Длинный стержень, \(\tau = 10\) мкКл/м. На продолжении оси в \(a = 20\) см от конца заряд \(Q = 10\) нКл. Найти силу (мН).</p>
+    <div class="wstep"><h4>Шаг 1. Узнаём тип</h4><p>«Стержень заряжен с плотностью», «на продолжении оси» — тип 8.</p></div>
+    <div class="wstep"><h4>Шаг 2. Готовая формула</h4><p>$$F = \frac{kQ\tau}{a}$$</p><p class="why">На КР лучше показать, откуда она: кусочек \(dx\) даёт \(dF = kQ\tau\,dx/x^2\), сумма от \(a\) до бесконечности даёт \(kQ\tau/a\).</p></div>
+    <div class="wstep"><h4>Шаг 3. Числа</h4><p>$$F = \frac{9\cdot10^9\cdot10^{-8}\cdot10^{-5}}{0{,}2} = 4{,}5\cdot10^{-3}\ \text{Н} = 4{,}5\ \text{мН}.$$</p></div>
+    <div class="wbar"><button class="btn" type="button" data-act="wnext">Следующий шаг</button><button class="btn ghost" type="button" data-act="wall">Показать всё</button></div>
+  </div>
+
+  <div class="self" data-solve id="self-8">
+    <h4>Теперь сам</h4>
+    <p>Длинный стержень заряжен с плотностью \(\tau = 5\) мкКл/м. На продолжении его оси в \(a = 10\) см от конца — заряд \(Q = 2\) нКл. Найти силу.</p>
+    <div class="check" data-ans="0.9" data-tol="0.015"><label>\(F\) = <input inputmode="decimal" autocomplete="off"> мН</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
+    <details class="sol"><summary>Ответ</summary><div class="inner">\(F = 9\cdot10^9\cdot2\cdot10^{-9}\cdot5\cdot10^{-6}/0{,}1 = 9\cdot10^{-4}\) Н \(= 0{,}9\) мН.</div></details>
+  </div>
+</section>
+
+<!-- ================= ТРЕНАЖЁР ================= -->
+<section class="ktype" id="quiz">
+  <div class="khead"><span class="num">?</span><div><h2>Тренажёр: узнай тип задачи</h2><p>Условия взяты из настоящих контрольных. Прочитай и выбери тип — это первый шаг на КР.</p></div></div>
+  <div class="quiz" id="quizBox">
+    <p class="qtext" id="qText"></p>
+    <div class="opts" id="qOpts"></div>
+    <p class="qfb" id="qFb" aria-live="polite"></p>
+    <div class="qbar"><button class="btn" type="button" id="qNext">Следующая задача</button><span id="qScore"></span></div>
+  </div>
+</section>
+
+<!-- ================= КАРТОЧКИ ================= -->
+<section class="ktype" id="flash">
+  <div class="khead"><span class="num">Σ</span><div><h2>Карточки с формулами</h2><p>Нажми на карточку, чтобы перевернуть. Знаешь — «Знаю», нет — «Ещё раз»: такая карточка вернётся позже.</p></div></div>
+  <div class="flash">
+    <div class="fcard" id="fCard" tabindex="0" role="button" aria-label="Перевернуть карточку">
+      <div class="in">
+        <div class="face front"><div class="q" id="fQ"></div><div class="hint">нажми, чтобы увидеть ответ</div></div>
+        <div class="face back"><div id="fA"></div><div class="mn" id="fM"></div></div>
+      </div>
+    </div>
+    <div class="fbar"><button class="btn" type="button" id="fYes">Знаю</button><button class="btn ghost" type="button" id="fNo">Ещё раз</button><button class="btn ghost" type="button" id="fReset">Начать заново</button><span id="fLeft"></span></div>
+  </div>
+</section>
+
+<!-- ================= НА КР ================= -->
+<section class="ktype" id="exam">
+  <div class="khead"><span class="num">!</span><div><h2>Что делать на самой КР</h2><p>Запомни этот порядок — он работает для любой задачи.</p></div></div>
+  <div class="exam">
+    <h3>Порядок для каждой задачи</h3>
+    <ol>
+      <li>Прочитай условие и найди ключевые слова — какой это из восьми типов?</li>
+      <li>Выпиши «Дано» и сразу переведи в СИ: нКл → \(10^{-9}\), мкКл → \(10^{-6}\), см → \(10^{-2}\) м, см² → \(10^{-4}\) м².</li>
+      <li>Нарисуй картинку: заряды или провода, точку, расстояния, стрелки.</li>
+      <li>Напиши главную формулу типа — уже за это ставят часть баллов.</li>
+      <li>Пройди рецепт, получи формулу для ответа, потом подставь числа.</li>
+      <li>Проверь единицы и округли, как просят в условии.</li>
+    </ol>
+  </div>
+  <div class="recipe">
+    <h3>Если застрял</h3>
+    <ol>
+      <li>Не сиди над одной задачей больше 10 минут. Переходи к следующей и вернись потом.</li>
+      <li>Даже если не решил до конца, оставь в работе «Дано» в СИ, рисунок и формулу типа. Это лучше пустого листа.</li>
+      <li>Проверь три главные ловушки: знак заряда, внутри сферы \(kq/R\), угол между стрелками.</li>
+    </ol>
+  </div>
+  <p class="muted">Полная теория, все разборы и пробники — на <a href="../">главной странице</a>.</p>
+  <footer class="foot"><p>Все числа в разборах пересчитаны. Задачи — из контрольных других групп (наборы А и Б) и задачника Волькенштейна.</p></footer>
+</section>
+
+</main>
+<script src="../app.js"></script>
+<script src="kr.js"></script>
+</body>
+</html>
