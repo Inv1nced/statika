@@ -1,0 +1,22 @@
+/* Защита ИДЗ — вопросы, карточки, конспект */
+.howto{font:16px/1.6 var(--sans);padding-left:22px;margin:10px 0}
+.howto li{margin-bottom:6px}
+.zfilter{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.chip{font:600 14px/1 var(--sans);padding:8px 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--sheet);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--blue)}
+.chip.on{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.zcard{background:var(--sheet);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px 20px 16px;min-height:200px;display:flex;flex-direction:column}
+.ztag{font:600 13px/1.3 var(--sans);color:var(--ink-3);margin-bottom:10px}
+.ztag a{color:var(--blue)}
+.zq{font:700 21px/1.4 var(--sans);margin-bottom:6px}
+.za{border-top:1px dashed var(--line-2);margin-top:10px;padding-top:12px;font:17px/1.65 var(--serif);animation:fadein .3s ease}
+.zbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:16px}
+.btn.zyes{background:var(--teal);border-color:var(--teal);color:#fff}
+.zstat{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font:600 14px var(--sans);color:var(--ink-2);margin:10px 2px 0}
+.linkbtn{background:none;border:0;padding:0;font:600 14px var(--sans);color:var(--blue);cursor:pointer;margin-left:auto;text-decoration:underline}
+.qtitle{font:750 18px/1.3 var(--sans);margin:18px 0 6px}
+.qlist details > summary{color:var(--ink);font-weight:600}
+.qlist details .inner{font:15.5px/1.6 var(--sans);color:var(--ink-2);padding-left:1.1em}
+.qlist details:target > summary,.qlist details[open] > summary{color:var(--blue)}
+.khead p a{white-space:nowrap}
+@media (max-width:520px){.kbd{display:none}.zq{font-size:18.5px}.za{font-size:16px}.zcard{padding:14px 14px 12px}}

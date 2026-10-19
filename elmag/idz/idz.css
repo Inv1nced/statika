@@ -34,3 +34,4 @@ details.zsheet > summary{color:var(--ink)}
 }
 /* на телефоне рисунки целиком по ширине, без горизонтальной прокрутки */
 @media (max-width:520px){body[data-store="elmagidz"] .anim > svg{min-width:0!important}}
+.qa h3 .qmore{font:600 14px var(--sans);margin-left:8px;white-space:nowrap}
