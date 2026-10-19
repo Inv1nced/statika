@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КР, набор Б — решения</title>
+<meta name="description" content="Все 15 задач контрольной по электричеству и магнетизму, набор Б (варианты 1–3): условие, идея, решение в тетрадном виде и ответ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Onest:wght@400;500;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../kr/kr.css">
+<link rel="stylesheet" href="kr-b.css">
+<script>try{var t=localStorage.getItem('elmag-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body data-store="elmagkrb">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aK" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillInk"/></marker>
+    <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillR"/></marker>
+    <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillB"/></marker>
+    <marker id="aH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillH"/></marker>
+    <marker id="aI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillI"/></marker>
+  </defs>
+</svg>
+
+<header class="topbar krtop">
+  <a class="brand" href="../">← Вся теория</a>
+  <span class="grow"></span>
+  <a class="iconbtn" href="kr-nabor-b-resheniya.pdf" download>PDF</a>
+  <button class="iconbtn" id="themeBtn" type="button" aria-label="Сменить тему">Тема</button>
+</header>
+
+<main class="krwrap" id="top">
+
+<div class="krhero">
+  <h1>Контрольная, набор Б<span>все 15 решений</span></h1>
+  <p class="big">Три варианта по пять задач. У каждой: условие, идея в двух фразах, решение в том виде, в каком его пишут на КР (Дано → решение → ответ), и ссылка на тип в «Режиме КР», где этот тип разобран с анимацией.</p>
+  <p class="noprint"><a class="btn" href="kr-nabor-b-resheniya.pdf" download style="text-decoration:none;display:inline-block">Скачать PDF</a> <a class="btn ghost" href="../kr/" style="text-decoration:none;display:inline-block">Режим КР</a></p>
+</div>
+
+<section id="answers">
+  <h2 class="probs-title">Все ответы</h2>
+  <p class="muted">Во всех трёх вариантах задачи устроены одинаково: 1–2 — потенциал и поле зарядов, 3 — энергия, 4 — магнитное поле проводов, 5 — заряд в магнитном поле. Нажми на ответ, чтобы перейти к решению.</p>
+  <div class="tbl"><table class="atbl">
+    <tr><th>Задача</th><th>Вариант 1</th><th>Вариант 2</th><th>Вариант 3</th></tr>
+    <tr><td class="c"><b>1</b></td><td><a href="#b1-1">\(\varphi \approx 1{,}02\) кВ</a></td><td><a href="#b2-1">\(E = 2\) В/м</a></td><td><a href="#b3-1">\(E \approx 17{,}2\) кВ/м</a></td></tr>
+    <tr><td class="c"><b>2</b></td><td><a href="#b1-2">\(\varphi = 80\) В</a></td><td><a href="#b2-2">\(\varphi_0 = -45\) В</a></td><td><a href="#b3-2">\(\varphi = 90\) кВ</a></td></tr>
+    <tr><td class="c"><b>3</b></td><td><a href="#b1-3">\(v \approx 38\) м/с</a></td><td><a href="#b2-3">\(v_1 \approx 16{,}7\) см/с</a></td><td><a href="#b3-3">\(\Delta W_\text{кин} = -1{,}92\cdot10^{-18}\) Дж</a></td></tr>
+    <tr><td class="c"><b>4</b></td><td><a href="#b1-4">\(B \approx 1{,}08\) мкТл</a></td><td><a href="#b2-4">\(B \approx 8{,}7\) мкТл</a></td><td><a href="#b3-4">\(B \approx 20\) мкТл</a></td></tr>
+    <tr><td class="c"><b>5</b></td><td><a href="#b1-5">\(q/m = 5\cdot10^7\) Кл/кг</a></td><td><a href="#b2-5">\(B \approx 1{,}8\) мТл</a></td><td><a href="#b3-5">\(F \approx 3{,}6\cdot10^{-19}\) Н</a></td></tr>
+  </table></div>
+  <div class="recipe">
+    <h3>Перед каждой задачей — три вопроса себе</h3>
+    <ol>
+      <li><b>Что ищем: число или стрелку?</b> Потенциал и энергия — числа, складываются со знаками. Напряжённость \(E\) и индукция \(B\) — стрелки, нужно смотреть на углы.</li>
+      <li><b>Где точка?</b> Внутри сферы потенциал как на поверхности, \(kq/R\). Снаружи — как у точечного заряда.</li>
+      <li><b>Всё ли в СИ?</b> нКл → \(10^{-9}\) Кл, мкКл → \(10^{-6}\) Кл, см → \(10^{-2}\) м, г → \(10^{-3}\) кг.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="bvar" id="v1">
+  <h2 class="probs-title">Вариант 1</h2>
+  <article class="bprob" id="b1-1">
+    <div class="bhead"><span class="bnum">1</span><div><b>Вариант 1 · задача 1</b><a class="btype" href="../kr/#t3">тип 3: потенциал и сферы</a></div></div>
+    <p class="cond">В последовательных вершинах квадрата со стороной \(a = 10\) см находятся заряды \(q_1 = -2\) нКл, \(q_2 = -4\) нКл, \(q_3 = 6\) нКл, \(q_4 = 8\) нКл. Найти потенциал \(\varphi\) электрического поля в центре квадрата.</p>
+    
+    <p class="bidea"><b>Идея.</b> Потенциал — просто число, стрелки не нужны. Все вершины квадрата на одном расстоянии от центра (половина диагонали), поэтому складываем заряды со знаками и делим на это расстояние.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(a = 0{,}1\) м</p><p>\(q_1 = -2\) нКл, \(q_2 = -4\) нКл</p><p>\(q_3 = 6\) нКл, \(q_4 = 8\) нКл</p><div class="find"><p>Найти: \(\varphi\) — ?</p></div></div>
+        <div class="work">
+          <p>Все заряды находятся на расстоянии половины диагонали от центра: \(r = \dfrac{a\sqrt2}{2} = \dfrac{a}{\sqrt2}\). Потенциалы складываются как числа со знаками:</p>
+          $$\varphi = \sum\frac{kq_i}{r} = \frac{k\,(q_1 + q_2 + q_3 + q_4)\sqrt2}{a}.$$
+          $$q_1 + q_2 + q_3 + q_4 = -2 - 4 + 6 + 8 = 8\ \text{нКл},\qquad \varphi = \frac{9\cdot10^9\cdot8\cdot10^{-9}\cdot1{,}414}{0{,}1} \approx 1018\ \text{В}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\varphi \approx 1{,}02\) кВ.</p>
+      <p class="dim">Если бы спросили напряжённость, пришлось бы складывать векторы — и порядок зарядов по вершинам стал бы важен.</p>
+  </article>
+  <article class="bprob" id="b1-2">
+    <div class="bhead"><span class="bnum">2</span><div><b>Вариант 1 · задача 2</b><a class="btype" href="../kr/#t3">тип 3: потенциал и сферы</a></div></div>
+    <p class="cond">Равномерно заряженная сфера радиуса \(R = 1\) м создаёт на расстоянии \(r_1 = 2\) м от центра поле с напряжённостью \(E = 20\) В/м. Найти потенциал поля в точке, лежащей на расстоянии \(r_2 = 0{,}5\) м от центра. Заряд сферы положительный.</p>
+    
+    <p class="bidea"><b>Идея.</b> Снаружи сфера ведёт себя как точечный заряд — из данного \(E\) находим \(kq\). Точка \(r_2 = 0{,}5\) м внутри сферы, а внутри потенциал везде как на поверхности: \(kq/R\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(R = 1\) м</p><p>\(r_1 = 2\) м</p><p>\(E(r_1) = 20\) В/м</p><p>\(r_2 = 0{,}5\) м</p><div class="find"><p>Найти: \(\varphi(r_2)\) — ?</p></div></div>
+        <div class="work">
+          <p>Снаружи сферы поле как у точечного заряда в центре:</p>
+          $$E = \frac{kq}{r_1^2}\ \Rightarrow\ kq = Er_1^2 = 20\cdot4 = 80\ \text{В·м}.$$
+          <p>Точка \(r_2\) лежит внутри сферы. Поля там нет, потенциал везде равен потенциалу поверхности:</p>
+          $$\varphi(r_2) = \frac{kq}{R} = \frac{80}{1} = 80\ \text{В}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\varphi = 80\) В.</p>
+      <div class="trap">Если по привычке взять \(kq/r_2\), получится 160 В — это неверно: внутри сферы потенциал не зависит от расстояния до центра.</div>
+  </article>
+  <article class="bprob" id="b1-3">
+    <div class="bhead"><span class="bnum">3</span><div><b>Вариант 1 · задача 3</b><a class="btype" href="../kr/#t4">тип 4: энергия, «горки»</a></div></div>
+    <p class="cond">Два маленьких одинаковых шарика массами \(m = 0{,}1\) г с зарядами \(q = 4\) мкКл удерживаются на расстоянии \(d = 1\) м друг от друга. Шарики отпускают. Какую скорость приобретут шарики, когда удалятся на достаточно большое расстояние друг от друга?</p>
+    
+    <p class="bidea"><b>Идея.</b> Энергия отталкивания \(kq^2/d\), запасённая в начале, целиком переходит в кинетическую энергию обоих шариков. Шарики одинаковые — скорости у них равные.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(m = 0{,}1\) г \(= 10^{-4}\) кг</p><p>\(q = 4\) мкКл \(= 4\cdot10^{-6}\) Кл</p><p>\(d = 1\) м</p><p>\(v_0 = 0\)</p><div class="find"><p>Найти: \(v\) — ?</p></div></div>
+        <div class="work">
+          <p>Других сил нет (тяжестью пренебрегаем — шарики разлетаются горизонтально). Полный импульс был нулевым и останется нулевым, поэтому скорости шариков равны по модулю. Энергия сохраняется: энергия взаимодействия в начале переходит в кинетическую энергию обоих шариков (на большом расстоянии энергия взаимодействия равна нулю):</p>
+          $$\frac{kq^2}{d} = 2\cdot\frac{mv^2}{2} = mv^2\ \Rightarrow\ v = q\sqrt{\frac{k}{md}}.$$
+          $$\frac{kq^2}{d} = \frac{9\cdot10^9\cdot16\cdot10^{-12}}{1} = 0{,}144\ \text{Дж},\qquad v = \sqrt{\frac{0{,}144}{10^{-4}}} = \sqrt{1440} \approx 38\ \text{м/с}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(v \approx 38\) м/с у каждого шарика.</p>
+  </article>
+  <article class="bprob" id="b1-4">
+    <div class="bhead"><span class="bnum">4</span><div><b>Вариант 1 · задача 4</b><a class="btype" href="../kr/#t2">тип 2: магнитное поле проводов</a></div></div>
+    <p class="cond">По двум длинным скрещенным перпендикулярным проводникам, лежащим в перпендикулярных плоскостях, текут токи \(I_1 = 2\) А и \(I_2 = 5\) А. Расстояние между проводниками \(d = 2\) м. Найти величину магнитной индукции в точке \(A\), лежащей посередине между проводниками.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 380 232" role="img" aria-label="Провод 1 горизонтально сверху, провод 2 перпендикулярно плоскости рисунка снизу; в точке A посередине поле B2 вправо, поле B1 от нас">
+        <line x1="40" y1="40" x2="340" y2="40" class="ln" stroke-width="3"/>
+        <line x1="70" y1="28" x2="130" y2="28" class="vecI" marker-end="url(#aI)"/>
+        <text x="60" y="22" class="t-i fillI" font-size="15">I₁</text>
+        <circle cx="190" cy="200" r="12" class="sheetfill"/><circle cx="190" cy="200" r="12" class="ln"/>
+        <path d="M182 192 L198 208 M198 192 L182 208" class="ln"/>
+        <text x="210" y="216" class="t-i fillI" font-size="15">I₂ (от нас)</text>
+        <line x1="190" y1="40" x2="190" y2="188" class="ln2"/>
+        <text x="176" y="84" text-anchor="end" class="t-s">d/2</text>
+        <text x="176" y="164" text-anchor="end" class="t-s">d/2</text>
+        <line x1="190" y1="120" x2="270" y2="120" class="vecH" marker-end="url(#aH)"/>
+        <text x="276" y="125" class="t-i fillH" font-size="15">B₂</text>
+        <circle cx="190" cy="120" r="10" class="sheetfill"/><circle cx="190" cy="120" r="10" class="vecH" stroke-width="1.6"/>
+        <path d="M184 114 L196 126 M196 114 L184 126" class="vecH" stroke-width="1.6"/>
+        <text x="208" y="108" class="t-i fillH" font-size="14">B₁ (от нас)</text>
+        <text x="168" y="125" text-anchor="end" class="t-i" font-size="15">A</text>
+      </svg>
+      <figcaption>Провод 1 лежит в плоскости рисунка, провод 2 перпендикулярен ей. Поле каждого провода в точке \(A\) направлено вдоль другого провода, поэтому \(\vec B_1 \perp \vec B_2\). <a class="noprint" href="../kr/#cross"><b>Посмотреть в 3D →</b></a></figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Поле каждого провода в точке посередине направлено вдоль другого провода. Провода скрещены под 90°, значит и стрелки под 90° — Пифагор.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(I_1 = 2\) А, \(I_2 = 5\) А</p><p>\(d = 2\) м</p><p>\(r_1 = r_2 = d/2 = 1\) м</p><div class="find"><p>Найти: \(B\) — ?</p></div></div>
+        <div class="work">
+          <p>Индукция поля длинного прямого провода на расстоянии \(r\): \(B = \dfrac{\mu_0I}{2\pi r}\). Вектор \(\vec B_1\) перпендикулярен проводу 1 и общему перпендикуляру \(d\), то есть параллелен проводу 2; вектор \(\vec B_2\) параллелен проводу 1. Провода перпендикулярны, значит \(\vec B_1 \perp \vec B_2\):</p>
+          $$B = \sqrt{B_1^2 + B_2^2} = \frac{\mu_0}{2\pi\cdot d/2}\sqrt{I_1^2 + I_2^2} = \frac{\mu_0\sqrt{I_1^2 + I_2^2}}{\pi d}.$$
+          $$B_1 = \frac{4\pi\cdot10^{-7}\cdot2}{2\pi\cdot1} = 4\cdot10^{-7}\ \text{Тл},\qquad B_2 = 10^{-6}\ \text{Тл},\qquad B = \sqrt{0{,}16 + 1}\cdot10^{-6} \approx 1{,}08\cdot10^{-6}\ \text{Тл}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(B \approx 1{,}08\) мкТл.</p>
+  </article>
+  <article class="bprob" id="b1-5">
+    <div class="bhead"><span class="bnum">5</span><div><b>Вариант 1 · задача 5</b><a class="btype" href="../kr/#t5">тип 5: заряд в магнитном поле</a></div></div>
+    <p class="cond">Ион влетает в область однородного магнитного поля с индукцией \(B = 0{,}02\) Тл, имея скорость \(v = 10^4\) м/с перпендикулярно линиям магнитной индукции. Радиус кривизны траектории частицы \(R = 1\) см. Найти удельный заряд \((q/m)\) иона.</p>
+    
+    <p class="bidea"><b>Идея.</b> Сила Лоренца держит ион на окружности, как верёвка мяч: \(qvB = mv^2/R\). Из этого равенства сразу выражается \(q/m\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(B = 0{,}02\) Тл</p><p>\(v = 10^4\) м/с, \(\vec v \perp \vec B\)</p><p>\(R = 0{,}01\) м</p><div class="find"><p>Найти: \(q/m\) — ?</p></div></div>
+        <div class="work">
+          <p>Скорость перпендикулярна полю, ион движется по окружности, сила Лоренца сообщает ему центростремительное ускорение:</p>
+          $$qvB = \frac{mv^2}{R}\ \Rightarrow\ \frac{q}{m} = \frac{v}{BR} = \frac{10^4}{0{,}02\cdot0{,}01} = 5\cdot10^7\ \text{Кл/кг}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{м/с}}{\text{Тл·м}} = \dfrac{1}{\text{Тл·с}} = \dfrac{\text{Кл}}{\text{кг}}\), так как \(\text{Тл} = \dfrac{\text{Н}}{\text{А·м}} = \dfrac{\text{кг}}{\text{Кл·с}}\).</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(q/m = 5\cdot10^7\) Кл/кг.</p>
+  </article>
+</section>
+
+<section class="bvar" id="v2">
+  <h2 class="probs-title">Вариант 2</h2>
+  <article class="bprob" id="b2-1">
+    <div class="bhead"><span class="bnum">1</span><div><b>Вариант 2 · задача 1</b><a class="btype" href="../kr/#t1">тип 1: поле нескольких зарядов</a></div></div>
+    <p class="cond">Два точечных заряда \(q\) и \(2q\) находятся на расстоянии \(r = 2\) м друг от друга. В точке, лежащей посередине между зарядами, потенциал электрического поля равен \(\varphi = 6\) В. Найти напряжённость поля в этой точке.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 460 110" role="img" aria-label="Заряды q и 2q, посередине точка; поле большего заряда сильнее и направлено к меньшему">
+        <line x1="40" y1="60" x2="420" y2="60" class="ln2"/>
+        <circle cx="70" cy="60" r="11" class="pos"/><text x="70" y="65" text-anchor="middle" class="white" font-size="15" font-weight="700">+</text>
+        <circle cx="390" cy="60" r="15" class="pos"/><text x="390" y="66" text-anchor="middle" class="white" font-size="19" font-weight="700">+</text>
+        <text x="70" y="34" text-anchor="middle" class="t-i" font-size="16">q</text>
+        <text x="390" y="34" text-anchor="middle" class="t-i" font-size="16">2q</text>
+        <circle cx="230" cy="60" r="4.5" class="fillInk"/>
+        <line x1="230" y1="60" x2="275" y2="60" class="vecR" marker-end="url(#aR)"/>
+        <line x1="230" y1="60" x2="140" y2="60" class="vecR" marker-end="url(#aR)"/>
+        <text x="272" y="50" class="t-i fillR" font-size="14">E₁</text>
+        <text x="142" y="50" class="t-i fillR" font-size="14">E₂ = 2E₁</text>
+        <text x="150" y="96" text-anchor="middle" class="t-s">r/2 = 1 м</text>
+        <text x="310" y="96" text-anchor="middle" class="t-s">r/2 = 1 м</text>
+      </svg>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Из потенциала находим не сам заряд, а \(kq\). В средней точке стрелки от двух положительных зарядов смотрят навстречу — вычитаем.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(q_1 = q\), \(q_2 = 2q\)</p><p>\(r = 2\) м</p><p>\(\varphi = 6\) В</p><div class="find"><p>Найти: \(E\) — ?</p></div></div>
+        <div class="work">
+          <p>До каждого заряда расстояние \(r/2\). Потенциал в средней точке:</p>
+          $$\varphi = \frac{kq}{r/2} + \frac{2kq}{r/2} = \frac{6kq}{r}\ \Rightarrow\ kq = \frac{\varphi r}{6} = \frac{6\cdot2}{6} = 2\ \text{В·м}.$$
+          <p>Потенциал положительный, значит \(q \gt 0\). Векторы \(\vec E_1\) и \(\vec E_2\) направлены от своих зарядов, то есть навстречу друг другу:</p>
+          $$E = \frac{2kq}{(r/2)^2} - \frac{kq}{(r/2)^2} = \frac{4kq}{r^2} = \frac{4\cdot2}{4} = 2\ \text{В/м}.$$
+          <p class="dim">Заряд при этом \(q = 2/(9\cdot10^9) \approx 0{,}22\) нКл — он не понадобился.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(E = 2\) В/м, направлена от заряда \(2q\) к заряду \(q\).</p>
+  </article>
+  <article class="bprob" id="b2-2">
+    <div class="bhead"><span class="bnum">2</span><div><b>Вариант 2 · задача 2</b><a class="btype" href="../kr/#t3">тип 3: потенциал и сферы</a></div></div>
+    <p class="cond">Две концентрические сферы заряжены равномерно. Радиусы и заряды сфер соответственно равны: \(R_1 = 1\) м, \(R_2 = 2\) м, \(q_1 = -10\) нКл, \(q_2 = 10\) нКл. Найти потенциал электрического поля в центре сфер.</p>
+    
+    <p class="bidea"><b>Идея.</b> Центр лежит внутри обеих сфер, поэтому каждая сфера даёт там потенциал своей поверхности \(kq/R\). Складываем со знаками.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(R_1 = 1\) м, \(q_1 = -10^{-8}\) Кл</p><p>\(R_2 = 2\) м, \(q_2 = 10^{-8}\) Кл</p><div class="find"><p>Найти: \(\varphi_0\) — ?</p></div></div>
+        <div class="work">
+          <p>По принципу суперпозиции потенциал в центре — сумма потенциалов, созданных каждой сферой. Центр лежит внутри обеих, поэтому каждая сфера даёт там потенциал своей поверхности:</p>
+          $$\varphi_0 = \frac{kq_1}{R_1} + \frac{kq_2}{R_2} = \frac{9\cdot10^9\cdot(-10^{-8})}{1} + \frac{9\cdot10^9\cdot10^{-8}}{2} = -90 + 45 = -45\ \text{В}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\varphi_0 = -45\) В.</p>
+      <p class="dim">Заряды равны по модулю, но вклад внутренней сферы больше: у неё меньше радиус.</p>
+  </article>
+  <article class="bprob" id="b2-3">
+    <div class="bhead"><span class="bnum">3</span><div><b>Вариант 2 · задача 3</b> <span class="bsrc">= Волькенштейн 9.46</span><a class="btype" href="../kr/#t4">тип 4: энергия, «горки»</a></div></div>
+    <p class="cond">Шарик массой \(m = 1\) г и зарядом \(q = 10\) нКл перемещается из точки 1, потенциал которой \(\varphi_1 = 600\) В, в точку 2, потенциал которой \(\varphi_2 = 0\). Найти его скорость в точке 1, если в точке 2 она стала равной \(v_2 = 20\) см/с.</p>
+    
+    <p class="bidea"><b>Идея.</b> Закон сохранения энергии: «кинетическая + \(q\varphi\)» в точке 1 и в точке 2 одинаковы. Из него выражаем \(v_1\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(m = 10^{-3}\) кг</p><p>\(q = 10^{-8}\) Кл</p><p>\(\varphi_1 = 600\) В, \(\varphi_2 = 0\)</p><p>\(v_2 = 0{,}2\) м/с</p><div class="find"><p>Найти: \(v_1\) — ?</p></div></div>
+        <div class="work">
+          <p>По закону сохранения энергии (поле потенциальное):</p>
+          $$\frac{mv_1^2}{2} + q\varphi_1 = \frac{mv_2^2}{2} + q\varphi_2\ \Rightarrow\ v_1 = \sqrt{v_2^2 - \frac{2q(\varphi_1 - \varphi_2)}{m}}.$$
+          $$\frac{2q(\varphi_1 - \varphi_2)}{m} = \frac{2\cdot10^{-8}\cdot600}{10^{-3}} = 0{,}012\ \text{м}^2/\text{с}^2,\qquad v_1 = \sqrt{0{,}04 - 0{,}012} = \sqrt{0{,}028} \approx 0{,}167\ \text{м/с}.$$
+          <p>Положительный заряд идёт от большего потенциала к меньшему — поле его разгоняет, поэтому \(v_1 \lt v_2\).</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(v_1 \approx 16{,}7\) см/с (как в ответах Волькенштейна).</p>
+  </article>
+  <article class="bprob" id="b2-4">
+    <div class="bhead"><span class="bnum">4</span><div><b>Вариант 2 · задача 4</b><a class="btype" href="../kr/#t2">тип 2: магнитное поле проводов</a></div></div>
+    <p class="cond">По двум длинным прямым параллельным проводникам текут в одном направлении токи \(I_1 = 20\) А и \(I_2 = 30\) А. Проводники находятся на расстоянии \(d = 1\) м. Найти индукцию магнитного поля \(B\) в точке, удалённой от каждого проводника на расстояние \(d\).</p>
+    <figure class="fig">
+      <svg viewBox="0 0 360 260" role="img" aria-label="Равносторонний треугольник: два провода с токами к нам и точка в вершине; поля B1 и B2 под углом 60 градусов">
+        <line x1="80" y1="230" x2="280" y2="230" class="ln2"/>
+        <line x1="80" y1="230" x2="180" y2="56.8" class="ln2"/>
+        <line x1="280" y1="230" x2="180" y2="56.8" class="ln2"/>
+        <line x1="128" y1="26.8" x2="50.1" y2="71.8" class="ln2"/>
+        <line x1="102.1" y1="101.8" x2="50.1" y2="71.8" class="ln2"/>
+        <line x1="180" y1="56.8" x2="128" y2="26.8" class="vecH" marker-end="url(#aH)"/>
+        <line x1="180" y1="56.8" x2="102.1" y2="101.8" class="vecH" marker-end="url(#aH)"/>
+        <line x1="180" y1="56.8" x2="50.1" y2="71.8" class="vecE" stroke-width="2.6" marker-end="url(#aK)"/>
+        <circle cx="180" cy="56.8" r="4" class="fillInk"/>
+        <text x="190" y="52" class="t-i" font-size="15">P</text>
+        <text x="132" y="22" class="t-i fillH" font-size="14">B₁</text>
+        <text x="96" y="120" class="t-i fillH" font-size="14">B₂</text>
+        <text x="30" y="66" class="t-i" font-size="16" font-weight="700">B</text>
+        <circle cx="80" cy="230" r="11" class="sheetfill"/><circle cx="80" cy="230" r="11" class="ln"/><circle cx="80" cy="230" r="3.2" class="fillInk"/>
+        <circle cx="280" cy="230" r="11" class="sheetfill"/><circle cx="280" cy="230" r="11" class="ln"/><circle cx="280" cy="230" r="3.2" class="fillInk"/>
+        <text x="58" y="252" class="t-i" font-size="14">I₁</text>
+        <text x="292" y="252" class="t-i" font-size="14">I₂</text>
+        <text x="180" y="250" text-anchor="middle" class="t-s">d</text>
+        <text x="118" y="150" class="t-s" text-anchor="end">d</text>
+        <text x="244" y="150" class="t-s">d</text>
+      </svg>
+      <figcaption>Токи к нам. Каждый вектор перпендикулярен своему радиусу и повёрнут в одну и ту же сторону, поэтому угол между \(\vec B_1\) и \(\vec B_2\) равен углу между радиусами — 60°.</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Провода и точка — равносторонний треугольник. Токи в одну сторону — угол между стрелками 60°, складываем по теореме косинусов.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(I_1 = 20\) А, \(I_2 = 30\) А</p><p>\(d = 1\) м</p><p>\(r_1 = r_2 = d\)</p><div class="find"><p>Найти: \(B\) — ?</p></div></div>
+        <div class="work">
+          <p>Поле каждого провода: \(B_i = \dfrac{\mu_0I_i}{2\pi d}\). Векторы перпендикулярны своим радиусам. При токах в одну сторону оба повёрнуты относительно радиусов в одну сторону, и угол между ними равен углу между радиусами — 60° (треугольник равносторонний). По теореме косинусов</p>
+          $$B = \sqrt{B_1^2 + B_2^2 + 2B_1B_2\cos60^\circ} = \frac{\mu_0}{2\pi d}\sqrt{I_1^2 + I_2^2 + I_1I_2}.$$
+          $$B_1 = \frac{4\pi\cdot10^{-7}\cdot20}{2\pi\cdot1} = 4\cdot10^{-6}\ \text{Тл},\qquad B_2 = 6\cdot10^{-6}\ \text{Тл},$$
+          $$B = \sqrt{16 + 36 + 24}\cdot10^{-6} = \sqrt{76}\cdot10^{-6} \approx 8{,}7\cdot10^{-6}\ \text{Тл}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(B \approx 8{,}7\) мкТл.</p>
+      <p class="dim">Если бы токи текли навстречу, угол между векторами был бы 120°, и под корнем стояло бы \(I_1^2 + I_2^2 - I_1I_2\).</p>
+  </article>
+  <article class="bprob" id="b2-5">
+    <div class="bhead"><span class="bnum">5</span><div><b>Вариант 2 · задача 5</b><a class="btype" href="../kr/#t5">тип 5: заряд в магнитном поле</a></div></div>
+    <p class="cond">Узкий параллельный пучок электронов влетает в перпендикулярное магнитное поле. Через время \(t = 2\cdot10^{-8}\) с пучок фокусируется в одной точке. Определить индукцию \(B\) магнитного поля.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 300 232" role="img" aria-label="Окружности разного радиуса касаются друг друга в точке входа пучка: электроны с разной скоростью возвращаются в неё одновременно">
+        <line x1="20" y1="200" x2="128" y2="200" class="vecB" marker-end="url(#aB)"/>
+        <text x="24" y="190" class="t-s">пучок</text>
+        <circle cx="140" cy="160" r="40" class="ln" stroke-width="1.6"/>
+        <circle cx="140" cy="130" r="70" class="ln" stroke-width="1.6"/>
+        <circle cx="140" cy="100" r="100" class="ln" stroke-width="1.6"/>
+        <circle cx="140" cy="200" r="5" class="fillR"/>
+        <text x="152" y="222" class="t-s">здесь они снова встретятся через T</text>
+      </svg>
+      <figcaption>Электроны с разной скоростью идут по окружностям разного радиуса, но все окружности проходят через точку входа, а период у всех одинаковый.</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Период обращения \(T = 2\pi m/(eB)\) не зависит от скорости. Все электроны делают полный круг за одно и то же время и встречаются в точке влёта — это и есть фокусировка: \(t = T\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(t = 2\cdot10^{-8}\) с</p><p>\(m = 9{,}1\cdot10^{-31}\) кг</p><p>\(e = 1{,}6\cdot10^{-19}\) Кл</p><div class="find"><p>Найти: \(B\) — ?</p></div></div>
+        <div class="work">
+          <p>Электроны в пучке могут иметь немного разные скорости, поэтому движутся по окружностям разных радиусов \(R = mv/(eB)\). Но все эти окружности касаются друг друга в точке влёта, а период обращения у всех одинаковый и от скорости не зависит:</p>
+          $$T = \frac{2\pi m}{eB}.$$
+          <p>Через один период каждый электрон возвращается в точку влёта — там пучок и собирается. Значит, \(t = T\):</p>
+          $$B = \frac{2\pi m}{et} = \frac{2\pi\cdot9{,}1\cdot10^{-31}}{1{,}6\cdot10^{-19}\cdot2\cdot10^{-8}} \approx 1{,}8\cdot10^{-3}\ \text{Тл}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(B \approx 1{,}8\) мТл.</p>
+      <p class="dim">Через половину периода электроны оказались бы в разных точках (на расстоянии \(2R\) от входа, а \(R\) у всех разный), поэтому фокус — именно через полный оборот.</p>
+  </article>
+</section>
+
+<section class="bvar" id="v3">
+  <h2 class="probs-title">Вариант 3</h2>
+  <article class="bprob" id="b3-1">
+    <div class="bhead"><span class="bnum">1</span><div><b>Вариант 3 · задача 1</b><a class="btype" href="../kr/#t1">тип 1: поле нескольких зарядов</a></div></div>
+    <p class="cond">Три одинаковых точечных заряда \(q = -1\) мкКл расположены в трёх вершинах квадрата со стороной \(d = 1\) м. Найти напряжённость электрического поля \(E\) в свободной вершине квадрата.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 320 250" role="img" aria-label="Квадрат, отрицательные заряды в трёх вершинах, в свободной вершине векторы поля направлены к зарядам, сумма идёт по диагонали">
+        <polygon points="80,40 240,40 240,200 80,200" class="thin"/>
+        <line x1="80" y1="40" x2="240" y2="200" class="ln2"/>
+        <circle cx="240" cy="40" r="12" class="neg"/><text x="240" y="45" text-anchor="middle" class="white" font-size="16" font-weight="700">−</text>
+        <circle cx="240" cy="200" r="12" class="neg"/><text x="240" y="205" text-anchor="middle" class="white" font-size="16" font-weight="700">−</text>
+        <circle cx="80" cy="200" r="12" class="neg"/><text x="80" y="205" text-anchor="middle" class="white" font-size="16" font-weight="700">−</text>
+        <line x1="140" y1="40" x2="140" y2="100" class="ln2"/>
+        <line x1="80" y1="100" x2="140" y2="100" class="ln2"/>
+        <line x1="80" y1="40" x2="140" y2="40" class="vecB" marker-end="url(#aB)"/>
+        <line x1="80" y1="40" x2="80" y2="100" class="vecB" marker-end="url(#aB)"/>
+        <line x1="80" y1="40" x2="101.2" y2="61.2" class="vecR" marker-end="url(#aR)"/>
+        <line x1="80" y1="40" x2="161.2" y2="121.2" class="vecE" stroke-width="2.6" marker-end="url(#aK)"/>
+        <circle cx="80" cy="40" r="4.5" class="fillInk"/>
+        <text x="66" y="34" text-anchor="end" class="t-i" font-size="15">P</text>
+        <text x="126" y="32" class="t-i fillB" font-size="14">E₁</text>
+        <text x="58" y="96" class="t-i fillB" font-size="14">E₃</text>
+        <text x="106" y="76" class="t-i fillR" font-size="14">E₂</text>
+        <text x="168" y="130" class="t-i" font-size="16" font-weight="700">E</text>
+        <text x="160" y="226" text-anchor="middle" class="t-s">d = 1 м</text>
+        <text x="200" y="150" class="t-s">d√2</text>
+      </svg>
+      <figcaption>Заряды отрицательные — каждый вектор направлен к своему заряду. Два соседних заряда дают перпендикулярные векторы, их сумма идёт по диагонали — туда же, куда поле дальнего заряда.</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Заряды отрицательные — стрелки смотрят к зарядам. Две соседние стрелки перпендикулярны, их сумма идёт по диагонали; поле дальнего заряда смотрит туда же — просто прибавляем.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(q = -1\) мкКл \(= -10^{-6}\) Кл</p><p>\(d = 1\) м</p><div class="find"><p>Найти: \(E\) — ?</p></div></div>
+        <div class="work">
+          <p>Заряды отрицательные, поэтому поле каждого направлено к нему. Соседние заряды (на расстоянии \(d\)) дают одинаковые по модулю взаимно перпендикулярные векторы:</p>
+          $$E_1 = E_3 = \frac{k|q|}{d^2},\qquad E_{13} = E_1\sqrt2.$$
+          <p>Их сумма \(E_{13}\) направлена по диагонали к дальней вершине.</p>
+          <p>Дальний заряд (на расстоянии \(d\sqrt2\)) даёт вектор по той же диагонали:</p>
+          $$E_2 = \frac{k|q|}{2d^2}.$$
+          <p>Векторы направлены одинаково, их модули складываются:</p>
+          $$E = \frac{k|q|}{d^2}\left(\sqrt2 + \frac12\right).$$
+          $$E = \frac{9\cdot10^9\cdot10^{-6}}{1^2}\cdot(1{,}414 + 0{,}5) = 9000\cdot1{,}914 \approx 1{,}72\cdot10^4\ \text{В/м}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(E \approx 17{,}2\) кВ/м, направлена по диагонали к центру квадрата.</p>
+  </article>
+  <article class="bprob" id="b3-2">
+    <div class="bhead"><span class="bnum">2</span><div><b>Вариант 3 · задача 2</b><a class="btype" href="../kr/#t3">тип 3: потенциал и сферы</a></div></div>
+    <p class="cond">Заряд \(q = 10\) мкКл распределён равномерно по сферической поверхности радиуса \(R = 1\) м. Найти потенциал электрического поля в точке, лежащей на расстоянии \(r = 50\) см от центра сферы.</p>
+    
+    <p class="bidea"><b>Идея.</b> \(r = 0{,}5\) м меньше \(R = 1\) м — точка внутри сферы. Внутри потенциал как на поверхности: \(kq/R\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(q = 10^{-5}\) Кл</p><p>\(R = 1\) м</p><p>\(r = 0{,}5\) м</p><div class="find"><p>Найти: \(\varphi\) — ?</p></div></div>
+        <div class="work">
+          <p>\(r \lt R\) — точка внутри сферы. Там поля нет, и потенциал такой же, как на поверхности:</p>
+          $$\varphi = \frac{kq}{R} = \frac{9\cdot10^9\cdot10^{-5}}{1} = 9\cdot10^4\ \text{В}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\varphi = 90\) кВ.</p>
+  </article>
+  <article class="bprob" id="b3-3">
+    <div class="bhead"><span class="bnum">3</span><div><b>Вариант 3 · задача 3</b><a class="btype" href="../kr/#t4">тип 4: энергия, «горки»</a></div></div>
+    <p class="cond">Найти изменение кинетической энергии электрона, пролетевшего расстояние \(L = 1\) м в направлении силовой линии однородного электрического поля напряжённостью \(E = 12\) В/м. Заряд электрона \(e = -1{,}6\cdot10^{-19}\) Кл.</p>
+    
+    <p class="bidea"><b>Идея.</b> Изменение кинетической энергии равно работе поля \(qEL\). Заряд электрона отрицательный, сила против движения — электрон тормозится, ответ со знаком минус.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(L = 1\) м</p><p>\(E = 12\) В/м</p><p>\(q = -1{,}6\cdot10^{-19}\) Кл</p><div class="find"><p>Найти: \(\Delta W_\text{кин}\) — ?</p></div></div>
+        <div class="work">
+          <p>По теореме о кинетической энергии \(\Delta W_\text{кин} = A_\text{поля}\). Сила \(\vec F = q\vec E\) постоянна, перемещение \(L\) — вдоль \(\vec E\):</p>
+          $$\Delta W_\text{кин} = qEL = -1{,}6\cdot10^{-19}\cdot12\cdot1 = -1{,}92\cdot10^{-18}\ \text{Дж}.$$
+          <p>Сила на электрон направлена против поля, то есть против движения, — электрон тормозится. Разность потенциалов на этом пути \(EL = 12\) В, поэтому в электронвольтах ответ ровно \(-12\) эВ.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: кинетическая энергия уменьшилась на \(1{,}92\cdot10^{-18}\) Дж (12 эВ).</p>
+  </article>
+  <article class="bprob" id="b3-4">
+    <div class="bhead"><span class="bnum">4</span><div><b>Вариант 3 · задача 4</b><a class="btype" href="../kr/#t2">тип 2: магнитное поле проводов</a></div></div>
+    <p class="cond">По двум длинным прямым параллельным проводникам текут в разных направлениях токи \(I_1 = 2\) А и \(I_2 = 3\) А. Проводники находятся на расстоянии \(d = 5\) см. Найти индукцию магнитного поля \(B\) в точке, удалённой от первого проводника на расстояние \(r_1 = 3\) см и на расстояние \(r_2 = 4\) см от второго.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 400 240" role="img" aria-label="Провод 1 с током к нам, провод 2 с током от нас, точка P с прямым углом; поля B1 и B2 перпендикулярны">
+        <line x1="100" y1="210" x2="300" y2="210" class="ln2"/>
+        <line x1="100" y1="210" x2="172" y2="114" class="ln2"/>
+        <line x1="300" y1="210" x2="172" y2="114" class="ln2"/>
+        <path d="M 164.8 123.6 L 174.4 130.8 L 181.6 121.2" class="thin"/>
+        <line x1="129.3" y1="82" x2="165.3" y2="34" class="ln2"/>
+        <line x1="208" y1="66" x2="165.3" y2="34" class="ln2"/>
+        <line x1="172" y1="114" x2="129.3" y2="82" class="vecH" marker-end="url(#aH)"/>
+        <line x1="172" y1="114" x2="208" y2="66" class="vecH" marker-end="url(#aH)"/>
+        <line x1="172" y1="114" x2="165.3" y2="34" class="vecE" stroke-width="2.6" marker-end="url(#aK)"/>
+        <circle cx="172" cy="114" r="4" class="fillInk"/>
+        <text x="184" y="120" class="t-i" font-size="15">P</text>
+        <text x="110" y="80" class="t-i fillH" font-size="14">B₁</text>
+        <text x="212" y="64" class="t-i fillH" font-size="14">B₂</text>
+        <text x="150" y="30" class="t-i" font-size="16" font-weight="700">B</text>
+        <circle cx="100" cy="210" r="11" class="sheetfill"/><circle cx="100" cy="210" r="11" class="ln"/><circle cx="100" cy="210" r="3.2" class="fillInk"/>
+        <circle cx="300" cy="210" r="11" class="sheetfill"/><circle cx="300" cy="210" r="11" class="ln"/><path d="M293 203 L307 217 M307 203 L293 217" class="ln"/>
+        <text x="78" y="234" class="t-i" font-size="14">I₁</text>
+        <text x="312" y="234" class="t-i" font-size="14">I₂</text>
+        <text x="122" y="160" class="t-s" text-anchor="end">r₁ = 3 см</text>
+        <text x="246" y="166" class="t-s">r₂ = 4 см</text>
+        <text x="200" y="230" class="t-s" text-anchor="middle">d = 5 см</text>
+      </svg>
+      <figcaption>Ток \(I_1\) к нам, \(I_2\) от нас. Радиусы перпендикулярны (3-4-5), значит, и векторы \(\vec B_1\), \(\vec B_2\) перпендикулярны — при любых направлениях токов.</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Стороны 3-4-5 — угол между линиями к проводам прямой, значит стрелки полей тоже перпендикулярны — Пифагор. Направления токов на ответ не влияют.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(I_1 = 2\) А, \(I_2 = 3\) А</p><p>\(d = 0{,}05\) м</p><p>\(r_1 = 0{,}03\) м, \(r_2 = 0{,}04\) м</p><div class="find"><p>Найти: \(B\) — ?</p></div></div>
+        <div class="work">
+          <p>Так как \(r_1^2 + r_2^2 = d^2\), угол между радиусами прямой. Каждый вектор \(\vec B_i\) перпендикулярен своему радиусу, поэтому \(\vec B_1 \perp \vec B_2\) (направление токов меняет только то, куда смотрят векторы, но не угол между ними):</p>
+          $$B = \sqrt{B_1^2 + B_2^2},\qquad B_1 = \frac{\mu_0I_1}{2\pi r_1} = \frac{2\cdot10^{-7}\cdot2}{0{,}03} = 1{,}33\cdot10^{-5}\ \text{Тл},$$
+          $$B_2 = \frac{\mu_0I_2}{2\pi r_2} = \frac{2\cdot10^{-7}\cdot3}{0{,}04} = 1{,}5\cdot10^{-5}\ \text{Тл},\qquad B = \sqrt{1{,}33^2 + 1{,}5^2}\cdot10^{-5} \approx 2{,}0\cdot10^{-5}\ \text{Тл}.$$
+          <p class="dim">Удобно помнить: \(\dfrac{\mu_0}{2\pi} = 2\cdot10^{-7}\) Тл·м/А.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(B \approx 20\) мкТл.</p>
+  </article>
+  <article class="bprob" id="b3-5">
+    <div class="bhead"><span class="bnum">5</span><div><b>Вариант 3 · задача 5</b><a class="btype" href="../kr/#t5">тип 5: заряд в магнитном поле</a></div></div>
+    <p class="cond">Электрон влетает в магнитное поле перпендикулярно силовым линиям. Радиус кривизны траектории частицы составляет \(R = 4\) см, период обращения \(T = 2\) мкс. Найти действующую на частицу силу.</p>
+    
+    <p class="bidea"><b>Идея.</b> Сила Лоренца — центростремительная: \(F = mv^2/R\). Скорость находим из радиуса и периода: \(v = 2\pi R/T\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(R = 0{,}04\) м</p><p>\(T = 2\cdot10^{-6}\) с</p><p>\(m = 9{,}1\cdot10^{-31}\) кг</p><div class="find"><p>Найти: \(F\) — ?</p></div></div>
+        <div class="work">
+          <p>Электрон движется по окружности равномерно, сила Лоренца сообщает ему центростремительное ускорение:</p>
+          $$F = \frac{mv^2}{R},\qquad v = \frac{2\pi R}{T}\ \Rightarrow\ F = \frac{4\pi^2mR}{T^2}.$$
+          $$v = \frac{2\pi\cdot0{,}04}{2\cdot10^{-6}} = 1{,}26\cdot10^5\ \text{м/с},\qquad F = \frac{4\pi^2\cdot9{,}1\cdot10^{-31}\cdot0{,}04}{(2\cdot10^{-6})^2} \approx 3{,}6\cdot10^{-19}\ \text{Н}.$$
+          <p class="dim">Проверка другим путём: \(B = \dfrac{2\pi m}{eT} = 1{,}79\cdot10^{-5}\) Тл, \(F = evB = 1{,}6\cdot10^{-19}\cdot1{,}26\cdot10^5\cdot1{,}79\cdot10^{-5} \approx 3{,}6\cdot10^{-19}\) Н.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(F \approx 3{,}6\cdot10^{-19}\) Н.</p>
+  </article>
+</section>
+
+<section id="end" class="noprint">
+  <p class="muted">Каждый тип задач подробно, с анимациями и рецептом — в <a href="../kr/">«Режиме КР»</a>. Полная теория — на <a href="../">главной странице</a>.</p>
+  <footer class="foot"><p>Все числа пересчитаны, ответ задачи Б2-3 совпадает с ответом задачника Волькенштейна (9.46).</p></footer>
+</section>
+
+</main>
+<script src="../app.js"></script>
+</body>
+</html>
