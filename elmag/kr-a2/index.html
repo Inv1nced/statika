@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КР, набор А, вариант 2 — решения</title>
+<meta name="description" content="Пять задач контрольной по электричеству и магнетизму, набор А, вариант 2: условие, идея, решение в тетрадном виде и ответ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Onest:wght@400;500;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../kr/kr.css">
+<link rel="stylesheet" href="../kr-b/kr-b.css">
+<style>@media print{section.bvar{break-before:auto!important;page-break-before:auto!important}}</style>
+<script>try{var t=localStorage.getItem('elmag-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body data-store="elmagkra2">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aK" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillInk"/></marker>
+    <marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillR"/></marker>
+    <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillB"/></marker>
+    <marker id="aH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillH"/></marker>
+    <marker id="aI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillI"/></marker>
+  </defs>
+</svg>
+
+<header class="topbar krtop">
+  <a class="brand" href="../">← Вся теория</a>
+  <span class="grow"></span>
+  <a class="iconbtn" href="kr-a-variant-2-resheniya.pdf" download>PDF</a>
+  <button class="iconbtn" id="themeBtn" type="button" aria-label="Сменить тему">Тема</button>
+</header>
+
+<main class="krwrap" id="top">
+
+<div class="krhero">
+  <h1>Контрольная, набор А<span>вариант 2: все решения</span></h1>
+  <p class="big">Пять задач варианта 2. У каждой: условие, идея в двух фразах, решение в том виде, в каком его пишут на КР (Дано → решение → ответ), и ссылка на тип в «Режиме КР», где этот тип разобран с анимацией.</p>
+  <p class="noprint"><a class="btn" href="kr-a-variant-2-resheniya.pdf" download style="text-decoration:none;display:inline-block">Скачать PDF</a> <a class="btn ghost" href="../kr/" style="text-decoration:none;display:inline-block">Режим КР</a></p>
+</div>
+
+<section id="answers">
+  <h2 class="probs-title">Все ответы</h2>
+  <div class="tbl"><table class="atbl">
+    <tr><th>Задача</th><th>Тема</th><th>Ответ</th></tr>
+    <tr><td class="c"><b>1</b></td><td>Стержень и конденсатор</td><td><a href="#a2-1">\(F = 4{,}5\) мН</a></td></tr>
+    <tr><td class="c"><b>2</b></td><td>Поле нескольких зарядов</td><td><a href="#a2-2">\(E \approx 62\) кВ/м</a></td></tr>
+    <tr><td class="c"><b>3</b></td><td>Стержень и конденсатор</td><td><a href="#a2-3">\(\Delta q = (\varepsilon - 1)\,C\mathcal{E}\)</a></td></tr>
+    <tr><td class="c"><b>4</b></td><td>Ток меняется</td><td><a href="#a2-4">\(Q = 1\) кДж</a></td></tr>
+    <tr><td class="c"><b>5</b></td><td>Магнитное поле проводов</td><td><a href="#a2-5">\(H \approx 199\) А/м</a></td></tr>
+  </table></div>
+  <div class="recipe">
+    <h3>Перед каждой задачей — три вопроса себе</h3>
+    <ol>
+      <li><b>Что ищем: число или стрелку?</b> Потенциал, энергия, теплота — числа. Напряжённость \(E\), индукция \(B\), \(H\), сила — стрелки, нужно смотреть на углы.</li>
+      <li><b>Меняется ли что-то по ходу?</b> Ток растёт или падает — нужна площадь под графиком; заряд размазан по стержню — нужен интеграл.</li>
+      <li><b>Всё ли в СИ?</b> нКл → \(10^{-9}\) Кл, мкКл → \(10^{-6}\) Кл, см → \(10^{-2}\) м.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="bvar" id="v2">
+  <h2 class="probs-title">Вариант 2</h2>
+  <article class="bprob" id="a2-1">
+    <div class="bhead"><span class="bnum">1</span><div><b>Вариант 2 · задача 1</b><a class="btype" href="../kr/#t8">тип 8: стержень и конденсатор</a></div></div>
+    <p class="cond">Тонкий длинный стержень равномерно заряжен с линейной плотностью \(\tau = 10\) мкКл/м. На продолжении оси стержня на расстоянии \(a = 20\) см от его конца находится точечный заряд \(Q = 10\) нКл. Определить силу \(F\) взаимодействия заряженного стержня и точечного заряда. Ответ дать в мН (округлить до десятых).</p>
+    
+    <p class="bidea"><b>Идея.</b> Стержень — не точка, поэтому режем его на кусочки \(dq = \tau\,dx\). Каждый кусочек действует на заряд с силой \(kQ\tau\,dx/x^2\), все силы направлены вдоль одной прямой — складываем их интегралом от \(a\) до бесконечности: \(F = kQ\tau/a\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(\tau = 10\) мкКл/м \(= 10^{-5}\) Кл/м</p><p>\(a = 20\) см \(= 0{,}2\) м</p><p>\(Q = 10\) нКл \(= 10^{-8}\) Кл</p><div class="find"><p>Найти: \(F\) — ?</p></div></div>
+        <div class="work">
+          <p>Стержень длинный, поэтому считаем его полубесконечным. Выделим на нём малый участок \(dx\) на расстоянии \(x\) от заряда \(Q\). Заряд участка \(dq = \tau\,dx\); по закону Кулона он действует на \(Q\) с силой</p>
+          $$dF = k\frac{Q\,\tau\,dx}{x^2}.$$
+          <p>Все силы \(dF\) направлены вдоль оси стержня, поэтому их модули складываются:</p>
+          $$F = \int_a^{\infty} \frac{kQ\tau\,dx}{x^2} = kQ\tau\left(-\frac1x\right)\Big|_a^\infty = kQ\tau\left(0 + \frac1a\right) = \frac{kQ\tau}{a}.$$
+          <p class="dim">Размерность: \(\dfrac{\text{Н·м}^2}{\text{Кл}^2}\cdot\text{Кл}\cdot\dfrac{\text{Кл}}{\text{м}}\cdot\dfrac{1}{\text{м}} = \text{Н}\).</p>
+          $$F = \frac{9\cdot10^9\cdot10^{-8}\cdot10^{-5}}{0{,}2} = 4{,}5\cdot10^{-3}\ \text{Н}.$$
+          <p>Заряды одного знака, значит, стержень и заряд отталкиваются.</p>
+        </div>
+      </div>
+      <p class="answer">Ответ: \(F = 4{,}5\) мН.</p>
+      <p class="dim">Если бы стержень был конечной длины \(l\), то \(F = kQ\tau\left(\dfrac1a - \dfrac{1}{a+l}\right)\) — эту формулу проверяют в тренировочной задаче про стержень конечной длины ниже.</p>
+  </article>
+  <article class="bprob" id="a2-2">
+    <div class="bhead"><span class="bnum">2</span><div><b>Вариант 2 · задача 2</b><a class="btype" href="../kr/#t1">тип 1: поле нескольких зарядов</a></div></div>
+    <p class="cond">Электрическое поле создано двумя точечными зарядами \(q_1 = 40\) нКл и \(q_2 = -10\) нКл, находящимися на расстоянии \(d = 10\) см друг от друга. Определить напряжённость \(E\) поля в точке, удалённой от первого заряда на \(r_1 = 8\) см и от второго на \(r_2 = 6\) см. Ответ дать в кВ/м (округлить до целых).</p>
+    <figure class="fig">
+      <svg viewBox="0 0 460 262" role="img" aria-label="Треугольник 6-8-10: заряды q1 и q2, точка C с прямым углом, векторы E1, E2 и их сумма">
+        <line x1="70" y1="230" x2="370" y2="230" class="ln2"/>
+        <line x1="70" y1="230" x2="262" y2="86" class="ln2"/>
+        <line x1="370" y1="230" x2="262" y2="86" class="ln2"/>
+        <path d="M 250.8 94.4 L 259.2 105.6 L 270.4 97.2" class="thin"/>
+        <circle cx="70" cy="230" r="15" class="pos"/><text x="70" y="236" text-anchor="middle" class="white" font-size="20" font-weight="700">+</text>
+        <circle cx="370" cy="230" r="12" class="neg"/><text x="370" y="235" text-anchor="middle" class="white" font-size="20" font-weight="700">−</text>
+        <text x="58" y="208" text-anchor="end" class="t-i" font-size="17">q₁</text>
+        <text x="390" y="215" class="t-i" font-size="17">q₂</text>
+        <text x="150" y="150" class="t-s" text-anchor="end">r₁ = 8 см</text>
+        <text x="330" y="158" class="t-s">r₂ = 6 см</text>
+        <text x="220" y="250" class="t-s" text-anchor="middle">d = 10 см</text>
+        <line x1="334" y1="32" x2="358" y2="64" class="ln2"/>
+        <line x1="286" y1="118" x2="358" y2="64" class="ln2"/>
+        <line x1="262" y1="86" x2="334" y2="32" class="vecR" marker-end="url(#aR)"/>
+        <line x1="262" y1="86" x2="286" y2="118" class="vecB" marker-end="url(#aB)"/>
+        <line x1="262" y1="86" x2="358" y2="64" class="vecE" marker-end="url(#aK)"/>
+        <circle cx="262" cy="86" r="4.5" class="fillInk"/>
+        <text x="246" y="80" class="t-i" font-size="16" text-anchor="end">C</text>
+        <text x="310" y="34" class="t-i" font-size="16" text-anchor="end">E₁</text>
+        <text x="296" y="132" class="t-i" font-size="16">E₂</text>
+        <text x="366" y="60" class="t-i" font-size="17" font-weight="700">E</text>
+      </svg>
+      <figcaption>\(\vec E_1\) — от \(q_1\) (продолжает линию \(q_1C\)), \(\vec E_2\) — к \(q_2\). Угол при \(C\) прямой, значит и векторы перпендикулярны.</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Стороны 6-8-10 — прямоугольный треугольник: линии от точки к зарядам перпендикулярны, значит и стрелки \(\vec E_1\), \(\vec E_2\) перпендикулярны — Пифагор.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(q_1 = 40\) нКл \(= 4\cdot10^{-8}\) Кл</p><p>\(q_2 = -10\) нКл \(= -10^{-8}\) Кл</p><p>\(d = 0{,}1\) м</p><p>\(r_1 = 0{,}08\) м</p><p>\(r_2 = 0{,}06\) м</p><div class="find"><p>Найти: \(E\) — ?</p></div></div>
+        <div class="work">
+          <p>Так как \(r_1^2 + r_2^2 = 0{,}0064 + 0{,}0036 = 0{,}01 = d^2\), треугольник прямоугольный, прямой угол — в точке \(C\). Вектор \(\vec E_1\) направлен вдоль \(q_1C\) (от положительного заряда), \(\vec E_2\) — вдоль \(Cq_2\) (к отрицательному). Значит, \(\vec E_1 \perp \vec E_2\), и по принципу суперпозиции</p>
+          $$E = \sqrt{E_1^2 + E_2^2},\qquad E_1 = k\frac{|q_1|}{r_1^2},\quad E_2 = k\frac{|q_2|}{r_2^2}.$$
+          $$E_1 = \frac{9\cdot10^9\cdot4\cdot10^{-8}}{0{,}0064} = 5{,}625\cdot10^4\ \text{В/м},\qquad E_2 = \frac{9\cdot10^9\cdot10^{-8}}{0{,}0036} = 2{,}5\cdot10^4\ \text{В/м}.$$
+          $$E = \sqrt{(5{,}625\cdot10^4)^2 + (2{,}5\cdot10^4)^2} \approx 6{,}16\cdot10^4\ \text{В/м} = 61{,}6\ \text{кВ/м}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(E \approx 62\) кВ/м.</p>
+  </article>
+  <article class="bprob" id="a2-3">
+    <div class="bhead"><span class="bnum">3</span><div><b>Вариант 2 · задача 3</b><a class="btype" href="../kr/#t8">тип 8: стержень и конденсатор</a></div></div>
+    <p class="cond">Конденсатор ёмкостью \(C\) подсоединён к батарее с ЭДС \(\mathcal{E}\). Определите, какой заряд протечёт через батарею при заполнении пространства между обкладками конденсатора жидкостью с диэлектрической проницаемостью \(\varepsilon\).</p>
+    <figure class="fig">
+      <svg viewBox="0 0 420 170" role="img" aria-label="Батарея, подключённая к конденсатору, между обкладками диэлектрик">
+        <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" class="thin"/></pattern></defs>
+        <polyline points="280,55 280,20 70,20 70,64" class="ln"/>
+        <polyline points="70,84 70,150 280,150 280,115" class="ln"/>
+        <line x1="50" y1="66" x2="90" y2="66" class="ln" stroke-width="2.4"/>
+        <line x1="60" y1="80" x2="80" y2="80" class="ln" stroke-width="4"/>
+        <text x="40" y="70" text-anchor="end" font-size="15" class="fillR">+</text>
+        <text x="40" y="88" text-anchor="end" font-size="15" class="fillB">−</text>
+        <text x="100" y="80" class="t-i" font-size="16">ℰ</text>
+        <rect x="222" y="58" width="116" height="54" class="softT"/>
+        <rect x="222" y="58" width="116" height="54" fill="url(#hatch)"/>
+        <line x1="215" y1="55" x2="345" y2="55" class="ln" stroke-width="3"/>
+        <line x1="215" y1="115" x2="345" y2="115" class="ln" stroke-width="3"/>
+        <text x="356" y="90" class="t-i" font-size="16">ε</text>
+        <text x="200" y="90" text-anchor="end" class="t-i" font-size="16">C</text>
+        <line x1="150" y1="32" x2="210" y2="32" class="vecI" marker-end="url(#aI)"/>
+        <text x="180" y="48" text-anchor="middle" class="t-s">Δq</text>
+      </svg>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Батарея не отключена — напряжение на конденсаторе остаётся равным \(\mathcal E\). Ёмкость с диэлектриком растёт в \(\varepsilon\) раз, заряд — с \(C\mathcal E\) до \(\varepsilon C\mathcal E\). Разницу и докачивает батарея.</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(C,\ \mathcal{E},\ \varepsilon\)</p><div class="find"><p>Найти: \(\Delta q\) — ?</p></div></div>
+        <div class="work">
+          <p>Конденсатор всё время подключён к батарее. Когда процессы закончились, ток не течёт, падения напряжения на внутреннем сопротивлении батареи нет, и напряжение на конденсаторе равно ЭДС: \(U = \mathcal{E}\) и до, и после.</p>
+          <p>До заполнения: \(q_0 = C\mathcal{E}\). Диэлектрик увеличивает ёмкость в \(\varepsilon\) раз (\(C = \varepsilon\varepsilon_0S/d\)), поэтому после: \(q = \varepsilon C\mathcal{E}\).</p>
+          <p>Разницу заряда батарея «докачала» в конденсатор, она и протекла через батарею:</p>
+          $$\Delta q = q - q_0 = \varepsilon C\mathcal{E} - C\mathcal{E} = (\varepsilon - 1)\,C\mathcal{E}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(\Delta q = (\varepsilon - 1)\,C\mathcal{E}\).</p>
+      <p class="dim">Если бы конденсатор отключили от батареи до заполнения, через неё ничего бы не протекло, а напряжение упало бы в \(\varepsilon\) раз.</p>
+  </article>
+  <article class="bprob" id="a2-4">
+    <div class="bhead"><span class="bnum">4</span><div><b>Вариант 2 · задача 4</b><a class="btype" href="../kr/#t6">тип 6: ток меняется</a></div></div>
+    <p class="cond">Сила тока в проводнике сопротивлением \(R = 12\) Ом равномерно убывает от \(I_0 = 5\) А до \(I = 0\) в течение времени \(t = 10\) с. Какое количество теплоты \(Q\) выделится в этом проводнике за указанный промежуток времени? Ответ дать в кДж (округлить до целых).</p>
+    
+    <p class="bidea"><b>Идея.</b> Ток меняется, поэтому сразу \(Q = I^2Rt\) писать нельзя. Тепло — площадь под графиком \(I^2R\) от времени; для тока, который равномерно падает до нуля, это \(Q = I_0^2Rt/3\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(R = 12\) Ом</p><p>\(I_0 = 5\) А</p><p>\(I(t_0) = 0\)</p><p>\(t_0 = 10\) с</p><div class="find"><p>Найти: \(Q\) — ?</p></div></div>
+        <div class="work">
+          <p>Ток убывает равномерно (линейно): \(I(t) = I_0\left(1 - \dfrac{t}{t_0}\right)\). Ток меняется, поэтому \(Q = I^2Rt\) применять нельзя. За малое время \(dt\) выделяется \(dQ = I^2R\,dt\), складываем:</p>
+          $$Q = \int_0^{t_0} I_0^2\left(1 - \frac{t}{t_0}\right)^2 R\,dt = I_0^2R\int_0^{t_0}\left(1 - \frac{2t}{t_0} + \frac{t^2}{t_0^2}\right)dt.$$
+          $$\int_0^{t_0}\left(1 - \frac{2t}{t_0} + \frac{t^2}{t_0^2}\right)dt = t_0 - \frac{t_0^2}{t_0} + \frac{t_0^3}{3t_0^2} = t_0 - t_0 + \frac{t_0}{3} = \frac{t_0}{3}.$$
+          $$Q = \frac{I_0^2Rt_0}{3} = \frac{25\cdot12\cdot10}{3} = 1000\ \text{Дж}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(Q = 1\) кДж.</p>
+  </article>
+  <article class="bprob" id="a2-5">
+    <div class="bhead"><span class="bnum">5</span><div><b>Вариант 2 · задача 5</b><a class="btype" href="../kr/#t2">тип 2: магнитное поле проводов</a></div></div>
+    <p class="cond">Расстояние \(d\) между двумя длинными параллельными проводами равно 5 см. По проводам в одном направлении текут одинаковые токи силой \(I = 30\) А каждый. Найти напряжённость \(H\) магнитного поля в точке, находящейся на расстоянии \(r_1 = 4\) см от одного и \(r_2 = 3\) см от другого провода.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 420 215" role="img" aria-label="Сечение двух проводов с токами к нам, точка P, векторы H1 и H2 перпендикулярны радиусам и друг другу">
+        <line x1="100" y1="170" x2="300" y2="170" class="ln2"/>
+        <line x1="100" y1="170" x2="228" y2="74" class="ln2"/>
+        <line x1="300" y1="170" x2="228" y2="74" class="ln2"/>
+        <path d="M 218.4 81.2 L 225.6 90.8 L 235.2 83.6" class="thin"/>
+        <line x1="192" y1="26" x2="128" y2="74" class="ln2"/>
+        <line x1="164" y1="122" x2="128" y2="74" class="ln2"/>
+        <line x1="228" y1="74" x2="192" y2="26" class="vecH" marker-end="url(#aH)"/>
+        <line x1="228" y1="74" x2="164" y2="122" class="vecH" marker-end="url(#aH)"/>
+        <line x1="228" y1="74" x2="128" y2="74" class="vecE" marker-end="url(#aK)" stroke-width="2.6"/>
+        <circle cx="228" cy="74" r="4" class="fillInk"/>
+        <text x="238" y="70" class="t-i" font-size="15">P</text>
+        <text x="200" y="22" class="t-i fillH" font-size="15">H₁</text>
+        <text x="150" y="138" class="t-i fillH" font-size="15">H₂</text>
+        <text x="112" y="68" class="t-i" font-size="16" font-weight="700">H</text>
+        <circle cx="100" cy="170" r="11" class="sheetfill"/><circle cx="100" cy="170" r="11" class="ln"/><circle cx="100" cy="170" r="3.2" class="fillInk"/>
+        <circle cx="300" cy="170" r="11" class="sheetfill"/><circle cx="300" cy="170" r="11" class="ln"/><circle cx="300" cy="170" r="3.2" class="fillInk"/>
+        <text x="84" y="196" class="t-i" font-size="15">I₁</text>
+        <text x="306" y="196" class="t-i" font-size="15">I₂</text>
+        <text x="150" y="112" class="t-s" text-anchor="end">r₁ = 4 см</text>
+        <text x="272" y="118" class="t-s">r₂ = 3 см</text>
+        <text x="200" y="190" class="t-s" text-anchor="middle">d = 5 см</text>
+      </svg>
+      <figcaption>Оба тока к нам. \(\vec H_1 \perp r_1\), \(\vec H_2 \perp r_2\), а \(r_1 \perp r_2\) — значит, и \(\vec H_1 \perp \vec H_2\).</figcaption>
+    </figure>
+    <p class="bidea"><b>Идея.</b> Стороны 3-4-5 — линии к проводам перпендикулярны, значит и поля перпендикулярны — Пифагор. Спрашивают \(H\), поэтому формула без \(\mu_0\): \(H = I/(2\pi r)\).</p>
+    <div class="sheet">
+        <div class="given"><span class="lab">Дано:</span><p>\(d = 5\) см \(= 0{,}05\) м</p><p>\(I_1 = I_2 = I = 30\) А</p><p>\(r_1 = 0{,}04\) м</p><p>\(r_2 = 0{,}03\) м</p><div class="find"><p>Найти: \(H\) — ?</p></div></div>
+        <div class="work">
+          <p>Провода длинные, поэтому каждый создаёт поле бесконечного прямого тока:</p>
+          $$H_1 = \frac{I}{2\pi r_1},\qquad H_2 = \frac{I}{2\pi r_2}.$$
+          <p>Вектор \(\vec H_i\) перпендикулярен радиусу \(r_i\). Так как \(r_1^2 + r_2^2 = 16 + 9 = 25 = d^2\), угол между \(r_1\) и \(r_2\) прямой, значит, \(\vec H_1 \perp \vec H_2\). По принципу суперпозиции</p>
+          $$H = \sqrt{H_1^2 + H_2^2} = \frac{I}{2\pi}\sqrt{\frac{1}{r_1^2} + \frac{1}{r_2^2}}.$$
+          $$H_1 = \frac{30}{2\pi\cdot0{,}04} = 119{,}4\ \text{А/м},\qquad H_2 = \frac{30}{2\pi\cdot0{,}03} = 159{,}2\ \text{А/м},\qquad H = \sqrt{119{,}4^2 + 159{,}2^2} \approx 199\ \text{А/м}.$$
+        </div>
+      </div>
+      <p class="answer">Ответ: \(H \approx 199\) А/м (индукция \(B = \mu_0H \approx 2{,}5\cdot10^{-4}\) Тл).</p>
+      <p class="dim">Если бы токи текли в разные стороны, оба вектора повернулись бы в разные стороны, но угол между ними всё равно остался бы 90°, и ответ был бы тем же.</p>
+  </article>
+</section>
+
+<section id="end" class="noprint">
+  <p class="muted">Каждый тип задач подробно, с анимациями и рецептом — в <a href="../kr/">«Режиме КР»</a>. Полная теория — на <a href="../">главной странице</a>.</p>
+  <footer class="foot"><p>Все числа пересчитаны. Решения набора Б — на <a href="../kr-b/">отдельной странице</a>.</p></footer>
+</section>
+
+</main>
+<script src="../app.js"></script>
+</body>
+</html>
