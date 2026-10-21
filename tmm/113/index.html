@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ТММ 113 — кулиса: ω₃ и ε₃</title>
+<meta name="description" content="Задача 113: угловая скорость и ускорение кулисы через план положения, план скоростей и план ускорений. Чертежи по шагам.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<style>
+:root{--bg:#0a0e1a;--panel:#11172a;--panel2:#161d33;--line:#232c47;--text:#e8ecf6;--soft:#cdd3e5;--muted:#8d97b3;--crank:#a78bfa;--kul:#2ee6c5;--sl:#ffd166;--known:#7aa2ff;--kor:#ff5d8f;--found:#ff9f43;--radius:16px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Unbounded,Manrope,sans-serif;font-weight:500;line-height:1.2;margin:0 0 .6em}
+h1{font-size:clamp(28px,6.4vw,50px);letter-spacing:-.02em}
+h2{font-size:clamp(21px,3.6vw,30px);margin-top:.2em}
+h3{font-size:17px;margin:1.6em 0 .5em}
+p{margin:0 0 1em;color:var(--soft)}
+b,strong{color:var(--text)}
+a{color:var(--kul)}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+header{padding:48px 0 28px;border-bottom:1px solid var(--line)}
+.kicker{font:600 12px/1 'JetBrains Mono',monospace;color:var(--kul);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.lead{font-size:clamp(16px,2.2vw,19px);color:#c9d0e4}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:18px 0}
+.card h3{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ans{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.ans .lbl{font-size:13px;color:var(--muted)}
+.ans .val{font:700 20px/1.25 Manrope,sans-serif;color:var(--found)}
+.ans .dir{font-size:13px;color:var(--soft)}
+nav{position:sticky;top:0;z-index:10;background:rgba(10,14,26,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav a{flex:none;font-size:13px;color:var(--soft);text-decoration:none;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
+section{padding:40px 0 10px;border-bottom:1px solid var(--line)}
+.num{font:600 12px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.1em;margin-bottom:10px}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px 6px 12px;margin:18px -8px}
+@media(min-width:700px){.fig{margin:18px 0;padding:12px 14px 16px}}
+.fig svg{display:block;width:100%;height:auto}
+.fig .ttl{font:600 12px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:.08em;padding:6px 6px 0}
+.ctrl{display:flex;align-items:center;gap:8px;padding:8px 6px 0}
+.ctrl button,.btn{font:500 14px Manrope,sans-serif;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 13px;cursor:pointer}
+.ctrl button:active,.btn:active{transform:scale(.97)}
+.ctrl .cnt{font:600 13px 'JetBrains Mono',monospace;color:var(--muted);margin-right:auto}
+.cap{margin:10px 6px 0;padding:10px 12px;border-radius:10px;background:var(--panel2);color:var(--soft);font-size:15px;min-height:3.4em}
+.cap b{color:var(--text)}
+[data-s]{transition:opacity .35s}
+.hid{opacity:0;pointer-events:none}
+.new{animation:pop .6s ease}
+@keyframes pop{from{opacity:0}to{opacity:1}}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0 18px}
+th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;color:var(--soft)}
+th{color:var(--muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.tw{overflow-x:auto}
+.note{border-left:3px solid var(--kul);padding:10px 14px;background:rgba(46,230,197,.06);border-radius:0;margin:16px 0;color:var(--soft)}
+.warn{border-left:3px solid var(--found);padding:10px 14px;background:rgba(255,159,67,.07);border-radius:0;margin:16px 0;color:var(--soft)}
+.c-known{color:var(--known)}.c-kor{color:var(--kor)}.c-found{color:var(--found)}.c-crank{color:var(--crank)}.c-kul{color:var(--kul)}.c-sl{color:var(--sl)}
+ol.steps,ul.list{padding-left:1.2em;color:var(--soft)}
+ol.steps li,ul.list li{margin:0 0 .55em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--soft);margin:8px 0 4px}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+details summary{cursor:pointer;color:var(--text);font-weight:500}
+details p{margin:.7em 0 0}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:4px 0}
+.rd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 6px 0}
+.rd div{background:var(--panel2);border-radius:10px;padding:8px 10px}
+.rd span{display:block;font-size:12px;color:var(--muted)}
+.rd b{font:700 17px Manrope,sans-serif}
+input[type=range]{width:100%;accent-color:var(--kul)}
+footer{padding:36px 0 60px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="kicker">ТММ · кинематика · задача 113</div>
+<h1>Кулиса: ω₃ и ε₃ через планы скоростей и ускорений</h1>
+<p class="lead">Подробный разбор с чертежами. Каждый чертёж строится по шагам — жми «Дальше» и повторяй в тетради.</p>
+<div class="card">
+<h3>Условие</h3>
+<p style="margin:0">Дано: \(l_{AB} = 30\) мм, \(l_{AC} = 60\) мм, \(\varphi_1 = 240^\circ\), кривошип вращается равномерно, \(\omega_1 = 10\) рад/с (на рисунке — против часовой).<br>Найти: угловую скорость \(\omega_3\) и угловое ускорение \(\varepsilon_3\) кулисы 3.</p>
+</div>
+<div class="grid2">
+<div class="ans"><div class="lbl">Угловая скорость кулисы</div><div class="val">ω₃ ≈ 4,77 рад/с</div><div class="dir">по часовой стрелке</div></div>
+<div class="ans"><div class="lbl">Угловое ускорение кулисы</div><div class="val">ε₃ ≈ 127 рад/с²</div><div class="dir">по часовой стрелке</div></div>
+</div>
+</div>
+</header>
+<nav><div class="wrap">
+<a href="#idea">1 · Идея</a><a href="#pos">2 · Положение</a><a href="#vel">3 · Скорости</a><a href="#acc">4 · Ускорения</a><a href="#play">5 · Покрути</a><a href="#note">6 · В тетрадь</a><a href="#err">7 · Ошибки</a><a href="#quiz">8 · Проверь себя</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="idea">
+<div class="num">01</div>
+<h2>Главная идея</h2>
+<p>Звенья механизма: <b>0</b> — стойка (неподвижные шарниры A и C), <b class="c-crank">1</b> — кривошип AB, <b class="c-sl">2</b> — камень (он на шарнире в точке B и ползает по кулисе), <b class="c-kul">3</b> — кулиса CB, она качается вокруг C.</p>
+<p>Подвижность: \(n_\Sigma = 4\), одноподвижных пар \(p_1 = 4\) (вращательные A, B, C и поступательная камень–кулиса), поэтому</p>
+$$W = 3(n_\Sigma - 1) - 2p_1 - p_2 = 3\cdot 3 - 2\cdot 4 - 0 = 1.$$
+<p>Одно ведущее звено — кривошип. Зная, как он крутится, можно найти движение всего остального.</p>
+<div class="fig"><div class="ttl">РИС. 1 · ЧТО ПРОИСХОДИТ В ТОЧКЕ B</div><svg viewBox="0 0 400 272" role="img" aria-label="Три точки B: на кривошипе, на камне, на кулисе" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-idea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><line x1="244.4" y1="250.7" x2="149.6" y2="35.6" stroke="#2ee6c5" stroke-width="7" stroke-linecap="round"/><rect x="168.0" y="135.0" width="64" height="30" rx="3" fill="rgba(255,209,102,.10)" stroke="#ffd166" stroke-width="2" transform="rotate(-113.8 200.0 150.0)"/><line x1="200.0" y1="150.0" x2="262.5" y2="41.7" stroke="#a78bfa" stroke-width="6" stroke-linecap="round"/><circle cx="200.0" cy="150.0" r="7" fill="#0a0e1a" stroke="#ffd166" stroke-width="2.4"/><line x1="243.8" y1="170.0" x2="214.8" y2="104.1" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" marker-end="url(#ar-found-idea)"/><line x1="214.8" y1="104.1" x2="243.8" y2="170.0" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" marker-end="url(#ar-found-idea)"/><text x="253.8" y="186.0" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="start">скольжение ∥ CB</text><text x="272.5" y="47.7" fill="#a78bfa" font-size="14" font-weight="500" text-anchor="start">1 — кривошип</text><text x="143.6" y="39.6" fill="#2ee6c5" font-size="14" font-weight="500" text-anchor="end">3 — кулиса</text><text x="152.1" y="199.4" fill="#ffd166" font-size="14" font-weight="500" text-anchor="end">2 — камень</text><text x="20.0" y="238.0" fill="#e8ecf6" font-size="13" font-weight="500" text-anchor="start">B₁ = B₂ — шарнир</text><text x="20.0" y="258.0" fill="#8d97b3" font-size="13" font-weight="400" text-anchor="start">B₃ — точка кулисы под камнем</text></svg></div>
+<p>Весь фокус задачи в точке B. Там совпадают сразу три точки:</p>
+<ul class="list">
+<li><b class="c-crank">B₁</b> — конец кривошипа;</li>
+<li><b class="c-sl">B₂</b> — центр камня. Камень сидит на шарнире, поэтому у B₂ такие же скорость и ускорение, как у B₁;</li>
+<li><b class="c-kul">B₃</b> — та точка кулисы, которая сейчас находится под камнем.</li>
+</ul>
+<p>B₂ и B₃ отличаются только тем, что камень едет вдоль кулисы. Отсюда главное уравнение задачи:</p>
+$$\vec V_{B3} = \vec V_{B2} + \vec V_{B3B2}.$$
+<p>Словами: скорость точки кулисы = скорость камня + скорость кулисы относительно камня (вдоль CB).</p>
+<div class="note"><b>План решения.</b> 1) Чертим положение — нужны длина CB и её направление. 2) План скоростей → \(\omega_3\). 3) План ускорений → \(\varepsilon_3\). Для третьего шага понадобятся \(\omega_3\) и \(V_{B3B2}\) из второго, так что порядок менять нельзя.</div>
+</section>
+
+<section id="pos">
+<div class="num">02</div>
+<h2>План положения</h2>
+<p>Кривошип 30 мм — слишком мелко, поэтому рисуем в масштабе 2:1: AB на бумаге 60 мм. Масштаб длин:</p>
+$$\mu_l = \frac{l_{AB}}{AB} = \frac{0{,}03\ \text{м}}{60\ \text{мм}} = 0{,}0005\ \frac{\text{м}}{\text{мм}}.$$
+<p>Тогда AC на бумаге — 120 мм.</p>
+<div class="fig" data-fig>
+<div class="ttl">РИС. 2 · СТРОИМ ПОЛОЖЕНИЕ ПРИ φ₁ = 240°</div>
+<svg viewBox="0 0 400 326" role="img" aria-label="План положения механизма при φ1 = 240°" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-pos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><line x1="210.0" y1="70.0" x2="210.0" y2="262.0" stroke="#8d97b3" stroke-width="1" stroke-linecap="round" stroke-dasharray="5 4" data-s="1"/><g data-s="1" stroke="#8d97b3" stroke-width="1"><path d="M372 70.0 V262.0 M365 70.0 H379 M365 262.0 H379"/></g><text x="366.0" y="171.0" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="end" data-s="1">60</text><g data-s="1" stroke="#cdd3e5" stroke-width="1.4" fill="none"><path d="M207.0 266.0 L199.0 279.0 M213.0 266.0 L221.0 279.0"/><path d="M193.0 279.0 H227.0"/><path d="M195.0 279.0 l-6 7" stroke-width="1"/><path d="M203.0 279.0 l-6 7" stroke-width="1"/><path d="M211.0 279.0 l-6 7" stroke-width="1"/><path d="M219.0 279.0 l-6 7" stroke-width="1"/><path d="M227.0 279.0 l-6 7" stroke-width="1"/></g><circle cx="210.0" cy="70.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2" data-s="1"/><circle cx="210.0" cy="262.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2" data-s="1"/><text x="222.0" y="88.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start" data-s="1">A</text><text x="222.0" y="258.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start" data-s="1">C</text><line x1="140.0" y1="70.0" x2="330.0" y2="70.0" stroke="#8d97b3" stroke-width="1" stroke-linecap="round" stroke-dasharray="5 4" data-s="2"/><path d="M236.0 70.0 A26 26 0 1 0 197.0 92.5" fill="none" stroke="#cdd3e5" stroke-width="1.4" marker-end="url(#ar-base-pos)" data-s="2"/><text x="240.0" y="46.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start" data-s="2">φ₁ = 240°</text><line x1="210.0" y1="70.0" x2="159.6" y2="157.3" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3 4" data-s="2"/><path d="M126.0 70.0 A84 84 0 0 0 168.0 142.7" fill="none" stroke="#8d97b3" stroke-width="1" data-s="2" stroke-dasharray="2 3"/><text x="115.8" y="108.8" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="end" data-s="2">60°</text><line x1="210.0" y1="70.0" x2="162.0" y2="153.1" stroke="#a78bfa" stroke-width="4" stroke-linecap="round" data-s="3"/><circle cx="210.0" cy="70.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2" data-s="3"/><text x="196.0" y="123.6" fill="#a78bfa" font-size="13" font-weight="500" text-anchor="start" data-s="3">30</text><text x="174.0" y="105.6" fill="#a78bfa" font-size="15" font-weight="500" text-anchor="end" data-s="3">1</text><line x1="210.0" y1="262.0" x2="126.1" y2="71.7" stroke="#2ee6c5" stroke-width="4" stroke-linecap="round" data-s="4"/><rect x="145.0" y="144.6" width="34" height="17" rx="3" fill="rgba(255,209,102,.10)" stroke="#ffd166" stroke-width="2" transform="rotate(-113.8 162.0 153.1)" data-s="4"/><circle cx="210.0" cy="262.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2" data-s="4"/><text x="172.2" y="207.4" fill="#2ee6c5" font-size="15" font-weight="500" text-anchor="end" data-s="4">3</text><text x="139.9" y="152.0" fill="#ffd166" font-size="15" font-weight="500" text-anchor="end" data-s="4">2</text><circle cx="162.0" cy="153.1" r="4.5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2" data-s="3"/><text x="140.0" y="173.1" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start" data-s="3">B</text><line x1="176.0" y1="153.1" x2="210.0" y2="153.1" stroke="#ff9f43" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4 3" data-s="5"/><line x1="210.0" y1="153.1" x2="210.0" y2="262.0" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" data-s="5"/><text x="192.0" y="146.1" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="middle" data-s="5">15</text><text x="218.0" y="227.6" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="start" data-s="5">34</text><text x="236.0" y="292.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start" data-s="5">l<tspan dy="4" font-size="0.72em">CB</tspan><tspan dy="-4"></tspan> = √(15² + 34²)</text><text x="236.0" y="314.0" fill="#ff9f43" font-size="15" font-weight="700" text-anchor="start" data-s="5">≈ 37,2 мм</text></svg>
+<div class="ctrl"><span class="cnt"></span><button data-prev aria-label="Назад">‹ Назад</button><button data-next>Дальше ›</button><button data-all>Всё</button></div>
+<div class="cap"></div>
+<ol class="caps" hidden>
+<li><b>Шаг 1.</b> Ставим неподвижные шарниры A и C на одной вертикали: C ниже A на \(l_{AC} = 60\) мм (на бумаге 120 мм).</li>
+<li><b>Шаг 2.</b> Угол φ₁ отсчитываем от горизонтали вправо, против часовой. 240° = 180° + 60°, поэтому луч уходит <b>влево-вниз под 60°</b> к горизонтали.</li>
+<li><b>Шаг 3.</b> На луче откладываем \(l_{AB} = 30\) мм (на бумаге 60 мм). Это точка B — конец кривошипа <span class="c-crank">1</span>.</li>
+<li><b>Шаг 4.</b> Проводим прямую через C и B — это ось кулисы <span class="c-kul">3</span>. В точке B на ней сидит камень <span class="c-sl">2</span>.</li>
+<li><b>Шаг 5.</b> Длину CB в условии не дают — её меряем на чертеже или считаем. B на 15 мм левее оси AC и на 60 − 26 = 34 мм выше C, отсюда \(l_{CB} \approx 37{,}2\) мм.</li>
+</ol>
+</div>
+<h3>Откуда 15 и 26</h3>
+<p>Положим начало координат в A, ось x вправо, ось y вверх:</p>
+$$x_B = l_{AB}\cos\varphi_1 = 30\cos 240^\circ = -15\ \text{мм},\qquad y_B = l_{AB}\sin\varphi_1 = 30\sin 240^\circ \approx -26\ \text{мм}.$$
+<p>Точка C находится на \(y = -60\) мм. Значит, B выше C на \(60 - 26 = 34\) мм и левее на 15 мм:</p>
+$$l_{CB} = \sqrt{15^2 + 34^2} \approx 37{,}2\ \text{мм} = 0{,}0372\ \text{м}.$$
+<p>На бумаге в масштабе 2:1 это 74,4 мм — можно проверить линейкой.</p>
+<div class="warn"><b>Ловушка.</b> \(l_{CB}\) — переменная длина: камень ездит по кулисе, и в каждом положении CB своя. 60 мм — это AC, а не CB.</div>
+<h3>Что ещё пригодится дальше</h3>
+<p>Угол между кривошипом и кулисой. Кулиса наклонена к горизонтали под \(\arctan(34/15) \approx 66{,}2^\circ\) (влево-вверх), кривошип — под 60°. В итоге между прямыми AB и CB получается</p>
+$$\alpha = 180^\circ - 66{,}2^\circ - 60^\circ \approx 53{,}8^\circ.$$
+<p>Этот угол нужен только для проверки расчётом. Если строишь графически, его даст сам чертёж.</p>
+</section>
+
+<section id="vel">
+<div class="num">03</div>
+<h2>План скоростей → ω₃</h2>
+<h3>Шаг 1. Скорость конца кривошипа</h3>
+$$V_{B1} = \omega_1 l_{AB} = 10 \cdot 0{,}03 = 0{,}3\ \text{м/с}.$$
+<p>Направление — перпендикулярно AB, в сторону вращения кривошипа. Правило: поверни отрезок AB вокруг A на 90° по ω₁ — получишь направление \(\vec V_{B1}\). У нас ω₁ против часовой, поэтому \(\vec V_{B1}\) смотрит вправо-вниз. Камень на шарнире, поэтому \(\vec V_{B2} = \vec V_{B1}\).</p>
+<h3>Шаг 2. Уравнение и что в нём известно</h3>
+$$\underset{\perp CB}{\vec V_{B3}} = \underset{\perp AB}{\vec V_{B2}} + \underset{\parallel CB}{\vec V_{B3B2}}$$
+<div class="tw"><table>
+<tr><th>Вектор</th><th>Величина</th><th>Направление</th></tr>
+<tr><td class="c-found">\(\vec V_{B3}\)</td><td>?</td><td>⊥ CB — кулиса вращается вокруг C, скорость любой её точки перпендикулярна радиусу</td></tr>
+<tr><td class="c-known">\(\vec V_{B2}\)</td><td>0,3 м/с</td><td>⊥ AB, по ω₁</td></tr>
+<tr><td class="c-found">\(\vec V_{B3B2}\)</td><td>?</td><td>∥ CB — относительно камня кулиса может двигаться только вдоль себя</td></tr>
+</table></div>
+<p>Неизвестны две величины, но оба направления известны. Значит, треугольник скоростей строится однозначно.</p>
+<h3>Шаг 3. Масштаб и построение</h3>
+<p>Пусть отрезок \(pb_1\) на бумаге будет 60 мм. Тогда</p>
+$$\mu_V = \frac{V_{B1}}{pb_1} = \frac{0{,}3}{60} = 0{,}005\ \frac{\text{м/с}}{\text{мм}}.$$
+<div class="legend"><span><i style="background:var(--known)"></i>известно</span><span><i style="background:var(--found)"></i>нашли построением</span><span><i style="background:var(--muted)"></i>линии направлений</span></div>
+<div class="fig" data-fig>
+<div class="ttl">РИС. 3 · ПЛАН СКОРОСТЕЙ</div>
+<svg viewBox="0 0 400 314" role="img" aria-label="План скоростей" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-vel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><circle cx="95.0" cy="120.0" r="4" fill="#e8ecf6" data-s="1"/><text x="85.0" y="110.0" fill="#e8ecf6" font-size="16" font-weight="500" text-anchor="end" data-s="1">p</text><line x1="95.0" y1="120.0" x2="224.9" y2="195.0" stroke="#7aa2ff" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-known-vel)" data-s="2"/><text x="232.9" y="205.0" fill="#7aa2ff" font-size="15" font-weight="500" text-anchor="start" data-s="2">b₁ = b₂</text><text x="140.0" y="180.0" fill="#7aa2ff" font-size="13" font-weight="500" text-anchor="start" data-s="2">⊥ AB</text><line x1="243.1" y1="236.2" x2="160.4" y2="48.6" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" data-s="3"/><text x="249.1" y="248.2" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="start" data-s="3">∥ CB</text><line x1="63.0" y1="134.1" x2="232.3" y2="59.5" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" data-s="4"/><text x="238.3" y="63.5" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="start" data-s="4">⊥ CB</text><line x1="95.0" y1="120.0" x2="176.1" y2="84.3" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-vel)" data-s="5"/><line x1="224.9" y1="195.0" x2="176.1" y2="84.3" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-vel)" data-s="5"/><circle cx="176.1" cy="84.3" r="3.2" fill="#ff9f43" data-s="5"/><text x="184.1" y="64.3" fill="#ff9f43" font-size="16" font-weight="500" text-anchor="start" data-s="5">b₃</text><path d="M167.8 87.9 L171.5 96.1 L179.7 92.5" fill="none" stroke="#ff9f43" stroke-width="1.2" data-s="5"/><text x="40.0" y="262.0" fill="#7aa2ff" font-size="13" font-weight="500" text-anchor="start" data-s="2">pb₁ = 60 мм → V<tspan dy="4" font-size="0.72em">B1</tspan><tspan dy="-4"></tspan> = 0,3 м/с</text><text x="40.0" y="282.0" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="start" data-s="5">pb₃ ≈ 35,4 мм → V<tspan dy="4" font-size="0.72em">B3</tspan><tspan dy="-4"></tspan> ≈ 0,177 м/с</text><text x="40.0" y="302.0" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="start" data-s="5">b₁b₃ ≈ 48,4 мм → V<tspan dy="4" font-size="0.72em">B3B2</tspan><tspan dy="-4"></tspan> ≈ 0,242 м/с</text></svg>
+<div class="ctrl"><span class="cnt"></span><button data-prev aria-label="Назад">‹ Назад</button><button data-next>Дальше ›</button><button data-all>Всё</button></div>
+<div class="cap"></div>
+<ol class="caps" hidden>
+<li><b>Шаг 1.</b> Ставим полюс <b>p</b> в любом свободном месте листа. Из него откладываются абсолютные скорости.</li>
+<li><b>Шаг 2.</b> Известный вектор: \(pb_1 = 60\) мм, перпендикулярно AB, вправо-вниз (по ω₁). Конец — точка \(b_1\); она же \(b_2\).</li>
+<li><b>Шаг 3.</b> \(\vec V_{B3B2}\) прибавляется к \(\vec V_{B2}\), то есть начинается в \(b_2\) и лежит вдоль кулисы. Через \(b_1\) проводим прямую <b>∥ CB</b>.</li>
+<li><b>Шаг 4.</b> \(\vec V_{B3}\) выходит из полюса и перпендикулярна кулисе. Через p проводим прямую <b>⊥ CB</b>.</li>
+<li><b>Шаг 5.</b> Пересечение двух прямых — точка \(b_3\). Обводим \(pb_3\) (это \(\vec V_{B3}\)) и \(b_1b_3\) (это \(\vec V_{B3B2}\)), стрелки — к \(b_3\). Угол при \(b_3\) прямой.</li>
+</ol>
+</div>
+<h3>Шаг 4. Снимаем значения</h3>
+<p>Меряем линейкой и умножаем на масштаб:</p>
+$$V_{B3} = pb_3\cdot\mu_V \approx 35{,}4\cdot 0{,}005 = 0{,}177\ \text{м/с},$$
+$$V_{B3B2} = b_1b_3\cdot\mu_V \approx 48{,}4\cdot 0{,}005 = 0{,}242\ \text{м/с}.$$
+<p>Кулиса вращается вокруг C, точка B₃ лежит от C на расстоянии \(l_{CB}\):</p>
+$$\omega_3 = \frac{V_{B3}}{l_{CB}} = \frac{0{,}177}{0{,}0372} \approx 4{,}77\ \text{рад/с}.$$
+<h3>Шаг 5. В какую сторону ω₃</h3>
+<p>Переносим вектор \(pb_3\) с плана в точку B на механизме и смотрим, куда он поворачивает кулису вокруг C.</p>
+<div class="fig"><div class="ttl">РИС. 4 · НАПРАВЛЕНИЕ ω₃</div><svg viewBox="0 0 400 312" role="img" aria-label="Направление omega3" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-dirw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><g stroke="#cdd3e5" stroke-width="1.4" fill="none"><path d="M202.0 258.0 L194.0 271.0 M208.0 258.0 L216.0 271.0"/><path d="M188.0 271.0 H222.0"/><path d="M190.0 271.0 l-6 7" stroke-width="1"/><path d="M198.0 271.0 l-6 7" stroke-width="1"/><path d="M206.0 271.0 l-6 7" stroke-width="1"/><path d="M214.0 271.0 l-6 7" stroke-width="1"/><path d="M222.0 271.0 l-6 7" stroke-width="1"/></g><line x1="205.0" y1="254.0" x2="125.0" y2="72.5" stroke="#2ee6c5" stroke-width="4" stroke-linecap="round"/><line x1="205.0" y1="62.0" x2="157.0" y2="145.1" stroke="#a78bfa" stroke-width="4" stroke-linecap="round"/><rect x="140.0" y="136.6" width="34" height="17" rx="3" fill="rgba(255,209,102,.10)" stroke="#ffd166" stroke-width="2" transform="rotate(-113.8 157.0 145.1)"/><circle cx="205.0" cy="62.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><circle cx="205.0" cy="254.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><circle cx="157.0" cy="145.1" r="4.5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><text x="217.0" y="80.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">A</text><text x="219.0" y="256.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">C</text><text x="135.0" y="165.1" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">B</text><path d="M229.6 79.2 A30 30 0 0 0 222.2 37.4" fill="none" stroke="#7aa2ff" stroke-width="2" marker-end="url(#ar-known-dirw)"/><text x="245.0" y="40.0" fill="#7aa2ff" font-size="15" font-weight="500" text-anchor="start">ω₁</text><line x1="157.0" y1="145.1" x2="234.9" y2="190.1" stroke="#7aa2ff" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-known-dirw)"/><text x="238.9" y="206.1" fill="#7aa2ff" font-size="14" font-weight="500" text-anchor="start">V<tspan dy="4" font-size="0.72em">B1</tspan><tspan dy="-4"></tspan></text><line x1="157.0" y1="145.1" x2="205.6" y2="123.7" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-dirw)"/><text x="211.6" y="119.7" fill="#ff9f43" font-size="14" font-weight="500" text-anchor="start">V<tspan dy="4" font-size="0.72em">B3</tspan><tspan dy="-4"></tspan></text><path d="M166.4 243.6 A40 40 0 0 1 221.9 217.7" fill="none" stroke="#ff9f43" stroke-width="2.2" marker-end="url(#ar-found-dirw)"/><text x="237.9" y="227.2" fill="#ff9f43" font-size="15" font-weight="500" text-anchor="start">ω₃</text><text x="30.0" y="300.0" fill="#e8ecf6" font-size="13" font-weight="400" text-anchor="start">V<tspan dy="4" font-size="0.72em">B3</tspan><tspan dy="-4"></tspan> «тянет» кулису вокруг C по часовой</text></svg></div>
+<p>Вектор смотрит вправо-вверх, а C ниже B — значит, кулиса поворачивается <b>по часовой</b>.</p>
+<div class="note"><b>Проверка без линейки.</b> Треугольник \(p\,b_1 b_3\) прямоугольный: \(pb_3 \perp CB\), а \(b_1 b_3 \parallel CB\). Угол при p равен углу между кривошипом и кулисой, \(\alpha = 53{,}8^\circ\), потому что \(pb_1 \perp AB\) и \(pb_3 \perp CB\). Поэтому
+$$V_{B3} = 0{,}3\cos 53{,}8^\circ = 0{,}177,\qquad V_{B3B2} = 0{,}3\sin 53{,}8^\circ = 0{,}242\ \text{м/с}.$$
+Сходится с чертежом.</div>
+</section>
+
+<section id="acc">
+<div class="num">04</div>
+<h2>План ускорений → ε₃</h2>
+<h3>Шаг 1. Уравнение</h3>
+<p>Ускорение точки B₃ записываем двумя способами и приравниваем.</p>
+<ul class="list">
+<li>Через камень (сложное движение): \(\vec a_{B3} = \vec a_{B2} + \vec a^{\,k}_{B3B2} + \vec a^{\,r}_{B3B2}\).</li>
+<li>Через центр C (кулиса вращается вокруг C): \(\vec a_{B3} = \vec a^{\,n}_{B3C} + \vec a^{\,\tau}_{B3C}\).</li>
+</ul>
+$$\vec a^{\,n}_{B3C} + \vec a^{\,\tau}_{B3C} = \vec a_{B2} + \vec a^{\,k}_{B3B2} + \vec a^{\,r}_{B3B2}$$
+<div class="tw"><table>
+<tr><th>Слагаемое</th><th>Величина</th><th>Направление</th></tr>
+<tr><td class="c-known">\(a_{B2} = a_{B1}\)</td><td>\(\omega_1^2 l_{AB} = 100\cdot0{,}03 = 3\) м/с²</td><td>∥ AB, от B к A. Касательного нет: ω₁ = const, значит ε₁ = 0</td></tr>
+<tr><td class="c-kor">\(a^{k}_{B3B2}\)</td><td>\(2\omega_3 V_{B3B2} = 2\cdot4{,}77\cdot0{,}242 \approx 2{,}31\) м/с²</td><td>\(\vec V_{B3B2}\), повёрнутая на 90° по ω₃</td></tr>
+<tr><td class="c-found">\(a^{r}_{B3B2}\)</td><td>?</td><td>∥ CB</td></tr>
+<tr><td class="c-known">\(a^{n}_{B3C}\)</td><td>\(\omega_3^2 l_{CB} = 4{,}77^2\cdot0{,}0372 \approx 0{,}845\) м/с²</td><td>∥ CB, от B к C (к центру вращения)</td></tr>
+<tr><td class="c-found">\(a^{\tau}_{B3C}\)</td><td>?</td><td>⊥ CB</td></tr>
+</table></div>
+<p>Опять две неизвестные величины при известных направлениях — многоугольник замкнётся однозначно.</p>
+
+<h3>Шаг 2. Откуда Кориолис и куда он смотрит</h3>
+<p>Камень едет по кулисе, а кулиса сама вращается. Отсюда два эффекта:</p>
+<ul class="list">
+<li>направление относительной скорости поворачивается вместе с кулисой;</li>
+<li>камень переезжает на точки кулисы, которые стоят дальше или ближе к C и потому движутся с другой скоростью.</li>
+</ul>
+<p>Каждый эффект даёт \(\omega_3 V_{B3B2}\), вместе — \(2\omega_3 V_{B3B2}\). Если кулиса не вращается (\(\omega_3 = 0\)) или камень не скользит (\(V_{B3B2} = 0\)), Кориолиса нет.</p>
+<div class="fig"><div class="ttl">РИС. 5 · ПРАВИЛО ДЛЯ НАПРАВЛЕНИЯ aᵏ</div><svg viewBox="0 0 400 206" role="img" aria-label="Правило Кориолиса" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-kor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><line x1="150.0" y1="175.0" x2="102.4" y2="67.0" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-kor)"/><line x1="150.0" y1="175.0" x2="258.0" y2="127.4" stroke="#ff5d8f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-kor-kor)"/><circle cx="150.0" cy="175.0" r="3.5" fill="#e8ecf6"/><path d="M131.1 116.0 A62 62 0 0 1 203.8 144.2" fill="none" stroke="#8d97b3" stroke-width="1.4" marker-end="url(#ar-muted-kor)" stroke-dasharray="4 3"/><text x="182.2" y="102.3" fill="#e8ecf6" font-size="13" font-weight="500" text-anchor="start">90° по ω₃</text><text x="94.4" y="61.0" fill="#ff9f43" font-size="14" font-weight="500" text-anchor="end">V<tspan dy="4" font-size="0.72em">B3B2</tspan><tspan dy="-4"></tspan></text><text x="266.0" y="143.4" fill="#ff5d8f" font-size="15" font-weight="500" text-anchor="start">a<tspan dy="-6" font-size="0.72em">k</tspan><tspan dy="6"></tspan></text><path d="M317.7 41.7 A16 16 0 0 1 345.0 46.5" fill="none" stroke="#e8ecf6" stroke-width="1.6" marker-end="url(#ar-text-kor)"/><text x="330.0" y="88.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="middle">ω₃</text></svg></div>
+<p><b>Правило:</b> берёшь с плана скоростей вектор \(b_1b_3\) (это \(\vec V_{B3B2}\)) и поворачиваешь его на 90° в сторону вращения кулисы — у нас по часовой. ω берём именно кулисы (камень поворачивается вместе с ней, \(\omega_2 = \omega_3\)), а не кривошипа.</p>
+
+<h3>Шаг 3. Масштаб и построение</h3>
+<p>Пусть \(\pi b_1\) на бумаге будет 60 мм:</p>
+$$\mu_a = \frac{a_{B1}}{\pi b_1} = \frac{3}{60} = 0{,}05\ \frac{\text{м/с}^2}{\text{мм}}.$$
+<p>Тогда \(b_1k = 2{,}31/0{,}05 \approx 46{,}2\) мм, \(\pi n_3 = 0{,}845/0{,}05 \approx 16{,}9\) мм.</p>
+<div class="legend"><span><i style="background:var(--known)"></i>известно</span><span><i style="background:var(--kor)"></i>Кориолис</span><span><i style="background:var(--found)"></i>нашли построением</span></div>
+<div class="fig" data-fig>
+<div class="ttl">РИС. 6 · ПЛАН УСКОРЕНИЙ</div>
+<svg viewBox="0 0 400 352" role="img" aria-label="План ускорений" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><circle cx="60.0" cy="270.0" r="4" fill="#e8ecf6" data-s="1"/><text x="50.0" y="276.0" fill="#e8ecf6" font-size="17" font-weight="500" text-anchor="end" data-s="1">π</text><line x1="60.0" y1="270.0" x2="147.0" y2="119.3" stroke="#7aa2ff" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-known-acc)" data-s="2"/><text x="137.0" y="113.3" fill="#7aa2ff" font-size="16" font-weight="500" text-anchor="end" data-s="2">b₁</text><text x="68.0" y="196.0" fill="#7aa2ff" font-size="13" font-weight="500" text-anchor="start" data-s="2">∥ AB</text><line x1="147.0" y1="119.3" x2="269.5" y2="65.3" stroke="#ff5d8f" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-kor-acc)" data-s="3"/><text x="279.5" y="61.3" fill="#ff5d8f" font-size="16" font-weight="500" text-anchor="start" data-s="3">k</text><text x="178.0" y="76.0" fill="#ff5d8f" font-size="14" font-weight="500" text-anchor="start" data-s="3">a<tspan dy="-6" font-size="0.72em">k</tspan><tspan dy="6"></tspan></text><line x1="259.4" y1="42.4" x2="343.6" y2="233.5" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" data-s="4"/><text x="339.6" y="247.5" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="end" data-s="4">∥ CB</text><line x1="60.0" y1="270.0" x2="79.8" y2="314.8" stroke="#7aa2ff" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-known-acc)" data-s="5"/><text x="89.8" y="338.8" fill="#7aa2ff" font-size="16" font-weight="500" text-anchor="start" data-s="5">n₃</text><text x="69.8" y="320.8" fill="#7aa2ff" font-size="13" font-weight="500" text-anchor="end" data-s="5">a<tspan dy="-6" font-size="0.72em">n</tspan><tspan dy="6"></tspan></text><line x1="59.6" y1="323.7" x2="352.7" y2="194.5" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 4" data-s="6"/><text x="356.7" y="198.5" fill="#8d97b3" font-size="13" font-weight="500" text-anchor="start" data-s="6">⊥ CB</text><line x1="60.0" y1="270.0" x2="330.7" y2="204.2" stroke="#8d97b3" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 3" data-s="7"/><line x1="79.8" y1="314.8" x2="330.7" y2="204.2" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-acc)" data-s="7"/><line x1="269.5" y1="65.3" x2="330.7" y2="204.2" stroke="#ff9f43" stroke-width="2" stroke-linecap="round" marker-end="url(#ar-found-acc)" data-s="7"/><circle cx="330.7" cy="204.2" r="3.2" fill="#ff9f43" data-s="7"/><text x="316.7" y="234.2" fill="#ff9f43" font-size="16" font-weight="500" text-anchor="end" data-s="7">b₃</text><text x="190.0" y="278.0" fill="#ff9f43" font-size="14" font-weight="500" text-anchor="start" data-s="7">a<tspan dy="-6" font-size="0.72em">τ</tspan><tspan dy="6"></tspan></text><text x="316.0" y="120.0" fill="#ff9f43" font-size="13" font-weight="500" text-anchor="start" data-s="7">a<tspan dy="-6" font-size="0.72em">r</tspan><tspan dy="6"></tspan></text></svg>
+<div class="ctrl"><span class="cnt"></span><button data-prev aria-label="Назад">‹ Назад</button><button data-next>Дальше ›</button><button data-all>Всё</button></div>
+<div class="cap"></div>
+<ol class="caps" hidden>
+<li><b>Шаг 1.</b> Полюс <b>π</b> — из него откладываем абсолютные ускорения.</li>
+<li><b>Шаг 2.</b> \(\pi b_1 = 60\) мм параллельно AB, в сторону <b>от B к A</b> (центростремительное ускорение кривошипа). Конец — \(b_1\), она же \(b_2\).</li>
+<li><b>Шаг 3.</b> Из \(b_1\) — Кориолис: \(b_1k = 46{,}2\) мм. Направление — \(\vec V_{B3B2}\), повёрнутая на 90° по часовой (см. рис. 5).</li>
+<li><b>Шаг 4.</b> Следующее слагаемое \(\vec a^{\,r}\) — неизвестной длины, но вдоль кулисы. Через k проводим прямую <b>∥ CB</b>.</li>
+<li><b>Шаг 5.</b> Вторая цепочка, через центр C: из π откладываем \(\pi n_3 = 16{,}9\) мм параллельно CB, в сторону <b>от B к C</b>.</li>
+<li><b>Шаг 6.</b> \(\vec a^{\,\tau}_{B3C}\) — неизвестной длины, перпендикулярно кулисе. Через \(n_3\) проводим прямую <b>⊥ CB</b>.</li>
+<li><b>Шаг 7.</b> Пересечение двух прямых — точка \(b_3\). Обводим \(n_3b_3\) (это \(\vec a^{\,\tau}\)) и \(kb_3\) (это \(\vec a^{\,r}\)), стрелки к \(b_3\). Пунктир \(\pi b_3\) — полное ускорение \(a_{B3}\).</li>
+</ol>
+</div>
+
+<h3>Шаг 4. Снимаем значения</h3>
+$$a^{\tau}_{B3C} = n_3b_3\cdot\mu_a \approx 94{,}6\cdot0{,}05 = 4{,}73\ \text{м/с}^2,$$
+$$\varepsilon_3 = \frac{a^{\tau}_{B3C}}{l_{CB}} = \frac{4{,}73}{0{,}0372} \approx 127\ \text{рад/с}^2.$$
+<p>Заодно с чертежа: \(kb_3 \approx 52{,}3\) мм → \(a^r \approx 2{,}62\) м/с² (камень относительно кулисы ускоряется к C); \(\pi b_3 \approx 96{,}1\) мм → \(a_{B3} \approx 4{,}80\) м/с². В задаче это не спрашивают.</p>
+
+<h3>Шаг 5. В какую сторону ε₃</h3>
+<p>Так же, как с ω₃: переносим вектор \(n_3b_3\) в точку B и смотрим, куда он крутит кулису вокруг C.</p>
+<div class="fig"><div class="ttl">РИС. 7 · НАПРАВЛЕНИЕ ε₃</div><svg viewBox="0 0 400 312" role="img" aria-label="Направление epsilon3" font-family="Manrope, system-ui, sans-serif"><defs><marker id="ar-known-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#7aa2ff"/></marker><marker id="ar-kor-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff5d8f"/></marker><marker id="ar-found-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#ff9f43"/></marker><marker id="ar-guide-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker><marker id="ar-crank-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#a78bfa"/></marker><marker id="ar-kul-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#2ee6c5"/></marker><marker id="ar-base-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#cdd3e5"/></marker><marker id="ar-text-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#e8ecf6"/></marker><marker id="ar-muted-dire" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0.5L10 5L0 9.5z" fill="#8d97b3"/></marker></defs><g stroke="#cdd3e5" stroke-width="1.4" fill="none"><path d="M202.0 258.0 L194.0 271.0 M208.0 258.0 L216.0 271.0"/><path d="M188.0 271.0 H222.0"/><path d="M190.0 271.0 l-6 7" stroke-width="1"/><path d="M198.0 271.0 l-6 7" stroke-width="1"/><path d="M206.0 271.0 l-6 7" stroke-width="1"/><path d="M214.0 271.0 l-6 7" stroke-width="1"/><path d="M222.0 271.0 l-6 7" stroke-width="1"/></g><line x1="205.0" y1="254.0" x2="125.0" y2="72.5" stroke="#2ee6c5" stroke-width="4" stroke-linecap="round"/><line x1="205.0" y1="62.0" x2="157.0" y2="145.1" stroke="#a78bfa" stroke-width="4" stroke-linecap="round"/><rect x="140.0" y="136.6" width="34" height="17" rx="3" fill="rgba(255,209,102,.10)" stroke="#ffd166" stroke-width="2" transform="rotate(-113.8 157.0 145.1)"/><circle cx="205.0" cy="62.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><circle cx="205.0" cy="254.0" r="5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><circle cx="157.0" cy="145.1" r="4.5" fill="#0a0e1a" stroke="#cdd3e5" stroke-width="2"/><text x="217.0" y="80.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">A</text><text x="219.0" y="256.0" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">C</text><text x="135.0" y="165.1" fill="#e8ecf6" font-size="14" font-weight="500" text-anchor="start">B</text><line x1="157.0" y1="145.1" x2="208.9" y2="122.2" stroke="#ff9f43" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ar-found-dire)"/><text x="214.9" y="120.2" fill="#ff9f43" font-size="15" font-weight="500" text-anchor="start">a<tspan dy="-6" font-size="0.72em">τ</tspan><tspan dy="6"></tspan></text><path d="M166.4 243.6 A40 40 0 0 1 221.9 217.7" fill="none" stroke="#ff9f43" stroke-width="2.2" marker-end="url(#ar-found-dire)"/><text x="237.9" y="227.2" fill="#ff9f43" font-size="15" font-weight="500" text-anchor="start">ε₃</text><path d="M154.8 225.0 A58 58 0 0 1 215.1 196.9" fill="none" stroke="#7aa2ff" stroke-width="1.4" marker-end="url(#ar-known-dire)"/><text x="230.9" y="196.8" fill="#7aa2ff" font-size="14" font-weight="500" text-anchor="start">ω₃</text><text x="30.0" y="300.0" fill="#e8ecf6" font-size="13" font-weight="400" text-anchor="start">ε₃ и ω₃ в одну сторону → кулиса разгоняется</text></svg></div>
+<p>\(\vec a^{\,\tau}\) смотрит вправо-вверх — кулису крутит <b>по часовой</b>. ε₃ и ω₃ направлены в одну сторону, значит кулиса в этот момент разгоняется.</p>
+<div class="note"><b>Проверка одной строкой.</b> Спроецируем векторное уравнение на направление ⊥ CB, то есть вдоль \(\vec a^{\,\tau}\). Векторы \(\vec a^{\,n}\) и \(\vec a^{\,r}\) лежат вдоль кулисы и в проекции пропадают. Кориолис перпендикулярен кулисе и идёт целиком, а у \(\vec a_{B1}\) (вдоль AB) проекция равна \(a_{B1}\sin\alpha\):
+$$a^{\tau} = a_{B1}\sin 53{,}8^\circ + a^{k} = 3\cdot0{,}807 + 2{,}31 = 2{,}42 + 2{,}31 \approx 4{,}73\ \text{м/с}^2.$$
+Сходится с чертежом.</div>
+</section>
+
+<section id="play">
+<div class="num">05</div>
+<h2>Покрути механизм</h2>
+<p>Двигай φ₁ и смотри, как меняются длина CB, ω₃ и ε₃. Значения считаются точными формулами, так что это ещё и проверка ответа при 240°.</p>
+<div class="fig">
+<div class="ttl">ЖИВАЯ МОДЕЛЬ</div>
+<svg id="mech" viewBox="0 0 400 272" role="img" aria-label="Модель кулисного механизма"></svg>
+<div class="ctrl" style="flex-wrap:wrap">
+<span class="cnt" id="phiLbl" style="min-width:86px">φ₁ = 240°</span>
+<button id="play">▶ Пуск</button><button id="to240">240°</button>
+</div>
+<div style="padding:6px 6px 0"><input id="phi" type="range" min="0" max="359" step="1" value="240" aria-label="Угол поворота кривошипа"></div>
+<div class="rd">
+<div><span>l_CB</span><b id="rL">—</b></div>
+<div><span>угол кулисы</span><b id="rPsi">—</b></div>
+<div><span>ω₃</span><b id="rW" class="c-found">—</b></div>
+<div><span>ε₃</span><b id="rE" class="c-found">—</b></div>
+</div>
+<svg id="graph" viewBox="0 0 400 178" role="img" aria-label="График ω3 от угла поворота кривошипа" style="margin-top:12px"></svg>
+</div>
+<p>Здесь \(l_{AB} < l_{AC}\), поэтому кулиса не делает полного оборота, а качается между крайними положениями. Они наступают при φ₁ = 210° и 330°, когда кривошип перпендикулярен кулисе и ω₃ = 0. На короткой дуге 210° → 330° кривошип проходит рядом с C, и кулиса быстро идёт по часовой (минус на графике). Остальные 240° она медленно возвращается. Наше положение 240° — внутри быстрого хода.</p>
+<p>Формулы, по которым считает модель (для самопроверки; с \(a = l_{AB}\), \(L = l_{AC}\)):</p>
+$$\omega_3 = \omega_1\frac{a^2 + aL\sin\varphi_1}{a^2 + L^2 + 2aL\sin\varphi_1},\qquad \varepsilon_3 = \omega_1^2\frac{aL(L^2 - a^2)\cos\varphi_1}{(a^2 + L^2 + 2aL\sin\varphi_1)^2}.$$
+<p>При 240°: \(\omega_3 = 10\cdot\frac{-658{,}8}{1382{,}3} = -4{,}77\) рад/с, \(\varepsilon_3 = 100\cdot\frac{4\,860\,000\cdot(-0{,}5)}{1382{,}3^2} = -127{,}2\) рад/с². Минус значит «по часовой».</p>
+<div class="note">В задачнике механизм назван механизмом Витворта. В классическом варианте \(l_{AB} > l_{AC}\), и кулиса делает полный оборот; здесь она качается. На ход решения это не влияет.</div>
+</section>
+
+<section id="note">
+<div class="num">06</div>
+<h2>Как оформить в тетради</h2>
+<ol class="steps">
+<li><b>Дано / найти</b> — переписать условие, перевести длины в метры.</li>
+<li><b>Структура:</b> \(W = 3\cdot3 - 2\cdot4 = 1\), ведущее звено — кривошип 1.</li>
+<li><b>План положения</b> в масштабе \(\mu_l = 0{,}0005\) м/мм. Замерить \(CB = 74{,}4\) мм → \(l_{CB} = 74{,}4\cdot0{,}0005 = 0{,}0372\) м.</li>
+<li><b>Скорости.</b> \(V_{B1} = \omega_1 l_{AB} = 0{,}3\) м/с. Уравнение \(\vec V_{B3} = \vec V_{B2} + \vec V_{B3B2}\), под каждым вектором — направление (⊥CB, ⊥AB, ∥CB). Масштаб \(\mu_V = 0{,}005\). План, замеры, \(\omega_3 = V_{B3}/l_{CB}\), направление стрелкой на схеме.</li>
+<li><b>Ускорения.</b> Посчитать \(a_{B1}\), \(a^{n}_{B3C}\), \(a^{k}\) (с направлением). Уравнение, масштаб \(\mu_a = 0{,}05\). План, замеры, \(\varepsilon_3 = a^{\tau}/l_{CB}\), направление.</li>
+<li><b>Ответ:</b> \(\omega_3 \approx 4{,}77\) рад/с, \(\varepsilon_3 \approx 127\) рад/с², оба по часовой.</li>
+</ol>
+<div class="note">В векторных уравнениях часто подчёркивают слагаемые: двумя чертами — известно и направление, и величина, одной — только направление. Уточни, как принято у твоего преподавателя.</div>
+<p>Если на чертеже вышло, например, 4,6 или 4,9 рад/с — это нормальная погрешность линейки. Сильно другое число — ищи ошибку из списка ниже.</p>
+</section>
+
+<section id="err">
+<div class="num">07</div>
+<h2>Типичные ошибки</h2>
+<ul class="list">
+<li><b>Взять \(l_{CB} = 60\) мм.</b> 60 — это AC. CB каждый раз своя, здесь 37,2 мм.</li>
+<li><b>Забыть Кориолиса</b> или повернуть его не туда. Поворачиваем \(\vec V_{B3B2}\), и именно по ω₃, а не по ω₁.</li>
+<li><b>Считать ω₃ через \(V_{B1}\).</b> Делить надо скорость точки кулисы \(V_{B3}\), а не скорость камня.</li>
+<li><b>Направить \(a^n_{B3C}\) от C.</b> Нормальное ускорение всегда к центру вращения: от B к C.</li>
+<li><b>Искать касательное ускорение кривошипа.</b> При ω₁ = const его нет, у \(a_{B1}\) только нормальная часть.</li>
+<li><b>Определять направление ω₃ и ε₃ «на глаз» по плану.</b> Надо перенести вектор в точку B на схеме механизма.</li>
+<li><b>Подставить миллиметры вместо метров.</b> \(l_{CB} = 0{,}0372\) м, иначе ω₃ выйдет в тысячу раз меньше.</li>
+</ul>
+</section>
+
+<section id="quiz">
+<div class="num">08</div>
+<h2>Проверь себя</h2>
+<details><summary>Почему \(\vec V_{B2} = \vec V_{B1}\)?</summary><p>Камень соединён с кривошипом шарниром в точке B. Центр шарнира — общая точка двух звеньев, поэтому скорость и ускорение у них одинаковые.</p></details>
+<details><summary>Почему треугольник скоростей прямоугольный?</summary><p>\(\vec V_{B3} \perp CB\), а \(\vec V_{B3B2} \parallel CB\). Две стороны треугольника перпендикулярны друг другу.</p></details>
+<details><summary>Что изменится, если кривошип крутить в другую сторону?</summary><p>\(\vec V_{B1}\) развернётся, ω₃ станет против часовой, но той же величины. А ε₃ не изменится ни по величине, ни по направлению: оно пропорционально \(\omega_1^2\). Кориолис тоже останется прежним — меняют знак и ω₃, и \(V_{B3B2}\). Кулиса тогда будет не разгоняться, а тормозить.</p></details>
+<details><summary>При каких φ₁ Кориолис равен нулю?</summary><p>Когда \(\omega_3 = 0\) — в крайних положениях кулисы, φ₁ = 210° и 330°. И когда \(V_{B3B2} = 0\) — B лежит на прямой AC, φ₁ = 90° и 270°: тогда кривошип идёт вдоль кулисы и скорость B целиком перпендикулярна ей.</p></details>
+<details><summary>Зачем вообще второй способ записи \(\vec a_{B3}\) через центр C?</summary><p>В первой записи (через камень) неизвестны \(\vec a_{B3}\) целиком и \(a^r\) — три неизвестных числа, многоугольник не замкнуть. Запись через C даёт ещё одно условие: \(\vec a_{B3}\) раскладывается на известное \(a^n\) и \(a^\tau\) известного направления. Остаются две неизвестные величины, и чертёж замыкается.</p></details>
+</section>
+
+</main>
+<footer><div class="wrap">ТММ · задача 113 · <a href="../../">на главную</a></div></footer>
+
+<script>
+document.querySelectorAll('[data-fig]').forEach(function(fig){
+  var els=[].slice.call(fig.querySelectorAll('svg [data-s]'));
+  var caps=[].slice.call(fig.querySelectorAll('.caps li'));
+  var cap=fig.querySelector('.cap'), cnt=fig.querySelector('.cnt');
+  var max=caps.length, cur=1;
+  function show(n,anim){
+    cur=Math.max(1,Math.min(max,n));
+    els.forEach(function(e){
+      var s=+e.getAttribute('data-s');
+      e.classList.toggle('hid',s>cur);
+      e.classList.remove('new');
+      if(anim&&s===cur){void e.getBoundingClientRect();e.classList.add('new');}
+    });
+    cap.innerHTML=caps[cur-1].innerHTML;
+    cnt.textContent=cur+' / '+max;
+  }
+  fig.querySelector('[data-prev]').onclick=function(){show(cur-1,false)};
+  fig.querySelector('[data-next]').onclick=function(){show(cur+1,true)};
+  fig.querySelector('[data-all]').onclick=function(){show(max,false);cap.innerHTML=caps.map(function(c){return c.innerHTML}).join('<br>')};
+  show(1,false);
+});
+
+(function(){
+  var a=30,L=60,w1=10,NS='http://www.w3.org/2000/svg';
+  var mech=document.getElementById('mech'),graph=document.getElementById('graph');
+  var inp=document.getElementById('phi'),lbl=document.getElementById('phiLbl');
+  var A={x:200,y:92},s=2.6,C={x:200,y:92+L*s};
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);(parent||mech).appendChild(e);return e}
+  function fmt(x,d){return x.toFixed(d).replace('.',',').replace('-','−')}
+  function calc(deg){
+    var p=deg*Math.PI/180,sn=Math.sin(p),cs=Math.cos(p),D=a*a+L*L+2*a*L*sn;
+    return {sn:sn,cs:cs,l:Math.sqrt(D),w3:w1*(a*a+a*L*sn)/D,e3:w1*w1*a*L*(L*L-a*a)*cs/(D*D)};
+  }
+  el('line',{x1:A.x,y1:A.y,x2:C.x,y2:C.y,stroke:'#8d97b3','stroke-width':1,'stroke-dasharray':'5 4'});
+  el('line',{x1:A.x-90,y1:A.y,x2:A.x+90,y2:A.y,stroke:'#8d97b3','stroke-width':1,'stroke-dasharray':'5 4'});
+  el('circle',{cx:A.x,cy:A.y,r:a*s,fill:'none',stroke:'#232c47','stroke-width':1.5});
+  var g=el('g',{stroke:'#cdd3e5','stroke-width':1.4,fill:'none'});
+  el('path',{d:'M'+(C.x-3)+' '+(C.y+4)+' L'+(C.x-11)+' '+(C.y+17)+' M'+(C.x+3)+' '+(C.y+4)+' L'+(C.x+11)+' '+(C.y+17)+' M'+(C.x-17)+' '+(C.y+17)+' H'+(C.x+17)},g);
+  var kul=el('line',{stroke:'#2ee6c5','stroke-width':4,'stroke-linecap':'round'});
+  var cr=el('line',{x1:A.x,y1:A.y,stroke:'#a78bfa','stroke-width':4,'stroke-linecap':'round'});
+  var sl=el('rect',{width:30,height:15,x:-15,y:-7.5,rx:3,fill:'rgba(255,209,102,.10)',stroke:'#ffd166','stroke-width':2});
+  [A,C].forEach(function(P){el('circle',{cx:P.x,cy:P.y,r:5,fill:'#0a0e1a',stroke:'#cdd3e5','stroke-width':2})});
+  var bj=el('circle',{r:4.5,fill:'#0a0e1a',stroke:'#cdd3e5','stroke-width':2});
+  var tA=el('text',{x:A.x+12,y:A.y+18,fill:'#e8ecf6','font-size':14,'font-weight':500,'font-family':'Manrope,sans-serif'});tA.textContent='A';
+  var tC=el('text',{x:C.x+14,y:C.y+2,fill:'#e8ecf6','font-size':14,'font-weight':500,'font-family':'Manrope,sans-serif'});tC.textContent='C';
+  var w3arc=el('path',{fill:'none',stroke:'#ff9f43','stroke-width':2.2});
+  var mk=el('defs',{});var m=el('marker',{id:'mm',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:9,markerHeight:9,markerUnits:'userSpaceOnUse',orient:'auto'},mk);el('path',{d:'M0 0.5L10 5L0 9.5z',fill:'#ff9f43'},m);
+  w3arc.setAttribute('marker-end','url(#mm)');
+  // graph
+  var gx=function(d){return 40+d*340/360},gy=function(w){return 14+(4-w)*(130/14.5)};
+  function ge(tag,attrs){return el(tag,attrs,graph)}
+  ge('rect',{x:gx(210),y:gy(4),width:gx(330)-gx(210),height:gy(-10.5)-gy(4),fill:'rgba(255,159,67,.08)'});
+  [0,90,180,270,360].forEach(function(d){ge('line',{x1:gx(d),y1:gy(4),x2:gx(d),y2:gy(-10.5),stroke:'#232c47','stroke-width':1});var t=ge('text',{x:gx(d),y:172,fill:'#8d97b3','font-size':11,'text-anchor':'middle','font-family':'Manrope,sans-serif'});t.textContent=d+'°'});
+  ge('line',{x1:gx(0),y1:gy(0),x2:gx(360),y2:gy(0),stroke:'#8d97b3','stroke-width':1});
+  [[3.33,'+3,3'],[0,'0'],[-10,'−10']].forEach(function(v){var t=ge('text',{x:34,y:gy(v[0])+4,fill:'#8d97b3','font-size':11,'text-anchor':'end','font-family':'Manrope,sans-serif'});t.textContent=v[1]});
+  var pts=[];for(var d=0;d<=360;d+=2){pts.push(gx(d).toFixed(1)+','+gy(calc(d).w3).toFixed(1))}
+  ge('polyline',{points:pts.join(' '),fill:'none',stroke:'#2ee6c5','stroke-width':2});
+  var t1=ge('text',{x:gx(270),y:gy(4)+12,fill:'#ff9f43','font-size':11,'text-anchor':'middle','font-family':'Manrope,sans-serif'});t1.textContent='быстрый ход';
+  var t2=ge('text',{x:gx(90),y:gy(-10.5)-6,fill:'#8d97b3','font-size':11,'text-anchor':'middle','font-family':'Manrope,sans-serif'});t2.textContent='ω₃, рад/с (минус — по часовой)';
+  var gm=ge('line',{y1:gy(4),y2:gy(-10.5),stroke:'#ff9f43','stroke-width':1.2,'stroke-dasharray':'3 3'});
+  var gd=ge('circle',{r:4.5,fill:'#ff9f43'});
+  function draw(deg){
+    var r=calc(deg),B={x:A.x+a*s*r.cs,y:A.y-a*s*r.sn};
+    var ux=(B.x-C.x)/(r.l*s),uy=(B.y-C.y)/(r.l*s),len=(r.l+14)*s;
+    kul.setAttribute('x1',C.x);kul.setAttribute('y1',C.y);kul.setAttribute('x2',C.x+ux*len);kul.setAttribute('y2',C.y+uy*len);
+    cr.setAttribute('x2',B.x);cr.setAttribute('y2',B.y);
+    var ang=Math.atan2(uy,ux)*180/Math.PI;
+    sl.setAttribute('transform','translate('+B.x+' '+B.y+') rotate('+ang+')');
+    bj.setAttribute('cx',B.x);bj.setAttribute('cy',B.y);
+    var rr=30,mag=Math.min(1,Math.abs(r.w3)/10),span=25+70*mag,base=Math.atan2(-uy,ux)*180/Math.PI;
+    if(Math.abs(r.w3)<0.05){w3arc.setAttribute('d','')}else{
+      var cw=r.w3<0,a0=base+(cw?span/2:-span/2),a1=base-(cw?span/2:-span/2);
+      var P0={x:C.x+rr*Math.cos(a0*Math.PI/180),y:C.y-rr*Math.sin(a0*Math.PI/180)},P1={x:C.x+rr*Math.cos(a1*Math.PI/180),y:C.y-rr*Math.sin(a1*Math.PI/180)};
+      w3arc.setAttribute('d','M'+P0.x.toFixed(1)+' '+P0.y.toFixed(1)+' A'+rr+' '+rr+' 0 0 '+(cw?1:0)+' '+P1.x.toFixed(1)+' '+P1.y.toFixed(1));
+    }
+    lbl.textContent='φ₁ = '+Math.round(deg)+'°';
+    document.getElementById('rL').textContent=fmt(r.l,1)+' мм';
+    document.getElementById('rPsi').textContent=fmt(Math.atan2(a*r.sn+L,a*r.cs)*180/Math.PI,1)+'°';
+    document.getElementById('rW').textContent=fmt(Math.abs(r.w3),2)+' '+(Math.abs(r.w3)<0.005?'':(r.w3<0?'по час.':'против'));
+    document.getElementById('rE').textContent=fmt(Math.abs(r.e3),1)+' '+(Math.abs(r.e3)<0.05?'':(r.e3<0?'по час.':'против'));
+    gm.setAttribute('x1',gx(deg));gm.setAttribute('x2',gx(deg));gd.setAttribute('cx',gx(deg));gd.setAttribute('cy',gy(r.w3));
+  }
+  var playing=false,last=0,deg=240;
+  inp.oninput=function(){deg=+inp.value;draw(deg)};
+  document.getElementById('to240').onclick=function(){deg=240;inp.value=240;draw(deg)};
+  var pb=document.getElementById('play');
+  pb.onclick=function(){playing=!playing;pb.textContent=playing?'❚❚ Пауза':'▶ Пуск';if(playing){last=0;requestAnimationFrame(tick)}};
+  function tick(ts){if(!playing)return;if(last){deg=(deg+(ts-last)*0.06)%360;inp.value=Math.round(deg);draw(deg)}last=ts;requestAnimationFrame(tick)}
+  draw(240);
+})();
+</script>
+</body>
+</html>
