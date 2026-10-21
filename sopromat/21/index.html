@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Растяжение-сжатие бруса — схема 21</title>
+<meta name="description" content="Решение задачи на растяжение и сжатие ступенчатого бруса, схема 21, шифр 2252946136: продольные силы, подбор квадратного сечения, перемещения, экстремум, проверка жёсткости.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Onest:wght@400;500;600;700;800&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="../../elmag/style.css">
+<link rel="stylesheet" href="../../elmag/kr/kr.css">
+<style>
+.sec h2{font:750 clamp(22px,3vw,28px)/1.2 var(--sans);margin:36px 0 10px;padding-top:18px;border-top:1px dashed var(--line-2)}
+.sec h3{font:700 18px/1.3 var(--sans);margin:22px 0 8px}
+.sec h4{font:700 16px/1.3 var(--sans);margin:16px 0 6px;color:var(--blue)}
+.phrase{font-weight:700}
+.res{background:var(--soft-blue);border-radius:8px;padding:8px 12px;margin:8px 0;font:600 15.5px/1.5 var(--sans)}
+.ok{background:var(--soft-teal);border-radius:8px;padding:8px 12px;margin:6px 0;font:600 15.5px/1.5 var(--sans)}
+.datatbl td,.datatbl th{text-align:center}
+figure.fig svg{max-width:720px}
+.note2{font:14.5px/1.5 var(--sans);color:var(--ink-2)}
+@media print{.topbar,.noprint{display:none!important}body{background:#fff!important}.sec h2{break-after:avoid}figure,.sheet,.res,.ok{break-inside:avoid}}
+</style>
+<script>try{var t=localStorage.getItem('elmag-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body data-store="sopro21">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aK" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fillInk"/></marker>
+  </defs>
+</svg>
+
+<header class="topbar krtop">
+  <span class="brand">Растяжение-сжатие бруса</span>
+  <span class="grow"></span>
+  <a class="iconbtn noprint" href="sopromat-shema-21.pdf" download>PDF</a>
+  <button class="iconbtn" id="themeBtn" type="button" aria-label="Сменить тему">Тема</button>
+</header>
+
+<main class="krwrap" id="top">
+
+<div class="krhero">
+  <h1>Растяжение-сжатие<span>схема 21 · шифр 2252946136</span></h1>
+  <p class="big">Ступенчатый брус с жёсткой заделкой слева, три участка. На первом участке — распределённая нагрузка \(q\), сосредоточенные силы \(F_1\), \(F_2\), \(F_3\). Требуется построить эпюру продольной силы, подобрать квадратное сечение каждого участка, построить эпюру перемещений и проверить жёсткость.</p>
+</div>
+
+<section class="sec" id="data">
+  <h2>Исходные данные</h2>
+  <div class="tbl"><table class="datatbl">
+    <tr><th>Шифр</th><td>2</td><td>2</td><td>5</td><td>2</td><td>9</td><td>4</td><td>6</td><td>1</td><td>3</td><td>6</td></tr>
+    <tr><th></th><th>\(l_1\), м</th><th>\(l_2\), м</th><th>\(l_3\), м</th><th>\(F_1\), кН</th><th>\(F_2\), кН</th><th>\(F_3\), кН</th><th>\(q\), кН/м</th><th>\(E\), МПа</th><th>\([\sigma]_\text{р}\), МПа</th><th>\([\sigma]_\text{с}\), МПа</th></tr>
+    <tr><th>Значение</th><td>0,9</td><td>2</td><td>0,6</td><td>37</td><td>29</td><td>7</td><td>100</td><td>\(1\cdot10^5\)</td><td>60</td><td>100</td></tr>
+  </table></div>
+  <p class="note2">Допускаемое удлинение (укорочение) участка \([\Delta l] = 10^{-3}\cdot l\). Модуль упругости: в восьмой колонке таблицы стоит 10, то есть \(E = 10\cdot10^4\) МПа \(= 1\cdot10^5\) МПа.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 720 210" role="img" aria-label="Схема бруса: заделка слева, три участка, нагрузка q на первом, силы F1, F2, F3"><line x1="80" y1="50" x2="80" y2="130" class="ln" stroke-width="2.4"/><line x1="80" y1="54" x2="70" y2="63" class="thin"/><line x1="80" y1="63" x2="70" y2="72" class="thin"/><line x1="80" y1="72" x2="70" y2="81" class="thin"/><line x1="80" y1="81" x2="70" y2="90" class="thin"/><line x1="80" y1="90" x2="70" y2="99" class="thin"/><line x1="80" y1="99" x2="70" y2="108" class="thin"/><line x1="80" y1="108" x2="70" y2="117" class="thin"/><line x1="80" y1="117" x2="70" y2="126" class="thin"/><line x1="80" y1="126" x2="70" y2="135" class="thin"/><rect x="80" y="70" width="560.0" height="40" class="sheetfill"/><rect x="80" y="70" width="560.0" height="40" class="ln" fill="none"/><line x1="224.0" y1="70" x2="224.0" y2="110" class="thin"/><line x1="544.0" y1="70" x2="544.0" y2="110" class="thin"/><line x1="102.0" y1="62.0" x2="91.6" y2="62.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="86.0 62.0 93.0 58.9 93.0 65.2"/><line x1="128.0" y1="62.0" x2="117.6" y2="62.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="112.0 62.0 119.0 58.9 119.0 65.2"/><line x1="154.0" y1="62.0" x2="143.6" y2="62.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="138.0 62.0 145.0 58.9 145.0 65.2"/><line x1="180.0" y1="62.0" x2="169.6" y2="62.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="164.0 62.0 171.0 58.9 171.0 65.2"/><line x1="206.0" y1="62.0" x2="195.6" y2="62.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="190.0 62.0 197.0 58.9 197.0 65.2"/><line x1="102.0" y1="118.0" x2="91.6" y2="118.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="86.0 118.0 93.0 114.8 93.0 121.2"/><line x1="128.0" y1="118.0" x2="117.6" y2="118.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="112.0 118.0 119.0 114.8 119.0 121.2"/><line x1="154.0" y1="118.0" x2="143.6" y2="118.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="138.0 118.0 145.0 114.8 145.0 121.2"/><line x1="180.0" y1="118.0" x2="169.6" y2="118.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="164.0 118.0 171.0 114.8 171.0 121.2"/><line x1="206.0" y1="118.0" x2="195.6" y2="118.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="190.0 118.0 197.0 114.8 197.0 121.2"/><text x="152.0" y="50" text-anchor="middle" class="t-i fillI" font-size="16" font-weight="700">q</text><line x1="84.0" y1="90.0" x2="122.0" y2="90.0" class="vecH" stroke-width="2.4"/><polygon class="fillH" points="130.0 90.0 120.0 94.5 120.0 85.5"/><text x="88" y="84" class="t-i fillH" font-size="14" font-weight="700">Z<tspan font-size="10" dy="3">A</tspan></text><line x1="222.0" y1="90.0" x2="184.0" y2="90.0" class="vecR" stroke-width="2.6"/><polygon class="fillR" points="176.0 90.0 186.0 85.5 186.0 94.5"/><text x="230.0" y="62" class="t-i fillR" font-size="15" font-weight="700">F₁</text><line x1="546.0" y1="90.0" x2="586.0" y2="90.0" class="vecR" stroke-width="2.6"/><polygon class="fillR" points="594.0 90.0 584.0 94.5 584.0 85.5"/><text x="550.0" y="62" class="t-i fillR" font-size="15" font-weight="700">F₂</text><line x1="640.0" y1="90.0" x2="688.0" y2="90.0" class="vecR" stroke-width="2.6"/><polygon class="fillR" points="696.0 90.0 686.0 94.5 686.0 85.5"/><text x="652.0" y="80" class="t-i fillR" font-size="15" font-weight="700">F₃</text><line x1="80" y1="146" x2="224.0" y2="146" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="152.0" y="140" text-anchor="middle" class="t-s">l₁ = 0,9 м</text><text x="152.0" y="85" text-anchor="middle" font-size="13" font-weight="700" class="t-s">I</text><line x1="224.0" y1="146" x2="544.0" y2="146" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="384.0" y="140" text-anchor="middle" class="t-s">l₂ = 2 м</text><text x="384.0" y="85" text-anchor="middle" font-size="13" font-weight="700" class="t-s">II</text><line x1="544.0" y1="146" x2="640.0" y2="146" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="592.0" y="140" text-anchor="middle" class="t-s">l₃ = 0,6 м</text><text x="592.0" y="85" text-anchor="middle" font-size="13" font-weight="700" class="t-s">III</text><line x1="80.0" y1="180.0" x2="697.8" y2="180.0" class="vecE" stroke-width="1.4"/><polygon class="fillInk" points="705.0 180.0 696.0 184.1 696.0 175.9"/><text x="706" y="198" class="t-i" font-size="15">z</text><text x="76" y="198" text-anchor="end" class="t-s">0</text></svg>
+    <figcaption>Расчётная схема. Ось \(z\) направлена от заделки вдоль бруса. Нагрузка \(q\) и сила \(F_1\) направлены к заделке, силы \(F_2\) и \(F_3\) — от заделки.</figcaption>
+  </figure>
+</section>
+
+<section class="sec" id="s1">
+  <h2>1. Запишем аналитические выражения продольных сил по участкам и вычислим их на границах. Построим эпюру продольной силы</h2>
+
+  <h3>1.1. Составим уравнение для суммы проекций сил на ось Z для всего бруса и вычислим опорную реакцию</h3>
+  <p>Направим реакцию заделки \(Z_A\) по оси \(z\). Равнодействующая распределённой нагрузки на первом участке \(q\,l_1\).</p>
+  $$\sum F_z = 0:\qquad Z_A - q\,l_1 - F_1 + F_2 + F_3 = 0,$$
+  $$Z_A = q\,l_1 + F_1 - F_2 - F_3 = 100\cdot0{,}9 + 37 - 29 - 7 = 91\ \text{кН}.$$
+  <p class="res">\(Z_A = 91\) кН. Знак «плюс» — реакция направлена так, как показано на схеме (по оси \(z\)).</p>
+
+  <h3>1.2. Рассмотрим каждый участок бруса для нахождения значений продольной силы</h3>
+  <p>Мысленно рассекаем брус на каждом участке и рассматриваем левую отсечённую часть. Продольную силу \(N_z\) направляем от сечения (растяжение — плюс).</p>
+  <figure class="fig">
+    <svg viewBox="0 0 720 330" role="img" aria-label="Отсечённые части бруса для трёх участков"><text x="22" y="55" font-size="15" font-weight="700">I</text><line x1="34.0" y1="50.0" x2="70.0" y2="50.0" class="vecH" stroke-width="2.4"/><polygon class="fillH" points="78.0 50.0 68.0 54.5 68.0 45.5"/><text x="36" y="40" class="t-i fillH" font-size="13" font-weight="700">Z<tspan font-size="9" dy="3">A</tspan></text><rect x="80" y="35" width="80.0" height="30" class="sheetfill"/><path d="M80 35 H160.0 M80 65 H160.0 M80 35 V65" class="ln" fill="none"/><path d="M160.0 35 q-5 7 0 15 q5 8 0 15" class="ln" fill="none"/><line x1="102.0" y1="28.0" x2="91.6" y2="28.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="86.0 28.0 93.0 24.9 93.0 31.1"/><line x1="128.0" y1="28.0" x2="117.6" y2="28.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="112.0 28.0 119.0 24.9 119.0 31.1"/><line x1="154.0" y1="28.0" x2="143.6" y2="28.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="138.0 28.0 145.0 24.9 145.0 31.1"/><line x1="162.0" y1="50.0" x2="202.0" y2="50.0" class="vecB" stroke-width="2.4"/><polygon class="fillB" points="210.0 50.0 200.0 54.5 200.0 45.5"/><text x="214.0" y="55" class="t-i fillB" font-size="14" font-weight="700">N<tspan font-size="10" dy="3">z</tspan><tspan font-size="10" dy="-9">I</tspan></text><line x1="80" y1="78" x2="160.0" y2="78" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="120.0" y="93" text-anchor="middle" class="t-i" font-size="13">z</text><text x="22" y="160" font-size="15" font-weight="700">II</text><line x1="34.0" y1="155.0" x2="70.0" y2="155.0" class="vecH" stroke-width="2.4"/><polygon class="fillH" points="78.0 155.0 68.0 159.5 68.0 150.5"/><text x="36" y="145" class="t-i fillH" font-size="13" font-weight="700">Z<tspan font-size="9" dy="3">A</tspan></text><rect x="80" y="140" width="304.0" height="30" class="sheetfill"/><path d="M80 140 H384.0 M80 170 H384.0 M80 140 V170" class="ln" fill="none"/><path d="M384.0 140 q-5 7 0 15 q5 8 0 15" class="ln" fill="none"/><line x1="102.0" y1="133.0" x2="91.6" y2="133.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="86.0 133.0 93.0 129.8 93.0 136.2"/><line x1="128.0" y1="133.0" x2="117.6" y2="133.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="112.0 133.0 119.0 129.8 119.0 136.2"/><line x1="154.0" y1="133.0" x2="143.6" y2="133.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="138.0 133.0 145.0 129.8 145.0 136.2"/><line x1="180.0" y1="133.0" x2="169.6" y2="133.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="164.0 133.0 171.0 129.8 171.0 136.2"/><line x1="206.0" y1="133.0" x2="195.6" y2="133.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="190.0 133.0 197.0 129.8 197.0 136.2"/><line x1="223.0" y1="155.0" x2="192.0" y2="155.0" class="vecR" stroke-width="2.2"/><polygon class="fillR" points="184.0 155.0 194.0 150.5 194.0 159.5"/><text x="227.0" y="135" class="t-i fillR" font-size="13" font-weight="700">F₁</text><line x1="224.0" y1="140" x2="224.0" y2="170" class="thin"/><line x1="386.0" y1="155.0" x2="426.0" y2="155.0" class="vecB" stroke-width="2.4"/><polygon class="fillB" points="434.0 155.0 424.0 159.5 424.0 150.5"/><text x="438.0" y="160" class="t-i fillB" font-size="14" font-weight="700">N<tspan font-size="10" dy="3">z</tspan><tspan font-size="10" dy="-9">II</tspan></text><line x1="80" y1="183" x2="384.0" y2="183" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="232.0" y="198" text-anchor="middle" class="t-i" font-size="13">z</text><text x="22" y="267" font-size="15" font-weight="700">III</text><line x1="34.0" y1="262.0" x2="70.0" y2="262.0" class="vecH" stroke-width="2.4"/><polygon class="fillH" points="78.0 262.0 68.0 266.5 68.0 257.5"/><text x="36" y="252" class="t-i fillH" font-size="13" font-weight="700">Z<tspan font-size="9" dy="3">A</tspan></text><rect x="80" y="247" width="512.0" height="30" class="sheetfill"/><path d="M80 247 H592.0 M80 277 H592.0 M80 247 V277" class="ln" fill="none"/><path d="M592.0 247 q-5 7 0 15 q5 8 0 15" class="ln" fill="none"/><line x1="102.0" y1="240.0" x2="91.6" y2="240.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="86.0 240.0 93.0 236.8 93.0 243.2"/><line x1="128.0" y1="240.0" x2="117.6" y2="240.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="112.0 240.0 119.0 236.8 119.0 243.2"/><line x1="154.0" y1="240.0" x2="143.6" y2="240.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="138.0 240.0 145.0 236.8 145.0 243.2"/><line x1="180.0" y1="240.0" x2="169.6" y2="240.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="164.0 240.0 171.0 236.8 171.0 243.2"/><line x1="206.0" y1="240.0" x2="195.6" y2="240.0" class="vecI" stroke-width="1.6"/><polygon class="fillI" points="190.0 240.0 197.0 236.8 197.0 243.2"/><line x1="223.0" y1="262.0" x2="192.0" y2="262.0" class="vecR" stroke-width="2.2"/><polygon class="fillR" points="184.0 262.0 194.0 257.5 194.0 266.5"/><text x="227.0" y="242" class="t-i fillR" font-size="13" font-weight="700">F₁</text><line x1="224.0" y1="247" x2="224.0" y2="277" class="thin"/><line x1="545.0" y1="262.0" x2="576.0" y2="262.0" class="vecR" stroke-width="2.2"/><polygon class="fillR" points="584.0 262.0 574.0 266.5 574.0 257.5"/><text x="547.0" y="242" class="t-i fillR" font-size="13" font-weight="700">F₂</text><line x1="544.0" y1="247" x2="544.0" y2="277" class="thin"/><line x1="594.0" y1="262.0" x2="634.0" y2="262.0" class="vecB" stroke-width="2.4"/><polygon class="fillB" points="642.0 262.0 632.0 266.5 632.0 257.5"/><text x="646.0" y="267" class="t-i fillB" font-size="14" font-weight="700">N<tspan font-size="10" dy="3">z</tspan><tspan font-size="10" dy="-9">III</tspan></text><line x1="80" y1="290" x2="592.0" y2="290" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="336.0" y="305" text-anchor="middle" class="t-i" font-size="13">z</text></svg>
+    <figcaption>Отсечённые части для первого, второго и третьего участков.</figcaption>
+  </figure>
+
+  <h4>Первый участок: \(0 \le z \le l_1 = 0{,}9\) м</h4>
+  $$Z_A - q\,z + N_z^{I} = 0\quad\Rightarrow\quad N_z^{I} = q\,z - Z_A = 100z - 91.$$
+  $$z = 0:\ N_z^{I} = -91\ \text{кН};\qquad z = 0{,}9\ \text{м}:\ N_z^{I} = 100\cdot0{,}9 - 91 = -1\ \text{кН}.$$
+  <p>На первом участке продольная сила меняется по линейному закону, участок сжат.</p>
+
+  <h4>Второй участок: \(l_1 \le z \le l_1 + l_2\), то есть \(0{,}9 \le z \le 2{,}9\) м</h4>
+  $$Z_A - q\,l_1 - F_1 + N_z^{II} = 0\quad\Rightarrow\quad N_z^{II} = q\,l_1 + F_1 - Z_A = 90 + 37 - 91 = 36\ \text{кН}.$$
+  <p>Продольная сила постоянна, участок растянут.</p>
+
+  <h4>Третий участок: \(l_1 + l_2 \le z \le l_1 + l_2 + l_3\), то есть \(2{,}9 \le z \le 3{,}5\) м</h4>
+  $$Z_A - q\,l_1 - F_1 + F_2 + N_z^{III} = 0\quad\Rightarrow\quad N_z^{III} = q\,l_1 + F_1 - F_2 - Z_A = 90 + 37 - 29 - 91 = 7\ \text{кН}.$$
+  <p>Проверка по правой отсечённой части: \(N_z^{III} = F_3 = 7\) кН — совпадает. Участок растянут.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 720 220" role="img" aria-label="Эпюра продольной силы"><text x="20" y="40" class="t-i" font-size="15" font-weight="700">N<tspan font-size="11" dy="3">z</tspan><tspan dy="-3">, кН</tspan></text><polygon points="80,110 80,191.9 224.0,110.9 224.0,110" style="fill:var(--soft-red);stroke:var(--red);stroke-width:1.6"/><line x1="92.0" y1="110" x2="92.0" y2="185.2" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="104.0" y1="110" x2="104.0" y2="178.4" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="116.0" y1="110" x2="116.0" y2="171.7" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="128.0" y1="110" x2="128.0" y2="164.9" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="140.0" y1="110" x2="140.0" y2="158.2" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="152.0" y1="110" x2="152.0" y2="151.4" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="164.0" y1="110" x2="164.0" y2="144.7" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="176.0" y1="110" x2="176.0" y2="137.9" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="188.0" y1="110" x2="188.0" y2="131.2" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="200.0" y1="110" x2="200.0" y2="124.4" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><line x1="212.0" y1="110" x2="212.0" y2="117.7" style="stroke:var(--red);stroke-width:.8;opacity:.6"/><rect x="224.0" y="77.6" width="320.0" height="32.4" style="fill:var(--soft-blue);stroke:var(--blue);stroke-width:1.6"/><line x1="240.0" y1="110" x2="240.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="256.0" y1="110" x2="256.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="272.0" y1="110" x2="272.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="288.0" y1="110" x2="288.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="304.0" y1="110" x2="304.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="320.0" y1="110" x2="320.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="336.0" y1="110" x2="336.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="352.0" y1="110" x2="352.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="368.0" y1="110" x2="368.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="384.0" y1="110" x2="384.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="400.0" y1="110" x2="400.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="416.0" y1="110" x2="416.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="432.0" y1="110" x2="432.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="448.0" y1="110" x2="448.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="464.0" y1="110" x2="464.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="480.0" y1="110" x2="480.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="496.0" y1="110" x2="496.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="512.0" y1="110" x2="512.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><line x1="528.0" y1="110" x2="528.0" y2="77.6" style="stroke:var(--blue);stroke-width:.8;opacity:.5"/><rect x="544.0" y="103.7" width="96.0" height="6.3" style="fill:var(--soft-blue);stroke:var(--blue);stroke-width:1.6"/><line x1="80" y1="110" x2="670.0" y2="110" class="ln"/><text x="86" y="207.9" class="fillR" font-size="14" font-weight="700">−91</text><text x="218.0" y="130" text-anchor="end" class="fillR" font-size="14" font-weight="700">−1</text><text x="384.0" y="69.6" text-anchor="middle" class="fillB" font-size="14" font-weight="700">36</text><text x="592.0" y="95.7" text-anchor="middle" class="fillB" font-size="14" font-weight="700">7</text><circle cx="132.0" cy="140" r="10" style="fill:var(--sheet);stroke:var(--red);stroke-width:1.8"/><line x1="126.5" y1="140" x2="137.5" y2="140" style="stroke:var(--red);stroke-width:2"/><circle cx="424.0" cy="94" r="10" style="fill:var(--sheet);stroke:var(--blue);stroke-width:1.8"/><line x1="418.5" y1="94" x2="429.5" y2="94" style="stroke:var(--blue);stroke-width:2"/><line x1="424.0" y1="88.5" x2="424.0" y2="99.5" style="stroke:var(--blue);stroke-width:2"/><circle cx="612.0" cy="92" r="7" style="fill:var(--sheet);stroke:var(--blue);stroke-width:1.8"/><line x1="608.15" y1="92" x2="615.85" y2="92" style="stroke:var(--blue);stroke-width:2"/><line x1="612.0" y1="88.15" x2="612.0" y2="95.85" style="stroke:var(--blue);stroke-width:2"/><line x1="224.0" y1="40" x2="224.0" y2="205" class="ln2"/><line x1="544.0" y1="40" x2="544.0" y2="205" class="ln2"/><line x1="640.0" y1="40" x2="640.0" y2="205" class="ln2"/></svg>
+    <figcaption>Эпюра продольной силы \(N_z\), кН. Скачки на границах участков равны приложенным там силам: \(36 - (-1) = 37 = F_1\), \(36 - 7 = 29 = F_2\).</figcaption>
+  </figure>
+</section>
+
+<section class="sec" id="s2">
+  <h2>2. Подбор сечений бруса по участкам</h2>
+  <h3>2.1. Предположим, что брус имеет сечение квадрат со стороной \(a\), тогда площадь данного сечения будет рассчитываться по формуле \(A = \dfrac{N_z}{[\sigma]}\), а сторона бруса \(a = \sqrt{A}\)</h3>
+  <p>Для растянутых участков берём \([\sigma]_\text{р} = 60\) МПа, для сжатых — \([\sigma]_\text{с} = 100\) МПа. В расчёт подставляем модуль продольной силы.</p>
+
+  <h3>2.2. Рассмотрим каждый участок</h3>
+  <h4>Первый участок (сжатие)</h4>
+  $$A_I' = \frac{|N_z^{I}(0)|}{[\sigma]_\text{с}} = \frac{91\cdot10^3}{100\cdot10^6} = 9{,}1\cdot10^{-4}\ \text{м}^2,\qquad A_I'' = \frac{|N_z^{I}(l_1)|}{[\sigma]_\text{с}} = \frac{1\cdot10^3}{100\cdot10^6} = 0{,}1\cdot10^{-4}\ \text{м}^2.$$
+  <p class="phrase">Из двух полученных значений выберем наибольшую и посчитаем сторону бруса \(a\):</p>
+  $$A_I = 9{,}1\cdot10^{-4}\ \text{м}^2 = 9{,}1\ \text{см}^2,\qquad a_1 = \sqrt{9{,}1\cdot10^{-4}} = 0{,}0302\ \text{м} = 30{,}2\ \text{мм}.$$
+
+  <h4>Второй участок (растяжение)</h4>
+  $$A_{II} = \frac{N_z^{II}}{[\sigma]_\text{р}} = \frac{36\cdot10^3}{60\cdot10^6} = 6\cdot10^{-4}\ \text{м}^2 = 6\ \text{см}^2,\qquad a_2 = \sqrt{6\cdot10^{-4}} = 0{,}0245\ \text{м} = 24{,}5\ \text{мм}.$$
+
+  <h4>Третий участок (растяжение)</h4>
+  $$A_{III} = \frac{N_z^{III}}{[\sigma]_\text{р}} = \frac{7\cdot10^3}{60\cdot10^6} = 1{,}17\cdot10^{-4}\ \text{м}^2 = 1{,}17\ \text{см}^2,\qquad a_3 = \sqrt{1{,}17\cdot10^{-4}} = 0{,}0108\ \text{м} = 10{,}8\ \text{мм}.$$
+
+  <figure class="fig">
+    <svg viewBox="0 0 720 200" role="img" aria-label="Ступенчатый брус с подобранными сечениями"><line x1="80" y1="40" x2="80" y2="170" class="ln" stroke-width="2.4"/><line x1="80" y1="44" x2="70" y2="53" class="thin"/><line x1="80" y1="53" x2="70" y2="62" class="thin"/><line x1="80" y1="62" x2="70" y2="71" class="thin"/><line x1="80" y1="71" x2="70" y2="80" class="thin"/><line x1="80" y1="80" x2="70" y2="89" class="thin"/><line x1="80" y1="89" x2="70" y2="98" class="thin"/><line x1="80" y1="98" x2="70" y2="107" class="thin"/><line x1="80" y1="107" x2="70" y2="116" class="thin"/><line x1="80" y1="116" x2="70" y2="125" class="thin"/><line x1="80" y1="125" x2="70" y2="134" class="thin"/><line x1="80" y1="134" x2="70" y2="143" class="thin"/><line x1="80" y1="143" x2="70" y2="152" class="thin"/><line x1="80" y1="152" x2="70" y2="161" class="thin"/><line x1="80" y1="161" x2="70" y2="170" class="thin"/><rect x="80" y="68.8" width="144.0" height="72.5" class="soft"/><rect x="80" y="68.8" width="144.0" height="72.5" class="ln" fill="none"/><text x="152.0" y="46.8" text-anchor="middle" font-size="13" font-weight="700">a₁ = 30,2 мм</text><text x="152.0" y="61.8" text-anchor="middle" class="t-s" font-size="12">A₁ = 9,1 см²</text><rect x="224.0" y="75.6" width="320.0" height="58.8" class="soft"/><rect x="224.0" y="75.6" width="320.0" height="58.8" class="ln" fill="none"/><text x="384.0" y="53.6" text-anchor="middle" font-size="13" font-weight="700">a₂ = 24,5 мм</text><text x="384.0" y="68.6" text-anchor="middle" class="t-s" font-size="12">A₂ = 6,0 см²</text><rect x="544.0" y="92.0" width="96.0" height="25.9" class="soft"/><rect x="544.0" y="92.0" width="96.0" height="25.9" class="ln" fill="none"/><text x="592.0" y="70.0" text-anchor="middle" font-size="13" font-weight="700">a₃ = 10,8 мм</text><text x="592.0" y="85.0" text-anchor="middle" class="t-s" font-size="12">A₃ = 1,17 см²</text><line x1="80" y1="105" x2="660.0" y2="105" style="stroke:var(--ink-3);stroke-width:1;stroke-dasharray:10 4 2 4"/><line x1="80" y1="170" x2="224.0" y2="170" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="152.0" y="186" text-anchor="middle" class="t-s">900</text><line x1="224.0" y1="170" x2="544.0" y2="170" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="384.0" y="186" text-anchor="middle" class="t-s">2000</text><line x1="544.0" y1="170" x2="640.0" y2="170" class="thin" marker-start="url(#aK)" marker-end="url(#aK)"/><text x="592.0" y="186" text-anchor="middle" class="t-s">600</text></svg>
+    <figcaption>Ступенчатый брус с подобранными сечениями, размеры в мм. Длины участков и стороны сечений показаны в разных масштабах.</figcaption>
+  </figure>
+</section>
+
+<section class="sec" id="s3">
+  <h2>3. Рассчитаем перемещение поперечных сечений бруса</h2>
+  <p class="phrase">В основе решения задачи лежат 2 принципа. Принцип Бернулли и принцип Сен-Венана.</p>
+  <p class="note2">Принцип Бернулли (гипотеза плоских сечений): сечения, плоские до деформации, остаются плоскими и перпендикулярными оси бруса, поэтому напряжения по сечению распределены равномерно, \(\sigma = N_z/A\). Принцип Сен-Венана: вдали от места приложения нагрузки распределение напряжений не зависит от способа её приложения, поэтому силу можно считать приложенной в точке.</p>
+  <p>Модуль упругости \(E = 1\cdot10^5\) МПа \(= 10^{11}\) Па. Ось \(z\) — от заделки, в заделке перемещение равно нулю.</p>
+
+  <h4>Первый участок (нагрузка распределённая, \(N_z\) переменная)</h4>
+  $$\delta(z) = \int_0^z \frac{N_z^{I}\,dz}{E A_I} = \frac{1}{E A_I}\int_0^z (q z - Z_A)\,dz = \frac{1}{E A_I}\left(\frac{q z^2}{2} - Z_A z\right).$$
+  $$E A_I = 10^{11}\cdot9{,}1\cdot10^{-4} = 9{,}1\cdot10^{7}\ \text{Н}.$$
+  $$z = 0:\ \delta = 0;\qquad z = 0{,}45\ \text{м}:\ \delta = \frac{50\cdot10^3\cdot0{,}45^2 - 91\cdot10^3\cdot0{,}45}{9{,}1\cdot10^7} = -3{,}39\cdot10^{-4}\ \text{м};$$
+  $$z = l_1 = 0{,}9\ \text{м}:\ \delta_1 = \frac{50\cdot10^3\cdot0{,}81 - 91\cdot10^3\cdot0{,}9}{9{,}1\cdot10^7} = \frac{-41\,400}{9{,}1\cdot10^7} = -4{,}55\cdot10^{-4}\ \text{м} = -0{,}455\ \text{мм}.$$
+
+  <h4>Второй участок (\(N_z\) постоянна)</h4>
+  $$\delta_2 = \frac{N_z^{II}\,l_2}{E A_{II}} = \frac{36\cdot10^3\cdot2}{10^{11}\cdot6\cdot10^{-4}} = 1{,}2\cdot10^{-3}\ \text{м} = 1{,}2\ \text{мм}.$$
+  $$\delta(l_1 + l_2) = \delta_1 + \delta_2 = -0{,}455 + 1{,}2 = 0{,}745\ \text{мм}.$$
+
+  <h4>Третий участок (\(N_z\) постоянна)</h4>
+  $$\delta_3 = \frac{N_z^{III}\,l_3}{E A_{III}} = \frac{7\cdot10^3\cdot0{,}6}{10^{11}\cdot1{,}17\cdot10^{-4}} = 3{,}6\cdot10^{-4}\ \text{м} = 0{,}36\ \text{мм}.$$
+  $$\delta(l_1 + l_2 + l_3) = \delta_1 + \delta_2 + \delta_3 = -0{,}455 + 1{,}2 + 0{,}36 = 1{,}105\ \text{мм}.$$
+</section>
+
+<section class="sec" id="s4">
+  <h2>4. Нахождение экстремума</h2>
+  <p>Экстремум на эпюре перемещений может быть только там, где \(N_z = 0\), то есть на первом участке:</p>
+  $$N_z^{I} = q z_0 - Z_A = 0\quad\Rightarrow\quad z_0 = \frac{Z_A}{q} = \frac{91}{100} = 0{,}91\ \text{м}.$$
+  <p class="res">\(z_0 = 0{,}91\) м \(\gt l_1 = 0{,}9\) м — точка лежит за пределами первого участка. Эпюра \(N_z\) на первом участке через ноль не проходит, значит, экстремума на эпюре перемещений нет: на первом участке перемещение монотонно убывает от 0 до \(-0{,}455\) мм.</p>
+
+  <h3>Правила построения эпюры перемещения</h3>
+  <ol>
+    <li>В заделке перемещение отсутствует: \(\delta(0) = 0\).</li>
+    <li>На втором и последующих участках \(\delta = \delta_1 + \delta_2 + \ldots\) с учётом знака.</li>
+    <li>На участке с переменной нагрузкой \(\delta\) — парабола (первый участок).</li>
+    <li>Если эпюра \(N_z\) проходит через ноль, на эпюре \(\delta\) будет экстремум (здесь не проходит).</li>
+    <li>\(N_z \lt 0\) — эпюра \(\delta\) убывает (первый участок), \(N_z \gt 0\) — возрастает (второй и третий).</li>
+    <li>Если \(N_z\) убывает — выпуклость параболы вверх, если \(N_z\) растёт — вниз. На первом участке \(N_z\) растёт от \(-91\) до \(-1\) кН — выпуклость вниз.</li>
+    <li>\(N_z = \text{const}\) — прямая линия (второй и третий участки).</li>
+  </ol>
+  <figure class="fig">
+    <svg viewBox="0 0 720 220" role="img" aria-label="Эпюра перемещений"><text x="20" y="34" class="t-i" font-size="15" font-weight="700">δ<tspan dy="0">, мм</tspan></text><polygon points="80,120 80.0,120.0 84.8,122.1 89.6,124.1 94.4,126.0 99.2,127.8 104.0,129.6 108.8,131.4 113.6,133.0 118.4,134.6 123.2,136.1 128.0,137.5 132.8,138.9 137.6,140.2 142.4,141.4 147.2,142.6 152.0,143.7 156.8,144.7 161.6,145.7 166.4,146.6 171.2,147.4 176.0,148.2 180.8,148.8 185.6,149.4 190.4,150.0 195.2,150.5 200.0,150.9 204.8,151.2 209.6,151.5 214.4,151.7 219.2,151.8 224.0,151.8 544.0,67.8 640.0,42.6 640.0,120" style="fill:var(--soft-teal);opacity:.8"/><polyline points="80.0,120.0 84.8,122.1 89.6,124.1 94.4,126.0 99.2,127.8 104.0,129.6 108.8,131.4 113.6,133.0 118.4,134.6 123.2,136.1 128.0,137.5 132.8,138.9 137.6,140.2 142.4,141.4 147.2,142.6 152.0,143.7 156.8,144.7 161.6,145.7 166.4,146.6 171.2,147.4 176.0,148.2 180.8,148.8 185.6,149.4 190.4,150.0 195.2,150.5 200.0,150.9 204.8,151.2 209.6,151.5 214.4,151.7 219.2,151.8 224.0,151.8 544.0,67.8 640.0,42.6" fill="none" style="stroke:var(--teal);stroke-width:2.6"/><line x1="80" y1="120" x2="670.0" y2="120" class="ln"/><text x="84" y="112" font-size="13" font-weight="700">0</text><text x="224.0" y="171.8" text-anchor="middle" class="fillH" font-size="14" font-weight="700">−0,455</text><text x="152.0" y="161.7" text-anchor="middle" class="t-s" font-size="12">−0,339</text><circle cx="152.0" cy="143.7" r="3" class="fillH"/><text x="544.0" y="57.8" text-anchor="middle" class="fillH" font-size="14" font-weight="700">0,745</text><text x="646.0" y="36.6" class="fillH" font-size="14" font-weight="700">1,105</text><line x1="224.0" y1="30" x2="224.0" y2="205" class="ln2"/><line x1="544.0" y1="30" x2="544.0" y2="205" class="ln2"/><line x1="640.0" y1="30" x2="640.0" y2="205" class="ln2"/></svg>
+    <figcaption>Эпюра перемещений \(\delta\), мм: 0 → −0,455 (парабола) → 0,745 → 1,105.</figcaption>
+  </figure>
+</section>
+
+<section class="sec" id="s5">
+  <h2>5. Проверка жёсткости всех участков бруса</h2>
+  <p><b>\([\Delta l]\) — допускаемое растяжение/сжатие на участке</b>, \([\Delta l] = 10^{-3}\cdot l\). Условие жёсткости: \(|\delta_i| \le [\Delta l]_i\).</p>
+  <h4>Первый участок</h4>
+  $$[\Delta l]_1 = 10^{-3}\cdot0{,}9 = 0{,}9\ \text{мм};\qquad |\delta_1| = 0{,}455\ \text{мм} \le 0{,}9\ \text{мм}.$$
+  <p class="ok">Условие жёсткости не нарушено.</p>
+  <h4>Второй участок</h4>
+  $$[\Delta l]_2 = 10^{-3}\cdot2 = 2\ \text{мм};\qquad |\delta_2| = 1{,}2\ \text{мм} \le 2\ \text{мм}.$$
+  <p class="ok">Условие жёсткости не нарушено.</p>
+  <h4>Третий участок</h4>
+  $$[\Delta l]_3 = 10^{-3}\cdot0{,}6 = 0{,}6\ \text{мм};\qquad |\delta_3| = 0{,}36\ \text{мм} \le 0{,}6\ \text{мм}.$$
+  <p class="ok">Условие жёсткости не нарушено.</p>
+  <p class="res">Вывод: условие жёсткости выполняется на всех трёх участках бруса, увеличивать площадь сечений или менять материал не требуется.</p>
+</section>
+
+<section class="sec" id="ans">
+  <h2>Ответ</h2>
+  <div class="tbl"><table class="datatbl">
+    <tr><th>Участок</th><th>\(N_z\), кН</th><th>\(A\), см²</th><th>\(a\), мм</th><th>\(\delta_i\), мм</th><th>\([\Delta l]\), мм</th><th>Жёсткость</th></tr>
+    <tr><td>I</td><td>от −91 до −1</td><td>9,1</td><td>30,2</td><td>−0,455</td><td>0,9</td><td>выполнена</td></tr>
+    <tr><td>II</td><td>36</td><td>6,0</td><td>24,5</td><td>1,2</td><td>2,0</td><td>выполнена</td></tr>
+    <tr><td>III</td><td>7</td><td>1,17</td><td>10,8</td><td>0,36</td><td>0,6</td><td>выполнена</td></tr>
+  </table></div>
+  <p>\(Z_A = 91\) кН; перемещение свободного конца \(\delta = 1{,}105\) мм; экстремума на эпюре перемещений нет (\(z_0 = 0{,}91\) м \(\gt l_1\)).</p>
+</section>
+
+<section class="sec" id="scale">
+  <h2>Масштабы для миллиметровки</h2>
+  <ul>
+    <li><b>Длины бруса:</b> М 1:25 — 1 м = 40 мм: \(l_1\) = 36 мм, \(l_2\) = 80 мм, \(l_3\) = 24 мм.</li>
+    <li><b>Эпюра \(N_z\):</b> 1 см = 20 кН: −91 → 45,5 мм вниз, −1 → 0,5 мм, 36 → 18 мм вверх, 7 → 3,5 мм.</li>
+    <li><b>Эпюра \(\delta\):</b> 1 см = 0,25 мм: −0,455 → 18,2 мм вниз, −0,339 (середина первого участка) → 13,6 мм, 0,745 → 29,8 мм вверх, 1,105 → 44,2 мм.</li>
+    <li><b>Сечения на чертеже ступенчатого бруса:</b> М 2:1 — \(a_1\) = 60,4 мм, \(a_2\) = 49,0 мм, \(a_3\) = 21,6 мм.</li>
+  </ul>
+  <p class="note2">Греческие буквы: \(\delta\) (дельта) — перемещение, \(\Delta l\) (большая дельта) — допускаемое удлинение, \(\sigma\) (сигма) — напряжение, \(\Sigma\) (большая сигма) — знак суммы.</p>
+  <footer class="foot"><p>Все числа пересчитаны.</p></footer>
+</section>
+
+</main>
+<script src="../../elmag/app.js"></script>
+</body>
+</html>
