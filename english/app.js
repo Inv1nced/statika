@@ -44,9 +44,76 @@
     try { d = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
     return Object.assign({ m: {}, seen: {}, mis: {}, xp: 0, streak: { n: 0, last: "" }, snd: true, tts: true, hideRu: false, sent: 0 }, d || {});
   })();
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  let STORE_OK = true;
+  try { localStorage.setItem("__t", "1"); STORE_OK = localStorage.getItem("__t") === "1"; localStorage.removeItem("__t"); } catch (e) { STORE_OK = false; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { STORE_OK = false; } }
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
+  const UA = navigator.userAgent || "";
+  const IOS = /iPhone|iPad|iPod/.test(UA) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const IN_APP = IOS && !navigator.standalone && (!/Safari\//.test(UA) || /FBAN|FBAV|Instagram|Telegram|VKClient|Claude/i.test(UA));
   const lv = id => S.m[id] || 0;
   const learnedIn = list => list.filter(i => lv(i.id) >= LEARNED).length;
+
+  // v2: слово засчитывается после одного блока без ошибок. Старый прогресс переводим.
+  if (!S.v || S.v < 2) {
+    Object.keys(S.m).forEach(id => { if (BY[id] && S.m[id] >= 2 && !((S.mis[id] || 0) > 0)) S.m[id] = Math.max(S.m[id], LEARNED); });
+    S.v = 2;
+    if (Object.keys(S.seen).length) save();
+  }
+
+  // ---------- ссылка с прогрессом (страховка и перенос на другое устройство) ----------
+  function encodeProgress() {
+    const l = ITEMS.map(i => (S.seen[i.id] ? String(Math.min(9, lv(i.id))) : "-")).join("");
+    const m = ITEMS.map(i => String(Math.min(9, S.mis[i.id] || 0))).join("").replace(/0+$/, "");
+    return ["2", l, m || "0", S.xp | 0, S.streak.n | 0, (S.streak.last || "").replace(/-/g, "")].join(".");
+  }
+  function decodeProgress(code) {
+    const p = String(code).split(".");
+    if (p[0] !== "2" || !p[1] || p[1].length !== ITEMS.length || !/^[-0-9]+$/.test(p[1])) return null;
+    const d = { m: {}, seen: {}, mis: {}, xp: +p[3] || 0, sn: +p[4] || 0, sl: "" };
+    ITEMS.forEach((it, k) => {
+      const c = p[1][k];
+      if (c !== "-") { d.seen[it.id] = true; d.m[it.id] = +c; }
+      const mc = (p[2] || "")[k];
+      if (mc && mc !== "0") d.mis[it.id] = +mc;
+    });
+    if (/^\d{8}$/.test(p[5] || "")) d.sl = p[5].slice(0, 4) + "-" + p[5].slice(4, 6) + "-" + p[5].slice(6);
+    return d;
+  }
+  function mergeProgress(d) {
+    ITEMS.forEach(it => {
+      const id = it.id;
+      if (d.seen[id]) S.seen[id] = true;
+      if ((d.m[id] || 0) > lv(id)) S.m[id] = d.m[id];
+      if (lv(id) >= LEARNED) delete S.mis[id];
+      else if (d.mis[id]) S.mis[id] = Math.max(S.mis[id] || 0, d.mis[id]);
+    });
+    S.xp = Math.max(S.xp, d.xp);
+    if (d.sl && d.sl >= (S.streak.last || "")) S.streak = { n: d.sl === S.streak.last ? Math.max(d.sn, S.streak.n) : d.sn, last: d.sl };
+  }
+  let TOAST = "";
+  (function importFromHash() {
+    const m = (location.hash || "").match(/p=([-0-9.]+)/);
+    if (!m) return;
+    const d = decodeProgress(m[1]);
+    if (d) { mergeProgress(d); save(); TOAST = "Прогресс загружен из ссылки ✓"; }
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  })();
+  function showToast(text) {
+    const t = document.createElement("div");
+    t.className = "toast"; t.textContent = text;
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add("off"), 2600);
+    setTimeout(() => t.remove(), 3200);
+  }
+  async function shareProgress() {
+    const url = location.origin + location.pathname + "#p=" + encodeProgress();
+    try {
+      if (navigator.share) { await navigator.share({ title: "Английский — мой прогресс", url }); return; }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(url); showToast("Ссылка скопирована — сохрани её в заметки"); return; } catch (e) {}
+    prompt("Скопируй ссылку с прогрессом:", url);
+  }
 
   // ================= ЗВУК И ОЗВУЧКА =================
   let actx = null;
@@ -101,10 +168,9 @@
   // ================= ОТОБРАЖЕНИЕ ПРЕДЛОЖЕНИЙ =================
   const hl = e => esc(e.pre) + "<mark>" + esc(e.a) + "</mark>" + esc(e.post);
   const blankSent = e => esc(e.pre) + `<span class="blank" style="width:${Math.min(230, 34 + e.a.length * 9)}px"></span>` + esc(e.post);
-  function dots(l, prev) {
-    let s = `<span class="dots" title="Уровень ${l} из ${MAXL}">`;
-    for (let i = 1; i <= MAXL; i++) s += `<i class="${i <= l ? (prev != null && i > prev ? "up" : "on") : ""}"></i>`;
-    return s + "</span>";
+  function badge(id) {
+    const s = lv(id) >= LEARNED ? ["ok", "✓", "Пройдено"] : (S.mis[id] || 0) > 0 ? ["mis", "!", "На повтор"] : S.seen[id] ? ["seen", "•", "Видел"] : ["new", "", "Новое"];
+    return `<span class="bdg ${s[0]}" title="${s[2]}">${s[1]}</span>`;
   }
 
   // ================= ПРОВЕРКА ВВОДА =================
@@ -188,28 +254,28 @@
   }
 
   // ================= СБОРКА УРОКА =================
+  // 0 — новое, 1 — было с ошибкой (ещё не засчитано), 2 — пройдено
+  const rank = it => (!S.seen[it.id] ? 0 : lv(it.id) < LEARNED ? 1 : 2);
   function sortForLesson(pool) {
     const r = {};
     pool.forEach(i => (r[i.id] = Math.random()));
     return pool.slice().sort((a, b) => {
-      const la = lv(a.id), lb = lv(b.id);
-      if (la !== lb) return la - lb;
-      const sa = S.seen[a.id] ? 0 : 1, sb = S.seen[b.id] ? 0 : 1;
-      if (sa !== sb) return sa - sb;
-      if (!S.seen[a.id]) return a.ord - b.ord;
-      return r[a.id] - r[b.id];
+      const ra = rank(a), rb = rank(b);
+      if (ra !== rb) return ra - rb;
+      if (ra === 0) return a.ord - b.ord;
+      if (ra === 1) return ((S.mis[b.id] || 0) - (S.mis[a.id] || 0)) || (a.ord - b.ord);
+      return (lv(a.id) - lv(b.id)) || (r[a.id] - r[b.id]);
     });
   }
-  function pickLessonItems(pool, n, newMax) {
-    const sorted = sortForLesson(pool), out = [];
-    let nNew = 0;
-    for (const it of sorted) {
-      if (out.length >= n) break;
-      if (!S.seen[it.id]) { if (nNew >= newMax) continue; nNew++; }
-      out.push(it);
-    }
-    for (const it of sorted) { if (out.length >= n) break; if (!out.includes(it)) out.push(it); }
-    return out;
+  // Сначала новые слова по порядку учебника, потом слова с ошибками.
+  // Пройденные попадают только в короткий повтор, когда всё остальное закончилось.
+  function pickLessonItems(pool) {
+    const sorted = sortForLesson(pool);
+    const todo = sorted.filter(i => rank(i) < 2);
+    if (!todo.length) return sorted.slice(0, 8);
+    const p = todo.length;
+    const n = p <= 7 ? p : p <= 12 ? Math.ceil(p / 2) : 6;
+    return todo.slice(0, n);
   }
   function exIdx(it, avoid) {
     const n = it.ex.length;
@@ -219,15 +285,12 @@
     return k;
   }
   function easyType(it) {
-    const l = lv(it.id);
-    if (l === 0) return pick(multi(it) ? ["ru2en", "choice", "build", "en2ru"] : ["en2ru", "ru2en", "choice"]);
-    if (l < 3) return pick(multi(it) ? ["choice", "build", "ru2en"] : ["choice", "ru2en", "en2ru"]);
-    return pick(it.p ? ["type", "form", "choice"] : ["type", "choice"]);
+    return pick(multi(it) ? ["ru2en", "choice", "build", "en2ru"] : ["en2ru", "ru2en", "choice"]);
   }
   function hardType(it) {
-    const l = lv(it.id);
-    if (l <= 1) return pick(["choice", "type"]);
-    return pick(it.p ? ["type", "type", "form"] : multi(it) ? ["type", "type", "build"] : ["type", "type", "choice"]);
+    if (lv(it.id) >= LEARNED) return pick(it.p ? ["type", "form", "type"] : ["type", "type", "choice"]);
+    if (S.seen[it.id]) return "type";
+    return pick(["choice", "type"]);
   }
   function matchSet(items) {
     const out = [], gs = new Set(), rus = new Set();
@@ -241,15 +304,16 @@
     return out.length >= 4 ? out : null;
   }
   function buildLesson(items) {
+    // новое / с ошибкой: карточка (если новое) + 2 задания; пройденное при повторе: 1 задание
     const q = [], first = {};
-    items.forEach(it => {
+    items.filter(it => lv(it.id) < LEARNED).forEach(it => {
       if (!S.seen[it.id]) q.push({ t: "intro", id: it.id });
       const e = exIdx(it, -1); first[it.id] = e;
       q.push({ t: easyType(it), id: it.id, ex: e });
     });
     const m = matchSet(items);
     if (m) q.push({ t: "match", ids: m });
-    shuffle(items.slice()).forEach(it => q.push({ t: hardType(it), id: it.id, ex: exIdx(it, first[it.id]) }));
+    shuffle(items.slice()).forEach(it => q.push({ t: hardType(it), id: it.id, ex: exIdx(it, first[it.id] != null ? first[it.id] : -1) }));
     return q;
   }
 
@@ -263,7 +327,7 @@
       title = "Работа над ошибками";
       if (!pool.length) return renderHome();
     } else { pool = ITEMS; title = "Тренировка"; }
-    items = kind === "mis" ? pool.slice(0, 6) : pickLessonItems(pool, 6, 5);
+    items = kind === "mis" ? pool.slice(0, 6) : pickLessonItems(pool);
     runLesson({ mode: "lesson", title, queue: buildLesson(items), items: items.map(i => i.id), again: () => startLesson(kind, arg) });
   }
   function startExam(scope, n) {
@@ -282,6 +346,8 @@
   function runLesson(cfg) {
     L = Object.assign({ i: 0, correct: 0, wrong: 0, xp: 0, combo: 0, maxCombo: 0, t0: Date.now(), log: [], retries: {}, before: {}, phase: "answer", cur: null }, cfg);
     cfg.items.forEach(id => (L.before[id] = lv(id)));
+    L.left = {}; L.slip = {};
+    L.queue.forEach(q => { if (q.id && q.t !== "intro") L.left[q.id] = (L.left[q.id] || 0) + 1; });
     app.innerHTML = `<div class="lesson">
       <div class="ltop">
         <button class="iconbtn" id="quit" type="button" aria-label="Выйти">✕</button>
@@ -350,22 +416,27 @@
 
   function grade(q, ok, hard, extra) {
     const it = BY[q.id], id = it.id, l = lv(id);
-    if (ok) {
-      L.correct++; L.combo++; L.maxCombo = Math.max(L.maxCombo, L.combo);
-      S.m[id] = hard && !q.hinted ? Math.min(MAXL, l + 1) : l < 3 ? l + 1 : l;
-      if (hard && !q.hinted && S.mis[id]) { S.mis[id]--; if (!S.mis[id]) delete S.mis[id]; }
-      L.xp += hard ? 15 : 10;
-    } else {
-      L.wrong++; L.combo = 0;
-      S.m[id] = Math.max(0, l - 1);
-      S.mis[id] = (S.mis[id] || 0) + 1;
-      if (L.mode !== "exam") {
-        const r = L.retries[id] || 0;
-        if (r < 2) { L.retries[id] = r + 1; L.queue.push({ t: q.t, id, ex: exIdx(it, q.ex), retry: true }); }
-      }
-    }
+    const pass = () => { S.m[id] = Math.min(MAXL, Math.max(l, LEARNED - 1) + 1); delete S.mis[id]; };
+    const fail = () => { S.m[id] = Math.max(1, Math.min(l, LEARNED - 1)); };
     S.seen[id] = true;
-    if (L.mode === "exam") L.log.push(Object.assign({ id, ok, t: q.t, ex: q.ex }, extra || {}));
+    if (ok) { L.correct++; L.combo++; L.maxCombo = Math.max(L.maxCombo, L.combo); L.xp += hard ? 15 : 10; }
+    else { L.wrong++; L.combo = 0; S.mis[id] = (S.mis[id] || 0) + 1; }
+    if (L.mode === "exam") {
+      ok ? pass() : fail();
+      L.log.push(Object.assign({ id, ok, t: q.t, ex: q.ex }, extra || {}));
+    } else {
+      if (!ok) {
+        L.slip[id] = true;
+        if (!L.retries[id]) {          // одна попытка исправиться в конце урока
+          L.retries[id] = 1;
+          L.queue.push({ t: q.t, id, ex: exIdx(it, q.ex), retry: true });
+          L.left[id] = (L.left[id] || 0) + 1;
+        }
+      }
+      L.left[id] = (L.left[id] || 1) - 1;
+      // все задания по слову в этом блоке пройдены: без ошибок — засчитано, с ошибкой — вернётся позже
+      if (L.left[id] <= 0) (L.slip[id] ? fail : pass)();
+    }
     save();
     $("#ltag").innerHTML = L.combo >= 3 ? `<span class="combo">🔥 ${L.combo}</span>` : `${Math.min(L.i + 1, L.queue.length)}/${L.queue.length}`;
   }
@@ -626,24 +697,28 @@
   }
 
   function renderLessonResult(acc, time) {
+    let nPass = 0, nBack = 0;
     const rows = L.items.map(id => {
-      const it = BY[id];
-      return `<div class="wrow"><div class="wtxt"><b>${esc(it.en)}</b><small>${esc(it.ru)}</small></div>${dots(lv(id), L.before[id])}</div>`;
+      const it = BY[id], okNow = lv(id) >= LEARNED, wasL = L.before[id] >= LEARNED;
+      okNow ? nPass++ : nBack++;
+      const tag = okNow ? `<span class="tag ok">✓ ${wasL ? "повторено" : "засчитано"}</span>` : `<span class="tag mis">на повтор</span>`;
+      return `<div class="wrow"><div class="wtxt"><b>${esc(it.en)}</b><small>${esc(it.ru)}</small></div>${tag}</div>`;
     }).join("");
     const learned = learnedIn(ITEMS);
     const again = L.again;
+    const nextLabel = learned === TOTAL ? "Ещё повтор" : "Следующий блок";
     app.innerHTML = `<div class="res">
       <div class="res-ico">${acc >= 90 ? "🏆" : acc >= 70 ? "🎉" : "💪"}</div>
-      <h1>${acc >= 90 ? "Отличный урок!" : acc >= 70 ? "Урок пройден!" : "Урок пройден"}</h1>
-      <p class="res-sub">${acc >= 70 ? `Выучено ${learned} из ${TOTAL}. ${L.maxCombo >= 5 ? `Серия без ошибок — ${L.maxCombo} подряд.` : ""}` : "Ошибки ушли в «Работу над ошибками» — они ещё попадутся."}</p>
+      <h1>${acc >= 90 ? "Отличный блок!" : "Блок пройден!"}</h1>
+      <p class="res-sub">Засчитано ${nPass} из ${L.items.length}. Всего пройдено ${learned} из ${TOTAL}.${nBack ? "<br>Слова с ошибками вернутся, когда закончатся новые, — или сразу через «Ошибки»." : ""}</p>
       <div class="stats3">
         <div class="st xp"><b>+${L.xp}</b><small>опыт</small></div>
         <div class="st acc"><b>${acc}%</b><small>точность</small></div>
         <div class="st tm"><b>${time}</b><small>время</small></div>
       </div>
-      <div class="card left"><div class="card-h">Слова урока <span class="legend"><i class="up"></i>выросло</span></div>${rows}</div>
+      <div class="card left"><div class="card-h">Слова блока</div>${rows}</div>
       <div class="res-btns">
-        <button class="btn primary wide" id="again" type="button">Ещё урок</button>
+        <button class="btn primary wide" id="again" type="button">${nextLabel}</button>
         <button class="btn wide" id="home" type="button">На главную</button>
       </div>
     </div>`;
@@ -694,17 +769,19 @@
     const misN = ITEMS.filter(i => (S.mis[i.id] || 0) > 0).length;
     const pct = Math.round((100 * learned) / TOTAL);
     const left = TOTAL - learned;
-    const hint = learned === TOTAL ? "Всё выучено! Прогони пробный тест пару раз перед парой."
-      : seen < TOTAL ? `Новых слов осталось: ${TOTAL - seen}. Урок ≈ 3–4 минуты, по 6 слов.`
-      : `Все слова уже видел — осталось закрепить ${left}. Лучше всего — вписывать самому.`;
+    const blocksLeft = Math.ceil((TOTAL - seen) / 6);
+    const hint = learned === TOTAL ? "Все слова пройдены! Теперь прогони пробный тест пару раз."
+      : seen < TOTAL ? `Новых слов: ${TOTAL - seen} — это примерно ${blocksLeft} ${blocksLeft === 1 ? "блок" : blocksLeft < 5 ? "блока" : "блоков"} по 3–4 минуты.${misN ? ` Ещё ${misN} с ошибками — вернутся в конце.` : ""}`
+      : `Новые слова закончились. Осталось добить ${left} с ошибками.`;
+    const smartLabel = learned === TOTAL ? "Повторить пройденное" : seen ? "Следующий блок" : "Начать тренировку";
     const unit = u => {
       const cs = CATS.filter(c => c.u === u);
       const its = ITEMS.filter(i => i.u === u);
       return `<section class="unit">
-        <div class="unit-h"><span class="unit-badge">Unit ${u}</span><span class="unit-meta">${learnedIn(its)}/${its.length} выучено</span></div>
+        <div class="unit-h"><span class="unit-badge">Unit ${u}</span><span class="unit-meta">${learnedIn(its)}/${its.length} пройдено</span></div>
         <div class="cats">${cs.map(c => {
           const ci = ITEMS.filter(i => i.c === c.id), lc = learnedIn(ci);
-          const prog = Math.round((100 * ci.reduce((s, i) => s + Math.min(lv(i.id), LEARNED), 0)) / (ci.length * LEARNED));
+          const prog = Math.round((100 * lc) / ci.length);
           return `<button class="cat ${lc === ci.length ? "full" : ""}" type="button" data-cat="${c.id}" style="--h:${c.hue}">
             <span class="ci">${c.icon}</span>
             <span class="cb"><b>${esc(c.ru)}</b><small>${esc(c.en)} · ${ci.length} слов</small>
@@ -719,15 +796,17 @@
         <div class="brand"><span class="logo">E4</span><div><b>Английский</b><small>Evolve 4 · Units 1–3</small></div></div>
         <div class="pills"><span class="pill streak" title="Дней подряд">🔥 ${S.streak.n}</span><span class="pill xp" title="Опыт">⚡ ${S.xp}</span></div>
       </header>
+      ${!STORE_OK ? `<div class="warn">⚠️ Этот браузер не даёт сохранять прогресс (может, включён приватный режим). Открой сайт в обычной вкладке Safari или сохраняй «Ссылку с прогрессом» внизу.</div>`
+        : IN_APP ? `<div class="warn">⚠️ Похоже, сайт открыт внутри приложения — там прогресс может стираться. Нажми «⋯» или «Поделиться» → «Открыть в Safari». Или сохраняй «Ссылку с прогрессом» внизу.</div>` : ""}
 
       <section class="hero">
         <div class="hero-row">
-          <div><div class="hero-num">${learned}<span> / ${TOTAL}</span></div><div class="hero-sub">слов выучено</div></div>
+          <div><div class="hero-num">${learned}<span> / ${TOTAL}</span></div><div class="hero-sub">слов пройдено</div></div>
           <div class="hero-pct">${pct}%</div>
         </div>
         <div class="bar big"><i style="width:${pct}%"></i></div>
         <p class="hint">${hint}</p>
-        <button class="btn primary wide big" id="smart" type="button">${seen ? "Продолжить" : "Начать"} тренировку</button>
+        <button class="btn primary wide big" id="smart" type="button">${smartLabel}</button>
       </section>
 
       <section class="modes">
@@ -741,7 +820,13 @@
 
       <section class="howto card">
         <div class="card-h">Как это работает</div>
-        <p>У каждого слова шкала ${dots(3)} из пяти делений. Задания с вариантами поднимают её максимум до трёх, дальше — только когда вписываешь слово сам, без подсказки. Слово считается выученным с четырёх делений. Ошибка отнимает деление и возвращает слово в конец урока.</p>
+        <p>Каждое слово проходишь один раз: карточка и два задания. Без ошибок — слово засчитано <span class="bdg ok">✓</span> и больше не попадётся, пока не пройдёшь остальные. Ошибся — слово уходит в «Ошибки» <span class="bdg mis">!</span> и вернётся, когда закончатся новые. Когда пройдено всё, «Повторить» гоняет по одному заданию на слово.</p>
+      </section>
+
+      <section class="card savebox">
+        <div class="card-h">💾 Прогресс</div>
+        <p>Сохраняется сам после каждого задания — в этом браузере. Для подстраховки или чтобы продолжить на другом устройстве, сохрани ссылку с прогрессом (в заметки или себе в сообщения): открываешь её — и всё подтягивается.</p>
+        <button class="btn wide" id="share" type="button">Ссылка с прогрессом</button>
       </section>
 
       <footer class="settings">
@@ -758,6 +843,8 @@
     app.querySelectorAll("[data-cat]").forEach(b => (b.onclick = () => startLesson("cat", b.dataset.cat)));
     $("#t-snd").onclick = () => { S.snd = !S.snd; save(); renderHome(); };
     $("#t-tts").onclick = () => { S.tts = !S.tts; save(); renderHome(); };
+    $("#share").onclick = shareProgress;
+    if (TOAST) { showToast(TOAST); TOAST = ""; }
   }
 
   function subHead(title) {
@@ -891,7 +978,7 @@
         ${its.map(it => `<div class="drow">
           <div class="drow-main" role="button" tabindex="0">
             <div class="drow-txt"><div class="drow-en">${esc(it.en)}</div><div class="drow-ru ${S.hideRu ? "blur" : ""}">${esc(it.ru)}</div></div>
-            ${dots(lv(it.id))}${spk(it.b)}
+            ${badge(it.id)}${spk(it.b)}
           </div>
           <div class="drow-more" hidden>${it.x ? `<div class="note">💡 ${esc(it.x)}</div>` : ""}${it.ex.map(e => `<p>${hl(e)}</p>`).join("")}</div>
         </div>`).join("")}
@@ -916,7 +1003,7 @@
   });
 
   // для проверки из консоли
-  window.__trainer = { ITEMS, S, checkText, keyRe, distractors, buildLesson, pickLessonItems, lesson: () => L };
+  window.__trainer = { ITEMS, S, checkText, keyRe, distractors, buildLesson, pickLessonItems, encodeProgress, lesson: () => L };
 
   renderHome();
 })();

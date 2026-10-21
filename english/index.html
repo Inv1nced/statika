@@ -65,9 +65,19 @@ button{font:inherit;color:inherit;cursor:pointer}
   box-shadow:inset 0 -4px 0 rgba(0,0,0,.08),inset 0 4px 0 rgba(255,255,255,.22);min-width:0}
 .bar.sm{height:9px;margin-top:9px}
 .bar.big{height:18px;margin:14px 0 10px}
-.dots{display:inline-flex;gap:3px;flex:none}
-.dots i{width:9px;height:9px;border-radius:50%;background:var(--line2)}
-.dots i.on{background:var(--green)} .dots i.up{background:var(--gold)}
+.bdg{width:24px;height:24px;border-radius:50%;display:inline-grid;place-items:center;font-weight:900;font-size:13px;flex:none;
+  border:2px solid var(--line2);color:var(--muted);vertical-align:middle;line-height:1}
+.bdg.ok{background:var(--green);border-color:var(--green);color:#fff}
+.bdg.mis{background:var(--gold);border-color:var(--gold);color:#fff}
+.tag{font-size:13px;font-weight:900;padding:5px 10px;border-radius:99px;white-space:nowrap;flex:none}
+.tag.ok{background:var(--green-bg);color:var(--green-ink)}
+.tag.mis{background:rgba(232,162,0,.16);color:var(--gold)}
+.warn{background:rgba(232,162,0,.14);border:2px solid rgba(232,162,0,.45);border-radius:16px;padding:12px 14px;font-weight:700;font-size:14px;line-height:1.45;margin-bottom:12px}
+.savebox{margin-top:12px}
+.savebox p{margin:4px 0 14px;color:var(--muted);font-weight:700;font-size:14px;line-height:1.5}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);
+  font-weight:800;padding:12px 18px;border-radius:14px;z-index:50;max-width:90vw;text-align:center;transition:opacity .5s;box-shadow:0 6px 24px rgba(0,0,0,.2)}
+.toast.off{opacity:0}
 
 /* ---------- главная ---------- */
 .top{display:flex;justify-content:space-between;align-items:center;padding:18px 0 14px;gap:10px}
@@ -114,7 +124,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .cat .cn{font-weight:900;color:var(--muted);font-size:14px;min-width:38px;text-align:right}
 .cat.full{border-color:rgba(var(--h),.5)}
 .howto p{margin:6px 0 0;color:var(--muted);font-weight:700;font-size:14px;line-height:1.5}
-.howto .dots{vertical-align:middle}
+.howto .bdg{width:20px;height:20px;font-size:11px}
 .settings{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 10px}
 
 /* ---------- подзаголовок, чипы ---------- */
