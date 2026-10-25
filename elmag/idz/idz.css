@@ -35,3 +35,18 @@ details.zsheet > summary{color:var(--ink)}
 /* на телефоне рисунки целиком по ширине, без горизонтальной прокрутки */
 @media (max-width:520px){body[data-store="elmagidz"] .anim > svg{min-width:0!important}}
 .qa h3 .qmore{font:600 14px var(--sans);margin-left:8px;white-space:nowrap}
+
+/* Контрольная 2А */
+.kpart{margin:46px 0 10px;padding:22px 22px 8px;border-radius:18px;background:var(--soft-blue);border:1px solid var(--line)}
+.kpart h2{font:800 clamp(26px,3.6vw,34px)/1.12 var(--sans);margin:0 0 8px;letter-spacing:-.015em}
+.kpart > p{font-size:17px;line-height:1.6;margin:0 0 6px}
+.kpart .typegrid{margin-top:14px}
+.krgrid .n{font-size:21px;line-height:26px}
+.ktype.kr .khead .num{background:var(--blue);color:#fff;font-size:21px}
+#heat .ctrl{grid-template-columns:1fr}
+#heat input[type=range]{width:100%}
+#heat .seg{flex-wrap:wrap;max-width:100%}
+#heat .seg button{white-space:nowrap;flex:1 1 auto}
+@media (max-width:520px){#heat svg text{font-size:17px}#heat svg text.t-s{font-size:14px}}
+.cheat .ch.k b{color:var(--blue)}
+@media (max-width:520px){.kpart{padding:16px 14px 6px}}

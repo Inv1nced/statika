@@ -291,5 +291,97 @@
     draw();
   }
 
-  document.addEventListener('DOMContentLoaded', function () { initBalls(); initCircuit(); initPipe(); initFrame(); });
+  /* ---------- КР 4. Ток падает: тепло = площадь под мощностью ---------- */
+  function initHeat() {
+    var box = $('#heat'); if (!box) return;
+    var svg = $('svg', box), sl = $('#heatSl'), out = $('#heatT'), txt = $('#heatTxt'), pb = $('[data-h="play"]', box);
+    var R = 12, I0 = 5, T = 10, t = 0, mode = 'real', play = false;
+    var X = function (s) { return 70 + s * 48; };
+    var YI = function (i) { return 160 - i * 22; };
+    var YP = function (p) { return 372 - p * 0.42; };
+    var I = function (s) { return I0 * (1 - s / T); };
+    var P = function (s) { var i = I(s); return i * i * R; };
+    var Q = function (s) { return R * (25 * s - 2.5 * s * s + s * s * s / 12); };
+    /* оси и подписи */
+    [[160, 36, 'I, А'], [372, 226, 'P = I²R, Вт']].forEach(function (a) {
+      mk('line', { x1: 70, y1: a[0], x2: 572, y2: a[0], class: 'thin', 'marker-end': 'url(#aK)' }, svg);
+      mk('line', { x1: 70, y1: a[0], x2: 70, y2: a[1], class: 'thin', 'marker-end': 'url(#aK)' }, svg);
+      tx(svg, a[2], { x: 80, y: a[1] + 8, class: 't-i', 'font-size': 15, 'font-weight': 700 });
+      tx(svg, 't, с', { x: 566, y: a[0] + 20, class: 't-i', 'font-size': 14 });
+      for (var s = 0; s <= 10; s += 2) tx(svg, String(s), { x: X(s), y: a[0] + 17, 'text-anchor': 'middle', class: 't-s' });
+    });
+    tx(svg, '5', { x: 62, y: YI(5) + 5, 'text-anchor': 'end', class: 't-s' });
+    mk('line', { x1: 66, y1: YI(5), x2: 74, y2: YI(5), class: 'thin' }, svg);
+    tx(svg, '300', { x: 62, y: YP(300) + 5, 'text-anchor': 'end', class: 't-s' });
+    mk('line', { x1: 66, y1: YP(300), x2: 74, y2: YP(300), class: 'thin' }, svg);
+    /* сравнение: прямоугольники-ошибки (рисуются под графиком) */
+    var cmpI = mk('line', { x1: X(0), x2: X(10), class: 'vecH', 'stroke-width': 2, 'stroke-dasharray': '7 5' }, svg);
+    var cmpR = mk('rect', { x: X(0), width: X(10) - X(0), style: 'fill:var(--soft-amber);stroke:var(--amber);stroke-width:2;stroke-dasharray:7 5' }, svg);
+    var cmpL = tx(svg, '', { x: X(10) - 6, 'text-anchor': 'end', class: 'fillH', 'font-size': 15, 'font-weight': 700 });
+    /* площадь и кривые */
+    var area = mk('polygon', { style: 'fill:var(--soft-red);stroke:none' }, svg);
+    mk('line', { x1: X(0), y1: YI(5), x2: X(10), y2: YI(0), class: 'vecB', 'stroke-width': 2.6 }, svg);
+    var pts = []; for (var s2 = 0; s2 <= 10.001; s2 += 0.1) pts.push(X(s2).toFixed(1) + ',' + YP(P(s2)).toFixed(1));
+    mk('polyline', { points: pts.join(' '), fill: 'none', style: 'stroke:var(--red);stroke-width:2.6' }, svg);
+    tx(svg, 'I = 5 − 0,5t', { x: X(1), y: 134, class: 'fillB', 'font-size': 15, 'font-weight': 700 });
+    tx(svg, 'P = 12·(5 − 0,5t)²', { x: X(1.7), y: 266, class: 'fillR', 'font-size': 15, 'font-weight': 700 });
+    /* курсор */
+    var cur = mk('line', { y1: 36, y2: 372, class: 'thin', 'stroke-dasharray': '4 4' }, svg);
+    var dI = mk('circle', { r: 6, class: 'fillB' }, svg), dP = mk('circle', { r: 6, class: 'fillR' }, svg);
+    var lI = tx(svg, '', { x: 566, y: 70, 'text-anchor': 'end', class: 'fillB', 'font-size': 15, 'font-weight': 700 }), lP = tx(svg, '', { x: 566, y: 316, 'text-anchor': 'end', class: 'fillR', 'font-size': 15, 'font-weight': 700 });
+    var big = tx(svg, '', { x: 566, y: 274, 'text-anchor': 'end', 'font-size': 17, 'font-weight': 800 });
+    var bigS = tx(svg, 'закрашенная площадь = выделившееся тепло', { x: 566, y: 292, 'text-anchor': 'end', class: 't-s' });
+
+    function draw() {
+      var a = [X(0) + ',' + YP(0)];
+      for (var s = 0; s <= t + 1e-9; s += 0.1) a.push(X(s).toFixed(1) + ',' + YP(P(s)).toFixed(1));
+      a.push(X(t).toFixed(1) + ',' + YP(P(t)).toFixed(1), X(t).toFixed(1) + ',' + YP(0));
+      area.setAttribute('points', a.join(' '));
+      var x = X(t);
+      cur.setAttribute('x1', x); cur.setAttribute('x2', x);
+      dI.setAttribute('cx', x); dI.setAttribute('cy', YI(I(t)));
+      dP.setAttribute('cx', x); dP.setAttribute('cy', YP(P(t)));
+      lI.textContent = 'сейчас I = ' + f(I(t), 1) + ' А';
+      lP.textContent = 'сейчас P = ' + f(P(t), 0) + ' Вт';
+      big.textContent = 'Q = ' + f(Q(t), 0) + ' Дж';
+      out.textContent = f(t, 1) + ' с'; sl.value = t;
+      var showCmp = mode !== 'real';
+      cmpI.style.display = cmpR.style.display = cmpL.style.display = showCmp ? '' : 'none';
+      if (showCmp) {
+        var ic = mode === 'const' ? 5 : 2.5, pc = ic * ic * R;
+        cmpI.setAttribute('y1', YI(ic)); cmpI.setAttribute('y2', YI(ic));
+        cmpR.setAttribute('y', YP(pc)); cmpR.setAttribute('height', YP(0) - YP(pc));
+        cmpL.setAttribute('y', YP(pc) - 8); cmpL.textContent = mode === 'const' ? 'ток всё время 5 А: 3000 Дж' : 'средний ток 2,5 А: 750 Дж';
+      }
+      if (mode === 'const') txt.innerHTML = 'Если бы ток все 10 с был 5 А, мощность была бы постоянной 300 Вт, и тепло — весь пунктирный прямоугольник:  <b>3000 Дж</b>. Но ток падает, мощность падает ещё быстрее, и настоящая площадь (красная) — <b>1000 Дж</b>, ровно треть.';
+      else if (mode === 'avg') txt.innerHTML = 'Частая ошибка: взять средний ток 2,5 А и посчитать  \\(2{,}5^2\\cdot12\\cdot10\\) = <b>750 Дж</b>. Это неверно: тепло зависит от <b>квадрата</b> тока, а среднее от квадрата не равно квадрату среднего. Правильно — площадь под красной кривой: <b>1000 Дж</b>.';
+      else if (t >= 10 - 1e-9) txt.innerHTML = 'Ток упал до нуля. Вся закрашенная площадь — это интеграл  \\(\\int_0^{10}12(5 - 0{,}5t)^2\\,dt\\) = <b>1000 Дж = 1 кДж</b>. Сравни с неправильными способами — кнопки сверху.';
+      else txt.innerHTML = 'Через ' + f(t, 1) + ' с ток ' + f(I(t), 1) + ' А, мощность ' + f(P(t), 0) + ' Вт. Тепло, которое уже выделилось, — закрашенная площадь: <b>' + f(Q(t), 0) + ' Дж</b>. Заметь: за первые 5 с выделилось 875 Дж, а за последние 5 с — всего 125 Дж.';
+      if (window.renderMathInElement) try { renderMathInElement(txt, { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false }); } catch (e) {}
+      pb.textContent = play ? '❚❚ Пауза' : (t >= 10 - 1e-9 ? '↺ Ещё раз' : '▶ Пустить время');
+    }
+    var L = loop(box, function (dt) {
+      if (!play) return;
+      t = Math.min(10, t + dt * 1.6);
+      if (t >= 10) play = false;
+      draw();
+    });
+    box.addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-h]'); if (!b) return;
+      if (b.getAttribute('data-h') === 'play') {
+        if (play) play = false;
+        else { if (t >= 10 - 1e-9) t = 0; mode = 'real'; play = true; if (reduce) { t = 10; play = false; } }
+        Array.prototype.forEach.call(box.querySelectorAll('[data-h="cmp"]'), function (x) { x.classList.toggle('on', x.getAttribute('data-v') === mode); });
+      } else {
+        mode = b.getAttribute('data-v'); play = false;
+        if (mode !== 'real') t = 10;
+        Array.prototype.forEach.call(box.querySelectorAll('[data-h="cmp"]'), function (x) { x.classList.toggle('on', x === b); });
+      }
+      L.set(true); draw();
+    });
+    sl.addEventListener('input', function () { t = +sl.value; play = false; draw(); });
+    draw();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () { initBalls(); initCircuit(); initPipe(); initFrame(); initHeat(); });
 })();

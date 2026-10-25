@@ -20,3 +20,9 @@
 .qlist details:target > summary,.qlist details[open] > summary{color:var(--blue)}
 .khead p a{white-space:nowrap}
 @media (max-width:520px){.kbd{display:none}.zq{font-size:18.5px}.za{font-size:16px}.zcard{padding:14px 14px 12px}}
+.zsep{flex-basis:100%;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:6px 2px 0}
+.kpart{margin:46px 0 10px;padding:22px 22px 10px;border-radius:18px;background:var(--soft-blue);border:1px solid var(--line)}
+.kpart h2{font:800 clamp(26px,3.6vw,34px)/1.12 var(--sans);margin:0 0 8px;letter-spacing:-.015em}
+.kpart > p{font-size:17px;line-height:1.6;margin:0 0 6px}
+.ktype.kr .khead .num{background:var(--blue);color:#fff;font-size:21px}
+@media (max-width:520px){.kpart{padding:16px 14px 6px}}

@@ -4,7 +4,7 @@
   var KEY = 'elmagzash-known';
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
   function save(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
-  var NAMES = { g: 'Общие вопросы', 1: 'Задача 1 · кольцо (3-04)', 2: 'Задача 2 · шары (3-19)', 3: 'Задача 3 · батареи (4-01)', 4: 'Задача 4 · труба (5-05)', 5: 'Задача 5 · рамка (5-22)' };
+  var NAMES = { g: 'Общие вопросы', w: 'Отдалённый вопрос', 1: 'ИДЗ 1 · кольцо (3-04)', 2: 'ИДЗ 2 · шары (3-19)', 3: 'ИДЗ 3 · батареи (4-01)', 4: 'ИДЗ 4 · труба (5-05)', 5: 'ИДЗ 5 · рамка (5-22)', k1: 'КР 1 · стержень', k2: 'КР 2 · два заряда', k3: 'КР 3 · конденсатор', k4: 'КР 4 · теплота', k5: 'КР 5 · провода' };
 
   /* id для каждого вопроса — сразу, до отрисовки формул */
   var items = Array.prototype.slice.call(document.querySelectorAll('details.qcard')), cnt = {};
