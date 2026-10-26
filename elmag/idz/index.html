@@ -41,7 +41,7 @@
   <h1>ИДЗ №1 и контрольная<span>к защите</span></h1>
   <p class="big">На защите преподаватель выберет <b>две задачи из ИДЗ</b> и <b>две из контрольной</b>. Здесь все десять: пять задач ИДЗ (номер 8, шифр 3) и пять задач контрольной, вариант 2А.</p>
   <p>По каждой задаче: картинка или анимация, что происходит простыми словами, решение по шагам, как записать в тетради, <b>что сказать преподавателю</b> и <b>какие вопросы могут задать</b>, с ответами.</p>
-  <p><a class="btn" href="zashita/" style="text-decoration:none;display:inline-block">Тренажёр к разговору на защите: 147 вопросов с ответами →</a></p>
+  <p><a class="btn" href="#vyvody" style="text-decoration:none;display:inline-block;margin:0 8px 8px 0">Выводы всех формул →</a><a class="btn" href="zashita/" style="text-decoration:none;display:inline-block">Тренажёр к разговору на защите: 147 вопросов с ответами →</a></p>
 </div>
 
 <section id="map">
@@ -1014,6 +1014,35 @@
     <div class="check" data-ans="250" data-tol="0.02"><label>\(B\) = <input inputmode="decimal" autocomplete="off"> мкТл</label><button class="btn" type="button">Проверить</button><span class="verdict" aria-live="polite"></span></div>
     <details class="hint"><summary>Подсказка</summary><div class="inner">\(B = \mu_0H\), \(\mu_0 = 4\pi\cdot10^{-7}\) Гн/м.</div></details>
     <details class="sol"><summary>Ответ</summary><div class="inner">\(B = 4\pi\cdot10^{-7}\cdot198{,}9 \approx 2{,}5\cdot10^{-4}\) Тл \(= 250\) мкТл.</div></details>
+  </div>
+</section>
+
+<!-- ================= ВЫВОДЫ ФОРМУЛ ================= -->
+<section class="ktype" id="vyvody">
+  <div class="khead"><span class="num">∫</span><div><h2>Выводы всех формул</h2><p>Если спросят «откуда эта формула» — по каждой задаче ИДЗ и контрольной.</p></div></div>
+
+  <h3 class="qtitle">Две базовые формулы — на них держится почти всё</h3>
+  <div class="cheat">
+    <div class="ch"><b>Поле точечного заряда</b><p>Закон Кулона \(F = kqQ/r^2\). Напряжённость — сила на единичный заряд:</p>$$E = \frac{F}{Q} = \frac{kq}{r^2}$$</div>
+    <div class="ch"><b>Потенциал точечного заряда</b><p>Работа поля по уводу заряда \(Q\) из точки на бесконечность, делённая на \(Q\):</p>$$A = \int_r^\infty \frac{kqQ}{r^2}\,dr = \frac{kqQ}{r},\quad \varphi = \frac{A}{Q} = \frac{kq}{r}$$<p>Работа между точками: \(A = Q(\varphi_1 - \varphi_2)\).</p></div>
+  </div>
+
+  <h3 class="qtitle">ИДЗ</h3>
+  <div class="cheat">
+    <div class="ch"><b>1 · Кольцо: \(\varphi = kq_1/\sqrt{R^2 + h^2}\)</b><p>Режем кольцо на кусочки \(dq\). По Пифагору все они на одном расстоянии \(\sqrt{R^2 + h^2}\) от точки на оси. Потенциал — скаляр, складываем:</p>$$\varphi = \int\frac{k\,dq}{\sqrt{R^2 + h^2}} = \frac{k}{\sqrt{R^2 + h^2}}\int dq = \frac{kq_1}{\sqrt{R^2 + h^2}}$$<p>Работа: \(A = q_2(\varphi_1 - \varphi_2)\).</p></div>
+    <div class="ch"><b>2 · Шары: \(\varphi = kq/R\)</b><p>Теорема Гаусса снаружи шара: \(E\cdot4\pi r^2 = q/\varepsilon_0\), то есть \(E = kq/r^2\), как у точки в центре. Значит, на поверхности \(\varphi = kq/R\).</p><p>После соединения потенциалы равны, заряд сохраняется: \(q_1 + q_2 = q_1' + q_2'\), \(q' = \varphi R/k\):</p>$$\varphi = \frac{k(q_1 + q_2)}{R_1 + R_2}$$</div>
+    <div class="ch"><b>3 · Батареи: \(U = \mathcal E - Ir\)</b><p>ЭДС — работа сторонних сил на единицу заряда; часть энергии теряется на внутреннем сопротивлении. Батарея отдаёт ток: \(U = \mathcal E_1 - Ir_1\). Через вторую ток идёт против её ЭДС (её заряжают): \(U = \mathcal E_2 + Ir_2\).</p>$$I = \frac{\mathcal E_1 - \mathcal E_2}{r_1 + r_2},\qquad r_1 = \frac{\mathcal E_1 - U}{I}$$</div>
+    <div class="ch"><b>4 · Труба: \(H\cdot2\pi r = I_\text{охв}\)</b><p>Теорема о циркуляции \(\oint H\,dl = I_\text{охв}\) по окружности радиуса \(r\): по симметрии \(H\) везде одинаков и по касательной, \(\oint H\,dl = H\cdot2\pi r\). Ток равномерен — доля тока = доля площади:</p>$$H = \frac{I\,(r^2 - R_1^2)}{2\pi r\,(R_2^2 - R_1^2)}$$</div>
+    <div class="ch"><b>5 · Рамка: \(\langle\varepsilon\rangle = 4\nu BS\)</b><p>Поток \(\Phi = BS\cos\alpha\). Закон Фарадея: \(\langle\varepsilon\rangle = |\Delta\Phi|/\Delta t\). От 0 (ребром, \(\alpha = 90^\circ\)) до \(BS\) (лицом, \(\alpha = 0\)) — четверть оборота, \(\Delta t = T/4 = 1/(4\nu)\):</p>$$\langle\varepsilon\rangle = \frac{BS}{1/(4\nu)} = 4\nu BS\ \Rightarrow\ \nu = \frac{\langle\varepsilon\rangle}{4BS}$$</div>
+  </div>
+
+  <h3 class="qtitle">Контрольная 2А</h3>
+  <div class="cheat">
+    <div class="ch k"><b>К1 · Стержень: \(F = kQ\tau/a\)</b><p>Кусочек \(dx\) несёт \(dq = \tau\,dx\), это почти точка: \(dF = kQ\tau\,dx/x^2\). Все силы на одной прямой:</p>$$F = \int_a^\infty\frac{kQ\tau\,dx}{x^2} = kQ\tau\left(-\frac1x\right)\Big|_a^\infty = \frac{kQ\tau}{a}$$</div>
+    <div class="ch k"><b>К2 · Два заряда: \(E = \sqrt{E_1^2 + E_2^2}\)</b><p>\(E = k|q|/r^2\) — из закона Кулона (см. выше). Принцип суперпозиции: \(\vec E = \vec E_1 + \vec E_2\). \(6^2 + 8^2 = 10^2\) — угол прямой, поэтому Пифагор.</p></div>
+    <div class="ch k"><b>К3 · Конденсатор: \(C = \varepsilon\varepsilon_0S/d\)</b><p>Теорема Гаусса: поле между пластинами \(E = \dfrac{\sigma}{\varepsilon\varepsilon_0} = \dfrac{q}{\varepsilon\varepsilon_0S}\). Напряжение \(U = Ed\):</p>$$C = \frac{q}{U} = \frac{\varepsilon\varepsilon_0S}{d}$$<p>Батарея держит \(U = \mathcal E\): было \(C\mathcal E\), стало \(\varepsilon C\mathcal E\), \(\Delta q = (\varepsilon - 1)C\mathcal E\).</p></div>
+    <div class="ch k"><b>К4 · Теплота: \(dQ = I^2R\,dt\)</b><p>Работа тока \(A = qU\). За \(dt\) проходит \(dq = I\,dt\), значит \(dA = UI\,dt\), а по закону Ома \(U = IR\): \(dA = I^2R\,dt\). В неподвижном проводнике вся работа — тепло.</p>$$Q = 12\int_0^{10}(5 - 0{,}5t)^2\,dt = 1000\ \text{Дж}$$<p>В общем виде \(Q = I_0^2Rt/3\).</p></div>
+    <div class="ch k"><b>К5 · Провода: \(H = I/(2\pi r)\)</b><p>Теорема о циркуляции по окружности вокруг провода: \(H\cdot2\pi r = I\). Индукция \(B = \mu_0H = \dfrac{\mu_0I}{2\pi r}\) — поэтому в \(B\) есть \(\mu_0\), а в \(H\) нет.</p></div>
   </div>
 </section>
 
