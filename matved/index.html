@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Матвед: Fe–C и рентген</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2030;--mu:#5d667a;--br:#dfe3ee;--ac:#3b5bdb;--f:#2f9e44;--p:#e8590c;--c:#7048e8;--ln:#c92a2a;--soft:#eef1fb}
+@media(prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--tx:#e8ebf5;--mu:#9aa3ba;--br:#2c3350;--ac:#748ffc;--f:#69db7c;--p:#ffa94d;--c:#b197fc;--ln:#ff8787;--soft:#232a44}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:28px 16px 8px;max-width:900px;margin:auto}
+h1{margin:0 0 4px;font-size:26px}
+header p{margin:0;color:var(--mu)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px;max-width:900px;margin:auto;display:flex;gap:8px;flex-wrap:wrap}
+nav a{padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--br);color:var(--tx);text-decoration:none;font-size:14px}
+main{max-width:900px;margin:auto;padding:8px 16px 60px}
+section{margin-top:22px}
+h2{font-size:22px;margin:0 0 10px}
+h3{font-size:17px;margin:18px 0 6px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:16px;margin:12px 0}
+.tip{background:var(--soft);border-left:4px solid var(--ac);border-radius:8px;padding:10px 14px;margin:12px 0}
+.warn{border-left-color:var(--ln)}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--tx);font:13px system-ui,sans-serif}
+svg .mu{fill:var(--mu);font-size:12px}
+svg .ln{stroke:var(--tx);stroke-width:1.6;fill:none}
+code,.f{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--soft);padding:1px 6px;border-radius:6px;font-size:15px}
+.f{display:block;padding:10px 14px;margin:8px 0;overflow-x:auto;font-size:16px}
+input,select,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--br);border-radius:8px;padding:6px 8px}
+input[type=range]{width:100%;padding:0;accent-color:var(--ac)}
+input[type=number]{width:90px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.row label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--mu)}
+.bar{display:flex;height:34px;border-radius:8px;overflow:hidden;margin:6px 0;font-size:13px;color:#fff}
+.bar div{display:flex;align-items:center;justify-content:center;white-space:nowrap;min-width:0;overflow:hidden}
+.cf{background:var(--f)}.cp{background:var(--p)}.cc{background:var(--c)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--br);padding:5px 4px;text-align:center}
+td input{width:70px}
+.res{font-size:17px}
+.big{font-size:20px;font-weight:600}
+ol li,ul li{margin:4px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Матвед: задания 2 и 3 с нуля</h1>
+  <p>Фазовые диаграммы Fe–C и правило рычага · Рентген: параметры решётки и доли фаз. Всё интерактивно — двигай ползунки.</p>
+</header>
+<nav><a href="#fec">2 · Fe–C</a><a href="#lever">Правило рычага</a><a href="#inv">Обратная задача</a><a href="#xrd">3 · Рентген</a><a href="#prof">Профиль линии</a><a href="#phase">Доли фаз</a></nav>
+<main>
+
+<section id="fec">
+<h2>Задание 2. Диаграмма Fe–C</h2>
+<div class="card">
+<p><b>Как читать.</b> По горизонтали — состав (% углерода C), по вертикали — температура. Каждая область подписана тем, что в ней есть. Нас интересует область <b>ниже 727 °C</b> (после медленного охлаждения до комнатной температуры). Чёрточка на картинке — твоя сталь с содержанием углерода <i>x</i>.</p>
+<div class="row"><label style="flex:1">x = <b id="xv">0.60</b> % C
+<input id="xs" type="range" min="0" max="6.67" step="0.01" value="0.6"></label>
+<label>или впиши: <input id="xn" type="number" min="0" max="6.67" step="0.01" value="0.6"></label></div>
+<svg id="fecsvg" viewBox="0 0 660 330" role="img" aria-label="Диаграмма Fe–C"></svg>
+<p class="mu" style="color:var(--mu);font-size:13px;margin:4px 0 0">Схема, шкала по X искажена для наглядности (как у тебя в тетради).</p>
+</div>
+
+<h3>Два слова: фаза и структура</h3>
+<div class="card">
+<ul>
+<li><b>Фазы</b> — химически и кристаллически однородные части. В Fe–C ниже 727 °C фаз всего <b>две</b>: <span style="color:var(--f)"><b>феррит (Ф)</b></span> (почти чистое железо, до 0,025 % C) и <span style="color:var(--c)"><b>цементит (Ц)</b></span> (Fe₃C, 6,67 % C).</li>
+<li><b>Структура</b> — то, что видно под микроскопом. Тут появляется <span style="color:var(--p)"><b>перлит (П)</b></span> — это не новая фаза, а «слоёный пирог» из пластинок Ф и Ц при 0,8 % C.</li>
+</ul>
+<div class="tip">Поэтому в задаче два вопроса: «какие структуры и сколько» (Ф+П или П+Ц) и «какие фазы и сколько» (всегда Ф и Ц).</div>
+</div>
+<div class="card">
+<b>Типы стали по x:</b>
+<ul>
+<li>x &lt; 0,8 — <b>доэвтектоидная</b>: структура Ф + П</li>
+<li>x = 0,8 — <b>эвтектоидная</b>: только П</li>
+<li>x &gt; 0,8 — <b>заэвтектоидная</b>: структура П + Ц (вторичный)</li>
+</ul>
+<div class="tip warn">Выше ≈2,14 % C это уже чугун (появляется ледебурит), в задачах про сталь так не берут.</div>
+</div>
+</section>
+
+<section id="lever">
+<h2>Правило рычага</h2>
+<div class="card">
+<p>Берёшь горизонталь через точку x. Её концы — составы «соседей». Доля одного соседа = <b>противоположное плечо / вся длина</b>.</p>
+<span class="f">доля левого = (R − x) / (R − L)<br>доля правого = (x − L) / (R − L)</span>
+<div class="tip">Запомнить: чем ближе x к правому краю, тем больше правого. Поэтому его доля — это <i>левый</i> отрезок (L → x), «через крест».</div>
+<h3>Структуры</h3>
+<svg id="lev1" viewBox="0 0 660 120"></svg>
+<h3>Фазы (рычаг всегда от 0,025 до 6,67)</h3>
+<svg id="lev2" viewBox="0 0 660 120"></svg>
+<div class="res" id="out"></div>
+</div>
+<div class="card">
+<b>Алгоритм для задачи «найди доли»:</b>
+<ol>
+<li>Найди x на оси: левее или правее 0,8? Это определяет структуры.</li>
+<li>Структуры: рычаг (0,025…0,8) для Ф+П или (0,8…6,67) для П+Ц.</li>
+<li>Фазы: рычаг (0,025…6,67), соседи Ф и Ц.</li>
+<li>Проверь: доли каждой пары дают 100 %.</li>
+</ol>
+</div>
+</section>
+
+<section id="inv">
+<h2>Обратная задача: по доле найти %C</h2>
+<div class="card">
+<p>Ты знаешь долю компонента структуры и ищешь x. Это <b>средневзвешенное</b>: каждый компонент вносит свой углерод.</p>
+<span class="f">%C = Σ (доля компонента × его %C)</span>
+<p>Углерод в компонентах: Ф ≈ 0,025 · П = 0,8 · Ц = 6,67.</p>
+<div class="row">
+<label>Дано:<select id="iv-t"><option value="f">Ф (доэвтектоидная)</option><option value="c">Ц (заэвтектоидная)</option></select></label>
+<label>доля, %: <input id="iv-v" type="number" value="20" min="0" max="100"></label></div>
+<div class="res" id="iv-o"></div>
+<p style="color:var(--mu);font-size:14px">Из тетради: 20 % Ф → 0,645 % C; 15 % Ц → 1,68 % C. Проверь себя ниже.</p>
+</div>
+</section>
+
+<section id="xrd">
+<h2>Задание 3. Рентген: параметр решётки</h2>
+<div class="card">
+<p>Рентгеновские лучи отражаются от семейств атомных плоскостей. Лучи усиливают друг друга, только если разность хода — целое число длин волн. Это <b>закон Брэгга</b>:</p>
+<span class="f">λ = 2 · d · sin θ</span>
+<svg viewBox="0 0 660 270" role="img" aria-label="Закон Брэгга">
+<g stroke="var(--tx)" stroke-width="1.5" fill="none">
+<line x1="80" y1="100" x2="500" y2="100"/><line x1="80" y1="170" x2="500" y2="170"/><line x1="80" y1="240" x2="500" y2="240"/>
+</g>
+<g fill="var(--ac)"><circle cx="110" cy="100" r="5"/><circle cx="200" cy="100" r="5"/><circle cx="290" cy="100" r="5"/><circle cx="380" cy="100" r="5"/><circle cx="470" cy="100" r="5"/>
+<circle cx="110" cy="170" r="5"/><circle cx="200" cy="170" r="5"/><circle cx="290" cy="170" r="5"/><circle cx="380" cy="170" r="5"/><circle cx="470" cy="170" r="5"/>
+<circle cx="110" cy="240" r="5"/><circle cx="200" cy="240" r="5"/><circle cx="290" cy="240" r="5"/><circle cx="380" cy="240" r="5"/><circle cx="470" cy="240" r="5"/></g>
+<g stroke="var(--ln)" stroke-width="2" fill="none"><polyline points="70,30 200,100 330,30"/><polyline points="30,30 290,170 550,30" stroke-dasharray="0"/></g>
+<path d="M165 100 A35 35 0 0 1 172 80" stroke="var(--tx)" fill="none"/>
+<text x="140" y="92">θ</text>
+<line x1="540" y1="100" x2="540" y2="170" stroke="var(--tx)"/><text x="548" y="140">d</text>
+<text x="78" y="22" class="mu">луч 1</text><text x="12" y="22" class="mu">луч 2</text>
+<text x="515" y="64">плоскости (hkl)</text>
+</svg>
+<p>Второй луч проходит лишний путь <b>2d·sin θ</b>. Для кубической решётки расстояние между плоскостями:</p>
+<span class="f">d = a / √(h² + k² + l²)<br>a = λ · √(h² + k² + l²) / (2 sin θ)</span>
+<div class="tip">На дифрактограмме пик подписан <b>2θ</b>, а в формулу идёт θ: <b>делишь пик пополам</b>. Это ты делаешь верно (37,9/2). λ = 1,54178 Å — излучение Cu Kα. 1 Å = 10⁻¹⁰ м. (hkl) — индексы Миллера плоскости, которые ты уже рисовал.</div>
+</div>
+
+<div class="card">
+<b>Задача 3 (прямая): найти a по пику</b>
+<div class="row">
+<label>λ, Å <input id="a-l" type="number" step="0.00001" value="1.54178" style="width:110px"></label>
+<label>2θ, ° <input id="a-t" type="number" step="0.01" value="37.9"></label>
+<label>h<input id="a-h" type="number" value="1" style="width:55px"></label>
+<label>k<input id="a-k" type="number" value="1" style="width:55px"></label>
+<label>l<input id="a-m" type="number" value="0" style="width:55px"></label></div>
+<div class="res" id="a-o"></div>
+</div>
+<div class="card">
+<b>Задача 4 (обратная): найти положение пика 2θ</b>
+<div class="row">
+<label>λ, Å <input id="b-l" type="number" step="0.00001" value="1.54178" style="width:110px"></label>
+<label>a, Å <input id="b-a" type="number" step="0.001" value="3.29"></label>
+<label>h<input id="b-h" type="number" value="2" style="width:55px"></label>
+<label>k<input id="b-k" type="number" value="0" style="width:55px"></label>
+<label>l<input id="b-m" type="number" value="0" style="width:55px"></label></div>
+<div class="res" id="b-o"></div>
+<span class="f">sin θ = λ·√(h²+k²+l²) / (2a)<br>2θ = 2 · arcsin(sin θ)</span>
+<div class="tip warn">Не забудь умножить θ на 2 в конце. В тетради у тебя 27,95° · 2 = 55,9° — это верно.</div>
+</div>
+</section>
+
+<section id="prof">
+<h2>Анализ профиля линии</h2>
+<div class="card">
+<p>Дифракционный пик стоит на фоне. Нужны три величины: высота пика <b>I_пика</b>, уровень фона <b>I_фона</b> и ширина пика <b>B</b> на половине его высоты (над фоном).</p>
+<svg viewBox="0 0 660 260" role="img" aria-label="Профиль линии">
+<path d="M40 210 L620 210" stroke="var(--tx)" stroke-width="1.5"/>
+<path d="M40 190 L620 190" stroke="var(--ln)" stroke-width="1.6" stroke-dasharray="6 4"/>
+<path d="M40 190 C 200 190 250 188 290 150 C 310 50 320 30 330 30 C 340 30 350 50 370 150 C 410 188 460 190 620 190" stroke="var(--ac)" stroke-width="2.5" fill="none"/>
+<line x1="330" y1="190" x2="330" y2="30" stroke="var(--tx)" stroke-width="1.4"/>
+<line x1="336" y1="190" x2="336" y2="30" stroke="var(--tx)"/>
+<line x1="296" y1="110" x2="364" y2="110" stroke="var(--p)" stroke-width="3"/>
+<text x="372" y="26">I_пика</text><text x="560" y="182" style="fill:var(--ln)">I_фона</text>
+<text x="368" y="114" style="fill:var(--p)">B (на половине высоты)</text>
+<text x="40" y="232" class="mu">угол 2θ →</text>
+</svg>
+<span class="f">I_int = (I_пика − I_фона) / I_фона · B</span>
+<p>Идея: берём насколько пик выше фона и умножаем на ширину — получается «площадь» линии. Чем больше фазы в образце, тем больше площадь её линий.</p>
+</div>
+</section>
+
+<section id="phase">
+<h2>Определение соотношения фаз</h2>
+<div class="card">
+<p>Для каждой линии считаем I_int, потом складываем отдельно линии фазы A (α″) и фазы B (β):</p>
+<span class="f">A / B = Σ I_int(A) / Σ I_int(B)</span>
+<p>Ниже твои данные из тетради. Фон везде 400. Меняй числа и смотри пересчёт.</p>
+<table id="tb"><thead><tr><th>линия</th><th>фаза</th><th>I_пика</th><th>I_фона</th><th>B</th><th>I_int</th></tr></thead><tbody></tbody></table>
+<div class="row" style="margin-top:12px"><div class="big" id="tsum"></div></div>
+<div class="bar" id="tbar"></div>
+<div class="tip warn"><b>Проверка:</b> по этим данным Σ(α″) = 2,475 + 7,5 + 15,2 + 3 + 2 + 2,75 = <b>32,925</b> (в тетради вышло 32,325 — опечатка в сложении), Σ(β) = 30 + 13,3 + 27,45 = <b>70,75</b>. Значит A/B ≈ <b>0,47</b>, а не 0,46. Все 9 значений I_int у тебя посчитаны верно, ошибка только в сумме.</div>
+<p style="color:var(--mu);font-size:14px">Это упрощённая формула из лекции. На практике ещё вводят поправки, но на КР считают именно так.</p>
+</div>
+</section>
+
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const A=0.025,S=0.8,C=6.67;
+const f2=v=>v.toFixed(2).replace('.',',');
+const f1=v=>v.toFixed(1).replace('.',',');
+const px=c=>c<=A?60+c/A*50:c<=S?110+(c-A)/(S-A)*170:280+(c-S)/(C-S)*320;
+const NS='http://www.w3.org/2000/svg';
+const colv={f:'var(--f)',p:'var(--p)',c:'var(--c)'};
+
+function drawFeC(x){
+ const m=px(x);
+ $('fecsvg').innerHTML=`
+ <polygon points="60,40 600,40 600,60 280,160 60,60" fill="#ffd8a8" opacity=".55"/>
+ <polygon points="60,60 280,160 110,160" fill="#ffe8cc" opacity=".6"/>
+ <polygon points="280,160 600,60 600,160" fill="#d0bfff" opacity=".4"/>
+ <polygon points="60,60 110,160 110,290 60,290" fill="#b2f2bb" opacity=".6"/>
+ <polygon points="110,160 280,160 280,290 110,290" fill="#ffd8a8" opacity=".35"/>
+ <polygon points="280,160 600,160 600,290 280,290" fill="#d0bfff" opacity=".3"/>
+ <g class="ln"><line x1="60" y1="290" x2="620" y2="290"/><line x1="60" y1="290" x2="60" y2="30"/>
+ <path d="M60 60 L280 160 M280 160 L600 60 M110 160 L600 160 M60 60 L110 160 L110 290 M280 160 L280 290 M600 40 L600 290"/></g>
+ <text x="330" y="100" font-size="16">Аустенит (А)</text>
+ <text x="118" y="146">А+Ф</text><text x="470" y="140">А+Ц</text>
+ <text x="72" y="235">Ф</text>
+ <text x="150" y="235">Ф + П</text><text x="420" y="235">П + Ц</text>
+ <text x="12" y="165" class="mu">727 °C</text><text x="14" y="38" class="mu">T ↑</text>
+ <text x="40" y="308" class="mu">Fe</text><text x="95" y="308" class="mu">0,025</text><text x="268" y="308" class="mu">0,8</text><text x="570" y="308" class="mu">6,67 % C</text>
+ <text x="525" y="28" class="mu">Fe₃C (цементит)</text>
+ <line x1="${m}" y1="38" x2="${m}" y2="290" stroke="var(--ln)" stroke-width="2.5" stroke-dasharray="6 4"/>
+ <circle cx="${m}" cy="225" r="5" fill="var(--ln)"/>
+ <text x="${Math.min(Math.max(m-24,62),580)}" y="24" style="fill:var(--ln);font-weight:600">x = ${f2(x)}</text>`;
+}
+
+function lever(id,L,R,x,ln,lc,rn,rc,title){
+ const X=v=>60+(v-L)/(R-L)*540, m=X(x);
+ const fl=(R-x)/(R-L)*100, fr=(x-L)/(R-L)*100;
+ $(id).innerHTML=`
+ <text x="60" y="18" class="mu">${title}</text>
+ <rect x="60" y="40" width="${m-60}" height="26" fill="${colv[rc]}" opacity=".85"/>
+ <rect x="${m}" y="40" width="${600-m}" height="26" fill="${colv[lc]}" opacity=".85"/>
+ <circle cx="${m}" cy="53" r="8" fill="var(--ln)" stroke="var(--card)" stroke-width="2"/>
+ <text x="${m-12}" y="34" style="fill:var(--ln);font-weight:600">x</text>
+ <text x="48" y="88">${ln} (${L})</text><text x="${R>10?560:540}" y="88">${rn} (${R})</text>
+ <text x="${60+(m-60)/2}" y="108" text-anchor="middle">доля ${rn}: ${f1(fr)} %</text>
+ <text x="${m+(600-m)/2}" y="108" text-anchor="middle">доля ${ln}: ${f1(fl)} %</text>`;
+}
+
+function render(x){
+ x=Math.min(Math.max(+x||0,0),C);
+ $('xv').textContent=f2(x);$('xs').value=x;$('xn').value=x;
+ drawFeC(x);
+ let o='';
+ if(x<=A){
+  lever('lev1',A,S,A,'Ф','f','П','p','Структуры');lever('lev2',A,C,A,'Ф','f','Ц','c','Фазы');
+  o='При x ≤ 0,025 % это почти чистое железо: структура и фаза — <b>феррит, 100 %</b>.';
+ }else{
+  const phf=(C-x)/(C-A)*100, phc=(x-A)/(C-A)*100;
+  if(x<S){
+   lever('lev1',A,S,x,'Ф','f','П','p','Структуры: доэвтектоидная сталь');
+   const sf=(S-x)/(S-A)*100, sp=(x-A)/(S-A)*100;
+   o=`<b>Структура: Ф + П.</b><br>Ф = (0,8 − ${f2(x)}) / (0,8 − 0,025) = <b>${f1(sf)} %</b>, П = <b>${f1(sp)} %</b>`;
+  }else if(x===S){
+   lever('lev1',S,C,S,'П','p','Ц','c','Структуры: эвтектоидная сталь');
+   o='<b>Структура: только перлит, 100 %.</b>';
+  }else{
+   lever('lev1',S,C,x,'П','p','Ц','c','Структуры: заэвтектоидная сталь');
+   const sp=(C-x)/(C-S)*100, sc=(x-S)/(C-S)*100;
+   o=`<b>Структура: П + Ц.</b><br>П = (6,67 − ${f2(x)}) / (6,67 − 0,8) = <b>${f1(sp)} %</b>, Ц = <b>${f1(sc)} %</b>`;
+  }
+  lever('lev2',A,C,x,'Ф','f','Ц','c','Фазы');
+  o+=`<br><b>Фазы: Ф + Ц.</b><br>Ф = (6,67 − ${f2(x)}) / (6,67 − 0,025) = <b>${f1(phf)} %</b>, Ц = <b>${f1(phc)} %</b>`;
+  if(x>2.14)o+='<br><span style="color:var(--ln)">Внимание: x &gt; 2,14 % — это уже чугун, схема упрощена.</span>';
+ }
+ $('out').innerHTML=o;
+}
+$('xs').oninput=e=>render(e.target.value);
+$('xn').oninput=e=>render(e.target.value);
+render(0.6);
+
+function inv(){
+ const t=$('iv-t').value,v=Math.min(Math.max(+$('iv-v').value||0,0),100)/100;
+ const c=t==='f'?A*v+S*(1-v):C*v+S*(1-v);
+ const txt=t==='f'?`%C = 0,025 · ${f2(v)} + 0,8 · ${f2(1-v)}`:`%C = 6,67 · ${f2(v)} + 0,8 · ${f2(1-v)}`;
+ $('iv-o').innerHTML=`${txt} = <b>${c.toFixed(3).replace('.',',')} %</b><br><span style="color:var(--mu);font-size:14px">(остальное — перлит: ${f2(1-v)} доли)</span>`;
+}
+$('iv-t').oninput=inv;$('iv-v').oninput=inv;inv();
+
+function calcA(){
+ const l=+$('a-l').value,t=+$('a-t').value,h=+$('a-h').value,k=+$('a-k').value,m=+$('a-m').value;
+ const N=h*h+k*k+m*m,th=t/2*Math.PI/180,a=l*Math.sqrt(N)/(2*Math.sin(th));
+ $('a-o').innerHTML=isFinite(a)&&N>0?`θ = ${f2(t/2)}°<br>a = ${l}·√${N} / (2·sin ${f2(t/2)}°) = <b>${a.toFixed(3).replace('.',',')} Å</b>`:'Проверь ввод';
+}
+function calcB(){
+ const l=+$('b-l').value,a=+$('b-a').value,h=+$('b-h').value,k=+$('b-k').value,m=+$('b-m').value;
+ const N=h*h+k*k+m*m,s=l*Math.sqrt(N)/(2*a);
+ if(!(N>0)||s>1||!isFinite(s)){$('b-o').innerHTML='Такой линии нет (sin θ &gt; 1) или ввод неверный';return}
+ const th=Math.asin(s)*180/Math.PI;
+ $('b-o').innerHTML=`sin θ = ${s.toFixed(4).replace('.',',')} → θ = ${th.toFixed(2).replace('.',',')}°<br>2θ = <b>${(2*th).toFixed(2).replace('.',',')}°</b>`;
+}
+['a-l','a-t','a-h','a-k','a-m'].forEach(i=>$(i).oninput=calcA);
+['b-l','b-a','b-h','b-k','b-m'].forEach(i=>$(i).oninput=calcB);
+calcA();calcB();
+
+const rows=[['110','α″',1300,1.1],['020','α″',2900,1.2],['111','α″',4200,1.6],['021','α″',1200,1.5],['130','α″',800,2],['131','α″',900,2.2],['110','β',15400,0.8],['200','β',4200,1.4],['211','β',6500,1.8]];
+const tb=document.querySelector('#tb tbody');
+rows.forEach((r,i)=>{
+ const tr=document.createElement('tr');
+ tr.innerHTML=`<td>${r[0]}</td><td><select data-i="${i}" data-k="p"><option${r[1]==='α″'?' selected':''}>α″</option><option${r[1]==='β'?' selected':''}>β</option></select></td>
+ <td><input type="number" data-k="ip" value="${r[2]}"></td><td><input type="number" data-k="bg" value="400"></td><td><input type="number" step="0.1" data-k="b" value="${r[3]}"></td><td class="ii"></td>`;
+ tb.appendChild(tr);
+});
+function tcalc(){
+ let sa=0,sb=0;
+ tb.querySelectorAll('tr').forEach(tr=>{
+  const g=k=>+tr.querySelector(`[data-k=${k}]`).value;
+  const v=(g('ip')-g('bg'))/g('bg')*g('b');
+  tr.querySelector('.ii').textContent=isFinite(v)?v.toFixed(3).replace('.',','):'—';
+  if(isFinite(v)){tr.querySelector('[data-k=p]').value==='β'?sb+=v:sa+=v;}
+ });
+ const r=sa/sb,tot=sa+sb;
+ $('tsum').innerHTML=`Σα″ = ${sa.toFixed(3).replace('.',',')} · Σβ = ${sb.toFixed(3).replace('.',',')} → A/B = ${r.toFixed(2).replace('.',',')}`;
+ $('tbar').innerHTML=`<div class="cp" style="width:${sa/tot*100}%">α″ ${f1(sa/tot*100)} %</div><div class="cc" style="width:${sb/tot*100}%">β ${f1(sb/tot*100)} %</div>`;
+}
+tb.oninput=tcalc;tb.onchange=tcalc;tcalc();
+</script>
+</body>
+</html>
