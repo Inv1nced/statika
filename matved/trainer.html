@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Матвед: тренажёр КР</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2030;--mu:#5d667a;--br:#dfe3ee;--ac:#3b5bdb;--f:#2f9e44;--p:#e8590c;--c:#7048e8;--ln:#c92a2a;--soft:#eef1fb;--ok:#2b8a3e;--okb:#e6f6ea;--bad:#c92a2a;--badb:#fdecec}
+@media(prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--tx:#e8ebf5;--mu:#9aa3ba;--br:#2c3350;--ac:#748ffc;--f:#69db7c;--p:#ffa94d;--c:#b197fc;--ln:#ff8787;--soft:#232a44;--ok:#69db7c;--okb:#16301f;--bad:#ff8787;--badb:#3a1f23}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:22px 16px 6px;max-width:960px;margin:auto}
+header a.back{color:var(--ac);text-decoration:none;font-size:14px}
+h1{margin:4px 0 2px;font-size:25px}
+header p{margin:0;color:var(--mu)}
+#tabs{position:sticky;top:0;z-index:6;background:var(--bg);padding:10px 16px;max-width:960px;margin:auto;display:flex;gap:8px;flex-wrap:wrap}
+#tabs button{padding:8px 13px;border-radius:99px;background:var(--card);border:1px solid var(--br);color:var(--tx);font-size:14px;cursor:pointer}
+#tabs button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+main{max-width:960px;margin:auto;padding:4px 16px 70px}
+h2{font-size:22px;margin:14px 0 8px}
+h3{font-size:17px;margin:14px 0 6px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:16px;margin:12px 0}
+.tip{background:var(--soft);border-left:4px solid var(--ac);border-radius:8px;padding:10px 14px;margin:12px 0}
+.warn{border-left-color:var(--ln)}
+details.card>summary{cursor:pointer;font-weight:600}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--tx);font:13px system-ui,sans-serif}
+svg .mu{fill:var(--mu);font-size:12px}
+svg .axl{fill:var(--mu);font-size:13px}
+svg .gm{stroke:var(--br);stroke-width:.6;opacity:.55}
+svg .gj{stroke:var(--br);stroke-width:1}
+svg .frame{fill:none;stroke:var(--tx);stroke-width:1.4}
+svg .cross line{stroke:var(--mu);stroke-width:1;stroke-dasharray:4 3}
+svg .pl{fill:var(--ac);fill-opacity:.2;stroke:var(--ac);stroke-width:2.2;stroke-linejoin:round}
+svg .ax{stroke:var(--tx);stroke-width:1.7}
+svg .axn{stroke:var(--mu);stroke-width:1.2;stroke-dasharray:5 4}
+svg .guide{stroke:var(--mu);stroke-width:1.3;stroke-dasharray:4 4;fill:none}
+svg .dir{stroke:var(--ln);stroke-width:3.2;fill:none}
+svg .curve{fill:none;stroke:var(--ac);stroke-width:2.4;stroke-linejoin:round}
+svg .ovl{stroke:var(--ln);stroke-width:1.6;stroke-dasharray:6 4;fill:none}
+svg .solt{fill:var(--ln);font-weight:600}
+code,.f{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--soft);padding:1px 6px;border-radius:6px;font-size:15px}
+.f{display:block;padding:10px 14px;margin:8px 0;overflow-x:auto}
+input,select,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--br);border-radius:8px;padding:7px 10px}
+input[type=number],input[type=text]{width:112px}
+button.pri{background:var(--ac);border-color:var(--ac);color:#fff;cursor:pointer}
+button.sec{cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.row label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--mu)}
+.ob{text-decoration:overline;text-decoration-thickness:1.5px;text-underline-offset:0}
+.big{font-size:21px;font-weight:600}
+.score{color:var(--mu);font-size:13px}
+.q{font-size:18px;margin:4px 0 8px}
+.ans{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.ans label{display:flex;flex-direction:column;font-size:13px;color:var(--mu);gap:3px}
+.ans label>span{display:block}
+.ans input.okf{border-color:var(--ok);background:var(--okb)}
+.ans input.badf{border-color:var(--bad);background:var(--badb)}
+.fb{margin:8px 0;padding:10px 14px;border-radius:10px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--okb);border:1px solid var(--ok)}
+.fb.no{background:var(--badb);border:1px solid var(--bad)}
+.sol{display:none;margin-top:10px}
+.sol.show{display:block}
+.two{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:760px){.two2{grid-template-columns:1fr}}
+.figcap{font-weight:600;text-align:center;margin-bottom:2px}
+.steps{margin:0;padding-left:20px}
+.steps li{margin:6px 0}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:10px 0}
+.opts button{text-align:left;cursor:pointer;padding:10px 12px}
+.opts button.right{border-color:var(--ok);background:var(--okb)}
+.opts button.wrong{border-color:var(--bad);background:var(--badb)}
+.imgs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.imgs img,.imgs canvas{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--br);background:#000}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--br);padding:5px 6px;text-align:center}
+th{background:var(--soft)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{cursor:pointer;font-size:13px;padding:4px 10px;border-radius:99px}
+.schem{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.schem div{text-align:center;font-size:13px}
+.hint{color:var(--mu);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="./">← Теория</a>
+  <h1>Тренажёр к КР по матведу</h1>
+  <p>Каждый раз новая задача: реши сам, нажми «Проверить» — и увидишь разбор с рисунком.</p>
+</header>
+
+<nav id="tabs">
+  <button data-m="miller">1 · Миллер</button>
+  <button data-m="fec">2 · Fe–C</button>
+  <button data-m="tension">3 · Растяжение</button>
+  <button data-m="profile">3 · Профиль линии</button>
+  <button data-m="phases">3 · Фазы A/B</button>
+  <button data-m="lattice">3 · a и 2θ</button>
+  <button data-m="tem">3 · Фото ПЭМ</button>
+</nav>
+
+<main>
+  <div class="card" style="padding:10px 14px">
+    <div class="row" style="margin:0">
+      <label>Макс. углерод в феррите (граница Ф), % C:
+        <input id="fe-a" type="number" step="0.001" min="0.001" max="0.2" style="width:90px"></label>
+      <span class="chips" id="fe-chips">
+        <button class="sec" data-v="0.025">0,025 · лекция</button>
+        <button class="sec" data-v="0.02">0,02 · учебники</button>
+        <button class="sec" data-v="0.06">0,06 · как в лабе</button>
+      </span>
+    </div>
+    <div class="hint">Влияет на задание 2. Бери то число, что у твоего преподавателя; на странице «Теория» настройка общая.</div>
+  </div>
+
+  <section class="mode" id="m-miller"></section>
+  <section class="mode" id="m-fec"></section>
+  <section class="mode" id="m-tension"></section>
+  <section class="mode" id="m-profile"></section>
+  <section class="mode" id="m-phases"></section>
+  <section class="mode" id="m-lattice"></section>
+  <section class="mode" id="m-tem"></section>
+</main>
+
+<script src="js/common.js"></script>
+<script src="js/miller.js"></script>
+<script src="js/fec.js"></script>
+<script src="js/tension.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/phases.js"></script>
+<script src="js/lattice.js"></script>
+<script src="js/tem.js"></script>
+<script>
+(function(){
+  const a=$('#fe-a');
+  const sync=()=>{a.value=FE.A;};
+  sync();
+  a.onchange=()=>{const v=parseFloat(String(a.value).replace(',','.'));if(v>0&&v<0.5)FE.A=v;sync();};
+  $$('#fe-chips button').forEach(b=>b.onclick=()=>{FE.A=parseFloat(b.dataset.v);sync();});
+  initTabs();
+})();
+</script>
+</body>
+</html>

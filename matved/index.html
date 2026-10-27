@@ -46,9 +46,9 @@ ol li,ul li{margin:4px 0}
 <body>
 <header>
   <h1>Матвед: задания 2 и 3 с нуля</h1>
-  <p>Фазовые диаграммы Fe–C и правило рычага · Рентген: параметры решётки и доли фаз. Всё интерактивно — двигай ползунки.</p>
+  <p>Теория с интерактивными схемами. Для практики открой <a href="trainer.html" style="color:var(--ac)">тренажёр</a>. Фазовые диаграммы Fe–C и правило рычага · Рентген: параметры решётки и доли фаз. Всё интерактивно — двигай ползунки.</p>
 </header>
-<nav><a href="#fec">2 · Fe–C</a><a href="#lever">Правило рычага</a><a href="#inv">Обратная задача</a><a href="#xrd">3 · Рентген</a><a href="#prof">Профиль линии</a><a href="#phase">Доли фаз</a></nav>
+<nav><a href="trainer.html" style="background:var(--ac);color:#fff;border-color:var(--ac)">▶ Тренажёр</a><a href="#fec">2 · Fe–C</a><a href="#lever">Правило рычага</a><a href="#inv">Обратная задача</a><a href="#xrd">3 · Рентген</a><a href="#prof">Профиль линии</a><a href="#phase">Доли фаз</a></nav>
 <main>
 
 <section id="fec">
@@ -58,6 +58,7 @@ ol li,ul li{margin:4px 0}
 <div class="row"><label style="flex:1">x = <b id="xv">0.60</b> % C
 <input id="xs" type="range" min="0" max="6.67" step="0.01" value="0.6"></label>
 <label>или впиши: <input id="xn" type="number" min="0" max="6.67" step="0.01" value="0.6"></label></div>
+<div class="row"><label>Макс. C в феррите, %: <input id="aIn" type="number" step="0.001" min="0.001" max="0.2"></label><span style="color:var(--mu);font-size:13px">лекция: 0,025 · учебники: 0,02 · лаба: 0,06 (общая настройка с тренажёром)</span></div>
 <svg id="fecsvg" viewBox="0 0 660 330" role="img" aria-label="Диаграмма Fe–C"></svg>
 <p class="mu" style="color:var(--mu);font-size:13px;margin:4px 0 0">Схема, шкала по X искажена для наглядности (как у тебя в тетради).</p>
 </div>
@@ -89,7 +90,7 @@ ol li,ul li{margin:4px 0}
 <div class="tip">Запомнить: чем ближе x к правому краю, тем больше правого. Поэтому его доля — это <i>левый</i> отрезок (L → x), «через крест».</div>
 <h3>Структуры</h3>
 <svg id="lev1" viewBox="0 0 660 120"></svg>
-<h3>Фазы (рычаг всегда от 0,025 до 6,67)</h3>
+<h3>Фазы (рычаг всегда от <span class="gA">0,025</span> до 6,67)</h3>
 <svg id="lev2" viewBox="0 0 660 120"></svg>
 <div class="res" id="out"></div>
 </div>
@@ -97,8 +98,8 @@ ol li,ul li{margin:4px 0}
 <b>Алгоритм для задачи «найди доли»:</b>
 <ol>
 <li>Найди x на оси: левее или правее 0,8? Это определяет структуры.</li>
-<li>Структуры: рычаг (0,025…0,8) для Ф+П или (0,8…6,67) для П+Ц.</li>
-<li>Фазы: рычаг (0,025…6,67), соседи Ф и Ц.</li>
+<li>Структуры: рычаг (<span class="gA">0,025</span>…0,8) для Ф+П или (0,8…6,67) для П+Ц.</li>
+<li>Фазы: рычаг (<span class="gA">0,025</span>…6,67), соседи Ф и Ц.</li>
 <li>Проверь: доли каждой пары дают 100 %.</li>
 </ol>
 </div>
@@ -109,7 +110,7 @@ ol li,ul li{margin:4px 0}
 <div class="card">
 <p>Ты знаешь долю компонента структуры и ищешь x. Это <b>средневзвешенное</b>: каждый компонент вносит свой углерод.</p>
 <span class="f">%C = Σ (доля компонента × его %C)</span>
-<p>Углерод в компонентах: Ф ≈ 0,025 · П = 0,8 · Ц = 6,67.</p>
+<p>Углерод в компонентах: Ф ≈ <span class="gA">0,025</span> · П = 0,8 · Ц = 6,67.</p>
 <div class="row">
 <label>Дано:<select id="iv-t"><option value="f">Ф (доэвтектоидная)</option><option value="c">Ц (заэвтектоидная)</option></select></label>
 <label>доля, %: <input id="iv-v" type="number" value="20" min="0" max="100"></label></div>
@@ -203,7 +204,9 @@ ol li,ul li{margin:4px 0}
 </main>
 <script>
 const $=id=>document.getElementById(id);
-const A=0.025,S=0.8,C=6.67;
+const S=0.8,C=6.67;
+let A=(()=>{try{const v=parseFloat(localStorage.getItem('matved.A'));return v>0&&v<0.5?v:0.025}catch(e){return 0.025}})();
+const dec=v=>parseFloat(v.toFixed(3)).toString().replace('.',',');
 const f2=v=>v.toFixed(2).replace('.',',');
 const f1=v=>v.toFixed(1).replace('.',',');
 const px=c=>c<=A?60+c/A*50:c<=S?110+(c-A)/(S-A)*170:280+(c-S)/(C-S)*320;
@@ -226,7 +229,7 @@ function drawFeC(x){
  <text x="72" y="235">Ф</text>
  <text x="150" y="235">Ф + П</text><text x="420" y="235">П + Ц</text>
  <text x="12" y="165" class="mu">727 °C</text><text x="14" y="38" class="mu">T ↑</text>
- <text x="40" y="308" class="mu">Fe</text><text x="95" y="308" class="mu">0,025</text><text x="268" y="308" class="mu">0,8</text><text x="570" y="308" class="mu">6,67 % C</text>
+ <text x="40" y="308" class="mu">Fe</text><text x="95" y="308" class="mu">${dec(A)}</text><text x="268" y="308" class="mu">0,8</text><text x="570" y="308" class="mu">6,67 % C</text>
  <text x="525" y="28" class="mu">Fe₃C (цементит)</text>
  <line x1="${m}" y1="38" x2="${m}" y2="290" stroke="var(--ln)" stroke-width="2.5" stroke-dasharray="6 4"/>
  <circle cx="${m}" cy="225" r="5" fill="var(--ln)"/>
@@ -242,7 +245,7 @@ function lever(id,L,R,x,ln,lc,rn,rc,title){
  <rect x="${m}" y="40" width="${600-m}" height="26" fill="${colv[lc]}" opacity=".85"/>
  <circle cx="${m}" cy="53" r="8" fill="var(--ln)" stroke="var(--card)" stroke-width="2"/>
  <text x="${m-12}" y="34" style="fill:var(--ln);font-weight:600">x</text>
- <text x="48" y="88">${ln} (${L})</text><text x="${R>10?560:540}" y="88">${rn} (${R})</text>
+ <text x="48" y="88">${ln} (${dec(L)})</text><text x="${R>10?560:540}" y="88">${rn} (${dec(R)})</text>
  <text x="${60+(m-60)/2}" y="108" text-anchor="middle">доля ${rn}: ${f1(fr)} %</text>
  <text x="${m+(600-m)/2}" y="108" text-anchor="middle">доля ${ln}: ${f1(fl)} %</text>`;
 }
@@ -254,13 +257,13 @@ function render(x){
  let o='';
  if(x<=A){
   lever('lev1',A,S,A,'Ф','f','П','p','Структуры');lever('lev2',A,C,A,'Ф','f','Ц','c','Фазы');
-  o='При x ≤ 0,025 % это почти чистое железо: структура и фаза — <b>феррит, 100 %</b>.';
+  o=`При x ≤ ${dec(A)} % это почти чистое железо: структура и фаза — <b>феррит, 100 %</b>.`;
  }else{
   const phf=(C-x)/(C-A)*100, phc=(x-A)/(C-A)*100;
   if(x<S){
    lever('lev1',A,S,x,'Ф','f','П','p','Структуры: доэвтектоидная сталь');
    const sf=(S-x)/(S-A)*100, sp=(x-A)/(S-A)*100;
-   o=`<b>Структура: Ф + П.</b><br>Ф = (0,8 − ${f2(x)}) / (0,8 − 0,025) = <b>${f1(sf)} %</b>, П = <b>${f1(sp)} %</b>`;
+   o=`<b>Структура: Ф + П.</b><br>Ф = (0,8 − ${f2(x)}) / (0,8 − ${dec(A)}) = <b>${f1(sf)} %</b>, П = <b>${f1(sp)} %</b>`;
   }else if(x===S){
    lever('lev1',S,C,S,'П','p','Ц','c','Структуры: эвтектоидная сталь');
    o='<b>Структура: только перлит, 100 %.</b>';
@@ -270,7 +273,7 @@ function render(x){
    o=`<b>Структура: П + Ц.</b><br>П = (6,67 − ${f2(x)}) / (6,67 − 0,8) = <b>${f1(sp)} %</b>, Ц = <b>${f1(sc)} %</b>`;
   }
   lever('lev2',A,C,x,'Ф','f','Ц','c','Фазы');
-  o+=`<br><b>Фазы: Ф + Ц.</b><br>Ф = (6,67 − ${f2(x)}) / (6,67 − 0,025) = <b>${f1(phf)} %</b>, Ц = <b>${f1(phc)} %</b>`;
+  o+=`<br><b>Фазы: Ф + Ц.</b><br>Ф = (6,67 − ${f2(x)}) / (6,67 − ${dec(A)}) = <b>${f1(phf)} %</b>, Ц = <b>${f1(phc)} %</b>`;
   if(x>2.14)o+='<br><span style="color:var(--ln)">Внимание: x &gt; 2,14 % — это уже чугун, схема упрощена.</span>';
  }
  $('out').innerHTML=o;
@@ -282,7 +285,7 @@ render(0.6);
 function inv(){
  const t=$('iv-t').value,v=Math.min(Math.max(+$('iv-v').value||0,0),100)/100;
  const c=t==='f'?A*v+S*(1-v):C*v+S*(1-v);
- const txt=t==='f'?`%C = 0,025 · ${f2(v)} + 0,8 · ${f2(1-v)}`:`%C = 6,67 · ${f2(v)} + 0,8 · ${f2(1-v)}`;
+ const txt=t==='f'?`%C = ${dec(A)} · ${f2(v)} + 0,8 · ${f2(1-v)}`:`%C = 6,67 · ${f2(v)} + 0,8 · ${f2(1-v)}`;
  $('iv-o').innerHTML=`${txt} = <b>${c.toFixed(3).replace('.',',')} %</b><br><span style="color:var(--mu);font-size:14px">(остальное — перлит: ${f2(1-v)} доли)</span>`;
 }
 $('iv-t').oninput=inv;$('iv-v').oninput=inv;inv();
@@ -324,6 +327,13 @@ function tcalc(){
  $('tbar').innerHTML=`<div class="cp" style="width:${sa/tot*100}%">α″ ${f1(sa/tot*100)} %</div><div class="cc" style="width:${sb/tot*100}%">β ${f1(sb/tot*100)} %</div>`;
 }
 tb.oninput=tcalc;tb.onchange=tcalc;tcalc();
+function applyA(){
+ $('aIn').value=A;
+ document.querySelectorAll('.gA').forEach(e=>e.textContent=dec(A));
+ render(parseFloat($('xs').value)); inv();
+}
+$('aIn').onchange=()=>{const v=parseFloat(String($('aIn').value).replace(',','.'));if(v>0&&v<0.5){A=v;try{localStorage.setItem('matved.A',String(v))}catch(e){}}applyA();};
+applyA();
 </script>
 </body>
 </html>
