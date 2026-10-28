@@ -353,6 +353,23 @@ function vaCap(S, crankName, center, A, w1, a, mv, rM, Lp) {
 }
 function lenMM(v, mv) { return len(v) / mv; }
 
+
+/* ---------- читаемость схемы (для генераторов задач) ---------- */
+const NICE_PHI = [30, 45, 60, 120, 135, 150, 210, 225, 240, 300, 315, 330];
+function segX(p1, p2, q1, q2) { const d1 = crs(sub(p2, p1), sub(q1, p1)), d2 = crs(sub(p2, p1), sub(q2, p1)), d3 = crs(sub(q2, q1), sub(p1, q1)), d4 = crs(sub(q2, q1), sub(p2, q1)); return d1 * d2 < 0 && d3 * d4 < 0; }
+function segDist(P, A, B) { const ab = sub(B, A), t = Math.max(0, Math.min(1, dot(sub(P, A), ab) / dot(ab, ab))); return len(sub(P, add(A, mul(ab, t)))); }
+/* pts — точки схемы; segs — [i, j, ...члены] (i, j — концы звена; остальные индексы — точки, лежащие на нём) */
+function readable(pts, segs, o) {
+  o = o || {}; const sp = spanOf(pts), dmin = (o.pt || 0.13) * sp, smin = (o.seg || 0.08) * sp;
+  for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) if (len(sub(pts[i], pts[j])) < dmin) return false;
+  for (const sg of segs) for (let i = 0; i < pts.length; i++) { if (sg.includes(i)) continue; if (segDist(pts[i], pts[sg[0]], pts[sg[1]]) < smin) return false; }
+  for (let a = 0; a < segs.length; a++) for (let b = a + 1; b < segs.length; b++) {
+    const A = segs[a], B = segs[b]; if (A.slice(0, 2).some(x => B.slice(0, 2).includes(x))) continue;
+    if (segX(pts[A[0]], pts[A[1]], pts[B[0]], pts[B[1]])) return false;
+  }
+  return true;
+}
+
 /* =========================================================
    Тип 1. Кривошипно-ползунный механизм (и основа для кулачка)
    ========================================================= */
@@ -441,8 +458,9 @@ const KS = {
     for (let t = 0; t < 300; t++) {
       const r = Rn.ri(40, 120, 10), l = Math.round(r * Rn.rf(2.8, 4.5) / 10) * 10, e = Rn.pick([0, 0, 10, -10, 20, -20, 30]);
       if (Math.abs(e) > r * 0.5) continue;
-      const p = { u: 'мм', r: r, l: l, e: e, phi: Rn.ri(0, 345, 15), w1: Rn.ri(5, 20, 1) * Rn.pick([1, -1]) };
-      const S = KS.solve(p); if (!S || len(S.b) < 0.15 * S.vA) continue; return p;
+      const p = { u: 'мм', r: r, l: l, e: e, phi: Rn.pick(NICE_PHI), w1: Rn.ri(5, 20, 1) * Rn.pick([1, -1]) };
+      const S = KS.solve(p); if (!S || len(S.b) < 0.15 * S.vA) continue;
+      if (!readable([S.O, S.A, S.B], [[0, 1], [1, 2]], { pt: 0.12 })) continue; return p;
     }
     return null;
   }
@@ -550,9 +568,11 @@ const RRR = {
     for (let t = 0; t < 400; t++) {
       const d = Rn.ri(140, 240, 10), y = Rn.pick([0, 0, 20, -20, 40, -40]), r1 = Rn.ri(40, 70, 5), l2 = Rn.ri(Math.max(2 * r1, 100), 220, 10), l3 = Rn.ri(90, 200, 10), D = Math.hypot(d, y);
       const arr = [r1, l2, l3, D].sort((x, z) => x - z); if (arr[0] !== r1 || arr[0] + arr[3] > arr[1] + arr[2] - 10) continue;
-      const p = { u: 'мм', r1: r1, l2: l2, l3: l3, O3: [d, y], phi: Rn.ri(0, 345, 15), w1: Rn.ri(5, 15, 1) * Rn.pick([1, -1]), br: 1 };
+      const p = { u: 'мм', r1: r1, l2: l2, l3: l3, O3: [d, y], phi: Rn.pick(NICE_PHI), w1: Rn.ri(5, 15, 1) * Rn.pick([1, -1]), br: 1 };
       if (Rn.rf(0, 1) < 0.35) { p.M = { AM: Math.round(l2 * Rn.rf(0.45, 0.7) / 10) * 10, BM: Math.round(l2 * Rn.rf(0.5, 0.75) / 10) * 10 }; }
-      const S = RRR.solve(p); if (!S || S.q < 0.4 || len(S.b) < 0.15 * S.vA) continue; return p;
+      const S = RRR.solve(p); if (!S || S.q < 0.4 || len(S.b) < 0.15 * S.vA) continue;
+      const pts = [S.O1, S.O3, S.A, S.B], sg = [[0, 2], [2, 3], [1, 3]]; if (S.M) { pts.push(S.M); sg.push([2, 4], [3, 4]); }
+      if (!readable(pts, sg)) continue; return p;
     }
     return null;
   }
@@ -630,7 +650,7 @@ const KUL = {
   gen(Rn) {
     for (let t = 0; t < 300; t++) {
       const L = Rn.ri(80, 150, 10), r = Rn.ri(30, Math.floor(0.7 * L / 5) * 5, 5);
-      const p = { u: 'мм', r: r, O3: [0, -L], phi: Rn.ri(0, 345, 15), w1: Rn.ri(4, 15, 1) * Rn.pick([1, -1]) };
+      const p = { u: 'мм', r: r, O3: [0, -L], phi: Rn.pick(NICE_PHI), w1: Rn.ri(4, 15, 1) * Rn.pick([1, -1]) };
       const S = KUL.solve(p); if (!S || len(S.a3) < 0.15 * S.vA || len(S.slip) < 0.1 * S.vA) continue; return p;
     }
     return null;
@@ -711,7 +731,7 @@ const CAM = {
   hint(S) { return `1) Заменяющий механизм: кривошип OA = e, шатун AB = R + r, ползун B на оси толкателя. 2) ${Vs('A')} = ω<sub>1</sub>·e ⊥ OA. 3) Через a — прямая ⊥ AB, через p — вдоль оси толкателя (вертикаль). 4) pb·μ<sub>V</sub> — скорость толкателя.`; },
   gen(Rn) {
     for (let t = 0; t < 300; t++) {
-      const p = { u: 'мм', e: Rn.ri(10, 30, 5), R: Rn.ri(40, 80, 5), rr: Rn.ri(8, 16, 2), s: Rn.pick([0, 0, 5, -5, 10, -10]), phi: Rn.ri(0, 345, 15), w1: Rn.ri(10, 30, 1) * Rn.pick([1, -1]) };
+      const p = { u: 'мм', e: Rn.ri(10, 30, 5), R: Rn.ri(40, 80, 5), rr: Rn.ri(8, 16, 2), s: Rn.pick([0, 0, 5, -5, 10, -10]), phi: Rn.pick(NICE_PHI), w1: Rn.ri(10, 30, 1) * Rn.pick([1, -1]) };
       const S = CAM.solve(p); if (!S || len(S.b) < 0.15 * S.vA) continue; return p;
     }
     return null;
@@ -840,8 +860,13 @@ const SIX = {
   gen(Rn) {
     const bases = [{ u: 'см', a: 80, b: 40, c: 40, O1A: 30, AC: 80, AB: 50, BC: 60, BD: 40, O2D: 70 }, { u: 'см', a: 90, b: 50, c: 30, O1A: 25, AC: 90, AB: 55, BC: 60, BD: 45, O2D: 75 }, { u: 'см', a: 70, b: 30, c: 35, O1A: 25, AC: 75, AB: 45, BC: 55, BD: 40, O2D: 60 }];
     for (let t = 0; t < 300; t++) {
-      const p = Object.assign({}, Rn.pick(bases), { phiT: Rn.ri(0, 345, 15), w1: Rn.ri(2, 6, 1) * Rn.pick([1, -1]) });
-      const S = SIX.solve(p); if (!S || S.q < 0.3 || Math.min(len(S.b), len(S.c), len(S.d)) < 0.12 * S.vA) continue; return p;
+      const p = Object.assign({}, Rn.pick(bases), { phiT: Rn.pick(NICE_PHI), w1: Rn.ri(2, 6, 1) * Rn.pick([1, -1]) });
+      const S = SIX.solve(p); if (!S || S.q < 0.3 || Math.min(len(S.b), len(S.c), len(S.d)) < 0.12 * S.vA) continue;
+      if (!readable([S.O1, S.O2, S.A, S.B, S.C, S.D], [[0, 2], [2, 4], [2, 3], [3, 4], [3, 5], [1, 5]], { pt: 0.12, seg: 0.09 })) continue;
+      const sp = spanOf([S.O1, S.O2, S.A, S.B, S.C, S.D]);
+      if (Math.min(segDist(S.O1, S.A, S.B), segDist(S.O1, S.A, S.C), segDist(S.O1, S.B, S.C)) < 0.15 * sp) continue;
+      if (Math.min(...[S.B, S.C, S.D, S.O2].map(q => len(sub(q, S.O1)))) < 0.4 * sp) continue;
+      return p;
     }
     return null;
   }
@@ -849,5 +874,5 @@ const SIX = {
 
 const TYPES = { ks: KS, rrr: RRR, kul: KUL, cam: CAM, six: SIX };
 
-window.KRC = { omegaMid, pivAng, D2R, add, sub, mul, dot, crs, len, unit, rot, dirv, angd, mid, lerp, cen, rotBy, cc, lc, ll, lineAng, ang360, omegaOf, spanOf, qsin, fz, f1, fs, fa, fmu, fnum, dirW, dirWord, Vh, Vs, Lh, UNIT, NS, el, hh, rich, pth, C, Scene, R, LAYER, drawItems, fitPts, bestAng, omegaSpec, angPlan, Kon, mountKon, sArc, txt, arcPath, TYPES, KS, RRR, KUL, CAM, SIX };
+window.KRC = { NICE_PHI, readable, segX, segDist, omegaMid, pivAng, D2R, add, sub, mul, dot, crs, len, unit, rot, dirv, angd, mid, lerp, cen, rotBy, cc, lc, ll, lineAng, ang360, omegaOf, spanOf, qsin, fz, f1, fs, fa, fmu, fnum, dirW, dirWord, Vh, Vs, Lh, UNIT, NS, el, hh, rich, pth, C, Scene, R, LAYER, drawItems, fitPts, bestAng, omegaSpec, angPlan, Kon, mountKon, sArc, txt, arcPath, TYPES, KS, RRR, KUL, CAM, SIX };
 })();

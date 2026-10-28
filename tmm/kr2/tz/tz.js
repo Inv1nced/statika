@@ -2,7 +2,7 @@
 (function () {
 'use strict';
 const K = window.KRC;
-const { add, sub, mul, dot, crs, len, unit, rot, dirv, angd, mid, lerp, ll, lineAng, omegaOf, qsin, spanOf, fz, f1, fs, fa, fmu, fnum, dirW, Vh, Vs, Lh, UNIT, el, hh, pth, C, Scene, drawItems, fitPts, bestAng, pivAng, omegaSpec, Kon, mountKon, TYPES } = K;
+const { NICE_PHI, readable, add, sub, mul, dot, crs, len, unit, rot, dirv, angd, mid, lerp, ll, lineAng, omegaOf, qsin, spanOf, fz, f1, fs, fa, fmu, fnum, dirW, Vh, Vs, Lh, UNIT, el, hh, pth, C, Scene, drawItems, fitPts, bestAng, pivAng, omegaSpec, Kon, mountKon, TYPES } = K;
 const D2R = Math.PI / 180;
 
 /* ---------- масштабы «на всю площадь» ---------- */
@@ -68,12 +68,15 @@ const KUL6 = {
     const ua = angd(S.u);
     m('lbl', { p: S.O1, t: 'O_{1}', ang: pivAng(S.O1, [S.A], [0, 250, 290, p.phi / 2], [S.A, add(S.O1, [1, 0])]), dist: 20 });
     m('lbl', { p: S.O2, t: 'O_{2}', ang: pivAng(S.O2, [S.B], [250, 270, 290], [S.B]), dist: 20 });
-    m('lbl', { p: S.A, t: 'A', ang: bestAng(S.A, [S.O1, S.O2, S.B], [ua + 90, ua - 90]), dist: 22 });
+    const aA = bestAng(S.A, [S.O1, S.O2, S.B, S.S3, S.S1], [ua + 90, ua - 90]);
+    m('lbl', { p: S.A, t: 'A', ang: aA, dist: 22 });
     m('lbl', { p: S.B, t: 'B', ang: bestAng(S.B, [S.O2, S.C]) });
     m('lbl', { p: S.C, t: 'C', ang: bestAng(S.C, [S.B], [0, 180, 270]), dist: 21 });
-    if (o.w1 !== false) m('omega', omegaSpec(S.O1, [S.A, add(S.O1, [1, 0])], p.w1, 'ω_{1}', C.known, true));
+    const spK = spanOf([S.O1, S.O2, S.A, S.B, S.C]), nearK = [];
+    [[S.O2, S.B], [S.B, S.C]].forEach(sg => { for (let t = 0; t <= 1.0001; t += 0.05) { const q = lerp(sg[0], sg[1], t); if (len(sub(q, S.O1)) < 0.3 * spK) nearK.push(q); } });
+    if (o.w1 !== false) m('omega', omegaSpec(S.O1, [S.A, add(S.O1, [1, 0]), add(S.O1, dirv(p.phi / 2)), S.S3].concat(nearK), p.w1, 'ω_{1}', C.known, true, 34));
     if (o.phi !== false) m('ang', { c: S.O1, a0: 0, a1: p.phi, r: 18, t: 'φ', col: C.muted, td: 10 });
-    if (o.cm) [['S1', 'S_{1}', [S.O1, S.A]], ['S3', 'S_{3}', [S.O2, S.B, S.A]], ['S4', 'S_{4}', [S.B, S.C]]].forEach(z => { m('dot', { p: S[z[0]], r: 2.8 }); m('lbl', { p: S[z[0]], t: z[1], ang: bestAng(S[z[0]], z[2]), size: 12, col: C.muted }); });
+    if (o.cm) [['S1', 'S_{1}', [S.O1, S.A, S.S3], [aA]], ['S3', 'S_{3}', [S.O2, S.B, S.A, S.S1, S.O1], [aA]], ['S4', 'S_{4}', [S.B, S.C]]].forEach(z => { m('dot', { p: S[z[0]], r: 2.8 }); m('lbl', { p: S[z[0]], t: z[1], ang: bestAng(S[z[0]], z[2], z[3]), size: 12, col: C.muted }); });
   },
   pos(S) {
     const Kk = new Kon(), p = S.p, k = S.k, ml = S.ml, L = x => f1(Math.abs(x) * k / ml), m = Kk.fn('mech'); Kk.scene('mech', { maxH: 430 });
@@ -112,7 +115,7 @@ const KUL6 = {
     m('arc', { c: S.B, r: p.l4, a0: aC - 10, a1: aC + 10 }); m('link', { a: S.B, b: S.C, col: C.l4 }); m('slider', { p: S.C, d: [1, 0] }); m('joint', { p: S.C }); m('lbl', { p: S.C, t: 'C', ang: bestAng(S.C, [S.B], [0, 180, 270]), dist: 21 });
     m('dim', { a: S.O2, b: S.A, off: -14, t: 'O₂A' });
     Kk.step('<b>Шаг 8. Центры масс.</b> S<sub>1</sub>, S<sub>3</sub>, S<sub>4</sub> — середины O<sub>1</sub>A, O<sub>2</sub>B, BC. Точно — засечками циркулем (серединный перпендикуляр), а не «на глаз». Центр масс ползуна — сама точка C.');
-    [['S1', 'S_{1}', [S.O1, S.A]], ['S3', 'S_{3}', [S.O2, S.B, S.A]], ['S4', 'S_{4}', [S.B, S.C]]].forEach(z => { m('dot', { p: S[z[0]], r: 3 }); m('lbl', { p: S[z[0]], t: z[1], ang: bestAng(S[z[0]], z[2]), size: 12, col: C.muted }); });
+    [['S1', 'S_{1}', [S.O1, S.A, S.S3]], ['S3', 'S_{3}', [S.O2, S.B, S.A, S.S1, S.O1]], ['S4', 'S_{4}', [S.B, S.C]]].forEach(z => { m('dot', { p: S[z[0]], r: 3 }); m('lbl', { p: S[z[0]], t: z[1], ang: bestAng(S[z[0]], z[2]), size: 12, col: C.muted }); });
     return Kk;
   },
   plan(S) {
@@ -162,13 +165,21 @@ const KUL6 = {
   hint(S) { return `1) ${Vs('A1')} = ${Vs('A2')} = ω<sub>1</sub>·${Lh('O₁A')} ⊥ O<sub>1</sub>A. 2) a<sub>3</sub>: через a<sub>1</sub> ∥ кулисе, через p ⊥ кулисе. 3) pb = pa<sub>3</sub>·O<sub>2</sub>B/O<sub>2</sub>A на том же луче. 4) c: через b ⊥ BC, через p горизонтально. 5) ω<sub>3</sub> = ${Vs('A3')}/${Lh('O₂A')}, ω<sub>4</sub> = ${Vs('CB')}/${Lh('BC')}.`; },
   gen(Rn) {
     for (let t = 0; t < 500; t++) {
-      const Lv = Rn.ri(100, 160, 10), r = Rn.ri(40, Math.floor(0.55 * Lv / 5) * 5, 5), dx = Rn.pick([0, 0, 10, -10, 20, -20]);
-      const l3 = Math.ceil((Lv + r + 10) * Rn.rf(1.15, 1.35) / 10) * 10, l4 = Math.round(r * Rn.rf(1.3, 2) / 10) * 10;
-      const phi = Rn.ri(0, 345, 15), w1 = Rn.ri(4, 15, 1) * Rn.pick([1, -1]);
+      const Lv = Rn.ri(100, 160, 10), r = Rn.ri(Math.ceil(0.5 * Lv / 5) * 5, Math.floor(0.72 * Lv / 5) * 5, 5), dx = Rn.pick([1, -1]) * Rn.ri(Math.ceil(0.15 * Lv / 5) * 5, Math.floor(0.35 * Lv / 5) * 5, 5);
+      const l3 = Math.ceil((Lv + r + 10) * Rn.rf(1.1, 1.25) / 10) * 10, l4 = Math.round(r * Rn.rf(1.3, 2) / 10) * 10;
+      const phi = Rn.pick(NICE_PHI), w1 = Rn.ri(4, 15, 1) * Rn.pick([1, -1]);
       const A = mul(dirv(phi), r), u = unit(sub(A, [dx, -Lv])), By = -Lv + u[1] * l3;
       const h = Math.round((By + Rn.rf(-0.45, 0.25) * l4) / 5) * 5;
       const p = { u: 'мм', r, O2: [dx, -Lv], l3, l4, h, side: 1, phi, w1 };
       const S = KUL6.solve(p); if (!S || S.q < 0.35 || len(S.a3) < 0.2 * S.vA || len(S.c) < 0.15 * len(S.b) || len(S.slip) < 0.1 * S.vA) continue;
+      if (!readable([S.O1, S.O2, S.A, S.B, S.C], [[0, 2], [1, 3, 2], [3, 4]], { pt: 0.11 })) continue;
+      const J = [S.O1, S.O2, S.A, S.B, S.C], sp = spanOf(J);
+      if (p.r < 0.26 * sp) continue;
+      if (K.segDist(S.O1, S.O2, S.B) < 0.18 * sp || K.segDist(S.O1, S.B, S.C) < 0.18 * sp) continue;
+      if ([S.S1, S.S3, S.S4].some(q => J.some(j => len(sub(q, j)) < 0.07 * sp))) continue;
+      if ([S.S3, S.S4].some(q => len(sub(q, S.O1)) < 0.17 * sp)) continue;
+      if (len(sub(S.S3, S.O1)) < 0.22 * sp || len(sub(S.S3, S.A)) < 0.18 * sp || len(sub(S.C, S.O1)) < 0.3 * sp) continue;
+      if (Math.abs(S.C[1] - S.O1[1]) < 0.15 * sp || Math.abs(S.C[1] - S.A[1]) < 0.1 * sp) continue;
       return p;
     }
     return null;
@@ -214,7 +225,7 @@ function taskBox(host, def, opt) {
   <div class="tk-in">${ans.map((a, j) => `<div class="ir" data-j="${j}"><span class="in-l">${a.h}</span><input inputmode="decimal" autocomplete="off" placeholder="число" aria-label="ответ"><span class="in-u">${a.u}</span>${a.dir != null ? `<select aria-label="направление"><option value="">направление?</option>${(a.opts || ['по часовой', 'против часовой']).map((o, k) => `<option value="${k}">${o}</option>`).join('')}</select>` : ''}<span class="mk"></span></div>`).join('')}</div>
   <div class="tk-b"><button class="b-chk">Проверить точность</button><button class="b-ans">Ответы и отрезки плана</button><button class="b-sol">Решение по шагам</button></div>
   <div class="tk-msg"></div><div class="tk-ans" hidden></div><div class="tk-sol" hidden></div>`;
-  const Ks = new Kon(); Ks.scene('mech', { maxH: 280 }); T.draw(Ks, 'mech', S, { s: -1, cm: true }); mountKon(host.querySelector('.sch'), Ks, { static: true });
+  const Ks = new Kon(); Ks.scene('mech', { maxH: 360 }); T.draw(Ks, 'mech', S, { s: -1, cm: true }); mountKon(host.querySelector('.sch'), Ks, { static: true });
   host.querySelector('.b-chk').onclick = () => {
     const tol = tolOf(); let good = 0, filled = 0, errs = [];
     host.querySelectorAll('.ir').forEach(r => {
@@ -425,8 +436,8 @@ function mockWidget(host) {
     taskBox(host.querySelector('.mk1'), v.m1, { title: 'Механизм 1', tol: () => +tolSel.value });
     taskBox(host.querySelector('.mk2'), v.m2, { title: 'Механизм 2 (кулисный)', tol: () => +tolSel.value });
   }
-  function fresh() { const t1 = Rn.pick(['six', 'six', 'rrr', 'ks']); const v = { m1: { type: t1, p: TYPES[t1].gen(Rn) }, m2: { type: 'kul6', p: KUL6.gen(Rn) } }; LS.set('kr2tz-var', v); return v; }
-  let v = LS.get('kr2tz-var'); if (!v || !v.m1 || !v.m2 || !TYPES[v.m1.type]) v = fresh();
+  function fresh() { const t1 = Rn.pick(['six', 'six', 'rrr', 'ks']); const v = { m1: { type: t1, p: TYPES[t1].gen(Rn) }, m2: { type: 'kul6', p: KUL6.gen(Rn) } }; LS.set('kr2tz-var2', v); return v; }
+  let v = LS.get('kr2tz-var2'); if (!v || !v.m1 || !v.m2 || !TYPES[v.m1.type]) v = fresh();
   make(v);
   host.querySelector('.nv').onclick = () => make(fresh());
 }
