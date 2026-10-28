@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кулисы по пунктам</title>
+<meta name="description" content="ТММ, КР 2: как строить план скоростей кулисного механизма. Слайды по пунктам: три точки в A, откуда две скорости, две прямые, ω₃, точка B по подобию, полный механизм КР, камень на стойке, шпаргалка и тест.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kr2/kr2.css">
+<link rel="stylesheet" href="kulisa.css">
+<script defer src="../kr2/core.js"></script>
+<script defer src="../kr2/tz/tz.js"></script>
+<script defer src="kulisa.js"></script>
+</head>
+<body>
+<div class="top"><div class="deck"><a href="../kr2/tz/">← КР 2 по ТЗ</a><span>ТММ · кулисы · план скоростей</span></div></div>
+
+<main class="deck">
+
+<!-- 1 -->
+<section class="sl" data-t="Кулиса по пунктам">
+<div class="sl-k">ТММ · КР 2 · кулисы</div>
+<h2>Кулиса: план скоростей по пунктам</h2>
+<p class="sub">С нуля и по шагам: что такое кулиса, откуда у камня «две скорости», какие две прямые проводить, как потом найти ω и точку B. Дальше разберём механизм из КР целиком, второй тип кулисы, шпаргалку и тест.</p>
+<div class="key"><div class="kt">Всё главное — в трёх строках</div>
+<ol class="pts" style="margin:0">
+<li>В точке A сидят <b>три точки трёх звеньев</b>: A<sub>1</sub> (кривошип) и A<sub>2</sub> (камень) движутся одинаково, A<sub>3</sub> (кулиса) — иначе.</li>
+<li><span class="vv">V</span><sub>A3</sub> = <span class="vv">V</span><sub>A2</sub> + <span class="vv">V</span><sub>A3A2</sub>: <b>через a<sub>2</sub> — прямая ∥ кулисе, через p — прямая ⊥ кулисе</b>. Пересечение — a<sub>3</sub>.</li>
+<li>ω<sub>3</sub> = V<sub>A3</sub> / l<sub>O2A</sub> (O<sub>2</sub>A меряем на чертеже), ω<sub>2</sub> = ω<sub>3</sub>. Остальные точки кулисы лежат на луче pa<sub>3</sub>, их находим по подобию.</li>
+</ol></div>
+<h3>Слайды</h3>
+<div class="toc">
+<a href="#2" data-go="2"><span>2</span>Как устроен кулисный механизм (анимация)</a>
+<a href="#3" data-go="3"><span>3</span>В точке A — три разные точки</a>
+<a href="#4" data-go="4"><span>4</span>Откуда «две скорости» (анимация)</a>
+<a href="#5" data-go="5"><span>5</span>Векторное уравнение: что известно</a>
+<a href="#6" data-go="6"><span>6</span>Строим точку a<sub>3</sub> по шагам</a>
+<a href="#7" data-go="7"><span>7</span>ω<sub>3</sub>, её направление и точка B</a>
+<a href="#8" data-go="8"><span>8</span>Механизм КР: схема в масштабе</a>
+<a href="#9" data-go="9"><span>9</span>Механизм КР: весь план скоростей</a>
+<a href="#10" data-go="10"><span>10</span>Второй тип: камень на стойке</a>
+<a href="#11" data-go="11"><span>11</span>Шпаргалка и частые ошибки</a>
+<a href="#12" data-go="12"><span>12</span>Проверь себя</a>
+</div>
+<p class="hint">Листай кнопками внизу, стрелками <kbd>←</kbd> <kbd>→</kbd> или свайпом. На слайдах с построением жми «Дальше ›» под рисунком.</p>
+</section>
+
+<!-- 2 -->
+<section class="sl" data-t="Как устроен кулисный механизм">
+<div class="sl-k">Слайд 2 · смотрим, как он двигается</div>
+<h2>Как устроен кулисный механизм</h2>
+<p class="sub">Сначала посмотри на движение, потом будем строить. Кнопка ❚❚ останавливает, ползунок двигает кривошип.</p>
+<div class="sl-g">
+<div data-f="anat"></div>
+<ol class="pts">
+<li><b class="t1">Кривошип 1</b> (O<sub>1</sub>A) — ведущее звено. Крутится вокруг O<sub>1</sub> с заданной ω<sub>1</sub>.</li>
+<li><b class="t2">Камень 2</b> — маленький ползунок. Шарниром надет на палец кривошипа в точке A и сидит в прорези кулисы.</li>
+<li><b class="t3">Кулиса 3</b> (O<sub>2</sub>B) — длинное звено с прорезью. Качается вокруг неподвижной опоры O<sub>2</sub>.</li>
+<li>Кривошип тащит камень по окружности. Камень давит на кулису и поворачивает её — и <b>одновременно едет вдоль неё</b>. Под рисунком написано, куда он сейчас скользит.</li>
+<li><b>O<sub>2</sub>A всё время меняется</b> (оранжевый размер). Поэтому её нет в условии: её меряют на своём чертеже в заданном положении.</li>
+</ol>
+</div>
+</section>
+
+<!-- 3 -->
+<section class="sl" data-t="В точке A — три разные точки">
+<div class="sl-k">Слайд 3 · главный трюк</div>
+<h2>В точке A — три разные точки</h2>
+<p class="sub">Сейчас все три в одном месте, но принадлежат разным звеньям и движутся по-разному. Весь кулисный план держится на этом.</p>
+<div class="sl-g">
+<div data-f="zoom"></div>
+<div>
+<ol class="pts">
+<li><b class="t1">A<sub>1</sub></b> — точка кривошипа. Её скорость считаем сразу: V<sub>A1</sub> = ω<sub>1</sub>·l<sub>O1A</sub>, направлена ⊥ O<sub>1</sub>A в сторону вращения.</li>
+<li><b class="t2">A<sub>2</sub></b> — точка камня. Камень надет на палец кривошипа (шарнир), поэтому едет вместе с A<sub>1</sub>: <b>V<sub>A2</sub> = V<sub>A1</sub></b>. На плане a<sub>1</sub> и a<sub>2</sub> — одна точка.</li>
+<li><b class="t3">A<sub>3</sub></b> — точка кулисы, которая сейчас под камнем. Кулиса вращается вокруг O<sub>2</sub>, значит <b>V<sub>A3</sub> ⊥ O<sub>2</sub>A</b>.</li>
+<li><b>V<sub>A3</sub> ≠ V<sub>A2</sub></b>, потому что камень скользит по кулисе. Разница между ними — скорость скольжения, и она направлена <b>вдоль кулисы</b>.</li>
+</ol>
+<div class="key"><div class="kt">Откуда «две скорости»</div>Скорость у камня одна — V<sub>A2</sub>. Но кулиса под ним движется иначе — V<sub>A3</sub>. Нам нужна именно <b>V<sub>A3</sub></b>: по ней найдём, как крутится кулиса.</div>
+</div>
+</div>
+</section>
+
+<!-- 4 -->
+<section class="sl" data-t="Откуда «две скорости»: разложение">
+<div class="sl-k">Слайд 4 · почему перпендикуляры</div>
+<h2>Откуда «две скорости»: раскладываем скорость камня</h2>
+<p class="sub">Камень может давить на кулису только поперёк неё: вдоль он просто проскальзывает. Поэтому скорость камня делится на две части.</p>
+<div class="sl-g wide">
+<div data-f="decomp"></div>
+<ol class="pts">
+<li><b class="xk">V<sub>A2</sub></b> известна целиком: ⊥ кривошипу, длина ω<sub>1</sub>·l<sub>O1A</sub>.</li>
+<li>Часть <b>поперёк кулисы</b> поворачивает кулису — это и есть <b class="xf">V<sub>A3</sub></b> (⊥ O<sub>2</sub>A).</li>
+<li>Часть <b>вдоль кулисы</b> ничего не поворачивает — это скольжение, <b class="xr">V<sub>A3A2</sub></b> (∥ кулисе).</li>
+<li>Вместе: <b>V<sub>A3</sub> = V<sub>A2</sub> + V<sub>A3A2</sub></b> — прямоугольный треугольник, прямой угол у конца V<sub>A3</sub>.</li>
+<li>План скоростей на втором рисунке — <b>тот же самый треугольник</b>, только он начинается в полюсе p.</li>
+<li>Поймай ползунком крайние случаи: кривошип ⊥ кулисе → V<sub>A3</sub> = 0 (кулиса в крайнем положении, на миг останавливается); кривошип вдоль кулисы → скольжения нет.</li>
+</ol>
+</div>
+</section>
+
+<!-- 5 -->
+<section class="sl" data-t="Векторное уравнение: что известно">
+<div class="sl-k">Слайд 5 · уравнение → две прямые</div>
+<h2>Векторное уравнение: что известно</h2>
+<div class="fm big"><span class="vt u1"><span class="vv">V</span><sub>A3</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>A2</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>A3A2</sub></span></div>
+<div class="tw"><table class="kt-t">
+<tr><th>Вектор</th><th>Величина</th><th>Направление</th><th>На плане</th></tr>
+<tr><td><b class="xk">V<sub>A2</sub></b> (= V<sub>A1</sub>)</td><td>ω<sub>1</sub>·l<sub>O1A</sub> — <b>известна</b></td><td>⊥ O<sub>1</sub>A, по ω<sub>1</sub></td><td>из p в a<sub>2</sub></td></tr>
+<tr><td><b class="xr">V<sub>A3A2</sub></b></td><td>?</td><td>∥ кулисе O<sub>2</sub>B</td><td>начинается в a<sub>2</sub></td></tr>
+<tr><td><b class="xf">V<sub>A3</sub></b></td><td>?</td><td>⊥ O<sub>2</sub>A</td><td>из p — абсолютная</td></tr>
+</table></div>
+<div class="sl-g">
+<div data-f="rule"></div>
+<ol class="pts">
+<li>Одна черта под вектором — известно только направление, две черты — известно всё.</li>
+<li>Неизвестны две длины, а направления известны. Значит, решаем построением: <b>две прямые и их пересечение</b>.</li>
+<li><b>Через p</b> — прямая для абсолютной скорости V<sub>A3</sub>. Абсолютные скорости на плане всегда начинаются в полюсе.</li>
+<li><b>Через a<sub>2</sub></b> — прямая для относительной V<sub>A3A2</sub>: в уравнении она прибавляется к V<sub>A2</sub>, значит начинается там, где V<sub>A2</sub> кончается.</li>
+<li>Почему ∥ кулисе: в прорези камень может двигаться относительно кулисы только вдоль неё. Почему ⊥ O<sub>2</sub>A: кулиса вращается вокруг O<sub>2</sub>, а скорость точки вращающегося звена всегда ⊥ радиусу.</li>
+</ol>
+</div>
+</section>
+
+<!-- 6 -->
+<section class="sl" data-t="Строим точку a₃ по шагам">
+<div class="sl-k">Слайд 6 · построение</div>
+<h2>Строим точку a<sub>3</sub> по шагам</h2>
+<p class="sub">Механизм — тот же, что в разборе КР по ТЗ: O<sub>1</sub>A = 60 мм, O<sub>2</sub> на 130 мм ниже и 10 мм правее O<sub>1</sub>, O<sub>2</sub>B = 240 мм, φ = 60°, ω<sub>1</sub> = 10 рад/с по часовой. Жми «Дальше ›».</p>
+<div class="sl-g wide">
+<div data-f="kA3"></div>
+<div>
+<h3 style="margin-top:0">Чем чертить точно</h3>
+<ul class="pts bul">
+<li><b>Параллель:</b> угольник катетом на линию-образец, линейку к гипотенузе. Держим линейку, сдвигаем угольник до нужной точки и проводим.</li>
+<li><b>Перпендикуляр:</b> та же установка, но проводим по <b>второму</b> катету.</li>
+<li>Шаги 3 и 4 — это <b>одна установка угольника</b>: катет вдоль кулисы → сдвиг до a<sub>2</sub> (параллель) → сдвиг до p (перпендикуляр).</li>
+<li>Длины — циркулем по линейке от отметки 10 мм, а не от края.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 7 -->
+<section class="sl" data-t="ω₃, направление и точка B">
+<div class="sl-k">Слайд 7 · угловая скорость и подобие</div>
+<h2>ω<sub>3</sub>, её направление и точка B</h2>
+<div class="sl-g wide">
+<div data-f="kW3"></div>
+<ol class="pts">
+<li>ω<sub>3</sub> = V<sub>A3</sub> / l<sub>O2A</sub>. Делим на <b>O<sub>2</sub>A — расстояние до камня</b>, а не на длину кулисы.</li>
+<li>Направление: вектор pa<sub>3</sub> переносим в точку A схемы и смотрим, куда он крутит кулису вокруг O<sub>2</sub>.</li>
+<li><b>ω<sub>2</sub> = ω<sub>3</sub></b>: камень не может провернуться в прорези.</li>
+<li>Любая точка кулисы лежит на луче pa<sub>3</sub>: <b>pb = pa<sub>3</sub>·O<sub>2</sub>B/O<sub>2</sub>A</b>. Точка по другую сторону от O<sub>2</sub> — в обратную сторону от p.</li>
+<li>S<sub>3</sub> — середина O<sub>2</sub>B, значит s<sub>3</sub> — середина pb.</li>
+</ol>
+</div>
+</section>
+
+<!-- 8 -->
+<section class="sl" data-t="Механизм КР: схема в масштабе">
+<div class="sl-k">Слайд 8 · кулиса + шатун + ползун</div>
+<h2>Механизм как в КР: сначала схема</h2>
+<div data-f="given6"></div>
+<div class="sl-g wide">
+<div data-f="pos6"></div>
+<ol class="pts">
+<li>Масштаб «на всю площадь»: μ<sub>l</sub> подбираем так, чтобы схема заняла верхнюю половину листа.</li>
+<li>Ставим O<sub>1</sub>, от неё O<sub>2</sub> по координатам — угольником, без транспортира.</li>
+<li>Луч под углом φ, засечка циркулем O<sub>1</sub>A — получили точку A.</li>
+<li><b>Кулиса — это прямая через O<sub>2</sub> и A.</b> Её не откладывают по углу: сначала A, потом линейкой через O<sub>2</sub> и A, потом засечка O<sub>2</sub>B на этой прямой.</li>
+<li>Засечка BC на направляющей — точка C. Сразу меряем O<sub>2</sub>A: она понадобится для ω<sub>3</sub>.</li>
+</ol>
+</div>
+</section>
+
+<!-- 9 -->
+<section class="sl" data-t="Механизм КР: весь план скоростей">
+<div class="sl-k">Слайд 9 · весь план с числами</div>
+<h2>Механизм как в КР: весь план скоростей</h2>
+<div class="sl-g wide">
+<div data-f="plan6"></div>
+<ol class="pts">
+<li>a<sub>1</sub> = a<sub>2</sub>, потом a<sub>3</sub> двумя прямыми — как на слайде 6.</li>
+<li>b — на луче pa<sub>3</sub> по подобию (слайд 7).</li>
+<li>Дальше обычная группа «шатун + ползун»: <span class="vv">V</span><sub>C</sub> = <span class="vv">V</span><sub>B</sub> + <span class="vv">V</span><sub>CB</sub> → <b>через b ⊥ BC, через p ∥ направляющей</b>.</li>
+<li>Центры масс — середины отрезков плана: s<sub>1</sub> на pa<sub>1</sub>, s<sub>3</sub> на pb, s<sub>4</sub> на bc.</li>
+<li>ω<sub>3</sub> = ω<sub>2</sub> = V<sub>A3</sub>/l<sub>O2A</sub>; ω<sub>4</sub> = V<sub>CB</sub>/l<sub>BC</sub>. Направления — переносом векторов на схему.</li>
+</ol>
+</div>
+<h3>Ответ: таблица</h3>
+<div data-f="res6"></div>
+</section>
+
+<!-- 10 -->
+<section class="sl" data-t="Второй тип: камень на стойке">
+<div class="sl-k">Слайд 10 · другой вид кулисы</div>
+<h2>Второй тип: камень на стойке</h2>
+<p class="sub">Камень закреплён шарниром на стойке, а кулиса <b>проезжает сквозь него</b>. Принцип тот же: неизвестную точку описываем двумя способами — получаем две прямые.</p>
+<div class="sl-g wide">
+<div data-f="stone"></div>
+<div>
+<ol class="pts">
+<li>Неизвестна B<sub>2</sub> — точка кулисы, которая сейчас внутри камня.</li>
+<li>Кулиса — твёрдое звено: <span class="vv">V</span><sub>B2</sub> = <span class="vv">V</span><sub>A</sub> + <span class="vv">V</span><sub>B2A</sub>, V<sub>B2A</sub> ⊥ AB → <b>через a ⊥ AB</b>.</li>
+<li>Кулиса скользит в камне: <span class="vv">V</span><sub>B2</sub> = <span class="vv">V</span><sub>B3</sub> + <span class="vv">V</span><sub>B2B3</sub>, V<sub>B3</sub> = 0 → <b>через p ∥ AB</b>.</li>
+<li>ω<sub>2</sub> = V<sub>B2A</sub> / l<sub>AB</sub>, AB снова меряем на чертеже. ω<sub>3</sub> = ω<sub>2</sub>.</li>
+</ol>
+<div class="key"><div class="kt">Сравни с первым типом</div>«∥» и «⊥» поменялись местами. Правило одно на оба случая: <b>через p</b> — как точка движется относительно стойки, <b>через известную точку</b> — как она движется относительно другого звена.</div>
+</div>
+</div>
+</section>
+
+<!-- 11 -->
+<section class="sl" data-t="Шпаргалка и частые ошибки">
+<div class="sl-k">Слайд 11 · на одном экране</div>
+<h2>Шпаргалка и частые ошибки</h2>
+<div class="tw"><table class="kt-t">
+<tr><th>Вид кулисы</th><th>Прямая через известную точку</th><th>Прямая через p</th><th>Дальше</th></tr>
+<tr><td><b>Камень на кривошипе, кулиса качается вокруг O<sub>2</sub></b> — самый частый</td><td>через a<sub>2</sub> (= a<sub>1</sub>): ∥ кулисе</td><td>⊥ O<sub>2</sub>A</td><td>ω<sub>3</sub> = V<sub>A3</sub>/l<sub>O2A</sub>; b на луче pa<sub>3</sub></td></tr>
+<tr><td><b>Камень на стойке</b>, кулиса скользит сквозь него</td><td>через a: ⊥ AB</td><td>∥ AB</td><td>ω<sub>2</sub> = V<sub>B2A</sub>/l<sub>AB</sub>; c на прямой ab<sub>2</sub></td></tr>
+<tr><td><b>Кулиса едет поступательно</b> по направляющей, камень на кривошипе</td><td>через a<sub>2</sub>: ∥ прорези</td><td>∥ направляющей кулисы</td><td>кулиса не вращается: ω = 0</td></tr>
+</table></div>
+<div class="sl-g">
+<div>
+<h3 style="margin-top:6px">Частые ошибки</h3>
+<div class="err">
+<div><span class="no">✗</span> V<sub>A3</sub> ⊥ O<sub>1</sub>A → <span class="yes">✓</span> V<sub>A3</sub> ⊥ O<sub>2</sub>A. ⊥ кривошипу — это V<sub>A2</sub>.</div>
+<div><span class="no">✗</span> Прямую ∥ кулисе провести через p → <span class="yes">✓</span> через a<sub>2</sub>: относительная скорость начинается в конце известного вектора.</div>
+<div><span class="no">✗</span> ω<sub>3</sub> = V<sub>A3</sub> / длина кулисы → <span class="yes">✓</span> делить на l<sub>O2A</sub> — расстояние до камня. На O<sub>2</sub>B делят только V<sub>B</sub>.</div>
+<div><span class="no">✗</span> Искать a<sub>2</sub> отдельно → <span class="yes">✓</span> a<sub>1</sub> = a<sub>2</sub>, это одна точка.</div>
+<div><span class="no">✗</span> Строить b новыми прямыми → <span class="yes">✓</span> b на луче pa<sub>3</sub>: pb = pa<sub>3</sub>·O<sub>2</sub>B/O<sub>2</sub>A.</div>
+<div><span class="no">✗</span> Забыть про камень → <span class="yes">✓</span> ω<sub>2</sub> = ω<sub>3</sub>, пишем в ответ.</div>
+</div>
+</div>
+<div>
+<h3 style="margin-top:6px">Что написать на листе с формулами</h3>
+<div class="card" style="margin:0;font-size:15px;line-height:2">
+V<sub>A1</sub> = ω<sub>1</sub>·l<sub>O1A</sub>; &nbsp;V<sub>A2</sub> = V<sub>A1</sub><br>
+<span class="vt u1"><span class="vv">V</span><sub>A3</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>A2</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>A3A2</sub></span>; &nbsp;⊥ O<sub>2</sub>A · ⊥ O<sub>1</sub>A · ∥ O<sub>2</sub>B<br>
+V<sub>A3</sub> = pa<sub>3</sub>·μ<sub>V</sub>; &nbsp;ω<sub>3</sub> = ω<sub>2</sub> = V<sub>A3</sub> / l<sub>O2A</sub><br>
+pb = pa<sub>3</sub>·l<sub>O2B</sub> / l<sub>O2A</sub>; &nbsp;V<sub>B</sub> = pb·μ<sub>V</sub><br>
+<span class="vt u1"><span class="vv">V</span><sub>C</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>B</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>CB</sub></span>; &nbsp;∥ направл. · известна · ⊥ BC<br>
+ω<sub>4</sub> = V<sub>CB</sub> / l<sub>BC</sub>
+</div>
+<p class="small" style="margin-top:10px">Проверка без плана: V<sub>A3</sub> = V<sub>A2</sub>·cos α, где α — угол между кривошипом O<sub>1</sub>A и кулисой.</p>
+</div>
+</div>
+</section>
+
+<!-- 12 -->
+<section class="sl" data-t="Проверь себя">
+<div class="sl-k">Слайд 12 · шесть вопросов</div>
+<h2>Проверь себя</h2>
+<p class="sub">Отвечай по одному: после ответа появится объяснение. Ошибся — открой нужный слайд ещё раз.</p>
+<div data-f="quiz"></div>
+<div class="key" style="margin-top:16px"><div class="kt">Дальше</div>Теперь реши кулису сам: <a href="../kr2/tz/#mock">пробная КР с таймером</a> (второй механизм там всегда кулисный) или <a href="../kr2/">генератор задач в «КР 2 с нуля»</a>.</div>
+</section>
+
+</main>
+
+<div class="dnav"><div class="in">
+<button class="nb" id="prev" aria-label="Предыдущий слайд">‹</button>
+<div class="dmid"><div class="dttl" id="dttl"></div><div class="dots" id="dots"></div></div>
+<button class="nb nx" id="next" aria-label="Следующий слайд">›</button>
+</div></div>
+</body>
+</html>
