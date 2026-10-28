@@ -128,8 +128,8 @@ button.bad{border-color:var(--bad);background:rgba(255,107,107,.1)}
 .a4{display:block;width:100%;max-width:720px;margin:0 auto;border-radius:4px;box-shadow:0 0 0 1px #2a3352}
 .a4wrap.big .a4{min-width:760px}
 .chk{list-style:none;padding:0}
-.chk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:6px 0;color:var(--soft)}
-.chk input{width:18px;height:18px;margin-top:3px;accent-color:var(--l2);flex:none}
+.chk label{display:block;position:relative;padding:6px 0 6px 30px;cursor:pointer;color:var(--soft)}
+.chk input{position:absolute;left:0;top:9px;width:18px;height:18px;margin:0;accent-color:var(--l2)}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--soft);margin:6px 0}
 .legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
 footer{padding:36px 0 60px;color:var(--muted);font-size:14px}
