@@ -57,3 +57,11 @@ section.blk.locked .blk-body{display:none}
 .kreset{font-size:13px;padding:6px 10px;min-height:0;margin-top:8px}
 .cq .om-l{flex:1 1 100%;color:var(--text)}
 .cq .om{border-top:1px solid var(--line);padding-top:8px}
+.task-sol{background:var(--panel);border:1px solid #1f5a52;border-radius:16px;padding:12px 10px 14px;margin:22px -6px 10px}
+@media(min-width:700px){.task-sol{margin:22px 0 10px;padding:14px 14px 16px}}
+.task-sol .kon{background:none;border:0;padding:0;margin:8px 0 0}
+.sol-h,.try-h{font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.try-h{margin:14px 0 -6px;font-weight:500;color:var(--soft);font-size:15px}
+.sol-tag{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#0a0e1a;background:var(--l2);border-radius:999px;padding:3px 9px}
+.sol-tag.try{background:var(--panel2);color:var(--found);border:1px solid #5a3d1f}
+.qz-show{margin-top:8px;font-size:13px;padding:6px 10px;min-height:0}

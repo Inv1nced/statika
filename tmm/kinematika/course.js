@@ -174,7 +174,7 @@ function upd() {
     const done = all > 0 && dn === all;
     if (done) doneN++;
     const prev = blocks[i - 1], prevDone = !prev || (() => { const ts = Array.from(prev.querySelectorAll('[data-task]')).map(e => e.dataset.task); return ts.every(t => prog[t]); })();
-    const open = i === 0 || prevDone || prog['open-' + b.id];
+    const open = true;
     b.classList.toggle('locked', !open);
     b.classList.toggle('done', done);
     const st = b.querySelector('.blk-st'); if (st) st.textContent = all ? (done ? 'пройден ✓' : `задачи: ${dn} из ${all}`) : '';
@@ -306,7 +306,7 @@ function vexWidget(host, ex, tid, idx) {
   const g = {}; for (const n in ex.g) { const q = ex.g[n]; g[n] = { p0: [q[0][0], -q[0][1]], p1: [q[1][0], -q[1][1]], known: !!q[2] }; g[n].d = sub(g[n].p1, g[n].p0); }
   const eqH = ex.eq.map(t => Array.isArray(t) ? `<span class="vt${t[1] ? ' u' + t[1] : ''}"><span class="vv">${t[0]}</span></span>` : ` ${t} `).join('');
   host.classList.add('vex');
-  host.innerHTML = `<div class="vex-h"><span class="tk-n">Упражнение ${idx}</span><span class="vex-eq">${eqH}</span></div><div class="fig"><div class="sct">Дано</div><svg class="scsvg"></svg></div><p class="small">Одна черта — известно только направление (пунктир), две — и направление, и величина. Реши на бумаге, потом сверься.</p><button class="go">Показать решение по шагам</button><div class="vsol"></div>`;
+  host.innerHTML = `<div class="vex-h"><span class="tk-n">Упражнение ${idx}</span><span class="vex-eq">${eqH}</span></div><div class="fig"><div class="sct">Дано</div><svg class="scsvg"></svg></div><p class="small">Одна черта — известно только направление (пунктир), две — и направление, и величина. Разбор — сразу ниже: жми «Дальше» или «Конец».</p><div class="vsol"></div>`;
   const sc = new Scene(host.querySelector('svg'), { maxH: 240, pad: 30 }), it = [];
   for (const n in g) {
     const q = g[n];
@@ -315,12 +315,10 @@ function vexWidget(host, ex, tid, idx) {
     it.push({ k: 'lbl', p: mid(q.p0, q.p1), t: n, ang: angd(rot(q.d)), dist: 14, size: 16, col: q.known ? C.known : C.soft });
   }
   sc.fit(K.fitPts(it)); drawItems(sc, it);
-  host.querySelector('.go').onclick = () => {
-    const box = host.querySelector('.vsol'); if (box.dataset.ok) return; box.dataset.ok = 1;
-    const Kk = vexKon(ex, g); const ctl = mountKon(box, Kk);
-    const chk = () => { const c = box.querySelector('.cnt'); if (c) { const [a, b] = c.textContent.split('/').map(s => parseInt(s, 10)); if (a === b) markDone(tid); } };
-    box.addEventListener('click', () => setTimeout(chk, 50));
-  };
+  const box = host.querySelector('.vsol');
+  mountKon(box, vexKon(ex, g));
+  const chk = () => { const c = box.querySelector('.cnt'); if (c) { const [a, b] = c.textContent.split('/').map(s => parseInt(s, 10)); if (a === b) markDone(tid); } };
+  box.addEventListener('click', () => setTimeout(chk, 50));
 }
 function vexKon(ex, g) {
   const Kk = new Kon(); Kk.scene('s', { maxH: 300, pad: 36 }); const m = Kk.fn('s'), O = [0, 0];
@@ -382,7 +380,8 @@ function mcqWidget(host, id, tid) {
   const q = Q[id]; if (!q) return;
   host.classList.add('mcq');
   const ord = q.o.map((_, i) => i).sort(() => Math.random() - 0.5);
-  host.innerHTML = `<div class="qz-q">${tx(q.q.replace(/V_(\w+)/g, 'V_{$1}').replace(/l_(\w+)/g, 'l_{$1}'))}</div><div class="qz-o">${ord.map(i => `<button data-i="${i}">${tx(q.o[i].replace(/V_(\w+)/g, 'V_{$1}').replace(/l_(\w+)/g, 'l_{$1}'))}</button>`).join('')}</div><div class="fb"></div>`;
+  host.innerHTML = `<div class="qz-q">${tx(q.q.replace(/V_(\w+)/g, 'V_{$1}').replace(/l_(\w+)/g, 'l_{$1}'))}</div><div class="qz-o">${ord.map(i => `<button data-i="${i}">${tx(q.o[i].replace(/V_(\w+)/g, 'V_{$1}').replace(/l_(\w+)/g, 'l_{$1}'))}</button>`).join('')}</div><div class="fb"></div><button class="qz-show">Показать ответ</button>`;
+  host.querySelector('.qz-show').onclick = () => { host.querySelectorAll('.qz-o button').forEach(x => { x.classList.remove('bad'); x.classList.toggle('ok', +x.dataset.i === q.a); }); host.querySelector('.fb').innerHTML = '<span class="okc">Ответ:</span> ' + tx(q.e.replace(/V_(\w+)/g, 'V_{$1}').replace(/l_(\w+)/g, 'l_{$1}')); };
   host.querySelectorAll('.qz-o button').forEach(b => b.onclick = () => {
     const i = +b.dataset.i, ok = i === q.a;
     host.querySelectorAll('.qz-o button').forEach(x => x.classList.remove('ok', 'bad'));
@@ -420,7 +419,20 @@ function g3ReverseKon() {
 function boot() {
   document.querySelectorAll('[data-plan]').forEach(n => { try { mountKon(n, planKon(MS[n.dataset.plan])); } catch (e) { console.error('plan', n.dataset.plan, e); } });
   document.querySelectorAll('[data-scheme]').forEach(n => { try { const Kk = new Kon(); Kk.scene('m', { maxH: 260 }); schemeItems(MS[n.dataset.scheme]).forEach(it => Kk.add('m', it)); mountKon(n, Kk, { static: true }); } catch (e) { console.error('scheme', e); } });
-  document.querySelectorAll('[data-cons]').forEach(n => { try { consWidget(n, MS[n.dataset.cons], n.dataset.task); } catch (e) { console.error('cons', n.dataset.cons, e); } });
+  document.querySelectorAll('[data-cons]').forEach(n => {
+    try {
+      const id = n.dataset.cons, M = MS[id];
+      if (!document.querySelector('[data-plan="' + id + '"]')) {
+        const box = document.createElement('div'); box.className = 'task-sol';
+        box.innerHTML = '<div class="sol-h"><span class="sol-tag">Разбор</span> ' + M.title + '</div><div class="ksol"></div>';
+        n.parentNode.insertBefore(box, n); mountKon(box.querySelector('.ksol'), planKon(M));
+      }
+      const try1 = document.createElement('div'); try1.className = 'try-h'; try1.innerHTML = '<span class="sol-tag try">Сам</span> Построй этот план в конструкторе — по желанию, разбор выше';
+      if (document.querySelector('[data-plan="' + id + '"]')) try1.innerHTML = '<span class="sol-tag try">Сам</span> Построй этот план в конструкторе — разбор этого механизма выше в блоке';
+      n.parentNode.insertBefore(try1, n);
+      consWidget(n, M, n.dataset.task);
+    } catch (e) { console.error('cons', n.dataset.cons, e); }
+  });
   document.querySelectorAll('[data-vex]').forEach(n => { try { const i = +n.dataset.vex; vexWidget(n, VX[i - 1], n.dataset.task, i); } catch (e) { console.error('vex', e); } });
   document.querySelectorAll('[data-mcq]').forEach(n => { try { mcqWidget(n, n.dataset.mcq, n.dataset.task); } catch (e) { console.error('mcq', e); } });
   document.querySelectorAll('[data-rev]').forEach(n => { try { mountKon(n, g3ReverseKon()); } catch (e) { console.error('rev', e); } });
