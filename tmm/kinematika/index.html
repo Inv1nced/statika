@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Курс: план скоростей</title>
+<meta name="description" content="Курс к КР по ТММ: векторные уравнения, планы скоростей диад, кулисы, группа III порядка. Всё по лекционным презентациям, с пошаговыми разборами и конструктором плана.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kr2/kr2.css">
+<link rel="stylesheet" href="course.css">
+<script defer src="../kr2/core.js"></script>
+<script defer src="mechs.js"></script>
+<script defer src="course.js"></script>
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="kicker">ТММ · кинематика · курс к КР</div>
+<h1>План скоростей: курс по лекциям</h1>
+<p class="lead">Всё из лекционных презентаций и разобранных примеров, что нужно для КР, — и ничего лишнего. Семь блоков от простого к сложному. В каждом: коротко теория, пошаговый разбор и задачи. Решил задачи блока — открывается следующий.</p>
+<div class="card">
+<h3>Как устроены задачи</h3>
+<ul>
+<li><b>Конструктор плана.</b> Тебе дают механизм со слайда. Ты сам выбираешь, через какую точку плана и в каком направлении провести каждую прямую, а страница проверяет. Ровно то, что делаешь на КР с линейкой.</li>
+<li><b>Тесты</b> на понимание: почему прямая именно такая.</li>
+<li>В конце каждого механизма — <b>направления угловых скоростей</b>.</li>
+</ul>
+<p class="small" style="margin:0">Прогресс сохраняется в этом браузере. Если хочешь просто прочитать — у закрытого блока есть кнопка «Открыть без прохождения».</p>
+<div class="kprog"><i></i></div><div class="kprog-l"></div>
+<button class="kreset">Сбросить прогресс</button>
+</div>
+</div>
+</header>
+<nav class="kn"><div class="wrap">
+<a href="#b1">1 · Векторы</a><a href="#b2">2 · Первый план</a><a href="#b3">3 · Подобие</a><a href="#b4">4 · Шестизвенники</a><a href="#b5">5 · Кулисы</a><a href="#b6">6 · Кулисы+</a><a href="#b7">7 · III порядок</a><a href="#b8">8 · Финал</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ================= БЛОК 1 ================= -->
+<section class="blk" id="b1">
+<div class="num">БЛОК 1 · ПРЕЗЕНТАЦИЯ «ВЕКТОРНЫЕ УРАВНЕНИЯ»</div>
+<div class="blk-h"><h2>Векторные уравнения</h2><span class="blk-st"></span></div>
+<div class="blk-body">
+<p>Весь план скоростей — это графическое решение векторных уравнений. Поэтому начинаем с них.</p>
+<h3>Что нужно знать</h3>
+<ul>
+<li><b>Вектор</b> задаётся двумя параметрами: величиной и направлением.</li>
+<li><b>Сумма</b> <span class="vt"><span class="vv">c</span></span> = <span class="vt"><span class="vv">a</span></span> + <span class="vt"><span class="vv">b</span></span>: второй вектор начинаем из конца первого, а сумма идёт из начала первого в конец второго.</li>
+<li><b>Несколько векторов</b> складываем цепочкой, каждый из конца предыдущего, в любом порядке. Сумма — из начала первого в конец последнего.</li>
+<li><b>Черты под вектором</b> показывают, сколько его параметров известно. <span class="vt u2"><span class="vv">a</span></span> — известны и величина, и направление. <span class="vt u1"><span class="vv">x</span></span> — только направление.</li>
+<li>На плоскости векторное уравнение решается, если неизвестных <b>не больше двух</b>.</li>
+</ul>
+<div class="sumbox"><h4>Главный приём (он же — весь план скоростей)</h4>
+<div class="fm"><span class="vt u2"><span class="vv">a</span></span> + <span class="vt u1"><span class="vv">x</span></span> = <span class="vt u2"><span class="vv">b</span></span> + <span class="vt u1"><span class="vv">y</span></span></div>
+<p style="margin:0">Из общей точки откладываем известные <i>a</i> и <i>b</i>. Через конец <i>a</i> проводим прямую в направлении <i>x</i>, через конец <i>b</i> — в направлении <i>y</i>. Где прямые пересеклись, там и заканчиваются обе части. Так находится <b>каждая</b> точка плана скоростей.</p></div>
+<h3>Упражнения 1–5 со слайдов</h3>
+<p class="small">Реши на бумаге, потом открой решение и дойди до последнего шага — упражнение засчитается.</p>
+<div class="task" data-vex="1" data-task="b1-e1"></div>
+<div class="task" data-vex="2" data-task="b1-e2"></div>
+<div class="task" data-vex="3" data-task="b1-e3"></div>
+<div class="task" data-vex="4" data-task="b1-e4"></div>
+<div class="task" data-vex="5" data-task="b1-e5"></div>
+<h3>Проверь себя</h3>
+<div class="task" data-mcq="v1" data-task="b1-q1"></div>
+<div class="task" data-mcq="v2" data-task="b1-q2"></div>
+<div class="task" data-mcq="v3" data-task="b1-q3"></div>
+<div class="blk-next">Блок 1 пройден. Дальше — <a href="#b2">первый план скоростей →</a></div>
+</div>
+<div class="blk-lock"></div>
+</section>
+
+<!-- ================= БЛОК 2 ================= -->
+<section class="blk" id="b2">
+<div class="num">БЛОК 2 · «ПЛАН СКОРОСТЕЙ. ДИАДЫ», СЛАЙДЫ 1–14</div>
+<div class="blk-h"><h2>Первый план: кривошипно-ползунный механизм</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 1.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<p><b>План скоростей</b> — чертёж, на котором в выбранном масштабе изображены векторы скоростей разных точек звеньев механизма в данный момент времени.</p>
+<h3>Правила, которые понадобятся</h3>
+<ol>
+<li><b>Полюс p</b> — точка, из которой проводят все <i>абсолютные</i> скорости (относительно стойки). Неподвижные точки на плане лежат в полюсе.</li>
+<li><b>Ведущая точка:</b> V<sub>A</sub> = ω<sub>1</sub>·l<sub>OA</sub>, вектор ⊥ кривошипу в сторону его поворота. Масштаб: μ<sub>V</sub> = V<sub>A</sub> / pa, (м/с)/мм.</li>
+<li><b>Плоское движение</b> звена складывается из поступательного движения вместе с одной из его точек и поворота вокруг неё. Отсюда главная формула:
+<div class="fm"><span class="vt u1"><span class="vv">V</span><sub>B</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>A</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>BA</sub></span></div>
+V<sub>BA</sub> — относительная скорость поворота B вокруг A, она ⊥ AB.</li>
+<li><b>Ползун</b> на неподвижной направляющей: его абсолютная скорость ∥ направляющей и выходит из полюса.</li>
+<li><b>Центры масс:</b> V<sub>S1</sub> = ½·V<sub>A</sub>; V<sub>S2</sub> = V<sub>A</sub> + ½·V<sub>BA</sub>, то есть s<sub>2</sub> — середина ab.</li>
+<li><b>Угловая скорость:</b> ω<sub>2</sub> = V<sub>BA</sub> / l<sub>AB</sub>. Направление — по направлению относительной скорости V<sub>BA</sub>.</li>
+<li>На плане подписывают только строчные буквы — концы векторов. Скорость любой точки X: V<sub>X</sub> = μ<sub>V</sub>·|px|.</li>
+</ol>
+<h3>Разбор по слайдам</h3>
+<div data-plan="m1"></div>
+<div class="note">На слайде 14 есть ещё одна идея: если «перевернуть» механизм и сделать стойкой ползун, план линейных скоростей останется тем же — поменяется только полюс (теперь в точке b). Для КР это не нужно, но объясняет, почему важно, относительно чего мы меряем скорости.</div>
+<h3>Задачи</h3>
+<p>Построй план сам. На каждом шаге выбери две прямые: через какую точку и в каком направлении.</p>
+<div class="task" data-cons="m1" data-task="b2-c1"></div>
+<div class="task" data-mcq="p1" data-task="b2-q1"></div>
+<div class="task" data-mcq="p2" data-task="b2-q2"></div>
+<div class="task" data-mcq="p4" data-task="b2-q4"></div>
+<div class="task" data-mcq="p3" data-task="b2-q3"></div>
+<div class="blk-next">Блок 2 пройден. Дальше — <a href="#b3">четырёхзвенник и подобие →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 3 ================= -->
+<section class="blk" id="b3">
+<div class="num">БЛОК 3 · «ПЛАН СКОРОСТЕЙ. ДИАДЫ», СЛАЙДЫ 15–33</div>
+<div class="blk-h"><h2>Четырёхзвенник и свойство подобия</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 2.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<h3>Что нового</h3>
+<ul>
+<li>Вместо ползуна — коромысло CB, которое вращается вокруг неподвижной C. Поэтому V<sub>B</sub> — абсолютная скорость поворота B вокруг C: <b>⊥ BC и из полюса</b>.</li>
+<li>Звено 2 — треугольная пластина ABK. Скорость третьей точки K нужно найти, не составляя новую диаду.</li>
+</ul>
+<div class="sumbox"><h4>Свойство подобия</h4><p style="margin:0">Концы векторов скоростей точек <b>одного звена</b> образуют на плане фигуру, подобную этому звену (и повёрнутую на 90° в сторону его ω). Треугольник abk подобен ABK. Поэтому k находят двумя прямыми: через a ⊥ AK и через b ⊥ BK.</p></div>
+<p>На лекции то же самое выводили через <b>мгновенный центр вращения W</b> звена ABK. Это пересечение перпендикуляров к известным скоростям V<sub>A</sub> и V<sub>B</sub>, то есть точка пересечения прямых OA и CB. Скорость любой точки звена перпендикулярна её радиусу до W: V<sub>K</sub> ⊥ WK.</p>
+<ul>
+<li>Все неподвижные точки — O, C и мгновенный центр W — на плане лежат в полюсе.</li>
+<li>Центры стержней — середины: s<sub>1</sub> — середина pa, s<sub>3</sub> — середина pb. Центр треугольного звена s<sub>2</sub> находят по подобию.</li>
+<li>ω<sub>2</sub> = V<sub>BA</sub>/l<sub>AB</sub> = V<sub>KA</sub>/l<sub>AK</sub> = V<sub>KB</sub>/l<sub>BK</sub>; ω<sub>3</sub> = V<sub>B</sub>/l<sub>BC</sub>.</li>
+</ul>
+<h3>Разбор</h3>
+<div data-plan="m2"></div>
+<h3>Задачи</h3>
+<div class="task" data-cons="m2" data-task="b3-c1"></div>
+<div class="task" data-mcq="f1" data-task="b3-q1"></div>
+<div class="task" data-mcq="f2" data-task="b3-q2"></div>
+<div class="task" data-mcq="f3" data-task="b3-q3"></div>
+<div class="blk-next">Блок 3 пройден. Дальше — <a href="#b4">шестизвенники →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 4 ================= -->
+<section class="blk" id="b4">
+<div class="num">БЛОК 4 · «ПРИМЕРЫ. ДИАДЫ» — 5 МЕХАНИЗМОВ</div>
+<div class="blk-h"><h2>Шестизвенники из двух диад</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 3.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<p>Это уже формат КР. Механизм собран так: кривошип → первая диада → вторая диада. План строят в том же порядке, в каком присоединены группы. Для каждой новой точки — два уравнения, две прямые, пересечение.</p>
+<div class="sumbox"><h4>Шпаргалка: какие прямые для какой точки</h4>
+<ul style="margin:0">
+<li><b>Шарнир между двумя звеньями</b>, у второго один конец неподвижен: через известную точку ⊥ первого звена, через p ⊥ второго.</li>
+<li><b>Ползун на неподвижной направляющей:</b> через известную точку ⊥ шатуна, через p ∥ направляющей.</li>
+<li><b>Третья точка жёсткого звена</b> (треугольник): через две известные точки ⊥ соответствующих сторон (подобие).</li>
+<li><b>Точка на отрезке звена</b> (C на AB): делит отрезок плана в той же пропорции.</li>
+</ul></div>
+<h3>Разбор: пример 1</h3>
+<div data-plan="e1"></div>
+<h3>Задачи: примеры 2–5 (по возрастанию сложности)</h3>
+<div class="task" data-cons="e2" data-task="b4-c2"></div>
+<div class="task" data-cons="e3" data-task="b4-c3"></div>
+<div class="task" data-cons="e5" data-task="b4-c5"></div>
+<div class="task" data-cons="e4" data-task="b4-c4"></div>
+<div class="task" data-mcq="d1" data-task="b4-q1"></div>
+<div class="blk-next">Блок 4 пройден. Дальше — <a href="#b5">кулисы →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 5 ================= -->
+<section class="blk" id="b5">
+<div class="num">БЛОК 5 · «ПЛАН СКОРОСТЕЙ. ДИАДЫ С КУЛИСОЙ»</div>
+<div class="blk-h"><h2>Кулисы</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 4.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<p><b>Кулиса</b> — подвижное звено, которое образует поступательную пару с другим подвижным звеном (камнем).</p>
+<h3>Сложное движение</h3>
+<div class="fm"><span class="vv">V</span><sub>абс</sub> = <span class="vv">V</span><sub>пер</sub> + <span class="vv">V</span><sub>отн</sub></div>
+<p>В точке A, где камень сидит на кулисе, рассматриваем три разные точки:</p>
+<ul>
+<li><b>A<sub>1</sub></b> — на кривошипе 1;</li>
+<li><b>A<sub>2</sub></b> — на камне 2. Он шарнирно сидит на кривошипе и ходит по той же окружности, поэтому V<sub>A2</sub> = V<sub>A1</sub>: на плане a<sub>1</sub> и a<sub>2</sub> — одна точка;</li>
+<li><b>A<sub>3</sub></b> — на кулисе 3, под камнем.</li>
+</ul>
+<div class="fm"><span class="vt u1"><span class="vv">V</span><sub>A3</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>A2</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>A3A2</sub></span></div>
+<p>V<sub>A3A2</sub> — скорость кулисы относительно камня, <b>∥ кулисе</b>. V<sub>A3</sub> — скорость поворота точки кулисы вокруг O<sub>2</sub>, <b>⊥ O<sub>2</sub>A</b> и из полюса.</p>
+<ul>
+<li>Скорости точек вращающейся кулисы пропорциональны расстоянию до центра: pb = pa<sub>3</sub>·O<sub>2</sub>B/O<sub>2</sub>A.</li>
+<li>ω<sub>2</sub> = ω<sub>3</sub> = V<sub>B</sub>/l<sub>O2B</sub> = V<sub>A3</sub>/l<sub>O2A</sub>: камень поворачивается вместе с кулисой.</li>
+</ul>
+<h3>Разбор: кулисный механизм с шатуном</h3>
+<div data-plan="kp1"></div>
+<h3>Второй случай: камень шарнирно на стойке</h3>
+<p>В точке B соединяются три звена: кулиса 2, камень 3 и стойка 0. Из плоского движения кулисы: <span class="vt u1"><span class="vv">V</span><sub>B2</sub></span> = <span class="vt u2"><span class="vv">V</span><sub>A</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>B2A</sub></span>. Из сложного движения: V<sub>B2</sub> = V<sub>B3</sub> + V<sub>B2B3</sub>, а V<sub>B3</sub> = V<sub>B0</sub> = 0. Значит, b<sub>2</sub> лежит на пересечении двух прямых: через a ⊥ AB и через p ∥ AB. Точку C находим по подобию: ac/ab<sub>2</sub> = AC/AB.</p>
+<h3>Задачи</h3>
+<div class="task" data-cons="kp2" data-task="b5-c1"></div>
+<div class="task" data-mcq="k1" data-task="b5-q1"></div>
+<div class="task" data-mcq="k2" data-task="b5-q2"></div>
+<div class="task" data-mcq="k3" data-task="b5-q3"></div>
+<div class="task" data-mcq="k4" data-task="b5-q4"></div>
+<div class="blk-next">Блок 5 пройден. Дальше — <a href="#b6">кулисы в шестизвенниках →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 6 ================= -->
+<section class="blk" id="b6">
+<div class="num">БЛОК 6 · «ПРИМЕРЫ. С КУЛИСАМИ»</div>
+<div class="blk-h"><h2>Кулисы в шестизвенниках</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 5.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<p>Три механизма из примеров. Ничего нового — всё те же два уравнения на точку. Только надо внимательно смотреть, <b>по чему скользит камень</b> и <b>как движется звено, к которому он прицеплен</b>.</p>
+<ul>
+<li>Звено, которое ходит в направляющей поступательно (штанга): у всех его точек одинаковая скорость, ∥ направляющей. На плане это одна точка: d = c<sub>5</sub>.</li>
+<li>Камень скользит вдоль звена: относительная скорость ∥ этому звену и проводится через точку плана того звена, по которому он скользит.</li>
+<li>Ведущим может быть и ползун — тогда его скорость задана сразу.</li>
+</ul>
+<h3>Разбор: уголок и поступательная штанга</h3>
+<div data-plan="k1"></div>
+<h3>Задачи</h3>
+<div class="task" data-cons="k2" data-task="b6-c2"></div>
+<div class="task" data-cons="k3" data-task="b6-c3"></div>
+<div class="blk-next">Блок 6 пройден. Дальше — <a href="#b7">группа III порядка →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 7 ================= -->
+<section class="blk" id="b7">
+<div class="num">БЛОК 7 · «ПЛАН СКОРОСТЕЙ. III ПОРЯДОК»</div>
+<div class="blk-h"><h2>Группа III порядка</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 6.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<p>Звено 3 (BC) — <b>базисное</b>: к нему присоединены три поводка — камень 2 с кривошипом, коромысло 4 и ползун 5. Ни одну точку нельзя найти по отдельности.</p>
+<div class="fm"><span class="vv">V</span><sub>A3</sub> = <span class="vt u2"><span class="vv">V</span><sub>A2</sub></span> + <span class="vt u1"><span class="vv">V</span><sub>A3A2</sub></span></div>
+<p>У V<sub>A3</sub> неизвестны и величина, и направление (траектория A<sub>3</sub> неизвестна). Всего неизвестных больше двух — графически не решить. На лекции было три выхода:</p>
+<ol>
+<li><b>Мгновенный центр вращения базисного звена.</b> P — пересечение перпендикуляров к скоростям двух точек звена: к V<sub>C</sub> (горизонтальна) и к V<sub>B</sub> (⊥ O<sub>2</sub>B). Тогда V<sub>A3</sub> ⊥ AP. Минус: P не всегда можно найти, и он может уйти за край листа.</li>
+<li><b>Особая точка — точка Ассура (универсальный способ).</b> Это точка базисного звена на пересечении линий двух поводков. Если поводок — ползун, его линию проводят перпендикулярно оси ползуна. Достраиваем K так, чтобы AK ⊥ BC, а BK ⊥ V<sub>B</sub>. Тогда в V<sub>K</sub> = V<sub>A2</sub> + V<sub>A3A2</sub> + V<sub>KA3</sub> два последних слагаемых лежат на одной прямой ∥ BC, а V<sub>K</sub> ⊥ BK. Остаются две неизвестные.</li>
+<li><b>Обратный порядок.</b> Начинаем с ведомого звена: pb ⊥ O<sub>2</sub>B произвольной длины. Строим c и a<sub>3</sub>, потом a<sub>1</sub>. Масштаб определяется в конце, по длине pa<sub>1</sub>.</li>
+</ol>
+<h3>Разбор: способ точки Ассура</h3>
+<div data-plan="g3"></div>
+<h3>Разбор: обратный порядок</h3>
+<div data-rev="1"></div>
+<h3>Задачи</h3>
+<div class="task" data-cons="g3" data-task="b7-c1"></div>
+<div class="task" data-mcq="g1" data-task="b7-q1"></div>
+<div class="task" data-mcq="g2" data-task="b7-q2"></div>
+<div class="task" data-mcq="g3" data-task="b7-q3"></div>
+<div class="blk-next">Все блоки пройдены 🎉 Финал — <a href="#b8">чек-лист перед КР →</a></div>
+</div>
+</section>
+
+<!-- ================= БЛОК 8 ================= -->
+<section class="blk" id="b8">
+<div class="num">ФИНАЛ</div>
+<div class="blk-h"><h2>Перед КР</h2><span class="blk-st"></span></div>
+<div class="blk-lock"><b>Сначала пройди блок 7.</b> Или <button class="blk-open">Открыть без прохождения</button></div>
+<div class="blk-body">
+<h3>Алгоритм на любой механизм</h3>
+<ol>
+<li>Пронумеруй звенья, найди ведущее и группы Ассура (порядок присоединения).</li>
+<li>Полюс p. Все неподвижные точки — в нём.</li>
+<li>pa ⊥ кривошипу по ω<sub>1</sub>; μ<sub>V</sub> = V<sub>A</sub>/pa.</li>
+<li>Для каждой новой точки — два уравнения. В каждом одно слагаемое уже на плане, у второго известно только направление. Две прямые → пересечение.</li>
+<li>Абсолютные скорости — из p. Относительные — через уже найденную точку.</li>
+<li>Камень: a<sub>1</sub> = a<sub>2</sub>; относительная скорость ∥ кулисе.</li>
+<li>Остальные точки звеньев и центры масс — по подобию.</li>
+<li>ω = (относительная скорость)/(длина). Направление — переносом вектора в точку схемы.</li>
+</ol>
+<h3>Если в КР будут числа</h3>
+<p>Тренажёр с масштабами, циркулем и транспортиром, твоим вариантом 25 целиком и генератором задач с проверкой ответа: <a href="../kr2/">«План скоростей с нуля»</a>. Разбор кулисы с планом ускорений: <a href="../113/">задача 113</a>.</p>
+<h3>Чек-лист</h3>
+<ul class="chk">
+<li><label><input type="checkbox"> Каждая прямая проведена через уже известную точку плана.</label></li>
+<li><label><input type="checkbox"> Перпендикуляр — к тому звену, что в индексе относительной скорости (V<sub>DC</sub> ⊥ CD).</label></li>
+<li><label><input type="checkbox"> Абсолютная скорость ползуна — из p ∥ направляющей.</label></li>
+<li><label><input type="checkbox"> Треугольники на плане подобны звеньям и обходятся в ту же сторону.</label></li>
+<li><label><input type="checkbox"> Для кулисы: a<sub>3</sub> — через a<sub>2</sub> ∥ кулисе и через p ⊥ O<sub>2</sub>A.</label></li>
+<li><label><input type="checkbox"> У каждой ω есть величина, формула и стрелка на схеме.</label></li>
+</ul>
+</div>
+</section>
+
+</main>
+<footer><div class="wrap">ТММ · курс по планам скоростей · по лекционным презентациям · <a href="../kr2/">тренажёр с числами</a> · <a href="../../">на главную</a></div></footer>
+</body>
+</html>

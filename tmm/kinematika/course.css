@@ -1,0 +1,59 @@
+.vt{display:inline-block;margin:0 1px;padding-bottom:3px;line-height:1.25}
+.vt.u1{border-bottom:1.5px solid currentColor}
+.vt.u2{border-bottom:4px double currentColor}
+.kprog{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 4px}
+.kprog i{display:block;height:100%;width:0;background:var(--l2);transition:width .4s}
+.kprog-l{font:600 13px 'JetBrains Mono',monospace;color:var(--muted)}
+.kn a.ok{border-color:#1f5a52;color:var(--l2)}
+.kn a.ok::after{content:' ✓'}
+.kn a.lk{opacity:.55}
+.kn a.lk::after{content:' 🔒'}
+section.blk{padding-top:40px}
+.blk-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.blk-h h2{margin:0}
+.blk-st{font:600 12px 'JetBrains Mono',monospace;color:var(--found);border:1px solid #5a3d1f;border-radius:999px;padding:3px 9px}
+section.blk.done .blk-st{color:var(--l2);border-color:#1f5a52}
+.blk-lock{display:none;margin:18px 0;padding:16px 18px;border:1px dashed #34406a;border-radius:16px;background:var(--panel)}
+section.blk.locked .blk-lock{display:block}
+section.blk.locked .blk-body{display:none}
+.blk-next{display:none;margin:22px 0 10px;padding:14px 16px;border-radius:14px;background:rgba(46,230,197,.08);border:1px solid #1f5a52}
+.blk-next.on{display:block}
+.blk-next a{font-weight:700}
+.task{position:relative}
+.task.tdone{box-shadow:0 0 0 1px #1f5a52}
+.task.tdone::before{content:'решено ✓';position:absolute;top:-10px;right:12px;font:600 11px 'JetBrains Mono',monospace;color:var(--l2);background:var(--bg);padding:1px 8px;border:1px solid #1f5a52;border-radius:999px}
+.mcq{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;margin:16px 0}
+.mcq .qz-o{padding:10px 0 0}
+.mcq .fb{padding:8px 0 0}
+.cons{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 8px 14px;margin:16px -6px}
+@media(min-width:700px){.cons{margin:16px 0;padding:12px 14px 16px}}
+.cons .duo{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+@media(min-width:760px){.cons .duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.cons .scb+.scb{border-top:1px dashed var(--line);padding-top:6px}
+@media(min-width:760px){.cons .scb+.scb{border-top:0;border-left:1px dashed var(--line);padding:0 0 0 8px}}
+.cq{margin:10px 4px 0;padding:12px 13px;border-radius:12px;background:var(--panel2);color:var(--soft);font-size:15px}
+.cq p{margin:0 0 .6em}
+.cq-h{font-weight:700;color:var(--text);margin-bottom:6px}
+.cq-eq{font-size:18px;color:var(--text);margin:4px 0 10px;line-height:1.9}
+.cq-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+.cq-n{color:var(--muted);font-size:14px;min-width:110px}
+.cq select{font:500 15px Manrope,sans-serif;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;max-width:100%}
+.cq-b{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cq-b .go,.cq .nx{background:#173b37;border-color:#1f5a52}
+.cq .fb{padding:10px 0 0;min-height:0}
+.cq .om button{min-height:36px;padding:6px 12px}
+.cq .mk{font-weight:700;margin-left:4px}
+.cdone{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(70,211,154,.1);border:1px solid #1f5a52;color:var(--text);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.vex{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 12px 14px;margin:18px -6px}
+@media(min-width:700px){.vex{margin:18px 0;padding:14px 16px}}
+.vex-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px}
+.vex-eq{font-size:21px;color:var(--text);font-style:italic;font-family:Georgia,'Times New Roman',serif;line-height:2}
+.vex .fig{margin:8px 0}
+.vex .vsol .kon{margin:12px 0 0}
+.vex .vv{font-style:italic}
+.ex-src{font-size:13px;color:var(--muted);margin:-4px 0 10px}
+.sumbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0}
+.sumbox h4{margin:0 0 6px}
+.kreset{font-size:13px;padding:6px 10px;min-height:0;margin-top:8px}
+.cq .om-l{flex:1 1 100%;color:var(--text)}
+.cq .om{border-top:1px solid var(--line);padding-top:8px}
