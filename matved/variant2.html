@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Матвед: разбор варианта 2</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2030;--mu:#5d667a;--br:#dfe3ee;--ac:#3b5bdb;--f:#2f9e44;--p:#e8590c;--c:#7048e8;--ln:#c92a2a;--soft:#eef1fb;--ok:#2b8a3e}
+@media(prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--tx:#e8ebf5;--mu:#9aa3ba;--br:#2c3350;--ac:#748ffc;--f:#69db7c;--p:#ffa94d;--c:#b197fc;--ln:#ff8787;--soft:#232a44;--ok:#69db7c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header,main{max-width:960px;margin:auto;padding:0 16px}
+header{padding-top:22px}
+header a{color:var(--ac);text-decoration:none;font-size:14px;margin-right:14px}
+h1{margin:4px 0 2px;font-size:25px}
+h2{font-size:21px;margin:22px 0 8px}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:16px;margin:12px 0}
+.tip{background:var(--soft);border-left:4px solid var(--ac);border-radius:8px;padding:10px 14px;margin:12px 0}
+.hint{color:var(--mu);font-size:14px}
+.steps{margin:6px 0;padding-left:20px}.steps li{margin:6px 0}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:760px){.two2{grid-template-columns:1fr}}
+.figcap{font-weight:600;text-align:center;margin-bottom:2px}
+.f{display:block;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--soft);padding:10px 14px;margin:8px 0;border-radius:6px;overflow-x:auto}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--tx);font:13px system-ui,sans-serif}
+svg .mu{fill:var(--mu);font-size:12px}
+svg .pl{fill:var(--ac);fill-opacity:.2;stroke:var(--ac);stroke-width:2.2;stroke-linejoin:round}
+svg .ax{stroke:var(--tx);stroke-width:1.7}
+svg .axn{stroke:var(--mu);stroke-width:1.2;stroke-dasharray:5 4}
+svg .guide{stroke:var(--mu);stroke-width:1.3;stroke-dasharray:4 4;fill:none}
+svg .dir{stroke:var(--ln);stroke-width:3.2;fill:none}
+svg .solt{fill:var(--ln);font-weight:600}
+svg text.w{fill:#e8ebf5}
+svg text.wm{fill:#9aa3ba;font-size:12px}
+.sa{max-width:440px;margin:auto}
+</style>
+</head>
+<body>
+<header>
+  <a href="trainer.html">← Тренажёр</a><a href="./">Теория</a>
+  <h1>Вариант 2 — разбор с рисунками</h1>
+  <div class="hint">1) плоскость и направление 210 · 2) перлит в стали с 1,3 % C · 3) электронограмма и структура по светлому и тёмному полю</div>
+</header>
+<main>
+
+<h2>Задание 1. Плоскость (210) и направление [210]</h2>
+<div class="card">
+  <div class="two2">
+    <div><div class="figcap">Плоскость (210)</div><div id="fig-plane"></div></div>
+    <div><div class="figcap">Направление [210]</div><div id="fig-dir"></div></div>
+  </div>
+  <ol class="steps">
+    <li>Плоскость: обратные величины 1/2, 1/1, 1/0 → отрезки <b>x = ½, y = 1, z = ∞</b>. Так как z = ∞, плоскость параллельна оси z — рисуем полосу вдоль z.</li>
+    <li>Направление: числа <b>без обратных</b>, точка (2; 1; 0). Все три числа можно разделить на 2: вектор из начала координат в точку (1; ½; 0) — это то же направление [210].</li>
+    <li>Проверка: [210] ⟂ (210). Вектор в плоскости (−½; 1; 0): (−½)·2 + 1·1 = 0 ✓.</li>
+  </ol>
+  <div class="hint">На рисунке справа ось x отложена до 2 — там и стоит точка (2; 1; 0); в тетради в единичном кубе удобнее рисовать в точку (1; ½; 0), направление то же.</div>
+</div>
+
+<h2>Задание 2. Количество перлита в стали с 1,3 % C</h2>
+<div class="card">
+  <svg viewBox="0 0 640 224" role="img" aria-label="Правило рычага от 0,8 до 6,67 процентов углерода">
+    <defs><marker id="lv" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--mu)"/></marker></defs>
+    <g id="lever"></g>
+  </svg>
+  <span class="f">Структура: П + Ц<sub>II</sub> (заэвтектоидная, 1,3 % &gt; 0,8 %)</span>
+  <span class="f">П = (6,67 − 1,3) / (6,67 − 0,8) = 5,37 / 5,87 ≈ <b>91,5 %</b></span>
+  <span class="f">Ц<sub>II</sub> = (1,3 − 0,8) / (6,67 − 0,8) = 0,5 / 5,87 ≈ 8,5 %</span>
+  <div class="tip">Доля = плечо <b>напротив</b> компонента ÷ весь отрезок. Для перлита напротив — плечо от сплава до цементита (5,37). Граница феррита (0,025 или 0,06) здесь не нужна.</div>
+</div>
+
+<h2>Задание 3. Электронограмма и описание структуры</h2>
+<div class="card">
+  <div class="sa"><svg viewBox="0 0 440 440" role="img" aria-label="Кольцевая электронограмма из точек и дуг" id="saed"></svg></div>
+  <div class="hint" style="text-align:center">Так рисовать: центр — яркое пятно, вокруг кольца из точек и дуг неравномерной яркости (кольцо с утолщениями).</div>
+  <h3 style="margin:14px 0 4px">Что написать про структуру</h3>
+  <ol class="steps">
+    <li><b>Светлое поле:</b> много зёрен разного размера с разной яркостью; светлые зёрна с чёткими границами и тёмные участки со сложным контрастом (много дислокаций, изгибные контуры).</li>
+    <li><b>Тёмное поле:</b> почти всё поле тёмное, светятся отдельные зёрна и группы мелких точек. В выбранный рефлекс отражает только часть зёрен → ориентировки зёрен случайные.</li>
+    <li><b>Вывод:</b> поликристаллическая ультрамелкозернистая структура — мелкие зёрна и субзёрна разных размеров, разные ориентировки, в основном большеугловые границы.</li>
+    <li><b>Электронограмма:</b> кольца (много разно ориентированных кристаллитов). Кольца собраны из точек и дуг неравномерной яркости: яркие точки дают более крупные зёрна и субзёрна, тонкое ровное кольцо — самые мелкие зёрна. Кольцо с утолщениями → <b>смешанная структура</b> (зёрна + субзёрна).</li>
+    <li><b>Радиусы колец (ОЦК):</b> 110 : 200 : 211 : 220 = √2 : √4 : √6 : √8 ≈ 1 : 1,41 : 1,73 : 2 (по порядку от центра).</li>
+  </ol>
+  <div class="tip">Электронограммы в варианте нет, поэтому тип структуры определяется по снимкам. Граница между «смешанной» и «субзёренной» структурой условна: если на слайдах преподавателя такой снимок подписан иначе — пиши по его подписи. Кольцо из точек и дуг на рисунке подходит в обоих случаях.</div>
+</div>
+
+</main>
+
+<!-- модуль рисунков плоскости/направления из тренажёра (скрыт) -->
+<section id="m-miller" hidden></section>
+<script src="js/common.js"></script>
+<script src="js/miller.js"></script>
+<script>
+(function(){
+  /* Задание 1 */
+  const F=window.__miller.figure;
+  document.getElementById('fig-plane').innerHTML=F(2,1,0,{plane:true,dir:false});
+  document.getElementById('fig-dir').innerHTML=F(2,1,0,{plane:false,dir:true});
+
+  /* Задание 2: рычаг */
+  const x=c=>40+(c-0.8)/5.87*560, y=88;
+  let g='';
+  g+=`<line x1="${x(0.8)}" y1="${y}" x2="${x(6.67)}" y2="${y}" stroke="var(--tx)" stroke-width="2"/>`;
+  [[0.8,'П (0,8)','var(--p)',28],[1.3,'сталь 1,3','var(--ac)',54],[6.67,'Ц (6,67)','var(--c)',28]].forEach(([c,t,col,dy])=>{
+    g+=`<circle cx="${x(c)}" cy="${y}" r="6" fill="${col}"/>`;
+    if(dy>30) g+=`<line x1="${x(c)}" y1="${y+7}" x2="${x(c)}" y2="${y+dy-16}" stroke="${col}" stroke-width="1.4"/>`;
+    g+=`<text x="${x(c)}" y="${y+dy}" text-anchor="middle" style="font-weight:700;fill:${col}">${t}</text>`;
+  });
+  /* плечи */
+  const br=(a,b,yy,txt,col)=>`<line x1="${x(a)}" y1="${yy}" x2="${x(b)}" y2="${yy}" stroke="${col}" stroke-width="2.2" marker-start="url(#lv)" marker-end="url(#lv)"/>
+    <line x1="${x(a)}" y1="${yy-5}" x2="${x(a)}" y2="${yy+5}" stroke="${col}" stroke-width="2"/><line x1="${x(b)}" y1="${yy-5}" x2="${x(b)}" y2="${yy+5}" stroke="${col}" stroke-width="2"/>
+    <text x="${(x(a)+x(b))/2}" y="${yy-8}" text-anchor="middle" style="fill:${col};font-weight:600">${txt}</text>`;
+  g+=br(1.3,6.67,56,'5,37  → доля перлита','var(--p)');
+  g+=br(0.8,1.3,56,'','var(--c)');
+  g+=`<text x="${x(1.05)}" y="38" text-anchor="middle" style="fill:var(--c);font-weight:600">0,5</text>`;
+  g+=`<line x1="${x(0.8)}" y1="164" x2="${x(6.67)}" y2="164" stroke="var(--mu)" stroke-width="2" marker-start="url(#lv)" marker-end="url(#lv)"/>`;
+  g+=`<text x="${(x(0.8)+x(6.67))/2}" y="186" text-anchor="middle" class="mu">весь отрезок 6,67 − 0,8 = 5,87</text>`;
+  g+=`<text x="${x(0.8)}" y="210" class="mu" style="fill:var(--c);font-weight:600">0,5 → Ц_II ≈ 8,5 %</text>`;
+  g+=`<text x="${x(6.67)}" y="210" text-anchor="end" class="mu" style="fill:var(--p);font-weight:600">5,37 → П ≈ 91,5 %</text>`;
+  document.getElementById('lever').innerHTML=g;
+
+  /* Задание 3: электронограмма */
+  const svg=document.getElementById('saed'), C=220;
+  let s=`<defs><radialGradient id="beam"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+    <rect x="0" y="0" width="440" height="440" rx="10" fill="#07090f"/>`;
+  let seed=7; const R=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+  const rings=[[70,'110'],[99,'200'],[121,'211'],[140,'220']];
+  rings.forEach(([r,lab],i)=>{
+    s+=`<circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="#fff" stroke-opacity="${0.16+0.03*(3-i)}" stroke-width="2"/>`;
+    const n=110-i*10;
+    for(let k=0;k<n;k++){
+      const a=R()*Math.PI*2, rr=r+(R()-.5)*3, big=R()<0.12;
+      s+=`<circle cx="${(C+rr*Math.cos(a)).toFixed(1)}" cy="${(C+rr*Math.sin(a)).toFixed(1)}" r="${big?2.6:1.3}" fill="#fff" fill-opacity="${big?0.95:0.35+R()*0.4}"/>`;
+    }
+    /* утолщённые дуги */
+    for(let k=0;k<3;k++){
+      const a0=R()*Math.PI*2, da=0.15+R()*0.25;
+      s+=`<path d="M${(C+r*Math.cos(a0)).toFixed(1)} ${(C+r*Math.sin(a0)).toFixed(1)} A${r} ${r} 0 0 1 ${(C+r*Math.cos(a0+da)).toFixed(1)} ${(C+r*Math.sin(a0+da)).toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="3.4" stroke-linecap="round"/>`;
+    }
+    s+=`<text class="wm" x="${C+r*0.707+4}" y="${C-r*0.707-4}">${lab}</text>`;
+  });
+  s+=`<circle cx="${C}" cy="${C}" r="26" fill="url(#beam)"/>`;
+  /* апертура тёмного поля на первом кольце */
+  const aa=-2.2, ax=C+70*Math.cos(aa), ay=C+70*Math.sin(aa);
+  s+=`<circle cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="14" fill="none" stroke="#ffa94d" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <text class="w" x="${(ax-18).toFixed(1)}" y="${(ay-20).toFixed(1)}" text-anchor="end" style="fill:#ffa94d">апертура (тёмное поле)</text>`;
+  s+=`<text class="wm" x="16" y="426">кольца: 110, 200, 211, 220 (ОЦК)</text>`;
+  svg.innerHTML=s;
+})();
+</script>
+</body>
+</html>
